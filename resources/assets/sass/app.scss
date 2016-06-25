@@ -1,0 +1,165 @@
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+$fontp: 'Ubuntu', sans-serif;
+$cnegro: #535353;
+$cblanco: #fff;
+$cboton: #3fb1b5;
+$fontsize:13px;
+$fontespacio: 0.02em;
+
+body, html{
+	height: 100%;
+}
+body{
+	font-family:$fontp;
+	font-size: $fontsize;
+	letter-spacing: $fontespacio;
+}
+ .prin_app{
+ 	float: left;
+ 	width: 100%;
+ 	height: 100%;
+ 	position: relative;
+ 	background: url('img/fondo_wakami.jpg') no-repeat center;
+ 	background-size:cover;
+	
+	.container,.container .row{
+		height: 100%;
+ 		position: relative;
+	}
+
+ }
+
+.area_login 
+{
+			position: absolute;
+	 		width: 35%;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			margin:auto;
+			height: 300px;
+
+		 	.panel{
+		 		background: none !important;
+			    box-shadow: 0 1px 1px rgba(0, 0, 0, 0) !important;
+			    border:none !important;
+		 	}
+		 	.panel-default > .panel-heading{
+		 		background: url('img/wakami_logo.png') no-repeat center;
+		 		background-size: 220px;
+		 		padding: 0 !important;
+		 		border:none !important;
+		 		height: 105px;
+		 	}
+		 	.form-control{
+		 		background: none !important;
+		 		border: none !important;
+		 		border-bottom: 2px solid $cnegro !important;
+		 		border-radius: 0px !important;
+		 		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0) !important;
+		 	}
+}
+.check_login{
+	float: right;
+}
+
+.btn-primary{
+ 	background: $cboton;
+ 	border: none !important;
+ 	text-transform: uppercase;
+ 	color: #fff;
+ 	font-size: 14px;
+ 	font-family: $fontp;
+	letter-spacing: 0.04em;
+	opacity: 0.9;
+	padding: 8px 12px;
+	border-radius: 15px;
+}
+.btn-primary:hover{
+	background: $cboton;
+	opacity: 1;
+}
+.btn_100{
+	float:left;
+	width:100%;
+}
+.btn_blanco{
+	background:rgba(255,255,255,0.6);
+	padding: 8px 12px;
+	border-radius: 15px;
+	color: #aaa;
+	 transition: all 0.05s ease;
+}
+.btn_blanco:hover{
+	background: #fff;
+	text-decoration: none !important;
+	color: #aaa;
+}
+
+
+.prin_app
+{
+		 .form-prin{
+		 	padding-bottom: 3px;
+		 	border-bottom: 1px solid #e0e4cc;
+		 }
+		 .form-prin input{
+		 	border: none !important;
+		 	box-shadow: none !important;
+		 	border-radius: 0 !important;
+		 }
+}
+.help-block{
+	font-size: 12px;
+    text-align: center;
+    float: left;
+    width: 100%;
+    padding: 5px 0;
+    background: rgba(255,255,255,0.5);
+    border-radius: 5px;
+    font-weight: 400 !important;
+    border-left: 3px solid #E84D34;
+    color: #E84D34;
+}
+.navbar-default{
+	background-color: $cnegro !important;
+	border: none !important;
+	border-radius: 0 !important;
+	-webkit-box-shadow: 0 3px 6px 0 rgba(0,0,0,0.15);
+	box-shadow: 0 3px 6px 0 rgba(0,0,0,0.15);
+
+	.navbar-nav > li > a {
+		color:$cblanco !important; 
+	}
+}
+.logo_prin{
+	float: left;
+	width: 100px;
+	height: 50px;
+	background: url('img/logowakami.png') no-repeat center;
+	background-size: 90px;
+}
+.li_btns{
+	float: left;
+	padding: 10px;
+
+}
+ .btn_wakami{
+ 	float:left;
+ 	width:25px;
+ 	height: 25px;
+ }
+ 	.btn_alerta{
+ 		background: url('img/ico_alerta.svg') no-repeat center;
+		background-size: 20px;
+ 	}
+    .btn_mail{
+ 		background: url('img/ico_mail.svg') no-repeat center;
+		background-size: 20px;
+ 	}
+ 	.btn_menu{
+ 		background: url('img/ico_menu.svg') no-repeat center;
+		background-size: 18px;
+ 	}
