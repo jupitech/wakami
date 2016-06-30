@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class RoleAdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(RoletableSeeder::class);
-        $this->call(RoleAdminSeeder::class);
+         DB::table('role_user')->insert([
+            'role_id' => 1,
+            'user_id'  => 1
+        ]);
     }
 }
