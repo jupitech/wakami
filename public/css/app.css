@@ -5739,7 +5739,8 @@ body, html {
 body {
   font-family: "Ubuntu", sans-serif;
   font-size: 13px;
-  letter-spacing: 0.02em; }
+  letter-spacing: 0.02em;
+  background: #F4F4F4; }
 
 .prin_app {
   float: left;
@@ -5869,5 +5870,127 @@ body {
 .btn_menu {
   background: url("img/ico_menu.svg") no-repeat center;
   background-size: 18px; }
+
+.header_conte {
+  float: left;
+  width: 100%;
+  padding: 0 15px 15px; }
+  .header_conte h1 {
+    float: left;
+    font-size: 18px;
+    font-weight: 300;
+    margin: 0;
+    padding: 10px 15px;
+    background: #fff;
+    border-radius: 2px; }
+
+.btn_escri {
+  float: left;
+  font-size: 15px;
+  font-weight: 300;
+  margin: 0;
+  padding: 10px 15px;
+  background: #eee;
+  border-radius: 2px; }
+
+.caja_contenido {
+  float: left;
+  width: 100%;
+  background: #fff;
+  border-radius: 2px;
+  padding: 0;
+  min-height: 200px; }
+
+.table > thead > tr > th {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 10px !important; }
+
+.table > tbody > tr > td {
+  font-size: 13px;
+  font-weight: 300;
+  padding: 12px 10px !important;
+  border-top: none !important;
+  border-bottom: 1px solid #eee; }
+
+.area_opciones {
+  float: left; }
+  .area_opciones ul {
+    float: left;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    margin: -5px 0; }
+  .area_opciones li {
+    float: left;
+    width: 30px;
+    margin-right: 5px; }
+    .area_opciones li a {
+      float: left;
+      width: 25px;
+      height: 25px;
+      padding: 5px;
+      top: -10px;
+      border-radius: 50%;
+      transition: all 0.2s linear; }
+
+.ico_cambiar {
+  background: url("img/ico_cambiar.svg") no-repeat center;
+  background-size: 18px; }
+
+.ico_cambiar:hover {
+  border-radius: 50%;
+  background: #006DF0 url("img/ico_cambiar_b.svg") no-repeat center;
+  background-size: 15px; }
+
+.ico_activado {
+  background: url("img/ico_activado.svg") no-repeat center;
+  background-size: 18px; }
+
+.ico_activado:hover {
+  border-radius: 50%;
+  background: #91DC5A url("img/ico_activado_b.svg") no-repeat center;
+  background-size: 15px; }
+
+.ico_editar {
+  background: url("img/ico_editar.svg") no-repeat center;
+  background-size: 18px; }
+
+.ico_editar:hover {
+  border-radius: 50%;
+  background: #006DF0 url("img/ico_editar_b.svg") no-repeat center;
+  background-size: 15px; }
+
+.ico_eliminar {
+  background: url("img/ico_eliminar.svg") no-repeat center;
+  background-size: 18px; }
+
+.ico_eliminar:hover {
+  border-radius: 50%;
+  background: #D80027 url("img/ico_eliminar_b.svg") no-repeat center;
+  background-size: 15px; }
+
+.btn_nuevo {
+  float: right; }
+  .btn_nuevo a {
+    float: left;
+    padding: 9px 15px;
+    padding-right: 35px;
+    margin-left: 5px;
+    border-radius: 5px;
+    background: #3fb1b5 url("img/ico_nuevo.svg") no-repeat right 10px center;
+    background-size: 15px;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    transition: all 0.1s linear; }
+  .btn_nuevo a:hover {
+    text-decoration: none;
+    background: #3cadad url("img/ico_nuevo.svg") no-repeat right 10px center;
+    background-size: 15px;
+    border-radius: 25px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15); }
 
 /*# sourceMappingURL=app.css.map */

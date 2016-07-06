@@ -13,4 +13,20 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     mix.sass('app.scss');
+
+    var npmDir ='node_modules/',
+    	jsDir = 'resources/assets/js';
+
+    mix.copy(npmDir + 'vue/dist/vue.min.js',jsDir);
+    mix.copy(npmDir + 'vue-resource/dist/vue-resource.min.js',jsDir);
+    mix.copy(npmDir + 'angular/angular.min.js',jsDir);
+    mix.copy(npmDir + 'angular-route/angular-route.min.js',jsDir);
+    mix.copy(npmDir + 'angular-cookies/angular-cookies.min.js',jsDir);
+    mix.scripts([
+    	'vue.min.js',
+    	'vue-resource.min.js',
+    	'angular.min.js',
+    	'angular-route.min.js',
+        'angular-cookies.min.js'
+    ], 'public/js/vendor.js');	
 });

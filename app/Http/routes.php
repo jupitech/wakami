@@ -15,6 +15,16 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+
 Route::auth();
 
 Route::get('/', 'HomeController@index');
+
+Route::group(['middleware' => ['auth','role:admin']], function()
+{
+		//Usuarios
+		Route::get('/usuarios', 'UsuariosController@index');
+             
+		Route::get('/api/usuarios', 'UsuariosController@indexusuarios');
+
+});
