@@ -8,9 +8,7 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
          "laravelcollective/html": "5.2.*",
-        "bican/roles": "2.1.*",
-        "nesbot/carbon": "^1.21",
-        "intervention/image": "^2.3"
+        "bican/roles": "2.1.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
