@@ -9,9 +9,9 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout)
 	 $scope.nuevo_obj = false;
    $scope.alertaNuevo = false;
    $scope.alertaExiste = false;
+   $scope.opts = ['alpha', 'bravo', 'charlie'];
 	 $scope.btn_nuevo = function() {
         $scope.nuevo_obj = !$scope.nuevo_obj;
-         $scope.usuario={}; 
    	 };
    	 	
 	    $http.get('/api/usuarios').success(
@@ -43,6 +43,8 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout)
 				ApiUsuarioNuevo.save($scope.usuario, function(){
 					console.log("Guardado correctamente");
 					 $scope.nuevo_obj = false;
+
+           $scope.usuario={};
            $http.get('/api/usuarios').success(
 
               function(usuarios) {
@@ -58,7 +60,7 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout)
             $timeout(function () { $scope.alertaExiste = true; }, 100);  
             $timeout(function () { $scope.alertaExiste = false; }, 5000);  
           });
-           
+             
 			}   
             
 });
