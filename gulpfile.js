@@ -17,16 +17,20 @@ elixir(function(mix) {
     var npmDir ='node_modules/',
     	jsDir = 'resources/assets/js';
 
-    mix.copy(npmDir + 'vue/dist/vue.min.js',jsDir);
-    mix.copy(npmDir + 'vue-resource/dist/vue-resource.min.js',jsDir);
     mix.copy(npmDir + 'angular/angular.min.js',jsDir);
     mix.copy(npmDir + 'angular-route/angular-route.min.js',jsDir);
     mix.copy(npmDir + 'angular-cookies/angular-cookies.min.js',jsDir);
+    mix.copy(npmDir + 'angular-animate/angular-animate.min.js',jsDir);
+    mix.copy(npmDir + 'angular-resource/angular-resource.min.js',jsDir);
+    mix.copy(npmDir + 'angular-sanitize/angular-sanitize.min.js',jsDir);
+    mix.copy(npmDir + 'ui-select/dist/select.min.js',jsDir);
     mix.scripts([
-    	'vue.min.js',
-    	'vue-resource.min.js',
     	'angular.min.js',
     	'angular-route.min.js',
-        'angular-cookies.min.js'
+        'angular-cookies.min.js',
+        'angular-animate.min.js',
+        'angular-resource.min.js',
+        'angular-sanitize.min.js',
+        'select.min.js'
     ], 'public/js/vendor.js');	
 });

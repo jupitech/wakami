@@ -67,3 +67,6 @@
 </div>
 </div>
 @endsection
+@push('scripts')
+    <script src="/js/script.js"></script>
+@endpush

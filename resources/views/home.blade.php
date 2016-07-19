@@ -4,7 +4,7 @@
 <div class="col-sm-12">
     @yield('menu')
 </div>
-        <div class="col-md-12">
+        <div class="col-md-12 top_conte">
             <div class="panel panel-default">
 
                 <div class="panel-body">
@@ -13,3 +13,6 @@
             </div>
         </div>
 @endsection
+@push('scripts')
+    <script src="/js/script.js"></script>
+@endpush

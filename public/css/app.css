@@ -5814,6 +5814,39 @@ body {
   text-decoration: none !important;
   color: #aaa; }
 
+.btn_regis {
+  margin-top: 10px;
+  background: #3fb1b5;
+  border: none !important;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 14px;
+  font-family: "Ubuntu", sans-serif;
+  letter-spacing: 0.04em;
+  opacity: 0.9;
+  padding: 12px;
+  border-radius: 5px;
+  float: left;
+  width: 100%; }
+
+.btn_cancelar {
+  margin-top: 10px;
+  background: #fff;
+  text-transform: uppercase;
+  color: #333;
+  font-size: 14px;
+  font-family: "Ubuntu", sans-serif;
+  letter-spacing: 0.04em;
+  opacity: 0.9;
+  padding: 12px;
+  border-radius: 5px;
+  float: left;
+  width: 100%;
+  border: 1px solid #ccc !important; }
+
+.btn_cancelar:hover {
+  background: #eaeaea; }
+
 .prin_app .form-prin {
   padding-bottom: 3px;
   border-bottom: 1px solid #e0e4cc; }
@@ -5835,11 +5868,17 @@ body {
   border-left: 3px solid #E84D34;
   color: #E84D34; }
 
+.top_conte {
+  margin-top: 10px;
+  position: static; }
+
 .navbar-default {
   background-color: #535353 !important;
   border: none !important;
   border-radius: 0 !important;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.15); }
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.15);
+  margin-bottom: 0 !important;
+  z-index: 300; }
   .navbar-default .navbar-nav > li > a {
     color: #fff !important; }
 
@@ -5871,6 +5910,82 @@ body {
   background: url("img/ico_menu.svg") no-repeat center;
   background-size: 18px; }
 
+@keyframes aocultar {
+  from {
+    top: 0; }
+  to {
+    top: -50px; } }
+
+@keyframes aaparecer {
+  from {
+    top: -50px; }
+  to {
+    top: 0; } }
+
+.menu_dos.ng-hide {
+  position: relative;
+  animation: 0.2s aocultar; }
+
+.menu_dos {
+  float: left;
+  width: 100%;
+  height: 50px;
+  background: #fff;
+  border-bottom: 1px solid #eaeaea;
+  animation: 0.2s aaparecer; }
+  .menu_dos .navbar-nav > li > a {
+    padding: 14px 18px 15px;
+    padding-left: 35px;
+    color: #535353; }
+  .menu_dos .navbar-nav > li:hover {
+    transition: all linear 0.1s;
+    background: #f7f7f7;
+    color: #333;
+    /*  border-bottom: 1px solid #eaeaea;*/ }
+  .menu_dos .navbar-nav > li > .dropdown-menu {
+    -webkit-font-smoothing: antialiased;
+    padding: 0;
+    border-color: #eee;
+    border-radius: 0px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    transition: all .25s ease;
+    border-top: 3px solid #3CADAD; }
+  .menu_dos .dropdown-menu > li > a {
+    transition: all linear 0.1s;
+    padding: 9px 20px;
+    font-size: 13px; }
+  .menu_dos .dropdown-menu .divider {
+    margin: 0;
+    background-color: #eaeaea; }
+
+.ico_ventas {
+  background: url("img/ico-ventas.svg") no-repeat 8px center;
+  background-size: 20px; }
+
+.ico_productos {
+  background: url("img/ico-productos.svg") no-repeat 8px center;
+  background-size: 20px; }
+
+.ico_sucursales {
+  background: url("img/ico-sucursales.svg") no-repeat 8px center;
+  background-size: 20px; }
+
+.ico_bodegas {
+  background: url("img/ico-bodegas.svg") no-repeat 8px center;
+  background-size: 20px; }
+
+.ico_reportes {
+  background: url("img/ico-reportes.svg") no-repeat 8px center;
+  background-size: 20px; }
+
+.ico_gastos {
+  background: url("img/ico-gastos.svg") no-repeat 8px center;
+  background-size: 20px; }
+
+.ico_configuraciones {
+  background: url("img/ico-configuraciones.svg") no-repeat 8px center;
+  background-size: 20px; }
+
 .header_conte {
   float: left;
   width: 100%;
@@ -5878,11 +5993,12 @@ body {
   .header_conte h1 {
     float: left;
     font-size: 18px;
-    font-weight: 300;
+    font-weight: bold;
     margin: 0;
     padding: 10px 15px;
     background: #fff;
-    border-radius: 2px; }
+    border-radius: 2px;
+    border-left: 5px solid #3fb1b5; }
 
 .btn_escri {
   float: left;
@@ -5903,12 +6019,13 @@ body {
 
 .table > thead > tr > th {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: bold;
   padding: 12px 10px !important; }
 
 .table > tbody > tr > td {
   font-size: 13px;
-  font-weight: 300;
+  color: #333;
+  font-weight: normal;
   padding: 12px 10px !important;
   border-top: none !important;
   border-bottom: 1px solid #eee; }
@@ -5990,7 +6107,96 @@ body {
     text-decoration: none;
     background: #3cadad url("img/ico_nuevo.svg") no-repeat right 10px center;
     background-size: 15px;
-    border-radius: 25px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15); }
+
+@keyframes bocultar {
+  from {
+    right: 0; }
+  to {
+    right: -30%; } }
+
+@keyframes baparecer {
+  from {
+    right: -30%; }
+  to {
+    right: 0; } }
+
+#area_nuevo {
+  position: absolute;
+  background: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  height: 100%;
+  width: 30%;
+  right: 0;
+  top: 0;
+  z-index: 200;
+  padding-top: 70px;
+  animation: 0.2s baparecer; }
+
+#area_nuevo.ng-leave {
+  animation: 0.2s bocultar; }
+
+.header_nuevo {
+  float: left;
+  width: 100%;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eaeaea; }
+  .header_nuevo h1 {
+    float: left;
+    margin-top: 0px;
+    font-size: 20px;
+    font-weight: 300; }
+
+.btn_cerrar {
+  position: relative;
+  top: -8px;
+  float: right;
+  width: 35px;
+  height: 35px;
+  background: url("img/ico_cerrar.svg") no-repeat center;
+  background-size: 18px;
+  border-radius: 50%; }
+
+.btn_cerrar:hover {
+  background: #3FB1B5 url("img/ico_cerrar_b.svg") no-repeat center;
+  background-size: 14px;
+  border-radius: 50%;
+  transition: all 0.2s linear; }
+
+.conte_nuevo {
+  float: left;
+  width: 100%;
+  padding: 20px 0; }
+  .conte_nuevo .form-control {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0px;
+    box-shadow: inset 0 1px 1px transparent; }
+  .conte_nuevo .form-control:focus {
+    border-bottom: 2px solid #3fb1b5; }
+  .conte_nuevo label {
+    color: #3fb1b5;
+    font-weight: normal;
+    font-size: 12px; }
+
+@keyframes aler_ocultar {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+
+@keyframes aler_aparecer {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+.alert {
+  animation: 0.2s aler_aparecer; }
+
+.alert.ng-leave {
+  animation: 0.2s aler_ocultar; }
 
 /*# sourceMappingURL=app.css.map */

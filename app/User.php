@@ -3,12 +3,13 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Bican\Roles\Traits\HasRoleAndPermission;
 use Bican\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 
 class User extends Authenticatable implements HasRoleAndPermissionContract
 {
-     use HasRoleAndPermission;
+     use SoftDeletes, HasRoleAndPermission;
     /**
      * The attributes that are mass assignable.
      *
@@ -26,6 +27,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
     protected $hidden = [
         'password', 'remember_token',
     ];
+     protected $dates = ['deleted_at'];
      
       public function PerfilUsuario(){
         return $this->hasOne('App\Models\UserProfile','user_id','id');

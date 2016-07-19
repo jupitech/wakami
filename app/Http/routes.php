@@ -23,8 +23,11 @@ Route::get('/', 'HomeController@index');
 Route::group(['middleware' => ['auth','role:admin']], function()
 {
 		//Usuarios
-		Route::get('/usuarios', 'UsuariosController@index');
-             
-		Route::get('/api/usuarios', 'UsuariosController@indexusuarios');
-
+	   Route::get('/usuarios', 'UsuariosController@index');
+       Route::group(['middleware' => ['cors']], function()
+		{      
+			Route::get('/api/usuarios', 'UsuariosController@indexusuarios');
+			Route::get('/api/roles', 'UsuariosController@indexroles');
+			Route::post('/api/usuario/create', 'UsuariosController@store');
+		});
 });

@@ -4,14 +4,84 @@
 <div class="col-sm-12">
     @yield('menu')
 </div>
-        <div class="col-md-12" ng-controller="UsuariosCtrl">
+
+        <div class="col-md-12 top_conte" ng-controller="UsuariosCtrl">
+               <div id="area_nuevo" ng-if="nuevo_obj">
+                    <div class="header_nuevo">
+
+                    <div class="col-sm-12">
+                          <h1>Nuevo Usuario</h1>
+                          <a class="btn_cerrar" ng-click="btn_nuevo()"></a>
+                    </div>
+                    </div>
+                    <div class="conte_nuevo">
+                      <div class="col-sm-12">
+                      <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Usuario existente!</strong> Intenta de nuevo con otro usuario y E-mail</div>
+                        <form class="form-horizontal" role="form" ng-submit="guardarUsuario()" >
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="name">Usuario</label>
+                                         <input id="name" type="text" class="form-control" name="name" ng-model="usuario.name" placeholder="Usuario">
+                                    </div>
+                               </div>
+                               <div class="form-group">
+                                  <div class="col-md-6">
+                                       <label for="nombre">Nombre</label>
+                                       <input id="nombre" type="text" class="form-control" name="nombre" ng-model="usuario.nombre" placeholder="Nombre">
+                                  </div>
+                                   <div class="col-md-6">
+                                       <label for="nombre">Apellido</label>
+                                       <input id="apellido" type="text" class="form-control" name="apellido" ng-model="usuario.apellido" placeholder="Apellido">
+                                  </div>
+                               </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="email">E-mail</label>
+                                         <input id="email" type="text" class="form-control" name="email" ng-model="usuario.email" placeholder="Correo Electrónico">
+                                    </div>
+                               </div>
+                               <div class="form-group">
+                                  <div class="col-md-6">
+                                       <label for="password">Contraseña</label>
+                                       <input id="password" type="password" class="form-control" name="password" ng-model="usuario.password" placeholder="Mínimo 8 caracteres">
+                                  </div>
+                                   <div class="col-md-6">
+                                       <label for="password2">Repetir Contraseña</label>
+                                       <input id="password2" type="password" class="form-control" name="password2" placeholder="">
+                                  </div>
+                               </div>
+                                <div class="form-group">
+                                  <div class="col-md-6">
+                                       <label for="rol">Rol de Usuario</label>
+                                       <select class="form-control" ng-model="usuario.role_id">
+                                            <option ng-repeat="rol in roles | orderBy:'-id'" value="@{{rol.id}}" selected="selected">@{{rol.name}}</option>
+                                          </select>
+
+                                  </div>
+
+                               </div>
+                               <div class="form-group">
+                                 <div class="col-sm-6">
+                                     <button type="submit" class="btn btn-primary btn_regis">REGISTRAR</button>
+                                  </div>
+                                   <div class="col-sm-6">
+                                     <a class="btn btn_cancelar" ng-click="btn_nuevo()">CANCELAR</a>
+                                  </div>
+                               </div>
+                              
+                        </form>
+                      </div>
+                    </div>
+              </div>
             <div class="header_conte">
             	<h1>Usuarios</h1>
                 <div class="btn_nuevo">
-                    <a href="">Nuevo Usuario</a>
+                    <a href="" ng-click="btn_nuevo()">Nuevo Usuario</a>
                 </div>
             </div>
+           
             <div class="col-sm-12">
+              <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Usuario nuevo</strong> guardado correctamente, creado por administradores.</div>
             	<div class="caja_contenido">
                        <table class="table">
                            <thead>
