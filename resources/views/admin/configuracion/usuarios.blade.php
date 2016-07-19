@@ -17,33 +17,51 @@
                     <div class="conte_nuevo">
                       <div class="col-sm-12">
                       <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Usuario existente!</strong> Intenta de nuevo con otro usuario y E-mail</div>
-                        <form class="form-horizontal" role="form" ng-submit="guardarUsuario()" >
+                        <form class="form-horizontal" name="frm" role="form" ng-submit="guardarUsuario()" >
                                 <div class="form-group">
                                     <div class="col-md-12">
                                         <label for="name">Usuario</label>
-                                         <input id="name" type="text" class="form-control" name="name" ng-model="usuario.name" placeholder="Usuario">
+                                         <input id="name" type="text" class="form-control" name="name" ng-model="usuario.name" placeholder="Usuario" required>
+                                         <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.name.$dirty && frm.name.$error.required">Campo requerido</div>
+                                         </div>
+                                        
                                     </div>
                                </div>
                                <div class="form-group">
                                   <div class="col-md-6">
                                        <label for="nombre">Nombre</label>
-                                       <input id="nombre" type="text" class="form-control" name="nombre" ng-model="usuario.nombre" placeholder="Nombre">
+                                       <input id="nombre" type="text" class="form-control" name="nombre" ng-model="usuario.nombre" placeholder="Nombre" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.nombre.$dirty && frm.nombre.$error.required">Campo requerido</div>
+                                         </div>
                                   </div>
                                    <div class="col-md-6">
                                        <label for="nombre">Apellido</label>
-                                       <input id="apellido" type="text" class="form-control" name="apellido" ng-model="usuario.apellido" placeholder="Apellido">
+                                       <input id="apellido" type="text" class="form-control" name="apellido" ng-model="usuario.apellido" placeholder="Apellido" required>
+                                         <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.apellido.$dirty && frm.apellido.$error.required">Campo requerido</div>
+                                         </div>
                                   </div>
                                </div>
                                 <div class="form-group">
                                     <div class="col-md-12">
                                         <label for="email">E-mail</label>
-                                         <input id="email" type="text" class="form-control" name="email" ng-model="usuario.email" placeholder="Correo Electrónico">
+                                         <input id="email" type="email" class="form-control" name="email" ng-model="usuario.email" placeholder="Correo Electrónico" required>
+                                           <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.email.$dirty && frm.email.$error.required">Campo requerido</div>
+                                            <div class="alert alert-danger" ng-show="frm.email.$dirty && frm.email.$error.email">Email Invalido</div>
+                                         </div>
                                     </div>
                                </div>
                                <div class="form-group">
                                   <div class="col-md-6">
                                        <label for="password">Contraseña</label>
-                                       <input id="password" type="password" class="form-control" name="password" ng-model="usuario.password" placeholder="Mínimo 8 caracteres">
+                                       <input id="password" type="password" class="form-control" name="password" ng-model="usuario.password" placeholder="Mínimo 8 caracteres" ng-minlength="8" required>
+                                        <div class="col-sm-12 spd spi">
+                                          <div class="alert alert-danger" ng-show="frm.password.$dirty && frm.password.$error.required">Campo requerido</div>
+                                          <div class="alert alert-danger" ng-show="frm.password.$dirty && frm.password.$error.minlength">Contraseña corta</div>
+                                       </div>
                                   </div>
                                    <div class="col-md-6">
                                        <label for="password2">Repetir Contraseña</label>
@@ -62,7 +80,7 @@
                                </div>
                                <div class="form-group">
                                  <div class="col-sm-6">
-                                     <button type="submit" class="btn btn-primary btn_regis">REGISTRAR</button>
+                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">REGISTRAR</button>
                                   </div>
                                    <div class="col-sm-6">
                                      <a class="btn btn_cancelar" ng-click="btn_nuevo()">CANCELAR</a>
