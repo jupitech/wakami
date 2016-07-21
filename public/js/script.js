@@ -165,5 +165,5 @@ wApp.controller('menuDos',function($scope){
   $scope.btn_menu = function() {
         $scope.menudos = !$scope.menudos;
     };
-            
+   $scope.Fecha = new Date();          
 });

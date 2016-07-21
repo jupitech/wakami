@@ -227,6 +227,12 @@ body{
       top: 0;
   }
 }
+.hora_actual{
+	float: right;
+	padding:10px 5px;
+	font-size: 18px;
+	font-weight: normal;
+}
  .menu_dos.ng-hide{
 		position: relative;
  	 animation: 0.2s aocultar;
