@@ -161,9 +161,18 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
 
 });
 
-wApp.controller('menuDos',function($scope){
+wApp.controller('menuDos',function($scope, $timeout){
   $scope.btn_menu = function() {
         $scope.menudos = !$scope.menudos;
     };
-   $scope.Fecha = new Date();          
+   $scope.Fecha = new Date();
+    //Fecha y Hora actual
+                  $scope.clock = "..."; // initialise the time variable
+                  $scope.tickInterval = 1000 //ms
+
+                  var tick = function() {
+                      $scope.clock = Date.now() // get the current time
+                      $timeout(tick, $scope.tickInterval); // reset the timer
+                  }
+                  $timeout(tick, $scope.tickInterval);          
 });

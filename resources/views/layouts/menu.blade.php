@@ -92,7 +92,7 @@
               </ul>
             </li>
           </ul>
-      <div class="hora_actual">@{{Fecha | amDateFormat: 'DD/MM/YYYY, h:mm:ss'}}</div>
+      <div class="hora_actual">@{{Fecha | amDateFormat: 'DD/MM/YYYY'}} @{{ clock | date:'HH:mm:ss'}}</div>
   </div>
   </div>
 </div>
