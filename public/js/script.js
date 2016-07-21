@@ -1,5 +1,5 @@
 /*AngularJS*/
-var wApp= angular.module('wApp', ['ngRoute', 'ngCookies','ngAnimate','ngResource','ui.select', 'ngSanitize','ui.bootstrap']);
+var wApp= angular.module('wApp', ['ngRoute', 'ngCookies','ngAnimate','ngResource','ui.select', 'ngSanitize','ui.bootstrap','angularMoment']);
 wApp.factory('ApiUsuarioNuevo', function($resource){
   return $resource("/api/usuario/create");
 });
@@ -22,7 +22,7 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
 
    $scope.nuevo_obj = false;
    $scope.editar_obj = false;
-
+   $scope.ver_eli = false;
    $scope.alertaNuevo = false;
    $scope.alertaExiste = false;
    $scope.alertaEliminado = false;
@@ -133,7 +133,32 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
                 console.log('Parece que existe un error al borrar el usuario.');
             });
       };
-     
+
+      //Regresar usuario
+       $scope.btn_restaurar = function(id){
+        $scope.idusuario= id;
+        console.log($scope.idusuario);
+
+         $http.put('api/usuario/restaurar/' +  $scope.idusuario)
+            .success(function (data, status, headers) {
+               console.log('Usuario '+$scope.idusuario+' restaurado correctamente.');
+                   $http.get('/api/usuarios').success(
+
+                      function(usuarios) {
+                                $scope.usuarios = usuarios.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    });
+                    //$timeout(function () { $scope.alertaEliminado = true; }, 1000);  
+                   // $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
+                   $scope.ver_eli = false;
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar el usuario.');
+            });
+      };
+
+
 });
 
 wApp.controller('menuDos',function($scope){

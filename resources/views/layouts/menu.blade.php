@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
-        <div class="li_btns"><a href="#" class="btn_wakami btn_menu" ng-click="btn_menu()"></a></div>
+        <div class="li_btns"><a href="" class="btn_wakami btn_menu" ng-click="btn_menu()"></a></div>
         <a class="logo_prin" href="{{ URL::to('/') }}"></a>
       </div>
 

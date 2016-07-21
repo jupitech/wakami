@@ -190,7 +190,7 @@
                                <th>Nombre y Apellido</th>
                                <th>E-mail</th>
                                <th>Role</th>
-                               <th>Modificado</th>
+                               <th>Eliminado el</th>
                                <th>Opciones</th>
                            </thead>
                            <tbody>
@@ -199,11 +199,11 @@
                                    <td>@{{usuario.perfil_usuario.nombre}} @{{usuario.perfil_usuario.apellido}} </td>
                                    <td>@{{usuario.email}}</td>
                                    <td>@{{usuario.rol_usuario.el_rol.name}}</td>
-                                   <td>@{{usuario.updated_at}}</td>
+                                   <td>@{{usuario.deleted_at}}</td>
                                    <td>
                                        <div class="area_opciones">
                                            <ul>
-                                               <li><a href="" class="ico_restaurar" ng-click="btn_editar(usuario)"></a></li>
+                                               <li><a href="" class="ico_restaurar" ng-click="btn_restaurar(usuario.id)"></a></li>
                                               
                                            </ul>
                                        </div>
@@ -231,7 +231,7 @@
                                    <td>@{{usuario.perfil_usuario.nombre}} @{{usuario.perfil_usuario.apellido}} </td>
                                    <td>@{{usuario.email}}</td>
                                    <td>@{{usuario.rol_usuario.el_rol.name}}</td>
-                                   <td>@{{usuario.updated_at}}</td>
+                                   <td>@{{usuario.updated_at | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a'}}</td>
                                    <td>
                                        <div class="area_opciones">
                                            <ul>

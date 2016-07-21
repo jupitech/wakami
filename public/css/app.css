@@ -6084,6 +6084,18 @@ body {
   padding: 0;
   min-height: 200px; }
 
+@keyframes conte_ocu {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+
+@keyframes conte_apa {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
 .caja_contenidob {
   float: left;
   width: 100%;
@@ -6091,7 +6103,13 @@ body {
   border-radius: 2px;
   padding: 0;
   min-height: 200px;
-  margin: 10px 0; }
+  margin: 10px 0;
+  animation: 0.3s conte_apa; }
+  .caja_contenidob .table > tbody > tr:hover {
+    background: #e5e5e5; }
+
+.ng-hide {
+  animation: 0.3s conte_ocu; }
 
 .table > thead > tr > th {
   font-size: 13px;
@@ -6105,6 +6123,9 @@ body {
   padding: 12px 10px !important;
   border-top: none !important;
   border-bottom: 1px solid #eee; }
+
+.table > tbody > tr:hover {
+  background: #f9f9f9; }
 
 .area_opciones {
   float: left; }

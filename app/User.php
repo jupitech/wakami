@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Bican\Roles\Traits\HasRoleAndPermission;
 use Bican\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
-
+use Carbon\Carbon;
 class User extends Authenticatable implements HasRoleAndPermissionContract
 {
      use SoftDeletes, HasRoleAndPermission;
@@ -30,6 +30,12 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
     ];
      protected $dates = ['deleted_at'];
      
+     public function setDeletedatAttribute($date){
+      
+        $this->attributes['deleted_at'] = Carbon::parse($date);
+    }
+
+
       public function PerfilUsuario(){
         return $this->hasOne('App\Models\UserProfile','user_id','id');
     }
