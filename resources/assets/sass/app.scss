@@ -5,6 +5,7 @@ $fonts: 'Inconsolata', sans-serif;
 $cnegro: #535353;
 $cblanco: #fff;
 $cboton: #3fb1b5;
+$cgris: #ddd;
 $cbody: #F4F4F4;
 $fontsize:13px;
 $fontespacio: 0.02em;
@@ -249,17 +250,30 @@ body{
  		color: #333;
  		  /*  border-bottom: 1px solid #eaeaea;*/
  	}
+
+ 	@keyframes menu_ocu {
+	  from {
+	      top: 0;
+	  } to {
+	      top: 50px;
+	  }
+	}
+	@keyframes menu_apa {
+	  from {
+	      top: 150%;
+	      opacity: 0;
+	  } to {
+	      top: 100%;
+	      opacity: 1;
+	  }
+	}
  	.navbar-nav > li > .dropdown-menu{
  		-webkit-font-smoothing:antialiased;
  		padding: 0;
  		border-color: #eee;
  		border-radius: 0px;
  		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
- 		 -webkit-transition: all .25s ease;
-       -moz-transition: all .25s ease;
-        -ms-transition: all .25s ease;
-         -o-transition: all .25s ease;
-            transition: all .25s ease;
+ 			 animation: 0.2s menu_apa;
             border-top: 3px solid #3CADAD;
  	}
  	.dropdown-menu > li > a{
@@ -273,31 +287,31 @@ body{
  	}
  }
  	.ico_ventas{
- 		background: url('img/ico-ventas.svg') no-repeat 8px center;
+ 		background: url('img/ico-ventas2.svg') no-repeat 8px center;
  		background-size: 20px;
  	}
  	.ico_productos{
- 		background: url('img/ico-productos.svg') no-repeat 8px center;
+ 		background: url('img/ico-productos2.svg') no-repeat 8px center;
  		background-size: 20px;
  	}
  	.ico_sucursales{
- 		background: url('img/ico-sucursales.svg') no-repeat 8px center;
+ 		background: url('img/ico-sucursales2.svg') no-repeat 8px center;
  		background-size: 20px;
  	}
  	.ico_bodegas{
- 		background: url('img/ico-bodegas.svg') no-repeat 8px center;
+ 		background: url('img/ico-bodegas2.svg') no-repeat 8px center;
  		background-size: 20px;
  	}
  	.ico_reportes{
- 		background: url('img/ico-reportes.svg') no-repeat 8px center;
+ 		background: url('img/ico-reportes2.svg') no-repeat 8px center;
  		background-size: 20px;
  	}
  	.ico_gastos{
- 		background: url('img/ico-gastos.svg') no-repeat 8px center;
+ 		background: url('img/ico-gastos2.svg') no-repeat 8px center;
  		background-size: 20px;
  	}
  	.ico_configuraciones{
- 		background: url('img/ico-configuraciones.svg') no-repeat 8px center;
+ 		background: url('img/ico-configuracion2.svg') no-repeat 8px center;
  		background-size: 20px;
  	}
 
@@ -328,6 +342,70 @@ body{
  		-webkit-border-radius: 2px;
 		border-radius: 2px;
  }
+
+
+ /******************Escritorio*********************/
+.menu_escritorio{
+	float: left;
+	width: 100%;
+	display: table;
+	.col-xs-6, .col-sm-4,.col-md-3,.col-lg-2{
+		display: inline-block;
+		float: none;
+		vertical-align: top;
+	}
+}
+.caja_mescri{
+	float: left;
+	width: 100%;
+	min-height: 255px;
+	background: #fff;
+	border-radius: 5px;
+	margin-top: 50px;
+			h1{
+				font-size: 18px;
+				float: left;
+				width: 100%;
+				margin: 0;
+				padding: 5px 0;
+				text-align: center;
+				font-weight: bold;
+			}
+			ul{
+			float: left;
+			width: 100%;
+			margin:0;
+			margin-top: 5px;
+			padding: 0;
+			list-style: none;
+			}
+			li{
+				float: left;
+				width: 100%;
+				a{
+					float: left;
+					width: 100%;
+					border-top: 1px solid #eee;
+					color: #535353;
+					padding:8px 10px;
+				}
+				a:hover{
+					text-decoration: none;
+					background: #eee;
+				}
+			}
+}
+.ima_mescri{
+	float: left;
+	width: 100%;
+	margin-top: 20px;
+	height: 60px;
+	background-size: 40px !important;
+	background-position: center !important;
+}
+
+
+
  .caja_contenido{
  	float: left;
  	width: 100%;
@@ -336,6 +414,16 @@ body{
     border-radius: 2px;
     padding: 0;
     min-height: 200px;
+ }
+ .caja_contenidob{
+ 		float: left;
+ 	width: 100%;
+ 	background: #eee;
+ 	-webkit-border-radius: 2px;
+    border-radius: 2px;
+    padding: 0;
+    min-height: 200px;
+    margin: 10px 0;
  }
  .table > thead > tr > th{
  	font-size: 13px;
@@ -416,6 +504,39 @@ body{
  		background: $btn_rojo url('img/ico_eliminar_b.svg') no-repeat center;
  		background-size: 15px; 
  	}
+	.ico_restaurar{
+		background: url('img/ico_restaurar.svg') no-repeat center;
+		background-size: 18px; 
+ 	}
+ 	.ico_restaurar:hover{
+ 		border-radius:50%;
+ 		background: #fff url('img/ico_restaurar.svg') no-repeat center;
+ 		background-size: 15px; 
+ 	}
+
+
+ 	.btn_g{
+ 		float: right !important;
+ 		width: 35px !important;
+ 		height: 35px !important;
+ 		margin:10px;
+
+ 				  -webkit-transition: all 0.1s linear;
+		     -moz-transition: all 0.1s linear;
+		       -o-transition: all 0.1s linear;
+		          transition: all 0.1s linear;
+		           		opacity: 0.8;
+ 	}
+ 	.ico_eliminarg{
+ 		border-radius:3px !important;
+ 		background: $btn_rojo url('img/ico_eliminar_b.svg') no-repeat center;
+ 		background-size: 20px; 
+
+ 	}
+ 	.ico_eliminarg:hover{
+ 		background-size: 20px; 
+		          opacity: 1;
+ 	}
 .btn_nuevo{
 	float: right;
 
@@ -441,6 +562,36 @@ body{
 		text-decoration: none;
 		background: #3cadad url('img/ico_nuevo.svg') no-repeat right 10px center;
 		background-size: 15px;
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+	}
+}
+
+.btn_eliminados{
+	float: right;
+
+	a{
+		float: left;
+		width: 30px;
+		height: 38px;
+		padding: 9px 15px;
+		padding-right: 35px;
+		margin-left: 5px;
+		border-radius: 5px;
+		background: $cgris url('img/ico_eliminados.svg') no-repeat center;
+		background-size: 22px;
+		color: #fff;
+		font-size: 14px;
+		text-align: center;
+		text-decoration: none;
+			  -webkit-transition: all 0.1s linear;
+		     -moz-transition: all 0.1s linear;
+		       -o-transition: all 0.1s linear;
+		          transition: all 0.1s linear;
+	}
+	a:hover{
+		text-decoration: none;
+		background: $cgris url('img/ico_eliminados.svg') no-repeat center;
+		background-size: 22px;
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
 	}
 }
@@ -511,6 +662,9 @@ body{
 		       -o-transition: all 0.2s linear;
 		          transition: all 0.2s linear;
 }
+
+
+
 .conte_nuevo{
 	float: left;
 	width: 100%;
@@ -571,4 +725,49 @@ body{
 }
 .alert.ng-leave{
 	animation: 0.2s aler_ocultar;
+}
+
+
+@keyframes op_ocultar {
+  from {
+      opacity: 1;
+       right: 30px;
+  } to {
+      opacity: 0;
+        right: 180px;
+  }
+}
+@keyframes op_aparecer {
+  from {
+      opacity: 0;
+      right: 180px;
+  } to {
+      opacity: 1;
+      right: 30px;
+  }
+}
+
+.op_drop .dropdown-menu{
+	padding: 0;
+	margin:0;
+    left: auto !important; 
+	right: 30px !important;
+	top: -15px;
+	width: 180px;
+	animation: 0.2s op_aparecer;
+	border-color: #eee;
+	    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+.op_drop li{
+	float: left;
+	width: 100%;
+}
+.op_drop p{
+	float: left;
+	width: 100%;
+	padding: 10px 0;
+	margin:0;
+	font-size: 13px;
+	text-align: center;
+	line-height: 17px;
 }

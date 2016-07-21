@@ -24,6 +24,7 @@ elixir(function(mix) {
     mix.copy(npmDir + 'angular-resource/angular-resource.min.js',jsDir);
     mix.copy(npmDir + 'angular-sanitize/angular-sanitize.min.js',jsDir);
     mix.copy(npmDir + 'ui-select/dist/select.min.js',jsDir);
+    mix.copy(npmDir + 'angular-ui-bootstrap/dist/ui-bootstrap.js',jsDir);
     mix.scripts([
     	'angular.min.js',
     	'angular-route.min.js',
@@ -31,6 +32,7 @@ elixir(function(mix) {
         'angular-animate.min.js',
         'angular-resource.min.js',
         'angular-sanitize.min.js',
-        'select.min.js'
+        'select.min.js',
+        'ui-bootstrap.js'
     ], 'public/js/vendor.js');	
 });

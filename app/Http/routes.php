@@ -27,7 +27,11 @@ Route::group(['middleware' => ['auth','role:admin']], function()
        Route::group(['middleware' => ['cors']], function()
 		{      
 			Route::get('/api/usuarios', 'UsuariosController@indexusuarios');
+			Route::get('/api/usuarioseli', 'UsuariosController@usuarioseli');
 			Route::get('/api/roles', 'UsuariosController@indexroles');
 			Route::post('/api/usuario/create', 'UsuariosController@store');
+			Route::get('/api/usuario/{id}', 'UsuariosController@show');
+			Route::delete('api/usuario/destroy/{id}','UsuariosController@destroy');
+            Route::put('api/usuario/restaurar/{id}','UsuariosController@restaurar');
 		});
 });

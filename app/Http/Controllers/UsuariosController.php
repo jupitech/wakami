@@ -31,8 +31,18 @@ class UsuariosController extends Controller
     
        public function indexusuarios()
     {
-           //Traendo partidos que no han sido terminados en este dia
+           //Trayendo Usuarios
          $usuarios=User::with("PerfilUsuario","RolUsuario")->get();
+         if(!$usuarios){
+             return response()->json(['mensaje' =>  'No se encuentran usuarios actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $usuarios],200);
+    }
+
+          public function usuarioseli()
+    {
+           //Trayendo Usuarios
+         $usuarios=User::with("PerfilUsuario","RolUsuario")->onlyTrashed()->get();
          if(!$usuarios){
              return response()->json(['mensaje' =>  'No se encuentran usuarios actualmente','codigo'=>404],404);
         }
@@ -41,7 +51,7 @@ class UsuariosController extends Controller
 
         public function indexroles()
     {
-           //Traendo partidos que no han sido terminados en este dia
+           //Traendo roles de usuarios
          $roles=Roles::all();
          if(!$roles){
              return response()->json(['mensaje' =>  'No se encuentran roles actualmente','codigo'=>404],404);
@@ -98,7 +108,12 @@ class UsuariosController extends Controller
      */
     public function show($id)
     {
-        //
+           //Trayendo Usuarios
+         $usuario=User::with("PerfilUsuario","RolUsuario")->where('id',$id)->get();
+         if(!$usuario){
+             return response()->json(['mensaje' =>  'No se encuentra usuario actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $usuario],200);
     }
 
     /**
@@ -132,6 +147,22 @@ class UsuariosController extends Controller
      */
     public function destroy($id)
     {
-        //
+         if($id!='1'){
+          $user=User::find($id);
+          
+          $user->delete();
+           return response()->json(["mensaje"=>"Usuario borrado correctamente."]);
+        }else{
+            return response()->json(['mensaje' =>  'No se puede eliminar Usuario Administrador Principal','codigo'=>404],404);
+        }
     }
+
+    public function restaurar($id)
+    {
+       
+       User::withTrashed()->where('id',$id)->restore();
+
+         return response()->json(["mensaje"=>"Usuario restaurado correctamente."]);
+
+      } 
 }
