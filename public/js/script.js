@@ -20,13 +20,15 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
   $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 
 
-   $scope.nuevo_obj = false;
-   $scope.editar_obj = false;
-   $scope.ver_eli = false;
-   $scope.alertaNuevo = false;
-   $scope.alertaExiste = false;
-   $scope.alertaEliminado = false;
-   
+   $scope.nuevo_obj = false; //Nuevo usuario
+   $scope.editar_obj = false; // Editar Usuario
+   $scope.ver_eli = false; // Ver usuarios eliminados
+   $scope.acti_rol = false; //Activar para cambiar roles
+   $scope.alertaNuevo = false; // Alerta de nuevo usuario registrado
+   $scope.alertaExiste = false; // Alerta si el usuario ya esta en existencia
+   $scope.alertaEliminado = false; // Alerta de usuario eliminado
+    $scope.alertaEditado = false; // Alerta de usuario editado
+
    $scope.btn_nuevo = function() {
         $scope.nuevo_obj = !$scope.nuevo_obj;
          $scope.usuario={}; 
@@ -97,17 +99,69 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
       $scope.btn_editar = function(usuario) {
         $scope.editar_obj = !$scope.editar_obj;
         $scope.existeUser= usuario; 
+        $scope.acti_rol = false;
      }; 
+
+     $scope.act_rol = function() {
+        $scope.acti_rol = !$scope.acti_rol;
+     };
+
       $scope.editarUsuario = function(){
             
+            if($scope.acti_rol){
+                var data = {
+                name: $scope.existeUser.name,
+                nombre: $scope.existeUser.perfil_usuario.nombre,
+                apellido: $scope.existeUser.perfil_usuario.apellido,
+                email: $scope.existeUser.email,
+                role_id: $scope.existeUser.role_id
+                };
+                
+                $http.put('api/usuario/' +  $scope.existeUser.id, data)
+                .success(function (data, status, headers) {
+                   console.log('Usuario '+$scope.existeUser.name+' modificado correctamente.');
+                       $http.get('/api/usuarios').success(
 
-              var data = {
+                          function(usuarios) {
+                                    $scope.usuarios = usuarios.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });
+                       $scope.editar_obj = false;
+                        $timeout(function () { $scope.alertaEditado = true; }, 1000);  
+                        $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                })
+                .error(function (data, status, header, config) {
+                    console.log('Parece que existe un error al modificar el usuario.');
+                });    
+
+
+            }else{
+               var data = {
                 name: $scope.existeUser.name,
                 nombre: $scope.existeUser.perfil_usuario.nombre,
                 apellido: $scope.existeUser.perfil_usuario.apellido,
                 email: $scope.existeUser.email
-            };
-              console.log(data);
+                };
+                
+                 $http.put('api/usuario/' +  $scope.existeUser.id, data)
+                .success(function (data, status, headers) {
+                   console.log('Usuario '+$scope.existeUser.name+' modificado correctamente.');
+                       $http.get('/api/usuarios').success(
+
+                          function(usuarios) {
+                                    $scope.usuarios = usuarios.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });
+                         $scope.editar_obj = false;
+                        $timeout(function () { $scope.alertaEditado = true; }, 1000);  
+                        $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                })
+                .error(function (data, status, header, config) {
+                    console.log('Parece que existe un error al modificar el usuario.');
+                });    
+            }
         };
 
 

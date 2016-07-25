@@ -6,6 +6,7 @@
 </div>
 
         <div class="col-md-12 top_conte" ng-controller="UsuariosCtrl">
+        {{-- Nuevo usuario --}}
                <div id="area_nuevo" ng-if="nuevo_obj">
                     <div class="header_nuevo">
 
@@ -91,6 +92,7 @@
                       </div>
                     </div>
               </div>
+              {{-- Editar Usuario --}}
                 <div id="area_nuevo" ng-if="editar_obj">
                     <div class="header_nuevo">
 
@@ -142,13 +144,22 @@
                               
                                 <div class="form-group">
                                   <div class="col-md-12">
-                                       <label for="rol">Rol de Usuario</label>
+                                       <div class="col-sm-12 spd spi">
+                                        <label for="rol">Rol de Usuario</label>
+                                       </div>
                                        <div class="col-sm-6 spi">
-                                         <p>@{{existeUser.rol_usuario.el_rol.name}}</p>
-
+                                         <p class="p_rol">@{{existeUser.rol_usuario.el_rol.name}}</p>
+                                         <div class="onoffswitch">
+                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" ng-click="act_rol()">
+                                            <label class="onoffswitch-label" for="myonoffswitch">
+                                                <span class="onoffswitch-inner"></span>
+                                                <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </div> 
                                        </div>
                                        <div class="col-sm-6 spd">
-                                       <select class="form-control" ng-model="existeUser.role_id" ng-options="rol.name for rol in roles">
+                                       <select class="form-control" ng-if="acti_rol" ng-model="existeUser.role_id">
+                                        <option  ng-repeat="rol in roles" value="@{{rol.id}}" selected>@{{rol.name}}</option>
                                         </select>
                                        </div>
 
@@ -182,6 +193,7 @@
             <div class="col-sm-12">
               <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Usuario nuevo</strong> guardado correctamente, creado por administradores.</div>
                 <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Usuario borrado</strong> Revisa en area de usuarios borrados si desean restaurar.</div>
+               <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Usuario editado</strong> Puedes ver en el listado de usuarios las modificaciones realizadas.</div>
             {{-- Usuarios borrados --}}
                 <div class="caja_contenidob" ng-if="ver_eli">
                        <table class="table">
@@ -235,7 +247,6 @@
                                    <td>
                                        <div class="area_opciones">
                                            <ul>
-                                              <li ng-if="usuario.id!=1"><a href="" class="ico_activado"></a></li>
                                                <li ng-if="usuario.id!=1"><a href="" class="ico_cambiar"></a></li>
                                                <li><a href="" class="ico_editar" ng-click="btn_editar(usuario)"></a></li>
                                                <li ng-if="usuario.id!=1" class="op_drop"  uib-dropdown>

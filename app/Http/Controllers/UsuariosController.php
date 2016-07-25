@@ -136,7 +136,30 @@ class UsuariosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+          
+        $user=User::find($id);
+        $user->fill([
+                'name' =>  $request['name'],
+                'email' =>  $request['email'],
+            ]);
+        $user->save();
+
+        $userprofile=UserProfile::where('user_id',$id)->first();
+        $userprofile->fill([
+                   'nombre' => $request['nombre'],
+                   'apellido' => $request['apellido'],
+                        ]);
+         $userprofile->save();
+
+         if($request['role_id']!=''){
+
+                 $roleuser=RoleUser::where('user_id',$id)->first();
+                 $roleuser->fill([
+                           'role_id' => $request['role_id'],
+                                ]);
+                 $roleuser->save();
+         }
+          return response()->json(["mensaje"=>"Usuario modificado correctamente."]);
     }
 
     /**

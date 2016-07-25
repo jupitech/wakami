@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			Route::get('/api/roles', 'UsuariosController@indexroles');
 			Route::post('/api/usuario/create', 'UsuariosController@store');
 			Route::get('/api/usuario/{id}', 'UsuariosController@show');
+			Route::put('/api/usuario/{id}', 'UsuariosController@update');
 			Route::delete('api/usuario/destroy/{id}','UsuariosController@destroy');
             Route::put('api/usuario/restaurar/{id}','UsuariosController@restaurar');
 		});
