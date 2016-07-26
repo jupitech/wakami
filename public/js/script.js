@@ -8,6 +8,10 @@ wApp.factory('ApiProveedorNuevo', function($resource){
   return $resource("/api/proveedor/create");
 });
 
+wApp.factory('ApiLineaNuevo', function($resource){
+  return $resource("/api/lineaproducto/create");
+});
+
 //**************************************Usuarios*************************************************//
 wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout, $log,$uibModal){
  
@@ -350,6 +354,75 @@ wApp.controller('ProveedoresCtrl',function($scope, $http,ApiProveedorNuevo, $tim
 
 });
 
+//************************************Productos**********************************************//
+wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo, $timeout, $log,$uibModal){
+
+   $scope.status = {
+    isopen: false
+  };
+
+  $scope.toggleDropdown = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.status.isopen = !$scope.status.isopen;
+  };
+
+  $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
+
+
+   $scope.nuevo_obj = false; //Nuevo proveedor
+   $scope.editar_obj = false; // Editar proveedor
+   $scope.linea_obj = false; // Editar proveedor
+   $scope.alertaNuevo = false; // Alerta de nuevo proveedor registrado
+   $scope.alertaExiste = false; // Alerta si el proveedor ya esta en existencia
+   $scope.alertaEliminado = false; // Alerta de proveedor eliminado
+   $scope.alertaEditado = false; // Alerta de proveedor editado
+
+   $scope.btn_nuevo = function() {
+        $scope.nuevo_obj = !$scope.nuevo_obj;
+       $scope.producto={};
+     };
+
+    $scope.btn_linea = function() {
+        $scope.linea_obj = !$scope.linea_obj;
+       $scope.linea={};
+     };
+
+       //Lineas de productos
+       $http.get('/api/lineaproductos').success(
+
+              function(lineas) {
+                        $scope.lineas = lineas.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+
+     //Nueva Linea
+         
+      $scope.linea={};
+      $scope.guardarLinea = function(){
+         // console.log($scope.usuario);
+    
+        ApiLineaNuevo.save($scope.linea, function(){
+          console.log("Guardado correctamente");
+           $scope.linea={};
+           $http.get('/api/lineaproductos').success(
+
+              function(lineas) {
+                        $scope.lineas = lineas.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+          },
+          function(error){
+            console.log("Parece que la linea ya existe");
+            $timeout(function () { $scope.alertaExiste = true; }, 100);  
+            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+          });
+           
+      };    
+
+});
 
 //************************************Menu Dos*************************************************//
 wApp.controller('menuDos',function($scope, $timeout){

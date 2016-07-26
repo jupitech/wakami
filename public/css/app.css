@@ -6238,6 +6238,27 @@ body {
     background-size: 15px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15); }
 
+.btn_seg {
+  float: right; }
+  .btn_seg a {
+    float: left;
+    padding: 9px 15px;
+    margin-left: 5px;
+    border-radius: 5px;
+    background: #ddd;
+    background-size: 15px;
+    color: #333;
+    font-size: 14px;
+    text-align: center;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    transition: all 0.1s linear; }
+  .btn_seg a:hover {
+    text-decoration: none;
+    background: #ddd;
+    background-size: 15px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15); }
+
 .btn_eliminados {
   float: right; }
   .btn_eliminados a {
@@ -6277,7 +6298,7 @@ body {
   position: absolute;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  height: 100%;
+  min-height: 100%;
   width: 30%;
   right: 0;
   top: 0;

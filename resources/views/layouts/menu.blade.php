@@ -44,7 +44,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle ico_productos" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Productos</a>
               <ul class="dropdown-menu">
-                <li><a href="#">Listado de productos</a></li>
+                <li><a href="{{ URL::to('/productos') }}">Listado de productos</a></li>
                 <li><a href="#">Top productos</a></li>
               </ul>
             </li>

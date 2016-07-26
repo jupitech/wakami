@@ -22,10 +22,12 @@ Route::get('/', 'HomeController@index');
 
 Route::group(['middleware' => ['auth','role:admin']], function()
 {
-		//Usuarios
+	   //Usuarios
 	   Route::get('/usuarios', 'UsuariosController@index');
 	   //Proveedores
 	   Route::get('/proveedores', 'ProveedoresController@index');
+	   //Productos
+	   Route::get('/productos', 'ProductosController@index');
 
        Route::group(['middleware' => ['cors']], function()
 		{     
@@ -44,5 +46,10 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			Route::post('/api/proveedor/create', 'ProveedoresController@store');
 			Route::delete('/api/proveedor/destroy/{id}','ProveedoresController@destroy');
 			Route::put('/api/proveedor/{id}', 'ProveedoresController@update');
+
+			//Productos
+			Route::get('/api/lineaproductos', 'ProductosController@indexlineas');
+			Route::post('/api/lineaproducto/create', 'ProductosController@storelinea');
+
 		});
 });

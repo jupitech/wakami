@@ -23,7 +23,7 @@
            				<div class="ima_mescri ico_productos"></div>
            				<h1>Productos</h1>
            				<ul>
-           					<li><a href="">Listado de productos</a></li>
+           					<li><a href="{{ URL::to('/productos') }}">Listado de productos</a></li>
            					<li><a href="">Top Productos</a></li>
            				</ul>
            			</div>

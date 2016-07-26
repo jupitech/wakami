@@ -10,10 +10,10 @@
                <div id="area_nuevo" ng-if="nuevo_obj">
                     <div class="header_nuevo">
 
-                    <div class="col-sm-12">
-                          <h1>Nuevo Proveedor</h1>
-                          <a class="btn_cerrar" ng-click="btn_nuevo()"></a>
-                    </div>
+                        <div class="col-sm-12">
+                              <h1>Nuevo Proveedor</h1>
+                              <a class="btn_cerrar" ng-click="btn_nuevo()"></a>
+                        </div>
                     </div>
                     <div class="conte_nuevo">
                       <div class="col-sm-12">
