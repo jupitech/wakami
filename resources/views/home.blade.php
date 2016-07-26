@@ -66,6 +66,7 @@
 	           				<ul>
 	           					<li><a href="">Gastos</a></li>
 	           					<li><a href="">Compras</a></li>
+                      <li><a href="{{ URL::to('/proveedores')}}">Proveedores</a></li>
 	           					<li><a href="">Donaciones</a></li>
 	           				</ul>
            			</div>
@@ -75,7 +76,7 @@
 		           			<div class="ima_mescri ico_configuraciones"></div>
 		           				<h1>Configuraciones</h1>
 		           				<ul>
-		           					<li><a href="">Usuarios</a></li>
+		           					<li><a href="{{ URL::to('/usuarios') }}">Usuarios</a></li>
 		           					<li><a href="">Parametros Generales</a></li>
 		           					<li><a href="">Accesos</a></li>
 		           				</ul>

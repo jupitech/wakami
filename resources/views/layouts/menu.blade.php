@@ -80,6 +80,7 @@
               <ul class="dropdown-menu">
                 <li><a href="#">Gastos</a></li>
                 <li><a href="#">Compras</a></li>
+                 <li><a href="{{ URL::to('/proveedores') }}">Proveedores</a></li>
                  <li><a href="#">Donaciones</a></li>
               </ul>
             </li>
