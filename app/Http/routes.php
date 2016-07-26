@@ -50,6 +50,12 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			//Productos
 			Route::get('/api/lineaproductos', 'ProductosController@indexlineas');
 			Route::post('/api/lineaproducto/create', 'ProductosController@storelinea');
+			Route::put('/api/lineaproducto/{id}', 'ProductosController@updatelinea');
+			Route::delete('api/lineaproducto/destroy/{id}','ProductosController@destroylinea');
 
+			Route::get('/api/productos', 'ProductosController@indexproductos');
+			Route::post('/api/producto/create', 'ProductosController@store');
+			Route::put('/api/producto/{id}', 'ProductosController@update');
+			Route::delete('api/producto/destroy/{id}','ProductosController@destroy');
 		});
 });

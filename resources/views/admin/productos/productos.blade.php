@@ -30,7 +30,12 @@
                                      </form>
                                 </div>
                                 <div class="col-sm-12">
-                                      <table class="table">
+                                    <div class="alert alert-info" role="alert" ng-if="alertaEditadol"> <strong>Linea editada correctamente!</strong></div>
+                                        <div class="alert alert-danger" role="alert" ng-if="alertaEliminadol"> <strong>Linea borrada correctamente!</strong></div>
+                                </div>
+                                <div class="col-sm-12 table_height">
+
+                                      <table class="table ">
                                                      <thead>
                                                          <th>Linea</th>
                                                          <th>Opciones</th>
@@ -41,7 +46,19 @@
                                                              <td>
                                                                  <div class="area_opciones">
                                                                      <ul>
-                                                                         <li><a href="" class="ico_editar" ng-click="btn_editar(proveedor)"></a></li>
+                                                                         <li class="ed_drop"  uib-dropdown>
+                                                                         <a href="" class="ico_editar" id="simple-dropdown" uib-dropdown-toggle ng-click="btn_editarl(linea)"></a>
+                                                                                <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                                                                <form class="form-horizontal" name="frmed" role="form" ng-submit="editarLinea()" >
+                                                                                       <div class="col-sm-9 ">
+                                                                                           <input id="name" type="text" class="form-control" name="nombre" ng-model="existeLinea.nombre" required>
+                                                                                       </div>
+                                                                                       <div class="col-sm-3 spd spi">
+                                                                                        <button type="submit" class="btn_g btn_editarg" ng-disabled="frmed.$invalid"></button>
+                                                                                       </div>
+                                                                                </form>
+                                                                                </div>
+                                                                         </li>
                                                                          <li class="op_drop"  uib-dropdown>
                                                                                <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
                                                                                <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
@@ -65,6 +82,78 @@
                       </div>
                </div>
 
+   {{-- Nuevo Producto --}}
+               <div id="area_nuevo" ng-if="nuevo_obj">
+                    <div class="header_nuevo">
+
+                        <div class="col-sm-12">
+                              <h1>Nuevo Producto</h1>
+                              <a class="btn_cerrar" ng-click="btn_nuevo()"></a>
+                        </div>
+                    </div>
+                    <div class="conte_nuevo">
+                      <div class="col-sm-12">
+                      <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Producto existente!</strong> Intenta de nuevo con otro nombre de producto</div>
+                        <form class="form-horizontal" name="frm" role="form" ng-submit="guardarProducto()" >
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="codigo">Codigo</label>
+                                         <input id="codigo" type="text" class="form-control" name="codigo" ng-model="producto.codigo" required>
+                                         <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.codigo.$dirty && frm.codigo.$error.required">Campo requerido</div>
+                                         </div>
+                                        
+                                    </div>
+                               </div>
+                               <div class="form-group">
+
+                                  <div class="col-md-6">
+                                       <label for="rol">Linea</label>
+                                       <select class="form-control" ng-model="producto.linea">
+                                            <option ng-repeat="linea in lineas | orderBy:'nombre'" value="@{{linea.id}}">@{{linea.nombre}}</option>
+                                          </select>
+
+                                  </div>
+                                  <div class="col-md-6">
+                                       <label for="nombre">Nombre</label>
+                                       <input id="nombre" type="text" class="form-control" name="nombre" ng-model="producto.nombre" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.nombre.$dirty && frm.nombre.$error.required">Campo requerido</div>
+                                         </div>
+                                  </div>
+                               </div>
+                                <div class="form-group">
+                                  <div class="col-md-6">
+                                       <label for="costo">Costo</label>
+                                       <input id="costo" type="text" class="form-control" name="costo" ng-model="producto.costo" placeholder="00.00" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.costo.$dirty && frm.costo.$error.required">Campo requerido</div>
+                                         </div>
+                                  </div>
+                                   <div class="col-md-6">
+                                       <label for="preciop">Precio Público</label>
+                                       <input id="preciop" type="text" class="form-control" name="preciop" ng-model="producto.preciop"  placeholder="00.00" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.preciop.$dirty && frm.preciop.$error.required">Campo requerido</div>
+                                         </div>
+                                  </div>
+                               </div> 
+                              
+                               <div class="form-group">
+                                 <div class="col-sm-6">
+                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">GUARDAR</button>
+                                  </div>
+                                   <div class="col-sm-6">
+                                     <a class="btn btn_cancelar" ng-click="btn_nuevo()">CANCELAR</a>
+                                  </div>
+                               </div>
+                              
+                        </form>
+                      </div>
+                    </div>
+              </div>
+
+
 	{{-- Productos --}}
 	
 	 <div class="header_conte">
@@ -76,6 +165,28 @@
                     <a href="" ng-click="btn_linea()">Linea de Producto</a>
                 </div>
      </div>
+
+                <div class="caja_productos">
+                      <ul>
+                        <li ng-repeat="producto in productos">
+                          <div class="box_pro">
+                                <div class="box_header">
+                                  
+                                </div>
+                                <div class="box_middle">
+                                   <h1>@{{producto.nombre}}</h1>
+                                   <h2>@{{producto.linea}}</h2>
+                                   <p>@{{producto.codigo}}</p>
+                                </div>
+                                <div class="box_footer">
+                                   <p class="p_costo">Q @{{producto.costo}}</p>
+                                   <p class="p_preciop">Q @{{producto.preciop}}</p>
+                                </div>
+                             
+                          </div>
+                        </li>
+                      </ul>
+              </div>
 
    </div>
 @endsection

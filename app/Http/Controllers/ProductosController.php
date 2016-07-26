@@ -72,7 +72,14 @@ class ProductosController extends Controller
 
     public function store(Request $request)
     {
-        //
+           $productos=Producto::create([
+                  'codigo' => $request['codigo'],
+                  'linea' => $request['linea'],
+                  'nombre' => $request['nombre'],
+                  'costo' => $request['costo'],
+                  'preciop' => $request['preciop'],
+                        ]);
+          $productos->save();
     }
 
     /**
@@ -106,9 +113,25 @@ class ProductosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+           $productos=Producto::find($id);
+        $productos->fill([
+                  'codigo' => $request['codigo'],
+                  'linea' => $request['linea'],
+                  'nombre' => $request['nombre'],
+                  'costo' => $request['costo'],
+                  'preciop' => $request['preciop'],
+            ]);
+        $productos->save();
     }
 
+     public function updatelinea(Request $request, $id)
+    {
+        $lineas=LineaProducto::find($id);
+        $lineas->fill([
+                'nombre' =>  $request['nombre']
+            ]);
+        $lineas->save();
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -117,6 +140,10 @@ class ProductosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Producto::destroy($id);
+    }
+     public function destroylinea($id)
+    {
+        LineaProducto::destroy($id);
     }
 }

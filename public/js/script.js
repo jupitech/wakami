@@ -12,6 +12,10 @@ wApp.factory('ApiLineaNuevo', function($resource){
   return $resource("/api/lineaproducto/create");
 });
 
+wApp.factory('ApiProductoNuevo', function($resource){
+  return $resource("/api/producto/create");
+});
+
 //**************************************Usuarios*************************************************//
 wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout, $log,$uibModal){
  
@@ -355,7 +359,7 @@ wApp.controller('ProveedoresCtrl',function($scope, $http,ApiProveedorNuevo, $tim
 });
 
 //************************************Productos**********************************************//
-wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo, $timeout, $log,$uibModal){
+wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProductoNuevo, $timeout, $log,$uibModal){
 
    $scope.status = {
     isopen: false
@@ -377,6 +381,9 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo, $timeout, 
    $scope.alertaExiste = false; // Alerta si el proveedor ya esta en existencia
    $scope.alertaEliminado = false; // Alerta de proveedor eliminado
    $scope.alertaEditado = false; // Alerta de proveedor editado
+   $scope.alertaEditadol = false; // Alerta de proveedor editado
+     $scope.alertaEliminadol = false; // Alerta de proveedor editado
+
 
    $scope.btn_nuevo = function() {
         $scope.nuevo_obj = !$scope.nuevo_obj;
@@ -396,6 +403,16 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo, $timeout, 
             }).error(function(error) {
                  $scope.error = error;
             });
+
+
+           //Productos
+       $http.get('/api/productos').success(
+
+              function(productos) {
+                        $scope.productos = productos.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });     
 
      //Nueva Linea
          
@@ -420,7 +437,85 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo, $timeout, 
             $timeout(function () { $scope.alertaExiste = false; }, 5000);  
           });
            
-      };    
+      }; 
+
+       //Editar Linea
+        $scope.btn_editarl = function(linea) {
+          $scope.existeLinea= linea; 
+       }; 
+      $scope.editarLinea = function(){
+                var data = {
+                  nombre: $scope.existeLinea.nombre
+                };
+                // console.log(data);
+                $http.put('api/lineaproducto/' +  $scope.existeLinea.id, data)
+                .success(function (data, status, headers) {
+                   console.log('Linea de Producto '+$scope.existeLinea.nombre+' modificado correctamente.');
+                       $http.get('/api/lineaproductos').success(
+                          function(lineas) {
+                                    $scope.lineas = lineas.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });
+                           $timeout(function () { $scope.alertaEditadol = true; }, 1000);  
+                           $timeout(function () { $scope.alertaEditadol = false; }, 5000);  
+                })
+                .error(function (data, status, header, config) {
+                    console.log('Parece que existe un error al modificar la linea del producto.');
+                });  
+            
+        };  
+
+         //Eliminar Linea
+      $scope.btn_eliminar = function(id){
+        $scope.idlinea= id;
+        console.log($scope.idlinea);
+
+         $http.delete('api/lineaproducto/destroy/' +  $scope.idlinea)
+            .success(function (data, status, headers) {
+               console.log('Linea de producto '+$scope.idlinea+' borrado correctamente.');
+                   $http.get('/api/lineaproductos').success(
+                          function(lineas) {
+                                    $scope.lineas = lineas.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });
+                           $timeout(function () { $scope.alertaEliminadol = true; }, 1000);  
+                           $timeout(function () { $scope.alertaEliminadol = false; }, 5000);  
+                
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar la linea de producto.');
+            });
+      };  
+
+      //Nuevo producto
+         
+      $scope.producto={};
+      $scope.guardarProducto = function(){
+         // console.log($scope.usuario);
+    
+        ApiProductoNuevo.save($scope.producto, function(){
+          console.log("Guardado correctamente");
+           $scope.nuevo_obj = false;
+           $http.get('/api/productos').success(
+
+              function(productos) {
+                        $scope.productos = productos.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+            $timeout(function () { $scope.alertaNuevo = true; }, 1000);  
+            $timeout(function () { $scope.alertaNuevo = false; }, 5000);  
+          },
+          function(error){
+            console.log("Parece que el producto ya existe");
+            $timeout(function () { $scope.alertaExiste = true; }, 100);  
+            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+          });
+           
+      };   
+ 
 
 });
 
