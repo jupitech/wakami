@@ -73,7 +73,7 @@
                                   <div class="col-md-6">
                                        <label for="rol">Rol de Usuario</label>
                                        <select class="form-control" ng-model="usuario.role_id">
-                                            <option ng-repeat="rol in roles | orderBy:'-id'" value="@{{rol.id}}" selected="selected">@{{rol.name}}</option>
+                                            <option ng-repeat="rol in roles | orderBy:'-id'" value="@{{rol.id}}">@{{rol.name}}</option>
                                           </select>
 
                                   </div>

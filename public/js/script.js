@@ -85,7 +85,7 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
          
       $scope.usuario={};
       $scope.guardarUsuario = function(){
-         // console.log($scope.usuario);
+         console.log($scope.usuario);
     
         ApiUsuarioNuevo.save($scope.usuario, function(){
           console.log("Guardado correctamente");
