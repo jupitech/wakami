@@ -56,6 +56,8 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			Route::get('/api/productos', 'ProductosController@indexproductos');
 			Route::post('/api/producto/create', 'ProductosController@store');
 			Route::put('/api/producto/{id}', 'ProductosController@update');
+			Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
+			Route::post('/producto/imagen/create',['as' => 'producto.imagen.create', 'uses' =>  'ProductosController@storeimagen']);
 			Route::delete('api/producto/destroy/{id}','ProductosController@destroy');
 		});
 });

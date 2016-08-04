@@ -6571,6 +6571,22 @@ body {
     padding-right: 15px;
     vertical-align: top; }
 
+@media (min-width: 768px) {
+  .caja_productos li {
+    width: 33.33333333%; } }
+
+@media (min-width: 992px) {
+  .caja_productos li {
+    width: 25%; } }
+
+@media (min-width: 1200px) {
+  .caja_productos li {
+    width: 20%; } }
+
+@media (min-width: 1400px) {
+  .caja_productos li {
+    width: 16.6666666667%; } }
+
 .box_pro {
   float: left;
   width: 100%;
@@ -6591,20 +6607,23 @@ body {
       font-size: 15px;
       font-weight: bold;
       padding: 10px 10px 5px;
-      margin: 0; }
+      margin: 0;
+      letter-spacing: 0em;
+      line-height: 20px; }
     .box_pro .box_middle h2 {
       float: left;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: normal;
       padding: 5px 10px 5px;
       margin: 0;
-      color: #006DF0; }
+      letter-spacing: 0em; }
     .box_pro .box_middle p {
       float: right;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: normal;
       padding: 5px 10px 5px;
-      margin: 0; }
+      margin: 0;
+      letter-spacing: 0em; }
   .box_pro .box_footer {
     float: left;
     width: 100%;
@@ -6615,12 +6634,42 @@ body {
       margin: 0;
       padding: 10px 10px 5px; }
   .box_pro .p_costo {
-    font-size: 15px;
+    font-size: 16px;
     color: #006DF0; }
   .box_pro .p_preciop {
     text-align: right;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: bold;
     color: #3fb1b5; }
+
+.sin_imagen {
+  float: left;
+  width: 100%;
+  padding: 10px; }
+  .sin_imagen a {
+    float: left;
+    width: 100%;
+    height: 160px;
+    background: rgba(0, 0, 0, 0.4) url("img/ico_nimagen.svg") no-repeat center;
+    background-size: 35px;
+    border: 2px dotted #888;
+    opacity: 0.6; }
+  .sin_imagen a:hover {
+    opacity: 1; }
+
+.dz-message h1 {
+  font-weight: 300;
+  font-size: 25px; }
+
+.con_imagen {
+  float: left;
+  width: 100%;
+  padding: 10px; }
+  .con_imagen img {
+    margin-top: 10px;
+    margin-left: 10%;
+    float: left;
+    width: 80%;
+    height: auto; }
 
 /*# sourceMappingURL=app.css.map */

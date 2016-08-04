@@ -19,7 +19,7 @@ class Producto extends Model
      *
      * @var array
      */
-    protected $fillable = ['codigo','linea','nombre','costo','preciop'];
+    protected $fillable = ['codigo','linea','nombre','costo','preciop','imagen_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -27,4 +27,11 @@ class Producto extends Model
      * @var array
      */
     protected $hidden = ['created_at','updated_at'];
+
+       public function NombreLinea(){
+        return $this->hasOne('\App\Models\LineaProducto','id','linea');
+    }
+       public function NombreImagen(){
+        return $this->hasOne('\App\Models\GaleriaImagen','id','imagen_id');
+    }
 }

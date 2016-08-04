@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Contracts\Filesystem\Filesystem;
 use App\Http\Requests;
 use App\Models\Producto;
 use App\Models\LineaProducto;
+use App\Models\GaleriaImagen;
 
 class ProductosController extends Controller
 {
@@ -28,7 +29,7 @@ class ProductosController extends Controller
     public function indexproductos()
     {
            //Trayendo Producto
-         $productos=Producto::all();
+         $productos=Producto::with("NombreLinea","NombreImagen")->get();
          if(!$productos){
              return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
         }
@@ -49,9 +50,10 @@ class ProductosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function createimagen($id)
     {
-        //
+         $producto=Producto::find($id);
+         return view('admin.productos.imagen',['producto'=>$producto]);
     }
 
     /**
@@ -80,6 +82,34 @@ class ProductosController extends Controller
                   'preciop' => $request['preciop'],
                         ]);
           $productos->save();
+    }
+
+     public function storeimagen(Request $request)
+    {
+          $path = public_path().'/uploads/';
+          $files = $request->file('file');
+          $fileName = uniqid() . $files->getClientOriginalName();
+          $fileSize = $files->getClientSize();
+          $fileTipo = $files->getClientMimeType();
+          $fileRuta = 'uploads/'.$fileName;
+          $files->move($path, $fileName);
+          
+            $galeriaimagen=GaleriaImagen::create([
+                  'nombre' => $fileName,
+                  'ruta' => $fileRuta,
+                  'tipo' =>   $fileTipo,
+                  'size' =>  $fileSize,
+                        ]);
+          $galeriaimagen->save();  
+          $id_producto=$request->input('id_producto');
+          $productos=Producto::find($id_producto);
+
+          $productos->fill([
+                         'imagen_id' => $galeriaimagen->id,
+                   ]);
+          $productos->save();
+
+          return view('admin.productos.productos');
     }
 
     /**

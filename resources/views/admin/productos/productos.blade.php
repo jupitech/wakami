@@ -168,19 +168,27 @@
 
                 <div class="caja_productos">
                       <ul>
-                        <li ng-repeat="producto in productos">
+                        <li ng-repeat="producto in productos | orderBy:'-id'">
                           <div class="box_pro">
                                 <div class="box_header">
-                                  
+
+                                <div ng-if="producto.imagen_id == 0 " class="sin_imagen">
+                                   <a href="producto/imagen/@{{producto.id}}"></a>
+                                </div>
+                                
+                                <div ng-if="producto.imagen_id != 0 " class="con_imagen">
+                                  <img src="@{{producto.nombre_imagen.ruta}}" alt="">
+                                </div>
+
                                 </div>
                                 <div class="box_middle">
                                    <h1>@{{producto.nombre}}</h1>
-                                   <h2>@{{producto.linea}}</h2>
+                                   <h2>@{{producto.nombre_linea.nombre}}</h2>
                                    <p>@{{producto.codigo}}</p>
                                 </div>
                                 <div class="box_footer">
-                                   <p class="p_costo">Q @{{producto.costo}}</p>
-                                   <p class="p_preciop">Q @{{producto.preciop}}</p>
+                                   <p class="p_costo">Q@{{producto.costo | number:2}}</p>
+                                   <p class="p_preciop">Q@{{producto.preciop | number:2}}</p>
                                 </div>
                              
                           </div>
