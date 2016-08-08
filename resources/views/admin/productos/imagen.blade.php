@@ -9,7 +9,7 @@
 	{{-- Productos --}}
 	
 	 <div class="header_conte">
-              <h1>Agregar Imagen a {{ $producto->nombre}}</h1>
+              <h1>Agregar Imagen a {{ $producto->nombre}}-{{ $producto->codigo}}</h1>
                 
      </div>
 
