@@ -1,5 +1,5 @@
 /*AngularJS*/
-var wApp= angular.module('wApp', ['ngRoute', 'ngCookies','ngAnimate','ngResource','ui.select', 'ngSanitize','ui.bootstrap','angularMoment']);
+var wApp= angular.module('wApp', ['ngRoute', 'ngCookies','ngAnimate','ngResource', 'ngSanitize','ui.bootstrap','angularMoment','nya.bootstrap.select']);
 wApp.factory('ApiUsuarioNuevo', function($resource){
   return $resource("/api/usuario/create");
 });
@@ -359,7 +359,7 @@ wApp.controller('ProveedoresCtrl',function($scope, $http,ApiProveedorNuevo, $tim
 });
 
 //************************************Productos**********************************************//
-wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProductoNuevo, $timeout, $log,$uibModal){
+wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProductoNuevo, $timeout, $log,$uibModal,$interval){
 
    $scope.status = {
     isopen: false
@@ -403,7 +403,9 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
             }).error(function(error) {
                  $scope.error = error;
             });
+     
 
+     
 
            //Productos
        $http.get('/api/productos').success(
@@ -516,7 +518,64 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
            
       };   
  
+     
+       //Editar Producto
+        $scope.btn_editar = function(producto) {
+           $scope.editar_obj = !$scope.editar_obj;
+          $scope.existeProducto= producto; 
+       }; 
+      $scope.editarProducto = function(){
+                var data = {
+                  nombre: $scope.existeProducto.nombre,
+                  codigo: $scope.existeProducto.codigo,
+                  linea: $scope.existeProducto.linea,
+                  costo: $scope.existeProducto.costo,
+                  preciop: $scope.existeProducto.preciop
+                };
+                 //console.log(data);
+                $http.put('api/producto/' +  $scope.existeProducto.id, data)
+                .success(function (data, status, headers) {
+                   console.log('Producto '+$scope.existeProducto.nombre+' modificado correctamente.');
+                       $http.get('/api/productos').success(
+                          function(productos) {
+                                    $scope.productos = productos.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });
+                         $scope.editar_obj = false;
+                           $timeout(function () { $scope.alertaEditado = true; }, 1000);  
+                           $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                })
+                .error(function (data, status, header, config) {
+                    console.log('Parece que existe un error al modificar el producto.');
+                }); 
+            
+        }; 
 
+       //Eliminar Producto
+      $scope.btn_eliminarpro = function(id){
+        $scope.idproducto= id;
+        console.log($scope.idproducto);
+
+         $http.delete('api/producto/destroy/' +  $scope.idproducto)
+            .success(function (data, status, headers) {
+               console.log('Producto '+$scope.idproducto+' borrado correctamente.');
+                   $http.get('/api/productos').success(
+                          function(productos) {
+                                    $scope.productos = productos.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });
+                           $timeout(function () { $scope.alertaEliminado = true; }, 1000);  
+                           $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
+                
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar el producto.');
+            });
+      };  
+
+     
 });
 
 //************************************Menu Dos*************************************************//

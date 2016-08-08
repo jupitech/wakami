@@ -93,7 +93,7 @@
                     </div>
                     <div class="conte_nuevo">
                       <div class="col-sm-12">
-                      <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Producto existente!</strong> Intenta de nuevo con otro nombre de producto</div>
+                      <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Producto existente!</strong> Intenta de nuevo con otro código de producto</div>
                         <form class="form-horizontal" name="frm" role="form" ng-submit="guardarProducto()" >
                                 <div class="form-group">
                                     <div class="col-md-12">
@@ -106,15 +106,18 @@
                                     </div>
                                </div>
                                <div class="form-group">
-
-                                  <div class="col-md-6">
-                                       <label for="rol">Linea</label>
-                                       <select class="form-control" ng-model="producto.linea">
-                                            <option ng-repeat="linea in lineas | orderBy:'nombre'" value="@{{linea.id}}">@{{linea.nombre}}</option>
-                                          </select>
-
+                                     <div class="col-md-12">
+                                         <label for="rol">Linea</label>
+                                       <ol class="nya-bs-select" ng-model="producto.linea" data-live-search="true"  title="Selecciona una linea...">
+                                            <li nya-bs-option="linea in lineas" data-value="linea.id">
+                                              <a>
+                                                @{{ linea.nombre }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>
                                   </div>
-                                  <div class="col-md-6">
+                                  <div class="col-md-12">
                                        <label for="nombre">Nombre</label>
                                        <input id="nombre" type="text" class="form-control" name="nombre" ng-model="producto.nombre" required>
                                         <div class="col-sm-12 spd spi">
@@ -153,6 +156,86 @@
                     </div>
               </div>
 
+  {{-- Editar Producto --}}
+                <div id="area_nuevo" ng-if="editar_obj">
+                    <div class="header_nuevo">
+
+                    <div class="col-sm-12">
+                          <h1>Editar Producto @{{existeProducto.codigo}}</h1>
+                          <a class="btn_cerrar" ng-click="btn_editar()"></a>
+                    </div>
+                    </div>
+                    <div class="conte_nuevo">
+                      <div class="col-sm-12">
+                      <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Producto existente!</strong> Intenta de nuevo con otro producto</div>
+                        <form class="form-horizontal" name="frmed" role="form" ng-submit="editarProducto()" >
+                               <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="name">Código</label>
+                                         <input id="codigo" type="text" class="form-control" name="codigo" ng-model="existeProducto.codigo" required>
+                                         <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.codigo.$dirty && frm.codigo.$error.required">Campo requerido</div>
+                                         </div>
+                                        
+                                    </div>
+                               </div>
+                               <div class="form-group">
+                                  <div class="col-md-12">
+                                         <label for="rol">Linea</label>
+                                       <ol class="nya-bs-select" ng-model="existeProducto.linea" data-live-search="true">
+                                            <li nya-bs-option="linea in lineas" data-value="linea.id">
+                                              <!-- the text content of anchor element will be used for search -->
+                                              <a>
+                                                @{{ linea.nombre }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>
+                                  </div>
+                                  <div class="col-md-12">
+                                       <label for="nombre">Nombre</label>
+                                       <input id="nombre" type="text" class="form-control" name="nombre" ng-model="existeProducto.nombre" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.nombre.$dirty && frm.nombre.$error.required">Campo requerido</div>
+                                         </div>
+                                  </div>
+                               </div>
+                                
+                                <div class="form-group">
+                                  <div class="col-md-6">
+                                       <label for="costo">Costo</label>
+                                       <input id="costo" type="text" class="form-control" name="costo" ng-model="existeProducto.costo" placeholder="00.00" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.costo.$dirty && frm.costo.$error.required">Campo requerido</div>
+                                         </div>
+                                  </div>
+                                   <div class="col-md-6">
+                                       <label for="preciop">Precio Público</label>
+                                       <input id="preciop" type="text" class="form-control" name="preciop" ng-model="existeProducto.preciop"  placeholder="00.00" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.preciop.$dirty && frm.preciop.$error.required">Campo requerido</div>
+                                         </div>
+                                  </div>
+                               </div> 
+                               
+
+                              
+                               <div class="form-group">
+                                 <div class="col-sm-6">
+                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frmed.$invalid">EDITAR</button>
+                                  </div>
+                                   <div class="col-sm-6">
+                                     <a class="btn btn_cancelar" ng-click="btn_editar()">CANCELAR</a>
+                                  </div>
+                               </div>
+                              
+                        </form>
+                      </div>
+                    </div>
+              </div>
+
+  
+
 
 	{{-- Productos --}}
 	
@@ -165,10 +248,21 @@
                     <a href="" ng-click="btn_linea()">Linea de Producto</a>
                 </div>
      </div>
+     <div class="col-sm-12">
+     <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Producto nuevo</strong> guardado correctamente, creado por administradores.</div>
+     <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Producto borrado</strong> No se podrá recuperar los datos.</div>  
+       <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Producto editado</strong> Puedes ver en el listado de productos las modificaciones realizadas.</div>
+     </div>
 
                 <div class="caja_productos">
+                <div class="col-sm-12">
+                     <div class="busqueda_texto col-sm-4">
+                    <input type="text" id="query" ng-model="query" onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de productos.." />
+                     </div>
+                </div>
+               
                       <ul>
-                        <li ng-repeat="producto in productos | orderBy:'-id'">
+                        <li ng-repeat="producto in productos | filter: query | orderBy:'-id'">
                           <div class="box_pro">
                                 <div class="box_header">
 
@@ -189,6 +283,25 @@
                                 <div class="box_footer">
                                    <p class="p_costo">Q@{{producto.costo | number:2}}</p>
                                    <p class="p_preciop">Q@{{producto.preciop | number:2}}</p>
+                                </div>
+                                <div class="box_opciones">
+                                  <div class="area_opciones">
+                                        <ul>
+                                        <li><a href="" class="ico_editar" ng-click="btn_editar(producto)"></a></li>
+                                        <li class="op_drop"  uib-dropdown>
+                                           <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
+                                           <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                               <div class="col-sm-8 spd">
+                                                 <p>Eliminar <strong>@{{producto.codigo}}</strong></p>
+                                               </div>
+                                               <div class="col-sm-4 spd spi">
+                                                 <a href="" ng-click="btn_eliminarpro(producto.id)" class=" btn_g ico_eliminarg"></a>
+                                               </div>
+                                            </div>
+                                     </li>
+                                      </ul>
+                                  </div>
+                                  
                                 </div>
                              
                           </div>

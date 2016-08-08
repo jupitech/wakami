@@ -72,9 +72,14 @@
                                 <div class="form-group">
                                   <div class="col-md-6">
                                        <label for="rol">Rol de Usuario</label>
-                                       <select class="form-control" ng-model="usuario.role_id">
-                                            <option ng-repeat="rol in roles | orderBy:'-id'" value="@{{rol.id}}">@{{rol.name}}</option>
-                                          </select>
+                                       <ol class="nya-bs-select" ng-model="usuario.role_id" title="Selecciona un rol...">
+                                            <li nya-bs-option="rol in roles | orderBy:'-id'" data-value="rol.id">
+                                              <a>
+                                                @{{ rol.name }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>   
 
                                   </div>
 
@@ -158,9 +163,14 @@
                                         </div> 
                                        </div>
                                        <div class="col-sm-6 spd">
-                                       <select class="form-control" ng-if="acti_rol" ng-model="existeUser.role_id">
-                                        <option  ng-repeat="rol in roles" value="@{{rol.id}}" selected>@{{rol.name}}</option>
-                                        </select>
+                                         <ol class="nya-bs-select"  ng-if="acti_rol" ng-model="existeUser.role_id" title="Cambiar a..">
+                                            <li nya-bs-option="rol in roles | orderBy:'-id'" data-value="rol.id">
+                                              <a>
+                                                @{{ rol.name }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol> 
                                        </div>
 
                                   </div>

@@ -773,6 +773,20 @@ body{
   margin: 5px 5px 5px 0;
   float: left; }
  
+.form-group ol{
+	float: left !important;
+	width: 100% !important;
+	margin: 8px 0;
+}
+.btn-group.open .dropdown-toggle{
+	padding: 10px;
+}
+.nya-bs-select > .btn{
+	padding-bottom: 10px;
+	padding-left: 10px;
+	padding-top: 10px;
+}
+
  .spi {
   padding-left: 0 !important; }
  
@@ -1018,16 +1032,16 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
     .box_header{
 			float: left;
 			width: 100%;
-			height: 180px;
+			 min-height: 180px;
 			border-bottom: 1px solid #eee;
     }
     .box_middle{
 			float: left;
 			width: 100%;
-			border-bottom: 1px solid #eee;
+			/*border-bottom: 1px solid #eee;*/
 			h1{
 				font-size: 15px;
-				font-weight: bold;
+				font-weight: normal;
 				padding: 10px 10px 5px;
 				margin: 0;
 				letter-spacing: 0em;
@@ -1040,6 +1054,7 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 				padding: 5px 10px 5px;
 				margin: 0;
 				letter-spacing: 0em;
+				color: #bbb;
 			}
 			p{
 				float: right;
@@ -1048,6 +1063,7 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 				padding: 5px 10px 5px;
 				margin: 0;
 				letter-spacing: 0em;
+				color: #bbb;
 			}
     }
      .box_footer{
@@ -1060,6 +1076,19 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 				margin: 0;
 				padding: 10px 10px 5px;
 			}
+     }
+     .box_opciones{
+     	float: left;
+     	width: 100%;
+     	padding: 5px;
+
+     	.area_opciones{
+     		float: right;
+			margin-right: 15px;
+     		li{
+     			width: 30px !important;
+     		}
+     	}
      }
      .p_costo{
      	font-size: 16px;
@@ -1101,9 +1130,29 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 	padding: 10px;
 	img{
 		margin-top: 10px;
+		margin-bottom: 5px;
 		margin-left: 10%;
 		float: left;
 		width: 80%;
 		height: auto;
+	}
+}
+.busqueda_texto{
+	padding: 5px 10px;
+	background: #eee;
+	border: 3px;
+
+	input{
+		border-top: none !important;
+		border-left: none !important;
+		border-right: none !important;
+		border-bottom: 1px solid #ccc !important;
+		float: left;
+		width: 100%;
+		padding: 5px;
+		font-size: 13px;
+		font-weight: 300;
+		color: #999;
+		background: transparent;
 	}
 }

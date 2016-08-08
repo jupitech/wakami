@@ -23,11 +23,11 @@ elixir(function(mix) {
     mix.copy(npmDir + 'angular-animate/angular-animate.min.js',jsDir);
     mix.copy(npmDir + 'angular-resource/angular-resource.min.js',jsDir);
     mix.copy(npmDir + 'angular-sanitize/angular-sanitize.min.js',jsDir);
-    mix.copy(npmDir + 'ui-select/dist/select.min.js',jsDir);
     mix.copy(npmDir + 'angular-ui-bootstrap/dist/ui-bootstrap.js',jsDir);
     mix.copy(npmDir + 'moment/moment.js',jsDir);
     mix.copy(npmDir + 'moment-timezone/moment-timezone.js',jsDir);
     mix.copy(npmDir + 'angular-moment/angular-moment.min.js',jsDir);
+     mix.copy(npmDir + 'nya-bootstrap-select/dist/js/nya-bs-select.min.js',jsDir);
     mix.scripts([
     	'angular.min.js',
     	'angular-route.min.js',
@@ -35,10 +35,10 @@ elixir(function(mix) {
         'angular-animate.min.js',
         'angular-resource.min.js',
         'angular-sanitize.min.js',
-        'select.min.js',
         'ui-bootstrap.js',
         'moment.js',
         'moment-timezone.js',
-        'angular-moment.min.js'
+        'angular-moment.min.js',
+        'nya-bs-select.min.js'
     ], 'public/js/vendor.js');	
 });
