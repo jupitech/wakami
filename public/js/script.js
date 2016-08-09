@@ -16,6 +16,22 @@ wApp.factory('ApiProductoNuevo', function($resource){
   return $resource("/api/producto/create");
 });
 
+wApp.factory('ApiCompraNuevo', function($resource){
+  return $resource("/api/compra/create");
+});
+
+ wApp.filter('SumaItem', function () {
+    return function (data, key) {        
+        if (angular.isUndefined(data) && angular.isUndefined(key))
+            return 0;        
+        var sum = 0;        
+        angular.forEach(data,function(value){
+            sum = sum + parseFloat(value[key]);
+        });        
+        return sum.toFixed(2);
+    }
+  });
+
 //**************************************Usuarios*************************************************//
 wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout, $log,$uibModal){
  
@@ -577,6 +593,251 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
 
      
 });
+
+
+
+//************************************Compras**********************************************//
+wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $log,$uibModal){
+
+   $scope.status = {
+    isopen: false
+  };
+
+
+  $scope.toggleDropdown = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.status.isopen = !$scope.status.isopen;
+  };
+
+
+     $scope.Fecha = new Date();
+    //Fecha y Hora actual
+                  $scope.clock = "..."; // initialise the time variable
+                  $scope.tickInterval = 1000 //ms
+
+                  var tick = function() {
+                      $scope.clock = Date.now() // get the current time
+                      $timeout(tick, $scope.tickInterval); // reset the timer
+                  }
+                  $timeout(tick, $scope.tickInterval);          
+
+  $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
+
+
+   $scope.nuevo_obj = false; //Nuevo proveedor
+   $scope.editar_obj = false; // Editar proveedor
+   $scope.mas_obj= false;
+   $scope.ver_eli = false; // Ver proveedores eliminados
+   $scope.alertaNuevo = false; // Alerta de nuevo proveedor registrado
+   $scope.alertaExiste = false; // Alerta si el proveedor ya esta en existencia
+   $scope.alertaEliminado = false; // Alerta de proveedor eliminado
+   $scope.alertaEditado = false; // Alerta de proveedor editado
+
+   $scope.btn_nuevo = function() {
+        $scope.nuevo_obj = !$scope.nuevo_obj;
+       $scope.compra={};
+     };
+
+
+     //Todos los proveedores
+      $http.get('/api/proveedores').success(
+
+              function(proveedores) {
+                        $scope.proveedores = proveedores.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });  
+      
+       //Todas las compras
+      $http.get('/api/compras').success(
+
+              function(compras) {
+                        $scope.compras = compras.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });  
+
+
+      $scope.estimadas=[
+         {'id': '10','nombre': '10 dias'},
+         {'id': '15','nombre': '15 dias'},
+         {'id': '30','nombre': '30 dias'},
+         {'id': '60','nombre': '60 dias'}
+      ];
+      //Nueva Compra
+         
+      $scope.compra={};
+      $scope.guardarCompra = function(){
+           $scope.nuevo_obj = false; 
+
+           $scope.procompra={};
+
+           var datacompra = {
+              id_proveedor: $scope.compra.id_proveedor,
+              fecha_entrega: $scope.compra.fecha_entrega
+            };
+
+           $http.post('/api/compra/create', datacompra)    
+            .success(function (data, status, headers) {
+                  $scope.miorden=data.id_orden;
+                 
+                    $http.get('/api/compras').success(
+
+                        function(compras) {
+                                  $scope.compras = compras.datos;
+                      }).error(function(error) {
+                           $scope.error = error;
+                      });  
+
+               })
+            .error(function (data, status, header, config) {
+                console.log("Parece que el producto ya existe");
+                $timeout(function () { $scope.alertaExiste = true; }, 100);  
+                $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+            });
+
+
+            $scope.abrircompra( $scope.miorden);
+            
+      };    
+      
+      $scope.abrircompra= function(compra){
+          $scope.mas_obj = !$scope.mas_obj;
+          $scope.exisCompra=compra;
+          $scope.miorden=compra.id;
+          $scope.ProTotal = 0;
+            $scope.btn_cerrarc=function(){
+             $scope.mas_obj = false;
+           }
+
+          //Productos
+          $http.get('/api/productos').success(
+
+              function(productos) {
+                        $scope.productos = productos.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });     
+           
+         $http.get('/api/procompras/'+$scope.miorden).success(
+
+            function(procompras) {
+                      $scope.procompras = procompras.datos;
+          }).error(function(error) {
+               $scope.error = error;
+              }); 
+
+          //Agregar producto
+           $scope.procompra={};
+            $scope.guardarProCompra = function(){
+
+                    var dataprocompra={
+                          id_orden:  $scope.miorden,
+                          id_producto: $scope.procompra.id_producto,
+                          cantidad: $scope.procompra.cantidad,
+                    };
+                     $http.post('/api/procompra/create', dataprocompra)    
+                        .success(function (data, status, headers) {
+                               $http.get('/api/procompras/'+$scope.miorden).success(
+                                    function(procompras) {
+                                              $scope.procompras = procompras.datos;
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });  
+                                    $scope.procompra={};
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que el producto ya existe");
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);  
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+                        });
+             };
+
+
+           //Eliminar Productos Compra
+              $scope.btn_proeliminar = function(id){
+                $scope.idprocompra= id;
+                 $http.delete('api/procompra/destroy/' +  $scope.idprocompra)
+                    .success(function (data, status, headers) {
+                       console.log('Producto de Compra '+$scope.idprocompra+' borrado correctamente.');
+                       
+                          $http.get('/api/procompras/'+$scope.miorden).success(
+
+                                    function(procompras) {
+                                              $scope.procompras = procompras.datos;
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  }); 
+                            $timeout(function () { $scope.alertaEliminadoPro = true; }, 1000);  
+                            $timeout(function () { $scope.alertaEliminadoPro = false; }, 5000);  
+                    })
+                    .error(function (data, status, header, config) {
+                        console.log('Parece que existe un error al borrar la compra.');
+                    });
+              };
+
+      };
+
+       //Eliminar Compra
+      $scope.btn_eliminar = function(id){
+        $scope.idcompra= id;
+         $http.delete('api/compra/destroy/' +  $scope.idcompra)
+            .success(function (data, status, headers) {
+               console.log('Compra No.'+$scope.idcompra+' borrado correctamente.');
+                   $http.get('/api/compras').success(
+
+                        function(compras) {
+                        $scope.compras = compras.datos;
+                            }).error(function(error) {
+                                 $scope.error = error;
+                            });
+                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);  
+                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar la compra.');
+            });
+      };  
+
+      
+
+       //Editar Compra
+        $scope.btn_editar = function(compra) {
+          $scope.editar_obj = !$scope.editar_obj;
+          $scope.existeCompra= compra; 
+       }; 
+
+
+      $scope.editarCompra = function(){
+                var data = {
+                  id_proveedor: $scope.existeCompra.id_proveedor,
+                  fecha_entrega: $scope.existeCompra.fecha_entrega
+                };
+                // console.log(data);
+                $http.put('api/compra/' +  $scope.existeCompra.id, data)
+                .success(function (data, status, headers) {
+                   console.log('Compra #'+$scope.existeCompra.id+' modificado correctamente.');
+                       $http.get('/api/compras').success(
+                          function(compras) {
+                                    $scope.compras = compras.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });
+                       $scope.editar_obj = false;
+                        $timeout(function () { $scope.alertaEditado = true; }, 1000);  
+                        $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                })
+                .error(function (data, status, header, config) {
+                    console.log('Parece que existe un error al modificar la compra.');
+                });  
+            
+        };
+
+
+});
+
+
 
 //************************************Menu Dos*************************************************//
 wApp.controller('menuDos',function($scope, $timeout){

@@ -29,6 +29,9 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 	   //Productos
 	   Route::get('/productos', 'ProductosController@index');
 
+	    //Compras
+	   Route::get('/compras', 'OrdenCompraController@index');
+
        Route::group(['middleware' => ['cors']], function()
 		{     
 			//Usuarios 
@@ -59,5 +62,14 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
 			Route::post('/producto/imagen/create',['as' => 'producto.imagen.create', 'uses' =>  'ProductosController@storeimagen']);
 			Route::delete('api/producto/destroy/{id}','ProductosController@destroy');
+
+			  //Compras
+            Route::get('/api/compras', 'OrdenCompraController@indexcompras');
+            Route::get('/api/procompras/{id}', 'OrdenCompraController@indexprocompras');
+			Route::post('/api/compra/create', 'OrdenCompraController@store');
+			Route::post('/api/procompra/create', 'OrdenCompraController@storeprocompra');
+			Route::delete('/api/compra/destroy/{id}','OrdenCompraController@destroy');
+			Route::delete('/api/procompra/destroy/{id}','OrdenCompraController@destroypro');
+			Route::put('/api/compra/{id}', 'OrdenCompraController@update');
 		});
 });

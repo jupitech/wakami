@@ -79,7 +79,7 @@
               <a href="#" class="dropdown-toggle ico_gastos" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gastos/Compras</a>
               <ul class="dropdown-menu">
                 <li><a href="#">Gastos</a></li>
-                <li><a href="#">Compras</a></li>
+                <li><a href="{{ URL::to('/compras') }}">Compras</a></li>
                  <li><a href="{{ URL::to('/proveedores') }}">Proveedores</a></li>
                  <li><a href="#">Donaciones</a></li>
               </ul>
