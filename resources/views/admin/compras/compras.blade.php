@@ -123,16 +123,14 @@
                                                <th>Cant.</th>
                                                <th>Costo</th>
                                                <th>Subtotal</th>
-                                               <th>Estado</th>
                                                <th>Opciones</th>
                                            </thead>
                                              <tbody>
                                                <tr ng-repeat="procompra in procompras">
                                                    <td>@{{procompra.nombre_producto.nombre}}</td>
                                                    <td>@{{procompra.cantidad}} </td>
-                                                   <td>@{{procompra.precio_producto}}</td>
-                                                   <td ng-init="ProTotal = ProTotal+procompra.subtotal">@{{procompra.subtotal}}</td>
-                                                   <td>@{{procompra.estado_producto}}</td>
+                                                   <td>Q@{{procompra.precio_producto}}</td>
+                                                   <td ng-init="ProTotal = ProTotal+procompra.subtotal">Q@{{procompra.subtotal}}</td>
                                                    <td>
                                                        <div class="area_opciones">
                                                            <ul>
