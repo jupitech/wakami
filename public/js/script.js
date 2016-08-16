@@ -432,6 +432,23 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
                  $scope.error = error;
             });     
 
+            //Stock Productos
+             
+            $scope.mistock=function(producto){
+                $scope.mipro=producto.id;
+                producto.stock={};
+                      $http.get('/api/stockproducto/'+$scope.mipro).success(
+
+                      function(stock) {
+                               producto.stock = stock.datos;
+                                 console.log( producto.stock);
+                    }).error(function(error) {
+                         $scope.error = error;
+                    });  
+
+            }
+
+
      //Nueva Linea
          
       $scope.linea={};
@@ -759,6 +776,34 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                         });
              };
 
+             //Editar Productos Compra
+             $scope.btn_editarl = function(procompra) {
+                $scope.existePro= procompra; 
+             }; 
+              $scope.btn_proeditar = function(id){
+                 var data = {
+                  cantidad: $scope.existePro.cantidad,
+                  id_producto: $scope.existePro.id_producto
+                };
+               // console.log(data);
+                $http.put('api/procompra/' +  $scope.existePro.id,data)
+                    .success(function (data, status, headers) {
+                       console.log('Producto de Compra '+$scope.existePro.id+' editado correctamente.');
+                       
+                          $http.get('/api/procompras/'+$scope.miorden).success(
+
+                                    function(procompras) {
+                                              $scope.procompras = procompras.datos;
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  }); 
+                               $timeout(function () { $scope.alertaEditadol = true; }, 1000);  
+                               $timeout(function () { $scope.alertaEditadol = false; }, 5000);  
+                    })
+                    .error(function (data, status, header, config) {
+                        console.log('Parece que existe un error al borrar la compra.');
+                    });
+              };
 
            //Eliminar Productos Compra
               $scope.btn_proeliminar = function(id){
@@ -782,7 +827,7 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                     });
               };
 
-                     //Eliminar Productos Compra restando el total en la Orden
+             //Eliminar Productos Compra restando el total en la Orden
               $scope.btn_proeliminar2 = function(id){
                 $scope.idprocompra= id;
                  $http.delete('api/procompra/destroy2/' +  $scope.idprocompra)
@@ -920,7 +965,7 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
       $scope.editarCompra = function(){
                 var data = {
                   id_proveedor: $scope.existeCompra.id_proveedor,
-                  fecha_entrega: $scope.existeCompra.fecha_entrega
+                  fecha_entrega: $scope.existeCompra.fecha_entrega2
                 };
                 // console.log(data);
                 $http.put('api/compra/' +  $scope.existeCompra.id, data)

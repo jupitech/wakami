@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Models\Producto;
 use App\Models\LineaProducto;
 use App\Models\GaleriaImagen;
+use App\Models\StockProducto;
 
 class ProductosController extends Controller
 {
@@ -118,9 +119,13 @@ class ProductosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function stockproducto($id)
     {
-        //
+         $stockproducto=StockProducto::find($id);
+        if(!$stockproducto){
+             return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $stockproducto],200);
     }
 
     /**
@@ -131,7 +136,7 @@ class ProductosController extends Controller
      */
     public function edit($id)
     {
-        //
+       
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Models\OrdenCompra;
 use App\Models\ProductoCompra;
 use App\Models\Producto;
 use App\Models\EntregaCompra;
+use App\Models\PendienteProcompra;
 use App\Models\StockProducto;
 use Auth;
 use Carbon\Carbon;
@@ -44,7 +45,7 @@ class OrdenCompraController extends Controller
        public function indexprocompras($id)
     {
            //Trayendo Producto
-         $procompras=ProductoCompra::with("NombreProducto")->where('id_orden',$id)->get();
+         $procompras=ProductoCompra::with("NombreProducto","EntregaProducto","PendienteProducto")->where('id_orden',$id)->get();
          if(!$procompras){
              return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
         }
@@ -116,10 +117,32 @@ class OrdenCompraController extends Controller
 
         //Producto compra cambia a estado 2
         $productocompra=ProductoCompra::find($idprocompra);
-        $productocompra->fill([
+      
+        //Verificando si hay productos pendientes en la compra
+         $cantidadasig=$productocompra->cantidad;
+         if($cantidadasig>$cantidad){
+           $actualcanti=$cantidadasig-$cantidad;
+            $pendienteprocompra=PendienteProcompra::create([
+                  'id_orden' => $idorden,
+                  'id_procompra' => $idprocompra,
+                  'id_producto' =>  $idproducto,
+                  'cantidad' =>  $actualcanti,
+              ]);
+           $pendienteprocompra->save();
+
+             $productocompra->fill([
+                  'estado_producto' => 3,
+            ]);
+            $productocompra->save();
+
+         }else{
+            $productocompra->fill([
                   'estado_producto' => 2,
             ]);
-        $productocompra->save();
+            $productocompra->save();
+         }
+        
+
         //Se realiza un dato de la entrega de compra del producto
         $entregacompra=EntregaCompra::create([
                   'id_orden' => $idorden,
@@ -160,25 +183,6 @@ class OrdenCompraController extends Controller
 
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-  
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -204,8 +208,46 @@ class OrdenCompraController extends Controller
         $ordencompra->save();
     }
 
-    public function update(Request $request, $id)
+    public function updatepro(Request $request, $id)
     {
+         $idproducto=$request['id_producto'];
+        $producto=Producto::where('id',$idproducto)->first();
+        $subtotal=$request['cantidad']*$producto->costo;
+
+        $productocompra=ProductoCompra::find($id);
+        $idorden=$productocompra->id_orden;
+
+        $ordencompra=OrdenCompra::find($idorden);
+        //Restar subtotal del producto
+        $restartotal=$ordencompra->total_compra- $productocompra->subtotal;
+        //Sumar el subtotal actual
+        $totalfinal=$restartotal+ $subtotal;
+        $ordencompra->fill([
+                  'total_compra' => $totalfinal,
+            ]);
+        $ordencompra->save();
+
+
+        $productocompra->fill([
+                  'cantidad' => $request['cantidad'],
+                  'subtotal' => $subtotal,
+            ]);
+        $productocompra->save();
+
+       
+    }
+
+     public function update(Request $request, $id)
+    {
+        $ordencompra=OrdenCompra::find($id);
+          $diasentrega= $request['fecha_entrega'];
+          $fechacreacion= $ordencompra->created_at;
+          $miCarbon= Carbon::parse($fechacreacion);
+        $ordencompra->fill([
+                  'id_proveedor' => $request['id_proveedor'],
+                  'fecha_entrega' => $miCarbon->addDays($diasentrega),
+            ]);
+        $ordencompra->save();
     }
     /**
      * Remove the specified resource from storage.

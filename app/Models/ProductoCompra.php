@@ -31,4 +31,10 @@ class ProductoCompra extends Model
      public function NombreProducto(){
         return $this->hasOne('\App\Models\Producto','id','id_producto');
     }
+     public function EntregaProducto(){
+        return $this->hasOne('\App\Models\EntregaCompra','id_procompra','id');
+    }
+       public function PendienteProducto(){
+        return $this->hasOne('\App\Models\PendienteProcompra','id_procompra','id');
+    }
 }

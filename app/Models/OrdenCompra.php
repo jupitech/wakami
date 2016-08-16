@@ -19,14 +19,14 @@ class OrdenCompra extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_proveedor','id_user','fecha_entrega','total_compra','estado_orden'];
+    protected $fillable = ['id_proveedor','id_user','fecha_entrega','total_compra','estado_orden','created_at'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['created_at','updated_at'];
+    protected $hidden = ['updated_at'];
 
      public function NombreProveedor(){
         return $this->hasOne('\App\Models\Proveedores','id','id_proveedor');

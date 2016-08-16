@@ -134,7 +134,19 @@
                                                    <td>
                                                        <div class="area_opciones">
                                                            <ul>
-                                                               <li><a href="" class="ico_editar" ng-click="btn_editar(procompra)"></a></li>
+                                                                  <li class="ed_drop"  uib-dropdown>
+                                                                         <a href="" class="ico_editar" id="simple-dropdown" uib-dropdown-toggle ng-click="btn_editarl(procompra)"></a>
+                                                                                <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                                                                <form class="form-horizontal" name="frmed" role="form" ng-submit="btn_proeditar()" >
+                                                                                       <div class="col-sm-9 ">
+                                                                                           <input id="name" type="number" class="form-control" name="nombre" ng-model="existePro.cantidad" min="1" required>
+                                                                                       </div>
+                                                                                       <div class="col-sm-3 spd spi">
+                                                                                        <button type="submit" class="btn_g btn_editarg" ng-disabled="frmed.$invalid"></button>
+                                                                                       </div>
+                                                                                </form>
+                                                                                </div>
+                                                                         </li>
                                                                <li class="op_drop"  uib-dropdown>
                                                                      <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
                                                                      <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
@@ -198,9 +210,65 @@
 
                                 </form>
                               </tr>
+                              <tr ng-repeat="procompra in procompras" ng-if="procompra.estado_producto!=1" class="fondo_acep">
+                                <td> <small class="label label-success">@{{procompra.nombre_producto.codigo}}</small> @{{procompra.nombre_producto.nombre}}</td>
+                                <td>@{{procompra.entrega_producto.cantidad}}</td>
+                                <td>En bodega</td>
+                              </tr>
+                              {{-- Productos pendientes de recibir --}}
+                                <tr  ng-repeat="procompra in procompras" ng-if="procompra.estado_producto==3">
+                                <form class="form-horizontal" name="frm" role="form">
+                                    <td> <small class="label label-success">@{{procompra.nombre_producto.codigo}}</small> @{{procompra.nombre_producto.nombre}}</td>
+                                    <td class="maxtd_long">
+                                        <div class="form-group">
+                                          <div class="col-md-12 spd spi">
+                                               <input id="cantidad" type="number" class="form-control" name="cantidad" ng-model="procompra.pendiente_producto.cantidad"  ng-init="maxcantidad = procompra.pendiente_producto.cantidad" min="0" max="@{{maxcantidad}}" required>
+                                               <div class="col-sm-12 spd spi">
+                                                  <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Req</div>
+                                               </div>
+                                                <input type="hidden" ng-model="procompra.id_producto"/>
+                                                <input type="hidden" ng-model="procompra.id_orden"/>
+                                                <input type="hidden" ng-model="procompra.id"/>
+                                          </div>
+                                     </div>
+                                    </td>
+                                    <td>
+                                  
+                                       <div class="op_elim">
+                                            <a href="" class="btn_delitem" id="simple-dropdown"><span class="ico_del" ng-click="btn_proeliminar2(procompra.id)"></span></a>
+                                       </div>
+                                        <div class="op_elim">
+                                            <a href="" class="btn_additem" id="simple-dropdown" ng-disabled="frm.$invalid"  ng-click="agregarProBodega(procompra)"><span class="ico_check"></span></a>
+                                       </div>
+
+                                     
+                                    </td>
+
+                                </form>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                          
+                          </div>
+                        </div>
+                      </div>
+
+                        {{-- Productos y compra terminada --}}
+                      <div class="col-sm-12 conte table_height" ng-if="exisCompra.estado_orden==4">
+                             <div class="col-sm-12 spd spi">
+                          <div class="agre_pro">
+                          <table  class="table">
+                           <thead>
+                                               <th>Producto</th>
+                                               <th>Cant</th>
+                                               <th>Opciones</th>
+                                           </thead>
+                            <tbody>
+                            
                               <tr ng-repeat="procompra in procompras" ng-if="procompra.estado_producto==2" class="fondo_acep">
                                 <td> <small class="label label-success">@{{procompra.nombre_producto.codigo}}</small> @{{procompra.nombre_producto.nombre}}</td>
-                                <td>@{{procompra.cantidad}}</td>
+                                <td>@{{procompra.entrega_producto.cantidad}}</td>
                                 <td>En bodega</td>
                               </tr>
                             </tbody>
@@ -209,7 +277,6 @@
                           </div>
                         </div>
                       </div>
-
 
                       {{-- Totales y Acciones --}}
                       <div class="col-sm-12 footer">
@@ -247,11 +314,84 @@
                                          </form>
                             </div>
                             <div class="col-sm-8" ng-if="exisCompra.estado_orden==2 && procompras.length != (procompras | filter:{estado_producto:2}).length" >
+                            <div class="col-sm-12 spd spi" ng-if="(procompras | filter:{estado_producto:3}).length > 0">
+                                      <form class="form-horizontal" name="frm" role="form" ng-submit="enviarPenCompra()" >
+                                          <div class="form-group">
+                                              <div class="col-sm-7">
+                                                <p class="info_paso"><strong>PENDIENDTE</strong> Envio de los productos para solicitar de nuevo los restantes.</p>
+                                              </div>
+                                              <div class="col-sm-5">
+                                                    <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">Reenviar Compra</button>
+                                              </div>
+                                           </div>
+                                     </form>
+                            </div>
+                            <div class="col-sm-12 spd spi" ng-if="(procompras | filter:{estado_producto:3}).length < 1">
                                <p class="info_paso"><strong>FALTAN PRODUCTOS</strong> por confirmar para agregar a la bodega central, o hacen falta productos que no fueron entregados por el proveedor</p>
+                            </div>
+                              
                             </div>
                       </div>
                     </div>
               </div>
+
+ {{-- Editar Compra --}}
+                <div id="area_nuevo" ng-if="editar_obj">
+                    <div class="header_nuevo">
+
+                    <div class="col-sm-12">
+                          <h1>Editar Compra @{{existeCompra.codigo}}</h1>
+                          <a class="btn_cerrar" ng-click="btn_editar()"></a>
+                    </div>
+                    </div>
+                    <div class="conte_nuevo">
+                      <div class="col-sm-12">
+                      <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Compra existente!</strong> Intenta de nuevo con otro nombre de compra</div>
+                        <form class="form-horizontal" name="frm" role="form" ng-submit="editarCompra()" >
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="name">Proveedor</label>
+                                         <ol class="nya-bs-select" ng-model="existeCompra.id_proveedor" title="Selecciona un proveedor...">
+                                            <li nya-bs-option="proveedor in proveedores" data-value="proveedor.id">
+                                              <a>
+                                                @{{ proveedor.empresa }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>
+                                        
+                                    </div>
+                               </div>
+                               <div class="form-group">
+                                  <div class="col-md-12">
+                                       <label for="nombre">Fecha Entrega @{{existeCompra.fecha_entrega | amDateFormat: 'DD/MM/YYYY'}} cambiar por:</label>
+                                      <ol class="nya-bs-select" ng-model="existeCompra.fecha_entrega2" title="Selecciona los dias...">
+                                            <li nya-bs-option="estimada in estimadas" data-value="estimada.id">
+                                              <a>
+                                                @{{ estimada.nombre }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>
+                                  </div>
+                                  
+                               </div>
+                              
+                               <div class="form-group">
+                                 <div class="col-sm-6">
+                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">CREAR</button>
+                                  </div>
+                                   <div class="col-sm-6">
+                                     <a class="btn btn_cancelar" ng-click="btn_nuevo()">CANCELAR</a>
+                                  </div>
+                               </div>
+                              
+                        </form>
+                      </div>
+                    </div>
+              </div>
+
+  
 
 
 	
@@ -263,6 +403,16 @@
                     <a href="" ng-click="btn_nuevo()">Nueva Compra</a>
                 </div>
      </div>
+  <div class="col-sm-12">
+    <div class="info_colores">
+      <ul>
+        <li><span class="color_ncom"></span> <p>Nueva Compra</p></li>
+        <li><span class="color_encom"></span> <p>Compra Enviada</p></li>
+        <li><span class="color_falcom"></span> <p>Productos faltantes</p></li>
+        <li><span class="color_tercom"></span> <p>Compra Terminada</p></li>
+      </ul>
+    </div>
+  </div>   
 	<div class="col-sm-12">
 	   <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Compra nueva</strong> guardado correctamente, creado por administradores.</div>
         <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Compra borrada</strong> No se podrá recuperar los datos.</div>	

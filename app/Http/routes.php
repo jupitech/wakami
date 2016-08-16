@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
 			Route::post('/producto/imagen/create',['as' => 'producto.imagen.create', 'uses' =>  'ProductosController@storeimagen']);
 			Route::delete('api/producto/destroy/{id}','ProductosController@destroy');
+			Route::get('/api/stockproducto/{id}', 'ProductosController@stockproducto');
 
 			  //Compras
             Route::get('/api/compras', 'OrdenCompraController@indexcompras');
@@ -73,6 +74,7 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			Route::delete('/api/procompra/destroy/{id}','OrdenCompraController@destroypro');
 			Route::delete('/api/procompra/destroy2/{id}','OrdenCompraController@destroypro2');
 			Route::put('/api/compra/{id}', 'OrdenCompraController@update');
+			Route::put('/api/procompra/{id}', 'OrdenCompraController@updatepro');
 			Route::put('/api/compra/p1/{id}', 'OrdenCompraController@updatep1');
 			Route::put('/api/compra/p2/{id}', 'OrdenCompraController@updatep2');
 		});

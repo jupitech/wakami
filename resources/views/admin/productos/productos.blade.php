@@ -285,22 +285,29 @@
                                    <p class="p_preciop">Q@{{producto.preciop | number:2}}</p>
                                 </div>
                                 <div class="box_opciones">
-                                  <div class="area_opciones">
-                                        <ul>
-                                        <li><a href="" class="ico_editar" ng-click="btn_editar(producto)"></a></li>
-                                        <li class="op_drop"  uib-dropdown>
-                                           <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
-                                           <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-                                               <div class="col-sm-8 spd">
-                                                 <p>Eliminar <strong>@{{producto.codigo}}</strong></p>
-                                               </div>
-                                               <div class="col-sm-4 spd spi">
-                                                 <a href="" ng-click="btn_eliminarpro(producto.id)" class=" btn_g ico_eliminarg"></a>
-                                               </div>
-                                            </div>
-                                     </li>
-                                      </ul>
-                                  </div>
+                                <div class="col-sm-6 spd spi">
+                                  <p class="p_stock" ng-init="mistock(producto)"><strong>@{{producto.stock.stock}}</strong> uni</p>
+                                </div>
+                                <div class="col-sm-6 spd spi">
+                                      <div class="area_opciones">
+                                            <ul>
+                                            <li><a href="" class="ico_editar" ng-click="btn_editar(producto)"></a></li>
+                                            <li class="op_drop"  uib-dropdown>
+                                               <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
+                                               <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                                   <div class="col-sm-8 spd">
+                                                     <p>Eliminar <strong>@{{producto.codigo}}</strong></p>
+                                                   </div>
+                                                   <div class="col-sm-4 spd spi">
+                                                     <a href="" ng-click="btn_eliminarpro(producto.id)" class=" btn_g ico_eliminarg"></a>
+                                                   </div>
+                                                </div>
+                                         </li>
+                                          </ul>
+                                      </div>
+                                </div>
+                              
+                                  
                                   
                                 </div>
                              
