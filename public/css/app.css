@@ -5829,6 +5829,37 @@ body {
   float: left;
   width: 100%; }
 
+.btn_additem {
+  margin-top: 0;
+  background: #3fb1b5;
+  border: none !important;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 12px;
+  font-family: "Ubuntu", sans-serif;
+  letter-spacing: 0.04em;
+  opacity: 0.9;
+  padding: 6px;
+  border-radius: 5px;
+  float: right;
+  width: 40px; }
+
+.btn_delitem {
+  margin-top: 0;
+  background: #D80027;
+  border: none !important;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 12px;
+  font-family: "Ubuntu", sans-serif;
+  letter-spacing: 0.04em;
+  opacity: 0.9;
+  padding: 6px;
+  border-radius: 5px;
+  float: right;
+  width: 40px;
+  margin-left: 5px; }
+
 .btn_cancelar {
   margin-top: 10px;
   background: #fff;
@@ -6375,7 +6406,9 @@ body {
         width: 100%;
         margin: 5px 0;
         font-size: 30px;
-        font-weight: normal; }
+        font-weight: bold; }
+      #area_mas .conte_nuevo .footer .info_paso {
+        margin: 12px 0; }
 
 .label-codigo {
   background: #7CC6C9 !important;
@@ -6779,5 +6812,75 @@ body {
     font-weight: 300;
     color: #999;
     background: transparent; }
+
+.agre_pro {
+  float: left;
+  width: 100%; }
+  .agre_pro ul {
+    float: left;
+    width: 100%;
+    list-style: none;
+    display: table;
+    padding: 0; }
+  .agre_pro li {
+    float: left;
+    display: table-cell;
+    width: 100%;
+    border-top: 1px solid #eee; }
+
+.maxtd_long {
+  width: 100px; }
+
+.ico_check {
+  float: left;
+  width: 100%;
+  height: 18px;
+  background: url("img/ico_check.svg") no-repeat center;
+  background-size: 15px; }
+
+.ico_del {
+  float: left;
+  width: 100%;
+  height: 18px;
+  background: url("img/ico_del.svg") no-repeat center;
+  background-size: 13px; }
+
+.op_elim {
+  float: right; }
+
+.a_elim {
+  float: right;
+  width: 30px;
+  height: 30px;
+  position: relative; }
+
+.td_first {
+  width: 30px; }
+
+.td_no {
+  width: 80px; }
+
+.trc_ama {
+  background: rgba(255, 233, 0, 0.2); }
+  .trc_ama td {
+    border-bottom-color: rgba(255, 233, 0, 0.3) !important; }
+  .trc_ama .td_first {
+    background: rgba(255, 233, 0, 0.5); }
+
+.trc_ama:hover {
+  background: rgba(255, 233, 0, 0.3) !important; }
+
+.trc_ver {
+  background: rgba(0, 171, 239, 0.05); }
+  .trc_ver td {
+    border-bottom-color: rgba(0, 171, 239, 0.1) !important; }
+  .trc_ver .td_first {
+    background: rgba(0, 171, 239, 0.25); }
+
+.trc_ver:hover {
+  background: rgba(0, 171, 239, 0.1) !important; }
+
+.fondo_acep {
+  background: #f5f5f5 !important; }
 
 /*# sourceMappingURL=app.css.map */

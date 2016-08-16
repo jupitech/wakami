@@ -82,7 +82,7 @@
                               <h2> @{{exisCompra.fecha_entrega  | amDateFormat: 'DD/MM/YYYY'}}</h2>
                           </div>
                       </div>
-                      <div class="col-sm-12 middle">
+                      <div class="col-sm-12 middle" ng-if="exisCompra.estado_orden==1">
                            <form class="form-horizontal" name="frm" role="form" ng-submit="guardarProCompra()" >
                                           <div class="form-group">
                                                 <div class="col-sm-2 col-md-2 col-lg-2">
@@ -113,7 +113,7 @@
                                      </form>
                       </div>
                       {{-- Productos agregados a compras --}}
-                      <div class="col-sm-12 conte table_height">
+                      <div class="col-sm-12 conte table_height" ng-if="exisCompra.estado_orden==1">
                       <div class="col-sm-12">
                           <div class="alert alert-danger" role="alert" ng-if="alertaEliminadoPro"> <strong>Producto borrado</strong> No se podrá recuperar los datos.</div>  
                       </div>
@@ -154,13 +154,101 @@
                                            </tbody>
                                        </table>
                       </div>
+                         {{-- Productos para enviar a bodega --}}
+                      <div class="col-sm-12 conte table_height" ng-if="exisCompra.estado_orden==2">
+                        <div class="col-sm-12">
+                             <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Producto agregado</strong> a bodega central.</div>
+                        </div>
+                        <div class="col-sm-12 spd spi">
+                          <div class="agre_pro">
+                          <table  class="table">
+                           <thead>
+                                               <th>Producto</th>
+                                               <th>Cant</th>
+                                               <th>Opciones</th>
+                                           </thead>
+                            <tbody>
+                              <tr  ng-repeat="procompra in procompras" ng-if="procompra.estado_producto==1">
+                                <form class="form-horizontal" name="frm" role="form">
+                                    <td> <small class="label label-success">@{{procompra.nombre_producto.codigo}}</small> @{{procompra.nombre_producto.nombre}}</td>
+                                    <td class="maxtd_long">
+                                        <div class="form-group">
+                                          <div class="col-md-12 spd spi">
+                                               <input id="cantidad" type="number" class="form-control" name="cantidad" ng-model="procompra.cantidad"  ng-init="maxcantidad = procompra.cantidad" min="0" max="@{{maxcantidad}}" required>
+                                               <div class="col-sm-12 spd spi">
+                                                  <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Req</div>
+                                               </div>
+                                                <input type="hidden" ng-model="procompra.id_producto"/>
+                                                <input type="hidden" ng-model="procompra.id_orden"/>
+                                                <input type="hidden" ng-model="procompra.id"/>
+                                          </div>
+                                     </div>
+                                    </td>
+                                    <td>
+                                  
+                                       <div class="op_elim">
+                                            <a href="" class="btn_delitem" id="simple-dropdown"><span class="ico_del" ng-click="btn_proeliminar2(procompra.id)"></span></a>
+                                       </div>
+                                        <div class="op_elim">
+                                            <a href="" class="btn_additem" id="simple-dropdown" ng-disabled="frm.$invalid"  ng-click="agregarProBodega(procompra)"><span class="ico_check"></span></a>
+                                       </div>
+
+                                     
+                                    </td>
+
+                                </form>
+                              </tr>
+                              <tr ng-repeat="procompra in procompras" ng-if="procompra.estado_producto==2" class="fondo_acep">
+                                <td> <small class="label label-success">@{{procompra.nombre_producto.codigo}}</small> @{{procompra.nombre_producto.nombre}}</td>
+                                <td>@{{procompra.cantidad}}</td>
+                                <td>En bodega</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
+                          </div>
+                        </div>
+                      </div>
+
+
                       {{-- Totales y Acciones --}}
                       <div class="col-sm-12 footer">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                         <h3>Total</h3>
                           <h1>Q@{{procompras | SumaItem:'subtotal'}}</h1>
                         </div>
-                        <div class="col-sm-6"></div>
+                        <div class="col-sm-8" ng-if="exisCompra.estado_orden==1 && procompras.length > 0">
+                               <form class="form-horizontal" name="frm" role="form" ng-submit="enviarCompra()" >
+                                          <div class="form-group">
+                                              <div class="col-sm-7">
+                                                <p class="info_paso"><strong>PASO 1</strong> Envio de los productos para solicitud de compra al proveedor</p>
+                                              </div>
+                                              <div class="col-sm-5">
+                                              <input type="hidden" ng-model="mien.total_compra" ng-init="mien.total_compra = (procompras | SumaItem:'subtotal')"/>
+                                                    <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">Enviar Compra</button>
+                                              </div>
+                                           </div>
+                                     </form>
+                        </div>
+                        <div class="col-sm-8" ng-if="exisCompra.estado_orden==1 && procompras.length < 1">
+                           <p class="info_paso"><strong>AGREGA PRODUCTOS</strong> Cuando se agreguen productos podrán enviarlo al proveedor y proceder al PASO 2 para enviar productos recibidos a la bodega central</p>
+                        </div>
+                        {{-- Estado de Orden 2 --}}
+                             <div class="col-sm-8" ng-if="exisCompra.estado_orden==2 && procompras.length == (procompras | filter:{estado_producto:2}).length" >
+                                   <form class="form-horizontal" name="frm" role="form" ng-submit="finalizarCompra()" >
+                                              <div class="form-group">
+                                                  <div class="col-sm-7">
+                                                    <p class="info_paso"><strong>PASO 2</strong> Todos los productos han sido agregados a la bodega central</p>
+                                                  </div>
+                                                  <div class="col-sm-5">
+                                                        <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">Finalizar Compra</button>
+                                                  </div>
+                                               </div>
+                                         </form>
+                            </div>
+                            <div class="col-sm-8" ng-if="exisCompra.estado_orden==2 && procompras.length != (procompras | filter:{estado_producto:2}).length" >
+                               <p class="info_paso"><strong>FALTAN PRODUCTOS</strong> por confirmar para agregar a la bodega central, o hacen falta productos que no fueron entregados por el proveedor</p>
+                            </div>
                       </div>
                     </div>
               </div>
@@ -183,20 +271,20 @@
 	  <div class="caja_contenido">
 	           <table class="table">
 	               <thead>
-	                   <th>No.Orden</th>
+                     <th></th>
+	                   <th class="td_no">No #</th>
 	                   <th>Proveedor</th>
 	                   <th>Fecha Entrega</th>
 	                   <th>Total Compra</th>
-	                   <th>Estado Orden</th>
 	                   <th>Opciones</th>
 	               </thead>
 	                 <tbody>
-                     <tr ng-repeat="compra in compras">
-                         <td ng-click="abrircompra(compra)">@{{compra.id}}</td>
-                         <td ng-click="abrircompra(compra)">@{{compra.nombre_proveedor.empresa}} </td>
-                         <td ng-click="abrircompra(compra)">@{{compra.fecha_entrega | amDateFormat: 'DD/MM/YYYY'}}</td>
-                         <td></td>
-                         <td>@{{compra.estado_orden}}</td>
+                     <tr ng-repeat="compra in compras  | orderBy:'-id'" ng-class="{'trc_ama':compra.estado_orden==1,'trc_ver':compra.estado_orden==2}">
+                     <td class="td_first"></td>
+                         <td class="td_no" ng-click="abrircompra(compra,1)"><strong>@{{compra.id}}</strong></td>
+                         <td ng-click="abrircompra(compra,1)">@{{compra.nombre_proveedor.empresa}} </td>
+                         <td ng-click="abrircompra(compra,1)">@{{compra.fecha_entrega | amDateFormat: 'DD/MM/YYYY'}}</td>
+                         <td>@{{compra.total_compra}}</td>
                          <td>
                              <div class="area_opciones">
                                  <ul>

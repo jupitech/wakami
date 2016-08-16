@@ -9,6 +9,7 @@ use App\Models\OrdenCompra;
 use App\Models\ProductoCompra;
 use App\Models\Producto;
 use App\Models\EntregaCompra;
+use App\Models\StockProducto;
 use Auth;
 use Carbon\Carbon;
 
@@ -99,8 +100,64 @@ class OrdenCompraController extends Controller
                   'estado_orden' => 1,
                         ]);
           $ordencompra->save();
-           return response()->json(['id_orden' => $ordencompra->id],200);
+           return response()->json(['id_user' => $ordencompra->id],200);
     }
+
+     public function enviarproductos(Request $request)
+    {
+        $user = Auth::User();     
+        $userId = $user->id; 
+
+        $idproducto=$request['id_producto'];
+        $idprocompra=$request['id_procompra'];
+        $idorden=$request['id_orden'];
+        $cantidad=$request['cantidad'];
+        $producto=Producto::where('id',$idproducto)->first();
+
+        //Producto compra cambia a estado 2
+        $productocompra=ProductoCompra::find($idprocompra);
+        $productocompra->fill([
+                  'estado_producto' => 2,
+            ]);
+        $productocompra->save();
+        //Se realiza un dato de la entrega de compra del producto
+        $entregacompra=EntregaCompra::create([
+                  'id_orden' => $idorden,
+                  'id_procompra' => $idprocompra,
+                  'id_producto' =>  $idproducto,
+                  'cantidad' =>  $cantidad,
+              ]);
+         $entregacompra->save();
+
+         //Se envia a Stock de Producto con Bodega Central
+          $stockproducto=StockProducto::find($idproducto);
+
+          if($stockproducto === null){
+
+                $nuevoStock=StockProducto::create([
+                          'id_producto' => $idproducto,
+                          'stock' => $cantidad,
+                          'bodega_actual' =>  1,
+                          'act_su' =>  0,
+                          'act_co' =>  0,
+                          'id_user' =>  $userId,
+                          'estado_producto' =>  1,
+                      ]);
+                 $nuevoStock->save();
+          }else{
+                 $mistock= $stockproducto->stock;
+                 $sumstock=$mistock+$cantidad;
+                 $stockproducto->fill([
+                         'stock' => $sumstock,
+                         'id_user' =>  $userId,
+                  ]);
+                 $stockproducto->save();
+          }
+
+      
+        return response()->json(['id_procompra' => $productocompra->id],200);
+    }
+
 
     /**
      * Display the specified resource.
@@ -128,11 +185,28 @@ class OrdenCompraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updatep1(Request $request, $id)
     {
-        //
+           $ordencompra=OrdenCompra::find($id);
+        $ordencompra->fill([
+                  'total_compra' => $request['total_compra'],
+                  'estado_orden' => 2,
+            ]);
+        $ordencompra->save();
     }
 
+     public function updatep2(Request $request, $id)
+    {
+           $ordencompra=OrdenCompra::find($id);
+        $ordencompra->fill([
+                  'estado_orden' => 4,
+            ]);
+        $ordencompra->save();
+    }
+
+    public function update(Request $request, $id)
+    {
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -146,6 +220,21 @@ class OrdenCompraController extends Controller
     
      public function destroypro($id)
     {
+         ProductoCompra::destroy($id);
+    }
+     public function destroypro2($id)
+    {
+        $procompra=ProductoCompra::find($id);
+        $idorden=$procompra->id_orden;
+        $subtotal=$procompra->subtotal;
+
+        $ordencompra=OrdenCompra::find($idorden);
+        $restartotal=$ordencompra->total_compra- $subtotal;
+        $ordencompra->fill([
+                  'total_compra' => $restartotal,
+            ]);
+        $ordencompra->save();
+
          ProductoCompra::destroy($id);
     }
 }

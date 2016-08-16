@@ -68,8 +68,12 @@ Route::group(['middleware' => ['auth','role:admin']], function()
             Route::get('/api/procompras/{id}', 'OrdenCompraController@indexprocompras');
 			Route::post('/api/compra/create', 'OrdenCompraController@store');
 			Route::post('/api/procompra/create', 'OrdenCompraController@storeprocompra');
+			Route::post('/api/procompra/envioproducto', 'OrdenCompraController@enviarproductos');
 			Route::delete('/api/compra/destroy/{id}','OrdenCompraController@destroy');
 			Route::delete('/api/procompra/destroy/{id}','OrdenCompraController@destroypro');
+			Route::delete('/api/procompra/destroy2/{id}','OrdenCompraController@destroypro2');
 			Route::put('/api/compra/{id}', 'OrdenCompraController@update');
+			Route::put('/api/compra/p1/{id}', 'OrdenCompraController@updatep1');
+			Route::put('/api/compra/p2/{id}', 'OrdenCompraController@updatep2');
 		});
 });
