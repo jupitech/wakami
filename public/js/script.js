@@ -1409,10 +1409,170 @@ wApp.controller('VentaNCtrl',function($scope, $http,ApiClienteNuevo, $timeout, $
    $scope.ver_eli = false; // Ver proveedores eliminados
    $scope.alertaNuevo = false; // Alerta de nuevo proveedor registrado
    $scope.alertaExiste = false; // Alerta si el proveedor ya esta en existencia
+   $scope.alertaExistePro = false; // Alerta si el proveedor ya esta en existencia
    $scope.alertaEliminado = false; // Alerta de proveedor eliminado
    $scope.alertaEditado = false; // Alerta de proveedor editado
+    $scope.acti_rol=false;
+     $scope.acti_cliente=false;
+      $scope.acti_areapro=false;
+
+     $scope.act_rol = function() {
+          $scope.acti_rol = !$scope.acti_rol;
+           $scope.acti_cliente=false;
+       };
+
+      $scope.act_cliente = function() {
+          $scope.acti_cliente =true;
+       };  
+     //Todos los clientes
+      $http.get('/api/clientes').success(
+
+              function(clientes) {
+                        $scope.clientes = clientes.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            }); 
 
 
+       //Productos
+          $http.get('/api/productos').success(
+
+              function(productos) {
+                        $scope.productos = productos.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });   
+
+      $scope.elstock=function(id){
+            $scope.idpro=id;
+                 $http.get('/api/ventas/stockproducto/'+$scope.idpro).success(
+
+                  function(stock) {
+                            $scope.stock = stock.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                }); 
+        }; 
+         
+
+        //Nueva Venta
+         
+      $scope.venta={};
+      $scope.nuevaVenta = function(){
+
+                    var dataventa={
+                          id_cliente:  $scope.venta.cliente.id
+                    };
+                    console.log(dataventa);
+                    $http.post('/api/ventacentral/create', dataventa)    
+                        .success(function (data, status, headers) {
+                             $scope.id_venta=data.id_venta;
+                             $scope.agregarProductos($scope.id_venta);
+                             $scope.acti_areapro =true;
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que hay error al guardar la venta");
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);  
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+                        });
+             
+      };
+      $scope.agregarProductos=function(idventa){
+        $scope.idventa=idventa;
+        console.log($scope.idventa);
+
+               //Mi Venta
+                $http.get('/api/miventa/'+$scope.idventa).success(
+
+                        function(miventa) {
+                                  $scope.miventa = miventa.datos;
+                      }).error(function(error) {
+                           $scope.error = error;
+                      }); 
+              $scope.proventa={};        
+              $scope.guardarProVenta=function(){
+                      var datapro={
+                           id_ventas:  $scope.idventa,
+                           id_producto: $scope.proventa.id_producto,
+                           cantidad: $scope.proventa.cantidad,
+                      };
+                      console.log(datapro);
+
+                       $http.post('/api/ventaproducto/create', datapro)    
+                        .success(function (data, status, headers) {
+                              console.log("Producto agregado correctamente");
+
+                                $http.get('/api/miproducto/'+$scope.idventa).success(
+
+                                        function(misproductos) {
+                                                  $scope.misproductos = misproductos.datos;
+                                      }).error(function(error) {
+                                           $scope.error = error;
+                                      }); 
+                                  $scope.proventa={};          
+
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que hay error al guardar el producto");
+                            $timeout(function () { $scope.alertaExistePro = true; }, 100);  
+                            $timeout(function () { $scope.alertaExistePro = false; }, 5000);  
+                        });
+
+
+              };
+
+              //Editar Producto Venta
+             $scope.btn_editarl = function(mipro) {
+                $scope.existePro= mipro; 
+             }; 
+              $scope.btn_proeditar = function(id){
+                 var data = {
+                  cantidad: $scope.existePro.cantidad
+                };
+                console.log(data);
+                $http.put('api/proventa/' +  $scope.existePro.id,data)
+                    .success(function (data, status, headers) {
+                       console.log('Producto '+$scope.existePro.nombre_producto.codigo+' editado correctamente.');
+                       
+                            $http.get('/api/miproducto/'+$scope.idventa).success(
+
+                                function(misproductos) {
+                                $scope.misproductos = misproductos.datos;
+                                    }).error(function(error) {
+                                         $scope.error = error;
+                                    });
+                               $timeout(function () { $scope.alertaEditadol = true; }, 1000);  
+                               $timeout(function () { $scope.alertaEditadol = false; }, 5000);  
+                    })
+                    .error(function (data, status, header, config) {
+                        console.log('Parece que existe un error al borrar el producto.');
+                    });
+              };
+
+
+               //Eliminar Producto Venta
+              $scope.btn_proeliminar = function(id){
+                $scope.idproventa= id;
+                console.log($scope.idproventa);
+
+                 $http.delete('api/proventa/destroy/' +  $scope.idproventa)
+                    .success(function (data, status, headers) {
+                       console.log('Producto '+$scope.idproventa+' borrado correctamente.');
+                           $http.get('/api/miproducto/'+$scope.idventa).success(
+
+                                function(misproductos) {
+                                $scope.misproductos = misproductos.datos;
+                                    }).error(function(error) {
+                                         $scope.error = error;
+                                    });
+                            $timeout(function () { $scope.alertaEliminadopro = true; }, 1000);  
+                            $timeout(function () { $scope.alertaEliminadopro = false; }, 5000);  
+                    })
+                    .error(function (data, status, header, config) {
+                        console.log('Parece que existe un error al borrar el producto.');
+                    });
+              };  
+      };          
    
 
 });

@@ -102,6 +102,13 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			Route::delete('/api/cliente/destroy/{id}','ClientesController@destroy');
 			Route::put('/api/cliente/{id}', 'ClientesController@update');
 
-			//Ventas
+			//Ventas Central
+			Route::post('/api/ventacentral/create', 'VentasCentralController@store');
+			Route::post('/api/ventaproducto/create', 'VentasCentralController@storepro');
+			Route::get('/api/miventa/{id}', 'VentasCentralController@indexmiventa');
+			Route::get('/api/miproducto/{id}', 'VentasCentralController@indexmiproducto');
+			Route::get('/api/ventas/stockproducto/{id}', 'VentasCentralController@stockproducto');
+			Route::delete('/api/proventa/destroy/{id}','VentasCentralController@destroypro');
+			Route::put('/api/proventa/{id}', 'VentasCentralController@updatepro');
 		});
 });

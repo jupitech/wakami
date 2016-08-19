@@ -31,6 +31,11 @@ class Ventas extends Model
     public function PagoVenta(){
         return $this->hasOne('App\Models\TpagoVenta','id_ventas','id');
     }
+
+      public function InfoClientes(){
+        return $this->hasOne('App\Models\Clientes','id','id_cliente');
+    }
+
     public function FacVenta(){
         return $this->hasOne('App\Models\TfacVenta','id_ventas','id');
     }

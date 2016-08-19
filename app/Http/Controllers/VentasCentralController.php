@@ -9,6 +9,7 @@ use App\Models\Ventas;
 use App\Models\ProductoVenta;
 use App\Models\TpagoVenta;
 use App\Models\TfacVenta;
+use App\Models\StockProducto;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -25,10 +26,40 @@ class VentasCentralController extends Controller
         $this->middleware('role:admin|operativo');
     }
 
-    
+
     public function index()
     {
         return view('admin.ventas.nuevaventa');
+    }
+
+     public function indexmiventa($id)
+    {
+           //Trayendo Producto
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta")->where('id',$id)->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+      public function indexmiproducto($id)
+    {
+           //Trayendo Producto
+         $productos=ProductoVenta::with("NombreProducto")->where('id_ventas',$id)->get();
+         if(!$productos){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $productos],200);
+    }
+
+       public function stockproducto($id)
+    {
+           //Trayendo Productos de Sucursales
+         $stockproducto=StockProducto::where('id_producto',$id)->where('bodega_actual',1)->first();
+         if(!$stockproducto){
+             return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $stockproducto],200);
     }
 
     /**
@@ -49,14 +80,38 @@ class VentasCentralController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::User();     
+          $userId = $user->id; 
         
-              $sucursales=Sucursales::create([
-                  'nombre' => $request['nombre'],
-                  'ubicacion' => $request['ubicacion'],
-                  'id_user' =>  $request['id_user'],
+              $ventas=Ventas::create([
+                  'id_cliente' => $request['id_cliente'],
+                  'id_sucursal' => 3,
+                  'id_user' => $userId,
+                  'estado_ventas' => 1,
                         ]);
-          $sucursales->save();
+          $ventas->save();
+           return response()->json(['id_venta' => $ventas->id],200);
     }
+
+     public function storepro(Request $request)
+    {
+
+       $idventas=$request['id_ventas'];
+       $idproducto=$request['id_producto'];
+
+        $productoventa=ProductoVenta::where('id_ventas',$idventas)->where('id_producto',$idproducto)->first();
+         if(!$productoventa){
+                $productos=ProductoVenta::create([
+                  'id_ventas' => $request['id_ventas'],
+                  'id_producto' =>$request['id_producto'],
+                  'cantidad' =>$request['cantidad'],
+                        ]);
+              $productos->save();
+         }else{
+                  return response()->json(['mensaje' =>  'El producto ya existe en la venta','codigo'=>404],404);
+         }
+    }
+
 
     /**
      * Display the specified resource.
@@ -87,9 +142,13 @@ class VentasCentralController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updatepro(Request $request, $id)
     {
-        //
+           $productos=ProductoVenta::find($id);
+        $productos->fill([
+              'cantidad' => $request['cantidad'],
+            ]);
+        $productos->save();
     }
 
     /**
@@ -101,5 +160,9 @@ class VentasCentralController extends Controller
     public function destroy($id)
     {
         //
+    }
+     public function destroypro($id)
+    {
+        ProductoVenta::destroy($id);
     }
 }

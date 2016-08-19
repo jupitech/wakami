@@ -1424,3 +1424,90 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 	float: left;
 	width: 100%; 
 }
+
+.header_caja{
+	float: left;
+	width: 100%;
+	padding:10px 15px;
+	border-bottom: 1px solid #eee;
+
+	.header_cliente{
+		float: left;
+		width: 150px;
+
+		p{
+			float: left;
+			margin-bottom: 0;
+			margin-right: 10px;
+			margin-top: 5px;
+			color: #3fb1b5;
+		    font-weight: normal;
+		    font-size: 12px;
+		}
+
+
+	}
+	.header_nofactura{
+		float: right;
+		width: 200px;
+		p{
+			float: left;
+			margin-bottom: 0;
+			margin-right: 10px;
+			margin-top: 5px;
+			color: #3fb1b5;
+		    font-weight: normal;
+		    font-size: 12px;
+		}
+		h3{
+			margin:0;
+		}
+	}
+}
+.middle_caja{
+	float: left;
+	width: 100%;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control{
+	background: #f9f9f9 !important;
+}
+.topinput{
+	margin-top: 7px;
+}
+.sinheight{
+	min-height: auto !important;
+}
+.ico_agregar{
+			float: left;
+			width: 100%;
+			height: 18px;
+			background: url('img/ico_nuevo.svg') no-repeat center;
+			background-size: 15px;
+		}
+
+.top_conte{
+	margin-top: 15px;
+}
+.agregar_pro{
+	float: left;
+	width: 100%;
+	padding: 10px 15px;
+	background: #f9f9f9;
+}
+.estilo_middle{
+	margin-top: 10px;
+	h3{
+		float: left;
+		margin:0;
+		margin-right: 5px;
+		font-weight: bold;
+	    color: #3fb1b5;
+	    font-size: 12px;
+	    margin-bottom: 15px;
+	}
+	p{
+		float: left;
+		margin:0;
+		margin-bottom: 15px;
+	}
+}
