@@ -33,8 +33,7 @@
            				<div class="ima_mescri ico_sucursales"></div>
            				<h1>Sucursales</h1>
            				<ul>
-           					<li><a href="">Bodega de Sucursales</a></li>
-           					<li><a href="">Asignar Usuarios</a></li>
+           					<li><a href="{{ URL::to('/sucursales') }}">Bodega de Sucursales</a></li>
            				</ul>
            			</div>
            		</div>

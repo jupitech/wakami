@@ -4,21 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StockProducto extends Model
+class Sucursales extends Model
 {
-        /**
+           //  use SoftDeletes;
+    /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'stock_producto';
+    protected $table = 'sucursales';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id_producto','stock','fecha_traslado','bodega_actual','act_su','act_co','id_user','estado_producto'];
+    protected $fillable = ['nombre','ubicacion','id_user'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -27,7 +28,8 @@ class StockProducto extends Model
      */
     protected $hidden = ['created_at','updated_at'];
 
-    public function NombreProducto(){
-        return $this->hasOne('\App\Models\Producto','id','id_producto');
+
+    public function PerfilUsuario(){
+        return $this->hasOne('App\Models\UserProfile','user_id','id_user');
     }
 }

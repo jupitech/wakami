@@ -32,6 +32,9 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 	    //Compras
 	   Route::get('/compras', 'OrdenCompraController@index');
 
+	     //Sucursales
+	   Route::get('/sucursales', 'SucursalController@index');
+
        Route::group(['middleware' => ['cors']], function()
 		{     
 			//Usuarios 
@@ -77,5 +80,16 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			Route::put('/api/procompra/{id}', 'OrdenCompraController@updatepro');
 			Route::put('/api/compra/p1/{id}', 'OrdenCompraController@updatep1');
 			Route::put('/api/compra/p2/{id}', 'OrdenCompraController@updatep2');
+
+			 //Sucursales
+            Route::get('/api/sucursales', 'SucursalController@indexsucursales');
+            Route::get('/api/prosucursales/{id}', 'SucursalController@indexprosucursales');
+            Route::get('/api/sucursales/usuarios', 'SucursalController@indexusers');
+            Route::get('/api/sucursales/stockproducto/{id}', 'SucursalController@stockproducto');
+			Route::post('/api/sucursal/create', 'SucursalController@store');
+			Route::post('/api/prosucursal/create', 'SucursalController@storepro');
+			Route::delete('/api/sucursal/destroy/{id}','SucursalController@destroy');
+			Route::delete('/api/prosucursal/destroy/{id}','SucursalController@destroypro');
+			Route::put('/api/sucursal/{id}', 'SucursalController@update');
 		});
 });

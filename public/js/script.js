@@ -20,6 +20,10 @@ wApp.factory('ApiCompraNuevo', function($resource){
   return $resource("/api/compra/create");
 });
 
+wApp.factory('ApiSucursalNuevo', function($resource){
+  return $resource("/api/sucursal/create");
+});
+
  wApp.filter('SumaItem', function () {
     return function (data, key) {        
         if (angular.isUndefined(data) && angular.isUndefined(key))
@@ -990,7 +994,260 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
 
 });
 
+//************************************Sucursales**********************************************//
+wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeout, $log,$uibModal){
 
+   $scope.status = {
+    isopen: false
+  };
+
+  $scope.toggleDropdown = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.status.isopen = !$scope.status.isopen;
+  };
+
+  $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
+
+
+   $scope.nuevo_obj = false; 
+   $scope.editar_obj = false; 
+   $scope.mas_obj= false;
+   $scope.ver_eli = false; 
+   $scope.alertaNuevo = false; 
+   $scope.alertaExiste = false; 
+   $scope.alertaEliminado = false; 
+   $scope.alertaEliminadopro = false; 
+   $scope.alertaEditado = false; 
+
+   $scope.btn_nuevo = function() {
+        $scope.nuevo_obj = !$scope.nuevo_obj;
+       $scope.sucursal={};
+     };
+
+
+     //Todos las sucursales
+      $http.get('/api/sucursales').success(
+
+              function(sucursales) {
+                        $scope.sucursales = sucursales.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });  
+
+         //Todos los usuarios
+      $http.get('/api/sucursales/usuarios').success(
+
+              function(usuarios) {
+                        $scope.usuarios = usuarios.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });  
+     
+     //Productos
+          $http.get('/api/productos').success(
+
+              function(productos) {
+                        $scope.productos = productos.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            }); 
+
+            $scope.elstock=function(id){
+              $scope.idpro=id;
+                   $http.get('/api/sucursales/stockproducto/'+$scope.idpro).success(
+
+                    function(stock) {
+                              $scope.stock = stock.datos;
+                  }).error(function(error) {
+                       $scope.error = error;
+                  }); 
+            } 
+
+      //Nueva Sucursal
+         
+      $scope.sucursal={};
+      $scope.guardarSucursal = function(){
+         // console.log($scope.usuario);
+    
+        ApiSucursalNuevo.save($scope.sucursal, function(){
+          console.log("Guardado correctamente");
+           $scope.nuevo_obj = false;
+           $http.get('/api/sucursales').success(
+
+              function(sucursales) {
+                        $scope.sucursales = sucursales.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+            $timeout(function () { $scope.alertaNuevo = true; }, 1000);  
+            $timeout(function () { $scope.alertaNuevo = false; }, 5000);  
+          },
+          function(error){
+            console.log("Parece que la sucursal ya existe");
+            $timeout(function () { $scope.alertaExiste = true; }, 100);  
+            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+          });
+           
+      };    
+
+       //Eliminar Sucursal
+      $scope.btn_eliminar = function(id){
+        $scope.idsucursal= id;
+        console.log($scope.idsucursal);
+
+         $http.delete('api/sucursal/destroy/' +  $scope.idsucursal)
+            .success(function (data, status, headers) {
+               console.log('Sucursal '+$scope.idsucursal+' borrado correctamente.');
+                   $http.get('/api/sucursales').success(
+
+                        function(sucursales) {
+                        $scope.sucursales = sucursales.datos;
+                            }).error(function(error) {
+                                 $scope.error = error;
+                            });
+                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);  
+                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar la sucursal.');
+            });
+      };  
+
+       //Editar Sucursal
+        $scope.btn_editar = function(sucursal) {
+          $scope.editar_obj = !$scope.editar_obj;
+          $scope.existeSucu= sucursal; 
+       }; 
+
+
+      $scope.editarSucursal = function(){
+                var data = {
+                  nombre: $scope.existeSucu.nombre,
+                  ubicacion: $scope.existeSucu.ubicacion,
+                  id_user: $scope.existeSucu.id_user
+                };
+                 //console.log(data);
+                $http.put('api/sucursal/' +  $scope.existeSucu.id, data)
+                .success(function (data, status, headers) {
+                   console.log('Sucursal '+$scope.existeSucu.nombre+' modificada correctamente.');
+                       $http.get('/api/sucursales').success(
+                          function(sucursales) {
+                                    $scope.sucursales = sucursales.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });
+                       $scope.editar_obj = false;
+                        $timeout(function () { $scope.alertaEditado = true; }, 1000);  
+                        $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                })
+                .error(function (data, status, header, config) {
+                    console.log('Parece que existe un error al modificar el usuario.');
+                }); 
+            
+        };
+
+        //Abrir Sucursal
+    $scope.abrirsucursal= function(sucursal){
+          $scope.mas_obj = !$scope.mas_obj;
+
+           $scope.exisSucursal=sucursal;
+           $scope.miid=sucursal.id;
+
+             $scope.btn_cerrarc=function(){
+             $scope.mas_obj = false;
+           }
+
+           $scope.prosucursal={};
+
+             $http.get('/api/prosucursales/'+$scope.miid).success(
+                function(prosucursales) {
+                          $scope.prosucursales = prosucursales.datos;
+              }).error(function(error) {
+                   $scope.error = error;
+              }); 
+
+           $scope.guardarProSucursal= function(){
+
+                    var dataprosu={
+                          id_sucursal:  $scope.miid,
+                          id_producto: $scope.prosucursal.id_producto,
+                          stock: $scope.prosucursal.cantidad,
+                    };
+                    console.log(dataprosu);
+                     $http.post('/api/prosucursal/create', dataprosu)    
+                        .success(function (data, status, headers) {
+                               $http.get('/api/prosucursales/'+$scope.miid).success(
+                                    function(prosucursales) {
+                                              $scope.prosucursales = prosucursales.datos;
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });  
+                                    $scope.procompra={};
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que hay error al guardar el producto");
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);  
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+                        });
+           };
+
+            //Editar Productos Sucursal
+             $scope.btn_editarl = function(prosucursal) {
+                $scope.existePro= prosucursal; 
+             }; 
+              $scope.btn_proeditar = function(id){
+                 var data = {
+                  cantidad: $scope.existePro.stock
+                };
+                console.log(data);
+                /*$http.put('api/procompra/' +  $scope.existePro.id,data)
+                    .success(function (data, status, headers) {
+                       console.log('Producto '+$scope.existePro.nombre_producto.codigo+' editado correctamente.');
+                       
+                          $http.get('/api/prosucursal/'+$scope.miid).success(
+
+                                    function(prosucursales) {
+                                              $scope.prosucursales = prosucursales.datos;
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  }); 
+                               $timeout(function () { $scope.alertaEditadol = true; }, 1000);  
+                               $timeout(function () { $scope.alertaEditadol = false; }, 5000);  
+                    })
+                    .error(function (data, status, header, config) {
+                        console.log('Parece que existe un error al borrar el producto.');
+                    });*/
+              };
+
+
+               //Eliminar Productos Sucursal
+              $scope.btn_proeliminar = function(id){
+                $scope.idprosucursal= id;
+                console.log($scope.idprosucursal);
+
+                 $http.delete('api/prosucursal/destroy/' +  $scope.idprosucursal)
+                    .success(function (data, status, headers) {
+                       console.log('Producto '+$scope.idprosucursal+' borrado correctamente.');
+                           $http.get('/api/prosucursales/'+$scope.miid).success(
+
+                                function(prosucursales) {
+                                $scope.prosucursales = prosucursales.datos;
+                                    }).error(function(error) {
+                                         $scope.error = error;
+                                    });
+                            $timeout(function () { $scope.alertaEliminadopro = true; }, 1000);  
+                            $timeout(function () { $scope.alertaEliminadopro = false; }, 5000);  
+                    })
+                    .error(function (data, status, header, config) {
+                        console.log('Parece que existe un error al borrar la sucursal.');
+                    });
+              };  
+
+
+   };
+
+});
 
 //************************************Menu Dos*************************************************//
 wApp.controller('menuDos',function($scope, $timeout){

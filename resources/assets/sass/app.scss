@@ -1115,6 +1115,9 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 				width: 33.33333333%;
 			}
 		}
+		#area_mas{
+			width: 90%;
+		}
 }
 
 @media (min-width: 992px) {
@@ -1123,6 +1126,9 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 				width: 25%;
 			}
 		}
+		#area_mas{
+			width: 80%;
+		}
 }
 
 @media (min-width: 1200px) {
@@ -1130,6 +1136,9 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 			li{
 				width:  20%;
 			}
+		}
+			#area_mas{
+			width: 65%;
 		}
 }
 
@@ -1405,4 +1414,13 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 		}
 	}
 
+}
+.stock_pro{
+	font-size: 16px;
+	padding: 10px 5px;
+	background:#F0AD4E;
+	color: #fff;
+	margin:0;
+	float: left;
+	width: 100%; 
 }
