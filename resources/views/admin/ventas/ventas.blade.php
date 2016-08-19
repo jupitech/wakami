@@ -26,6 +26,8 @@
                      <th>Dirección</th>
 	                   <th>Teléfono</th>
                      <th>Tipo Cliente</th>
+                     <th>Total</th>
+                     <th>Fecha Factura</th>
 	                   <th>Opciones</th>
 	               </thead>
 	               <tbody>
@@ -39,6 +41,8 @@
                            <span ng-switch-when="1">Individual</span>
                            <span ng-switch-when="2">Empresa</span>
                          </td>
+                         <td>@{{venta.total | number:2}}</td>
+                          <td>@{{venta.fecha_factura  | amDateFormat: 'DD/MM/YYYY'}}</td>
 	                       <td>
 	                          
 	                       </td>

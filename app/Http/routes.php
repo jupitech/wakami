@@ -106,7 +106,9 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			//Ventas Central
 			Route::get('/api/ventas', 'VentasCentralController@indexventas');
 			Route::post('/api/ventacentral/create', 'VentasCentralController@store');
+			Route::post('/api/ventacliente/create', 'VentasCentralController@storeclie');
 			Route::post('/api/ventaproducto/create', 'VentasCentralController@storepro');
+			Route::post('/api/factura/create', 'VentasCentralController@storefac');
 			Route::get('/api/miventa/{id}', 'VentasCentralController@indexmiventa');
 			Route::get('/api/miproducto/{id}', 'VentasCentralController@indexmiproducto');
 			Route::get('/api/ventas/stockproducto/{id}', 'VentasCentralController@stockproducto');

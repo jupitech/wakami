@@ -100,15 +100,89 @@
 
 
         {{-- Cliente Nuevo --}}
-        <div class="middle_caja" ng-if="acti_rol">
-         Hola
+        <div class="middle_caja conte_nuevo" ng-if="acti_rol && !acti_areapro">
+                       <div class="col-sm-12 ">
+                                <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Cliente existente!</strong> Intenta de nuevo con otro cliente cambiando NIT</div>
+                                  <form class="form-horizontal" name="frm" role="form" ng-submit="guardarClienteCrear()" >
+                                          <div class="form-group">
+                                              <div class="col-sm-6">
+                                                  <label for="name">Empresa</label>
+                                                   <input id="name" type="text" class="form-control" name="empresa" ng-model="cliente.empresa" placeholder="Nombre de la empresa" required>
+                                                   <div class="col-sm-12 spd spi">
+                                                      <div class="alert alert-danger" ng-show="frm.empresa.$dirty && frm.empresa.$error.required">Campo requerido</div>
+                                                   </div>
+                                                  
+                                              </div>
+                                             <div class="col-sm-6">
+                                                 <label for="nombre">Nombre</label>
+                                                 <input id="nombre" type="text" class="form-control" name="nombre" ng-model="cliente.nombre" placeholder="Nombre del cliente" required>
+                                                  <div class="col-sm-12 spd spi">
+                                                      <div class="alert alert-danger" ng-show="frm.nombre.$dirty && frm.nombre.$error.required">Campo requerido</div>
+                                                   </div>
+                                            </div>
+                                         </div>
+                                         <div class="form-group">
+                                             <div class="col-sm-3">
+                                                 <label for="nit">NIT</label>
+                                                 <input id="nit" type="text" class="form-control" name="nit" ng-model="cliente.nit" placeholder="XXXXXX-X" required>
+                                                   <div class="col-sm-12 spd spi">
+                                                      <div class="alert alert-danger" ng-show="frm.nit.$dirty && frm.nit.$error.required">Campo requerido</div>
+                                                   </div>
+                                            </div>
+                                             <div class="col-sm-3">
+                                                 <label for="nombre">Télefono</label>
+                                                 <input id="nombre" type="text" class="form-control" name="telefono" ng-model="cliente.telefono" required>
+                                                  <div class="col-sm-12 spd spi">
+                                                      <div class="alert alert-danger" ng-show="frm.telefono.$dirty && frm.telefono.$error.required">Campo requerido</div>
+                                                   </div>
+                                            </div>
+                                             <div class="col-sm-3">
+                                                 <label for="celular">Celular</label>
+                                                 <input id="celular" type="text" class="form-control" name="celular" ng-model="cliente.celular">
+                                            </div>
+                                             <div class="col-sm-3">
+                                                  <label for="name">Tipo Cliente</label>
+                                                   <ol class="nya-bs-select" ng-model="cliente.tipo_cliente" title="Selecciona un cliente...">
+                                                      <li nya-bs-option="tipo in tipos" data-value="tipo.id">
+                                                        <a>
+                                                          @{{ tipo.cliente }}
+                                                          <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                        </a>
+                                                      </li>
+                                                    </ol>
+                                                  
+                                              </div>
+                                         </div>
+                                         <div class="form-group">
+                                              <div class="col-sm-6">
+                                                  <label for="name">Dirección</label>
+                                                   <input id="name" type="text" class="form-control" name="direccion" ng-model="cliente.direccion" placeholder="Ubicación exacta">
+                                              </div>
+                                              <div class="col-sm-6">
+                                                  <label for="email">Email</label>
+                                                   <input id="email" type="email" class="form-control" name="email" ng-model="cliente.email" required>
+                                                     <div class="col-sm-12 spd spi">
+                                                      <div class="alert alert-danger" ng-show="frm.email.$dirty && frm.email.$error.required">Campo requerido</div>
+                                                      <div class="alert alert-danger" ng-show="frm.email.$dirty && frm.email.$error.email">Email Invalido</div>
+                                                   </div>
+                                              </div>
+                                         </div>
+                                         <div class="form-group">
+                                           <div class="col-sm-4 col-md-offset-8">
+                                               <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">GUARDAR Y CREAR</button>
+                                            </div>
+                                            
+                                         </div>
+                                        
+                                  </form>
+                      </div>
         </div>
         {{-- Cliente Asignado --}}
         <div class="middle_caja estilo_middle" ng-if="acti_areapro" ng-repeat="mi in miventa">
               <div class="col-sm-12">
                 <div class="col-sm-8">
                   <h3>Nombre</h3>
-                  <p>@{{mi.info_clientes.empresa}}</p>
+                  <p>@{{mi.info_clientes.empresa }}</p>
                 </div>
                 <div class="col-sm-4">
                    <h3>NIT</h3>
@@ -212,8 +286,52 @@
              </tbody>
          </table>
         </div>
+        <div class="area_total">
+         <p ng-repeat="mi in miventa">Q@{{mi.total | number:2}}</p>
+         <h3>Total</h3>
+       </div>
      </div>
-
+      
+      {{-- Tipo de pago --}}
+      <div class="caja_contenido top_conte conte_nuevo sinheight mbotom" ng-if="acti_areapro && misproductos.length > 0">
+           <div class="col-sm-12 tfactura ">
+              <form class="form-horizontal" name="frm" role="form" ng-submit="btn_facturar()" >
+                  <div class="form-group">
+                        <div class="col-sm-5">
+                          <div class="col-sm-6">
+                                                   <ol class="nya-bs-select" ng-model="factura.tipo_pago" title="Tipo de pago..." required>
+                                                      <li nya-bs-option="tpago in tpagos" data-value="tpago.id">
+                                                        <a>
+                                                          @{{ tpago.pago }}
+                                                          <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                        </a>
+                                                      </li>
+                                                    </ol>
+                                                  
+                          </div>
+                          <div class="col-sm-6">
+                              <label for="name">Referencia</label>
+                               <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS">
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                                                   <ol class="nya-bs-select" ng-model="factura.tipo_factura" title="Tipo de factura..." required>
+                                                      <li nya-bs-option="tfac in tfacs" data-value="tfac.id">
+                                                        <a>
+                                                          @{{ tfac.factura }}
+                                                          <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                        </a>
+                                                      </li>
+                                                    </ol>
+                        </div>
+                        <div class="col-sm-3">
+                           <input type="hidden" ng-model="idventa"/>
+                          <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">FACTURAR</button>
+                        </div>
+                  </div>
+              </form>
+           </div>
+      </div>
    </div>
 @endsection
 @push('scripts')
