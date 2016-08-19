@@ -35,6 +35,9 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 	   //Clientes
 	   Route::get('/clientes', 'ClientesController@index');
 
+	     //Ventas
+	   Route::get('/nuevaventa', 'VentasCentralController@index');
+
 
        Route::group(['middleware' => ['cors']], function()
 		{     
@@ -98,5 +101,7 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			Route::post('/api/cliente/create', 'ClientesController@store');
 			Route::delete('/api/cliente/destroy/{id}','ClientesController@destroy');
 			Route::put('/api/cliente/{id}', 'ClientesController@update');
+
+			//Ventas
 		});
 });
