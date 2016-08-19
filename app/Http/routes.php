@@ -28,12 +28,13 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 	   Route::get('/proveedores', 'ProveedoresController@index');
 	   //Productos
 	   Route::get('/productos', 'ProductosController@index');
-
-	    //Compras
+	   //Compras
 	   Route::get('/compras', 'OrdenCompraController@index');
-
-	     //Sucursales
+	   //Sucursales
 	   Route::get('/sucursales', 'SucursalController@index');
+	   //Clientes
+	   Route::get('/clientes', 'ClientesController@index');
+
 
        Route::group(['middleware' => ['cors']], function()
 		{     
@@ -91,5 +92,11 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			Route::delete('/api/sucursal/destroy/{id}','SucursalController@destroy');
 			Route::delete('/api/prosucursal/destroy/{id}','SucursalController@destroypro');
 			Route::put('/api/sucursal/{id}', 'SucursalController@update');
+
+			//Clientes
+            Route::get('/api/clientes', 'ClientesController@indexclientes');
+			Route::post('/api/cliente/create', 'ClientesController@store');
+			Route::delete('/api/cliente/destroy/{id}','ClientesController@destroy');
+			Route::put('/api/cliente/{id}', 'ClientesController@update');
 		});
 });

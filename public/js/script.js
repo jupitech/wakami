@@ -23,6 +23,9 @@ wApp.factory('ApiCompraNuevo', function($resource){
 wApp.factory('ApiSucursalNuevo', function($resource){
   return $resource("/api/sucursal/create");
 });
+wApp.factory('ApiClienteNuevo', function($resource){
+  return $resource("/api/cliente/create");
+});
 
  wApp.filter('SumaItem', function () {
     return function (data, key) {        
@@ -1248,6 +1251,144 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
    };
 
 });
+
+
+
+//************************************Clientes**********************************************//
+wApp.controller('ClientesCtrl',function($scope, $http,ApiClienteNuevo, $timeout, $log,$uibModal){
+
+   $scope.status = {
+    isopen: false
+  };
+
+  $scope.toggleDropdown = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.status.isopen = !$scope.status.isopen;
+  };
+
+  $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
+
+
+   $scope.nuevo_obj = false; //Nuevo proveedor
+   $scope.editar_obj = false; // Editar proveedor
+   $scope.ver_eli = false; // Ver proveedores eliminados
+   $scope.alertaNuevo = false; // Alerta de nuevo proveedor registrado
+   $scope.alertaExiste = false; // Alerta si el proveedor ya esta en existencia
+   $scope.alertaEliminado = false; // Alerta de proveedor eliminado
+   $scope.alertaEditado = false; // Alerta de proveedor editado
+
+   $scope.btn_nuevo = function() {
+        $scope.nuevo_obj = !$scope.nuevo_obj;
+       $scope.cliente={};
+     };
+
+   $scope.tipos=[
+        {id:'1',cliente:'Individual'},
+        {id:'2',cliente:'Empresa'},
+        ];
+
+     //Todos los clientes
+      $http.get('/api/clientes').success(
+
+              function(clientes) {
+                        $scope.clientes = clientes.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });  
+
+
+      //Nuevo Cliente
+         
+      $scope.cliente={};
+      $scope.guardarCliente = function(){
+         // console.log($scope.usuario);
+    
+        ApiClienteNuevo.save($scope.cliente, function(){
+          console.log("Guardado correctamente");
+           $scope.nuevo_obj = false;
+           $http.get('/api/clientes').success(
+
+              function(clientes) {
+                        $scope.clientes = clientes.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+            $timeout(function () { $scope.alertaNuevo = true; }, 1000);  
+            $timeout(function () { $scope.alertaNuevo = false; }, 5000);  
+          },
+          function(error){
+            console.log("Parece que el proveedor ya existe");
+            $timeout(function () { $scope.alertaExiste = true; }, 100);  
+            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+          });
+           
+      };    
+
+       //Eliminar Cliente
+      $scope.btn_eliminar = function(id){
+        $scope.idcliente= id;
+        console.log($scope.idcliente);
+
+         $http.delete('api/cliente/destroy/' +  $scope.idcliente)
+            .success(function (data, status, headers) {
+               console.log('Cliente '+$scope.idcliente+' borrado correctamente.');
+                   $http.get('/api/clientes').success(
+
+                        function(clientes) {
+                        $scope.clientes = clientes.datos;
+                            }).error(function(error) {
+                                 $scope.error = error;
+                            });
+                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);  
+                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar el proveedor.');
+            });
+      };  
+
+       //Editar Cliente
+        $scope.btn_editar = function(cliente) {
+          $scope.editar_obj = !$scope.editar_obj;
+          $scope.existeCliente= cliente; 
+       }; 
+
+
+      $scope.editarCliente = function(){
+                var data = {
+                  empresa: $scope.existeCliente.empresa,
+                  nombre: $scope.existeCliente.nombre,
+                  nit: $scope.existeCliente.nit,
+                  direccion: $scope.existeCliente.direccion,
+                  telefono: $scope.existeCliente.telefono,
+                  celular: $scope.existeCliente.celular,
+                  email: $scope.existeCliente.email,
+                  tipo_cliente: $scope.existeCliente.tipo_cliente
+                };
+                // console.log(data);
+                $http.put('api/cliente/' +  $scope.existeCliente.id, data)
+                .success(function (data, status, headers) {
+                   console.log('Cliente '+$scope.existeCliente.nombre+' modificado correctamente.');
+                       $http.get('/api/clientes').success(
+                          function(clientes) {
+                                    $scope.clientes = clientes.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });
+                       $scope.editar_obj = false;
+                        $timeout(function () { $scope.alertaEditado = true; }, 1000);  
+                        $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                })
+                .error(function (data, status, header, config) {
+                    console.log('Parece que existe un error al modificar el usuario.');
+                });  
+            
+        };
+
+
+});
+
 
 //************************************Menu Dos*************************************************//
 wApp.controller('menuDos',function($scope, $timeout){

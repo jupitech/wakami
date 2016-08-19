@@ -12,7 +12,7 @@
            				<h1>Ventas</h1>
            				<ul>
            					<li><a href="">Ventas del dia</a></li>
-           					<li><a href="">Clientes</a></li>
+           					<li><a href="{{ URL::to('/clientes') }}">Clientes</a></li>
            					<li><a href="">Listado de ventas</a></li>
            					<li><a href="">Movimiento de ventas</a></li>
            				</ul>
