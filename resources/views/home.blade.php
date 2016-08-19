@@ -11,9 +11,9 @@
            				<div class="ima_mescri ico_ventas"></div>
            				<h1>Ventas</h1>
            				<ul>
-           					<li><a href="">Ventas del dia</a></li>
+           					<li><a href="{{ URL::to('/nuevaventa') }}">Nueva Venta</a></li>
            					<li><a href="{{ URL::to('/clientes') }}">Clientes</a></li>
-           					<li><a href="">Listado de ventas</a></li>
+           					<li><a href="{{ URL::to('/ventas') }}">Listado de ventas</a></li>
            					<li><a href="">Movimiento de ventas</a></li>
            				</ul>
            			</div>

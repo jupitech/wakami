@@ -29,6 +29,11 @@ class VentasCentralController extends Controller
 
     public function index()
     {
+        return view('admin.ventas.ventas');
+    }
+
+     public function indexnueva()
+    {
         return view('admin.ventas.nuevaventa');
     }
 
@@ -36,6 +41,16 @@ class VentasCentralController extends Controller
     {
            //Trayendo Producto
          $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta")->where('id',$id)->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+      public function indexventas()
+    {
+           //Trayendo Producto
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta")->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }

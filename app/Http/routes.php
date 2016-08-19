@@ -36,7 +36,8 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 	   Route::get('/clientes', 'ClientesController@index');
 
 	     //Ventas
-	   Route::get('/nuevaventa', 'VentasCentralController@index');
+	    Route::get('/ventas', 'VentasCentralController@index');
+	  	 Route::get('/nuevaventa', 'VentasCentralController@indexnueva');
 
 
        Route::group(['middleware' => ['cors']], function()
@@ -103,6 +104,7 @@ Route::group(['middleware' => ['auth','role:admin']], function()
 			Route::put('/api/cliente/{id}', 'ClientesController@update');
 
 			//Ventas Central
+			Route::get('/api/ventas', 'VentasCentralController@indexventas');
 			Route::post('/api/ventacentral/create', 'VentasCentralController@store');
 			Route::post('/api/ventaproducto/create', 'VentasCentralController@storepro');
 			Route::get('/api/miventa/{id}', 'VentasCentralController@indexmiventa');

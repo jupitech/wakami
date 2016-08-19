@@ -1390,6 +1390,19 @@ wApp.controller('ClientesCtrl',function($scope, $http,ApiClienteNuevo, $timeout,
 });
 
 //************************************Venta N**********************************************//
+wApp.controller('VentasCtrl',function($scope, $http,ApiClienteNuevo, $timeout, $log,$uibModal){
+
+   //Todos las ventas
+      $http.get('/api/ventas').success(
+
+              function(ventas) {
+                        $scope.ventas = ventas.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            }); 
+
+});
+//************************************Venta N**********************************************//
 wApp.controller('VentaNCtrl',function($scope, $http,ApiClienteNuevo, $timeout, $log,$uibModal){
    $scope.status = {
     isopen: false

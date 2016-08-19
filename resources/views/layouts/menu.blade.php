@@ -34,9 +34,9 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle ico_ventas" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ventas</a>
               <ul class="dropdown-menu">
-                <li><a href="#">Ventas del dia</a></li>
+                <li><a href="{{ URL::to('/nuevaventa') }}">Nueva Venta</a></li>
                 <li><a href="{{ URL::to('/clientes') }}">Clientes</a></li>
-                <li><a href="#">Listado de ventas</a></li>
+                <li><a href="{{ URL::to('/ventas') }}">Listado de ventas</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Movimientos de ventas</a></li>
               </ul>
