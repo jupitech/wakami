@@ -23,9 +23,7 @@ wApp.factory('ApiCompraNuevo', function($resource){
 wApp.factory('ApiSucursalNuevo', function($resource){
   return $resource("/api/sucursal/create");
 });
-wApp.factory('ApiClienteNuevo', function($resource){
-  return $resource("/api/cliente/create");
-});
+
 
  wApp.filter('SumaItem', function () {
     return function (data, key) {        
@@ -1288,7 +1286,7 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
 
 
 //************************************Clientes**********************************************//
-wApp.controller('ClientesCtrl',function($scope, $http,ApiClienteNuevo, $timeout, $log,$uibModal){
+wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal){
 
    $scope.status = {
     isopen: false
@@ -1336,9 +1334,21 @@ wApp.controller('ClientesCtrl',function($scope, $http,ApiClienteNuevo, $timeout,
       $scope.cliente={};
       $scope.guardarCliente = function(){
          // console.log($scope.usuario);
-    
-        ApiClienteNuevo.save($scope.cliente, function(){
-          console.log("Guardado correctamente");
+        
+          var datacliente = {
+              empresa: $scope.cliente.empresa,
+              nombre: $scope.cliente.nombre,
+              nit: $scope.cliente.nit,
+              direccion: $scope.cliente.direccion,
+              telefono: $scope.cliente.telefono,
+              celular: $scope.cliente.celular,
+              email: $scope.cliente.email,
+              tipo_cliente: $scope.cliente.tipo_cliente
+            };  
+
+        $http.post('/api/cliente/create', datacliente)    
+          .success(function (data, status, headers) {
+           console.log("Guardado correctamente");
            $scope.nuevo_obj = false;
            $http.get('/api/clientes').success(
 
@@ -1349,14 +1359,14 @@ wApp.controller('ClientesCtrl',function($scope, $http,ApiClienteNuevo, $timeout,
             });
             $timeout(function () { $scope.alertaNuevo = true; }, 1000);  
             $timeout(function () { $scope.alertaNuevo = false; }, 5000);  
-          },
-          function(error){
-            console.log("Parece que el proveedor ya existe");
-            $timeout(function () { $scope.alertaExiste = true; }, 100);  
-            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
-          });
-           
-      };    
+           })
+            .error(function (data, status, header, config) {
+                console.log("Parece que el cliente ya existe");
+                $timeout(function () { $scope.alertaExiste = true; }, 100);  
+                $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+            });
+  
+        };    
 
        //Eliminar Cliente
       $scope.btn_eliminar = function(id){
@@ -1422,8 +1432,8 @@ wApp.controller('ClientesCtrl',function($scope, $http,ApiClienteNuevo, $timeout,
 
 });
 
-//************************************Venta N**********************************************//
-wApp.controller('VentasCtrl',function($scope, $http,ApiClienteNuevo, $timeout, $log,$uibModal){
+//************************************Venta**********************************************//
+wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
 
    //Todos las ventas
       $http.get('/api/ventas').success(
@@ -1436,7 +1446,7 @@ wApp.controller('VentasCtrl',function($scope, $http,ApiClienteNuevo, $timeout, $
 
 });
 //************************************Venta N**********************************************//
-wApp.controller('VentaNCtrl',function($scope, $http,ApiClienteNuevo, $timeout, $log,$uibModal, $location){
+wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $location){
    $scope.status = {
     isopen: false
   };

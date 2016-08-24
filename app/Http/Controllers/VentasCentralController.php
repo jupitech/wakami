@@ -112,21 +112,53 @@ class VentasCentralController extends Controller
 
     public function storeclie(Request $request)
     {
-        $user = Auth::User();     
-          $userId = $user->id; 
+      $user = Auth::User();     
+      $userId = $user->id; 
         
+      $nit= $request['nit'];
+      $celular= $request['celular'];
 
-          $clientes=Clientes::create([
+      if($celular=''){
+          $micel='';
+      }else{
+          $micel= $celular;
+      }
+
+
+      if($nit=='cf' || $nit=='CF' || $nit=='c/f' || $nit=='C/F'){
+                 $clientes=Clientes::create([
                   'empresa' => $request['empresa'],
                   'nombre' => $request['nombre'],
-                  'nit' => $request['nit'],
                   'direccion' => $request['direccion'],
                   'telefono' => $request['telefono'],
-                  'celular' => $request['celular'],
+                  'celular' => $micel,
                   'email' => $request['email'],
                   'tipo_cliente' => $request['tipo_cliente'],
                         ]);
-          $clientes->save();
+                $clientes->save();
+
+               $clientenit=Clientes::find($clientes->id);
+               $minit='C/F-'.$clientes->id;
+
+                $clientenit->fill([
+                  'nit' => $minit,
+                    ]);
+                $clientenit->save();
+
+            }else{
+               $clientes=Clientes::create([
+                          'empresa' => $request['empresa'],
+                          'nombre' => $request['nombre'],
+                          'nit' => $request['nit'],
+                          'direccion' => $request['direccion'],
+                          'telefono' => $request['telefono'],
+                          'celular' => $micel,
+                          'email' => $request['email'],
+                          'tipo_cliente' => $request['tipo_cliente'],
+                                ]);
+                  $clientes->save();
+            }
+                 
 
 
               $ventas=Ventas::create([

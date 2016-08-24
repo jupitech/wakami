@@ -261,14 +261,18 @@
                           <table  class="table">
                            <thead>
                                                <th>Producto</th>
+                                               <th>Costo</th>
                                                <th>Cant</th>
+                                               <th>Subtotal</th>
                                                <th>Opciones</th>
                                            </thead>
                             <tbody>
                             
                               <tr ng-repeat="procompra in procompras" ng-if="procompra.estado_producto==2" class="fondo_acep">
                                 <td> <small class="label label-success">@{{procompra.nombre_producto.codigo}}</small> @{{procompra.nombre_producto.nombre}}</td>
+                                <td>Q@{{procompra.precio_producto | number:2}}</td>
                                 <td>@{{procompra.entrega_producto.cantidad}}</td>
+                                <td>Q@{{procompra.subtotal | number:2}}</td>
                                 <td>En bodega</td>
                               </tr>
                             </tbody>
@@ -438,6 +442,7 @@
                          <td>
                              <div class="area_opciones">
                                  <ul>
+                                 <li ng-if="compra.estado_orden==2"><a href="/exports/ordenes/OrdenCompra-No@{{compra.id}}.xlsx" class="ico_excelazul"></a></li>
                                      <li><a href="" class="ico_editar" ng-click="btn_editar(compra)"></a></li>
                                      <li class="op_drop"  uib-dropdown>
                                            <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>

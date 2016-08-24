@@ -12,6 +12,7 @@ use App\Models\EntregaCompra;
 use App\Models\PendienteProcompra;
 use App\Models\StockProducto;
 use Auth;
+use Excel;
 use Carbon\Carbon;
 
 class OrdenCompraController extends Controller
@@ -152,7 +153,8 @@ class OrdenCompraController extends Controller
               ]);
          $entregacompra->save();
 
-         
+
+
 
          //Se envia a Stock de Producto con Bodega Central
           $stockproducto=StockProducto::find($idproducto);
@@ -193,21 +195,65 @@ class OrdenCompraController extends Controller
      */
     public function updatep1(Request $request, $id)
     {
-           $ordencompra=OrdenCompra::find($id);
+       $ordencompra=OrdenCompra::find($id);
         $ordencompra->fill([
                   'total_compra' => $request['total_compra'],
                   'estado_orden' => 2,
             ]);
         $ordencompra->save();
+
+
+        $procompra = ProductoCompra::join('producto', 'producto.id', '=', 'producto_compra.id_producto')
+                  ->select(
+                    'producto.codigo', 
+                    'producto.nombre', 
+                    'producto_compra.precio_producto', 
+                    'producto_compra.cantidad',
+                    'producto_compra.subtotal'
+                       )
+                  ->where('producto_compra.id_orden',$id)
+                  ->get();
+
+        $nombrearchivo='OrdenCompra-No'.$id;
+
+        $proArray = []; 
+        $proArray[] = ['Codigo','Producto','Precio','Cantidad','Subtotal'];
+
+         foreach ($procompra as $pro) {
+        $proArray[] = $pro->toArray();
+       }
+      $hoy=Carbon::now();
+
+
+      //Creando Excel para orden
+      Excel::create($nombrearchivo, function($excel) use($proArray,$id, $hoy){
+                $excel->sheet('Orden-'.$id, function($sheet) use($proArray,$id, $hoy) {
+                    $sheet->row(1, function ($row) {
+                            $row->setFontSize(25);
+                        });
+                     $sheet->cells('A5:E5', function ($cells) {
+                           $cells->setFontWeight('bold');
+                          $cells->setBorder('solid', 'none', 'none', 'solid');
+                        });
+                    $sheet->row(1, array('Orden de Compra-#'.$id));
+                     
+                   $sheet->row(2, array('Wakami Guatemala'));
+                   $sheet->row(3, array('Fecha:'.$hoy));
+                   $sheet->fromArray($proArray, null, 'A5', false, false);
+                  });
+          })->store('xlsx', public_path('exports/ordenes'));
+
+
     }
 
      public function updatep2(Request $request, $id)
     {
-           $ordencompra=OrdenCompra::find($id);
+        $ordencompra=OrdenCompra::find($id);
         $ordencompra->fill([
                   'estado_orden' => 4,
             ]);
         $ordencompra->save();
+
     }
 
     public function updatepro(Request $request, $id)

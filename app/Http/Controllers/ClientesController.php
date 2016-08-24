@@ -34,17 +34,6 @@ class ClientesController extends Controller
          return response()->json(['datos' =>  $clientes],200);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -53,40 +42,54 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-         $clientes=Clientes::create([
+        $nit= $request['nit'];
+        $celular= $request['celular'];
+
+        if($celular=''){
+            $micel='';
+        }else{
+            $micel= $celular;
+        }
+
+        if($nit=='cf' || $nit=='CF' || $nit=='c/f' || $nit=='C/F'){
+
+             $clientes=Clientes::create([
+                  'empresa' => $request['empresa'],
+                  'nombre' => $request['nombre'],
+                  'direccion' => $request['direccion'],
+                  'telefono' => $request['telefono'],
+                  'celular' => $micel,
+                  'email' => $request['email'],
+                  'tipo_cliente' => $request['tipo_cliente'],
+                        ]);
+              $clientes->save();
+
+               $clientenit=Clientes::find($clientes->id);
+               $minit='C/F-'.$clientes->id;
+
+                $clientenit->fill([
+                  'nit' => $minit,
+                    ]);
+                $clientenit->save();
+
+        }else{
+             $clientes=Clientes::create([
                   'empresa' => $request['empresa'],
                   'nombre' => $request['nombre'],
                   'nit' => $request['nit'],
                   'direccion' => $request['direccion'],
                   'telefono' => $request['telefono'],
-                  'celular' => $request['celular'],
+                  'celular' => $micel,
                   'email' => $request['email'],
                   'tipo_cliente' => $request['tipo_cliente'],
                         ]);
-          $clientes->save();
+              $clientes->save();
+
+             
+        }
+        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -97,18 +100,38 @@ class ClientesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $clientes=Clientes::find($id);
-        $clientes->fill([
-                  'empresa' => $request['empresa'],
-                  'nombre' => $request['nombre'],
-                  'nit' => $request['nit'],
-                  'direccion' => $request['direccion'],
-                  'telefono' => $request['telefono'],
-                  'celular' => $request['celular'],
-                  'email' => $request['email'],
-                  'tipo_cliente' => $request['tipo_cliente'],
-            ]);
-        $clientes->save();
+        $nit= $request['nit'];
+
+         if($nit=='cf' || $nit=='CF' || $nit=='c/f' || $nit=='C/F'){
+                        $clientes=Clientes::find($id);
+
+                        $minit='C/F-'.$clientes->id;
+                        
+                        $clientes->fill([
+                                  'empresa' => $request['empresa'],
+                                  'nombre' => $request['nombre'],
+                                  'nit' => $minit,
+                                  'direccion' => $request['direccion'],
+                                  'telefono' => $request['telefono'],
+                                  'celular' => $request['celular'],
+                                  'email' => $request['email'],
+                                  'tipo_cliente' => $request['tipo_cliente'],
+                            ]);
+                        $clientes->save();
+            }else{
+                        $clientes=Clientes::find($id);
+                        $clientes->fill([
+                                  'empresa' => $request['empresa'],
+                                  'nombre' => $request['nombre'],
+                                  'nit' => $request['nit'],
+                                  'direccion' => $request['direccion'],
+                                  'telefono' => $request['telefono'],
+                                  'celular' => $request['celular'],
+                                  'email' => $request['email'],
+                                  'tipo_cliente' => $request['tipo_cliente'],
+                            ]);
+                        $clientes->save();
+            }
     }
 
     /**
