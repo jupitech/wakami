@@ -6340,7 +6340,7 @@ body {
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   min-height: 100%;
-  width: 30%;
+  width: 35%;
   right: 0;
   top: 0;
   z-index: 200;
@@ -6687,7 +6687,9 @@ body {
   .caja_productos li {
     width: 33.33333333%; }
   #area_mas {
-    width: 90%; } }
+    width: 90%; }
+  #area_nuevo {
+    width: 45%; } }
 
 @media (min-width: 992px) {
   .caja_productos li {
@@ -6699,7 +6701,9 @@ body {
   .caja_productos li {
     width: 20%; }
   #area_mas {
-    width: 65%; } }
+    width: 65%; }
+  #area_nuevo {
+    width: 35%; } }
 
 @media (min-width: 1400px) {
   .caja_productos li {

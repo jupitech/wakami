@@ -39,6 +39,27 @@ wApp.factory('ApiClienteNuevo', function($resource){
     }
   });
 
+wApp.directive("compareTo", function ()  
+{  
+    return {  
+        require: "ngModel",  
+        scope:  
+        {  
+            confirmPassword: "=compareTo"  
+        },  
+        link: function (scope, element, attributes, modelVal)  
+        {  
+            modelVal.$validators.compareTo = function (val)  
+            {  
+                return val == scope.confirmPassword;  
+            };  
+            scope.$watch("confirmPassword", function ()  
+            {  
+                modelVal.$validate();  
+            });  
+        }  
+    };  
+}); 
 //**************************************Usuarios*************************************************//
 wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout, $log,$uibModal){
  
@@ -59,6 +80,7 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
    $scope.editar_obj = false; // Editar Usuario
    $scope.ver_eli = false; // Ver usuarios eliminados
    $scope.acti_rol = false; //Activar para cambiar roles
+     $scope.acti_cla = false; //Activar para cambiar contraseña
    $scope.alertaNuevo = false; // Alerta de nuevo usuario registrado
    $scope.alertaExiste = false; // Alerta si el usuario ya esta en existencia
    $scope.alertaEliminado = false; // Alerta de usuario eliminado
@@ -135,23 +157,60 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
           $scope.editar_obj = !$scope.editar_obj;
           $scope.existeUser= usuario; 
           $scope.acti_rol = false;
+          $scope.acti_cla = false;
        }; 
 
        $scope.act_rol = function() {
           $scope.acti_rol = !$scope.acti_rol;
        };
 
+        $scope.act_cla = function() {
+          $scope.acti_cla = !$scope.acti_cla;
+       };
+
       $scope.editarUsuario = function(){
             
             if($scope.acti_rol){
-                var data = {
-                name: $scope.existeUser.name,
-                nombre: $scope.existeUser.perfil_usuario.nombre,
-                apellido: $scope.existeUser.perfil_usuario.apellido,
-                email: $scope.existeUser.email,
-                role_id: $scope.existeUser.role_id
-                };
+               if($scope.acti_cla){
+                          var data = {
+                          name: $scope.existeUser.name,
+                          nombre: $scope.existeUser.perfil_usuario.nombre,
+                          apellido: $scope.existeUser.perfil_usuario.apellido,
+                          email: $scope.existeUser.email,
+                          role_id: $scope.existeUser.role_id,
+                          password: $scope.existeUser.password
+                          };
+                }else{
+                          var data = {
+                          name: $scope.existeUser.name,
+                          nombre: $scope.existeUser.perfil_usuario.nombre,
+                          apellido: $scope.existeUser.perfil_usuario.apellido,
+                          email: $scope.existeUser.email,
+                          role_id: $scope.existeUser.role_id
+                          };
+                }          
+             }else{
+
+                if($scope.acti_cla){
+                       var data = {
+                        name: $scope.existeUser.name,
+                        nombre: $scope.existeUser.perfil_usuario.nombre,
+                        apellido: $scope.existeUser.perfil_usuario.apellido,
+                        email: $scope.existeUser.email,
+                        password: $scope.existeUser.password
+                        };
+                  }else{
+
+                        var data = {
+                        name: $scope.existeUser.name,
+                        nombre: $scope.existeUser.perfil_usuario.nombre,
+                        apellido: $scope.existeUser.perfil_usuario.apellido,
+                        email: $scope.existeUser.email
+                        };
+                  }
+              };
                 
+                console.log(data);
                 $http.put('api/usuario/' +  $scope.existeUser.id, data)
                 .success(function (data, status, headers) {
                    console.log('Usuario '+$scope.existeUser.name+' modificado correctamente.');
@@ -170,33 +229,6 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
                     console.log('Parece que existe un error al modificar el usuario.');
                 });    
 
-
-            }else{
-               var data = {
-                name: $scope.existeUser.name,
-                nombre: $scope.existeUser.perfil_usuario.nombre,
-                apellido: $scope.existeUser.perfil_usuario.apellido,
-                email: $scope.existeUser.email
-                };
-                
-                 $http.put('api/usuario/' +  $scope.existeUser.id, data)
-                .success(function (data, status, headers) {
-                   console.log('Usuario '+$scope.existeUser.name+' modificado correctamente.');
-                       $http.get('/api/usuarios').success(
-
-                          function(usuarios) {
-                                    $scope.usuarios = usuarios.datos;
-                        }).error(function(error) {
-                             $scope.error = error;
-                        });
-                         $scope.editar_obj = false;
-                        $timeout(function () { $scope.alertaEditado = true; }, 1000);  
-                        $timeout(function () { $scope.alertaEditado = false; }, 5000);  
-                })
-                .error(function (data, status, header, config) {
-                    console.log('Parece que existe un error al modificar el usuario.');
-                });    
-            }
         };
 
 
@@ -1666,7 +1698,7 @@ wApp.controller('VentaNCtrl',function($scope, $http,ApiClienteNuevo, $timeout, $
                $http.post('/api/factura/create', datafact)    
                         .success(function (data, status, headers) {
                               console.log("Factura creada correctamente");
-                              $location.path('/ventas');
+                              $location.path('../ventas');
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al enviar la factura");

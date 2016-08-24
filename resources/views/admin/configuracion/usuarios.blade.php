@@ -7,6 +7,7 @@
 
         <div class="col-md-12 top_conte" ng-controller="UsuariosCtrl">
         {{-- Nuevo usuario --}}
+          @role('admin') 
                <div id="area_nuevo" ng-if="nuevo_obj">
                     <div class="header_nuevo">
 
@@ -66,13 +67,18 @@
                                   </div>
                                    <div class="col-md-6">
                                        <label for="password2">Repetir Contraseña</label>
-                                       <input id="password2" type="password" class="form-control" name="password2" placeholder="">
+                                       <input id="password2"  type="password" class="form-control" name="password2"  ng-model="usuario.password2" ng-minlength="8" placeholder="" required compare-to="usuario.password">
+                                        <div class="col-sm-12 spd spi">
+                                          <div class="alert alert-danger" ng-show="frm.password2.$dirty && frm.password2.$error.required">Campo requerido</div>
+                                          <div class="alert alert-danger" ng-show="frm.password2.$dirty && frm.password2.$error.minlength">Contraseña corta</div>
+                                           <div class="alert alert-danger" ng-show="frm.password2.$dirty && frm.password2.$error.compareTo ">No coincide contraseña</div>
+                                       </div>
                                   </div>
                                </div>
                                 <div class="form-group">
                                   <div class="col-md-6">
                                        <label for="rol">Rol de Usuario</label>
-                                       <ol class="nya-bs-select" ng-model="usuario.role_id" title="Selecciona un rol...">
+                                       <ol class="nya-bs-select" ng-model="usuario.role_id" title="Selecciona un rol..."  required>
                                             <li nya-bs-option="rol in roles | orderBy:'-id'" data-value="rol.id">
                                               <a>
                                                 @{{ rol.name }}
@@ -97,7 +103,9 @@
                       </div>
                     </div>
               </div>
+               @endrole
               {{-- Editar Usuario --}}
+           @role('admin') 
                 <div id="area_nuevo" ng-if="editar_obj">
                     <div class="header_nuevo">
 
@@ -176,6 +184,41 @@
                                   </div>
 
                                </div>
+                                <div class="form-group">
+                                      <div class="col-md-12">
+                                           <div class="col-sm-3 spi">
+                                           <label for="rol">Contraseña?</label>
+                                             <div class="onoffswitch">
+                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch2" ng-click="act_cla()">
+                                                <label class="onoffswitch-label" for="myonoffswitch2">
+                                                    <span class="onoffswitch-inner"></span>
+                                                    <span class="onoffswitch-switch"></span>
+                                                </label>
+                                            </div> 
+                                           </div>
+                                           <div class="col-sm-9 spd">
+                                               <div class="col-sm-6 spi" ng-if="acti_cla">
+                                                   <label for="password">Nueva</label>
+                                                   <input id="password" type="password" class="form-control" name="password" ng-model="existeUser.password" placeholder="Mínimo 8 caracteres" ng-minlength="8" required>
+                                                    <div class="col-sm-12 spd spi">
+                                                      <div class="alert alert-danger" ng-show="frmed.password.$dirty && frmed.password.$error.required">Campo requerido</div>
+                                                      <div class="alert alert-danger" ng-show="frmed.password.$dirty && frmed.password.$error.minlength">Contraseña corta</div>
+                                                   </div>
+                                              </div>
+                                               <div class="col-sm-6 spd" ng-if="acti_cla">
+                                                   <label for="password2">Repetir</label>
+                                                   <input id="password2"  type="password" class="form-control" name="password2"  ng-model="existeUser.password2" ng-minlength="8" placeholder="" required compare-to="existeUser.password">
+                                                    <div class="col-sm-12 spd spi">
+                                                      <div class="alert alert-danger" ng-show="frmed.password2.$dirty && frmed.password2.$error.required">Campo requerido</div>
+                                                      <div class="alert alert-danger" ng-show="frmed.password2.$dirty && frmed.password2.$error.minlength">Contraseña corta</div>
+                                                       <div class="alert alert-danger" ng-show="frmed.password2.$dirty && frmed.password2.$error.compareTo ">No coincide contraseña</div>
+                                                   </div>
+                                              </div>
+                                           </div>
+
+                                      </div>
+
+                               </div>
                                <div class="form-group">
                                  <div class="col-sm-6">
                                      <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frmed.$invalid">EDITAR</button>
@@ -189,15 +232,18 @@
                       </div>
                     </div>
               </div>
-
+             @endrole
             <div class="header_conte">
               <h1>Usuarios</h1>
-                <div class="btn_nuevo">
-                    <a href="" ng-click="btn_nuevo()">Nuevo Usuario</a>
-                </div>
-                 <div class="btn_eliminados">
-                    <a href="" ng-click="btn_eliminados()"></a>
-                </div>
+               @role('admin')   
+                  <div class="btn_nuevo">
+                      <a href="" ng-click="btn_nuevo()">Nuevo Usuario</a>
+                  </div>
+                   
+                   <div class="btn_eliminados">
+                      <a href="" ng-click="btn_eliminados()"></a>
+                  </div>
+                 @endrole
             </div>
            
             <div class="col-sm-12">
@@ -205,6 +251,7 @@
                 <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Usuario borrado</strong> Revisa en area de usuarios borrados si desean restaurar.</div>
                <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Usuario editado</strong> Puedes ver en el listado de usuarios las modificaciones realizadas.</div>
             {{-- Usuarios borrados --}}
+              @role('admin') 
                 <div class="caja_contenidob" ng-if="ver_eli">
                        <table class="table">
                            <thead>
@@ -236,6 +283,7 @@
                        </table>
                   
               </div>
+              @endrole
             {{-- Usuarios activos --}}
               <div class="caja_contenido">
                        <table class="table">
@@ -245,7 +293,9 @@
                                <th>E-mail</th>
                                <th>Role</th>
                                <th>Modificado</th>
+                                @role('admin') 
                                <th>Opciones</th>
+                                @endrole
                            </thead>
                            <tbody>
                                <tr ng-repeat="usuario in usuarios">
@@ -254,10 +304,10 @@
                                    <td>@{{usuario.email}}</td>
                                    <td>@{{usuario.rol_usuario.el_rol.name}}</td>
                                    <td>@{{usuario.updated_at | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a'}}</td>
+                                    @role('admin') 
                                    <td>
                                        <div class="area_opciones">
                                            <ul>
-                                               <li ng-if="usuario.id!=1"><a href="" class="ico_cambiar"></a></li>
                                                <li><a href="" class="ico_editar" ng-click="btn_editar(usuario)"></a></li>
                                                <li ng-if="usuario.id!=1" class="op_drop"  uib-dropdown>
                                                      <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
@@ -273,6 +323,7 @@
                                            </ul>
                                        </div>
                                    </td>
+                                   @endrole
                                </tr>
                               
                            </tbody>

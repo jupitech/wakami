@@ -434,7 +434,7 @@
                          <td class="td_no" ng-click="abrircompra(compra,1)"><strong>@{{compra.id}}</strong></td>
                          <td ng-click="abrircompra(compra,1)">@{{compra.nombre_proveedor.empresa}} </td>
                          <td ng-click="abrircompra(compra,1)">@{{compra.fecha_entrega | amDateFormat: 'DD/MM/YYYY'}}</td>
-                         <td>@{{compra.total_compra}}</td>
+                         <td>Q @{{compra.total_compra | number:2}}</td>
                          <td>
                              <div class="area_opciones">
                                  <ul>

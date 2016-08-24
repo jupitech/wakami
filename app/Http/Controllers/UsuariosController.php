@@ -159,6 +159,13 @@ class UsuariosController extends Controller
                                 ]);
                  $roleuser->save();
          }
+        if($request['password']!=''){
+            $user->fill([
+                'password' =>  bcrypt($request['password']),
+            ]);
+           $user->save();
+
+        }
           return response()->json(["mensaje"=>"Usuario modificado correctamente."]);
     }
 

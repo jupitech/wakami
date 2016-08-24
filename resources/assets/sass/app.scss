@@ -728,7 +728,7 @@ body{
 	background: #fff;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
 	min-height: 100%;
-	width: 30%;
+	width: 35%;
 	right: 0;
 	top: 0;
 	z-index: 200;
@@ -1118,6 +1118,9 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 		#area_mas{
 			width: 90%;
 		}
+			#area_nuevo{
+			width: 45%;
+		}
 }
 
 @media (min-width: 992px) {
@@ -1129,6 +1132,7 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 		#area_mas{
 			width: 80%;
 		}
+	
 }
 
 @media (min-width: 1200px) {
@@ -1137,8 +1141,12 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 				width:  20%;
 			}
 		}
-			#area_mas{
+		#area_mas{
 			width: 65%;
+		}
+
+		#area_nuevo{
+			width: 35%;
 		}
 }
 

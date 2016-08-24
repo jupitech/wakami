@@ -15,13 +15,11 @@
           <li class="li_btns"><a href="#" class="btn_wakami btn_mail"></a></li>
           <li class="li_btns"><a href="#" class="btn_wakami btn_alerta"></a></li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hola, Bienvenido <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hola, {{ isset(Auth::user()->getUserProfile()->nombre) ? Auth::user()->getUserProfile()->nombre : Auth::user()->email }} {{ isset(Auth::user()->getUserProfile()->apellido) ? Auth::user()->getUserProfile()->apellido : Auth::user()->email }}  <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
+              <li><a href="#">Mi perfil</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
+              <li><a href="{{ URL::to('/logout') }}">Cerrar Sesión</a></li>
             </ul>
           </li>
         </ul>
@@ -31,6 +29,7 @@
   <div class="menu_dos" ng-hide="menudos">
   <div class="col-sm-12">
        <ul class="nav navbar-nav">
+        @role('admin|operativo') 
             <li class="dropdown">
               <a href="#" class="dropdown-toggle ico_ventas" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ventas</a>
               <ul class="dropdown-menu">
@@ -90,6 +89,36 @@
                  <li><a href="#">Accesos</a></li>
               </ul>
             </li>
+               @endrole
+               @role('vendedor') 
+                       <li class="dropdown">
+                        <a href="#" class="dropdown-toggle ico_ventas" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ventas</a>
+                        <ul class="dropdown-menu">
+                          <li><a href="">Nueva Venta</a></li>
+                          <li><a href="">Clientes</a></li>
+                          <li><a href="">Listado de ventas</a></li>
+                        </ul>
+                      </li>
+                         <li class="dropdown">
+                            <a href="#" class="dropdown-toggle ico_productos" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Productos</a>
+                            <ul class="dropdown-menu">
+                              <li><a href="">Listado de productos</a></li>
+                              <li><a href="">Mi Sucursal</a></li>
+                              <li><a href="">Productos de devolución</a></li>
+                            </ul>
+                          </li>
+                           <li class="dropdown">
+                            <a href="#" class="dropdown-toggle ico_reportes" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+                            <ul class="dropdown-menu">
+                              <li><a href="">Ventas del día</a></li>
+                              <li><a href="">Ventas del mes</a></li>
+                                <li role="separator" class="divider"></li>
+                              <li><a href="">Crecimiento de ventas</a></li>
+                            </ul>
+                          </li>
+
+                @endrole
+                
           </ul>
       <div class="hora_actual">@{{Fecha | amDateFormat: 'DD/MM/YYYY'}} @{{ clock | date:'HH:mm:ss'}}</div>
   </div>
