@@ -77,6 +77,7 @@ class ProductosController extends Controller
     {
            $productos=Producto::create([
                   'codigo' => $request['codigo'],
+                  'codigo_barra' => $request['codigo_barra'],
                   'linea' => $request['linea'],
                   'nombre' => $request['nombre'],
                   'costo' => $request['costo'],
@@ -151,6 +152,7 @@ class ProductosController extends Controller
            $productos=Producto::find($id);
         $productos->fill([
                   'codigo' => $request['codigo'],
+                  'codigo_barra' => $request['codigo_barra'],
                   'linea' => $request['linea'],
                   'nombre' => $request['nombre'],
                   'costo' => $request['costo'],

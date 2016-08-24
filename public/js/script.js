@@ -600,6 +600,7 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
                 var data = {
                   nombre: $scope.existeProducto.nombre,
                   codigo: $scope.existeProducto.codigo,
+                  codigo_barra: $scope.existeProducto.codigo_barra,
                   linea: $scope.existeProducto.linea,
                   costo: $scope.existeProducto.costo,
                   preciop: $scope.existeProducto.preciop

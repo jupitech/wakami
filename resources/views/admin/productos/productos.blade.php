@@ -97,12 +97,18 @@
                         <form class="form-horizontal" name="frm" role="form" ng-submit="guardarProducto()" >
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <label for="codigo">Codigo</label>
+                                        <label for="codigo">Código</label>
                                          <input id="codigo" type="text" class="form-control" name="codigo" ng-model="producto.codigo" required>
                                          <div class="col-sm-12 spd spi">
                                             <div class="alert alert-danger" ng-show="frm.codigo.$dirty && frm.codigo.$error.required">Campo requerido</div>
                                          </div>
                                         
+                                    </div>
+                               </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="codigo_barra">Código de barra</label>
+                                         <input id="codigo_barra" type="text" class="form-control" name="codigo_barra" ng-model="producto.codigo_barra">
                                     </div>
                                </div>
                                <div class="form-group">
@@ -177,6 +183,12 @@
                                             <div class="alert alert-danger" ng-show="frm.codigo.$dirty && frm.codigo.$error.required">Campo requerido</div>
                                          </div>
                                         
+                                    </div>
+                               </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="codigo_barra">Código de barra</label>
+                                         <input id="codigo_barra" type="text" class="form-control" name="codigo_barra" ng-model="existeProducto.codigo_barra">
                                     </div>
                                </div>
                                <div class="form-group">
@@ -279,6 +291,7 @@
                                    <h1>@{{producto.nombre}}</h1>
                                    <h2>@{{producto.nombre_linea.nombre}}</h2>
                                    <p>@{{producto.codigo}}</p>
+                                   <h3>@{{producto.codigo_barra}}</h3>
                                 </div>
                                 <div class="box_footer">
                                    <p class="p_costo">Q@{{producto.costo | number:2}}</p>

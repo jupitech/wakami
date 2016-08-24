@@ -152,6 +152,8 @@ class OrdenCompraController extends Controller
               ]);
          $entregacompra->save();
 
+         
+
          //Se envia a Stock de Producto con Bodega Central
           $stockproducto=StockProducto::find($idproducto);
 

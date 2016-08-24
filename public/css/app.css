@@ -6746,8 +6746,20 @@ body {
       font-weight: normal;
       padding: 5px 10px 5px;
       margin: 0;
+      letter-spacing: 0em; }
+    .box_pro .box_middle h3 {
+      clear: right;
+      float: right;
+      font-size: 12px;
+      font-weight: normal;
+      padding: 5px 10px 5px;
+      padding-left: 20px;
+      background: url("img/ico_barcode.svg") no-repeat left center;
+      background-size: 16px;
+      margin: 0;
       letter-spacing: 0em;
-      color: #bbb; }
+      color: #a4e562;
+      text-align: right; }
   .box_pro .box_footer {
     float: left;
     width: 100%;
