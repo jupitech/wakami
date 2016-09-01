@@ -26,41 +26,41 @@ wApp.factory('ApiSucursalNuevo', function($resource){
 
 
  wApp.filter('SumaItem', function () {
-    return function (data, key) {        
+    return function (data, key) {
         if (angular.isUndefined(data) && angular.isUndefined(key))
-            return 0;        
-        var sum = 0;        
+            return 0;
+        var sum = 0;
         angular.forEach(data,function(value){
             sum = sum + parseFloat(value[key]);
-        });        
+        });
         return sum.toFixed(2);
-    }
+    };
   });
 
-wApp.directive("compareTo", function ()  
-{  
-    return {  
-        require: "ngModel",  
-        scope:  
-        {  
-            confirmPassword: "=compareTo"  
-        },  
-        link: function (scope, element, attributes, modelVal)  
-        {  
-            modelVal.$validators.compareTo = function (val)  
-            {  
-                return val == scope.confirmPassword;  
-            };  
-            scope.$watch("confirmPassword", function ()  
-            {  
-                modelVal.$validate();  
-            });  
-        }  
-    };  
-}); 
+wApp.directive("compareTo", function ()
+{
+    return {
+        require: "ngModel",
+        scope:
+        {
+            confirmPassword: "=compareTo"
+        },
+        link: function (scope, element, attributes, modelVal)
+        {
+            modelVal.$validators.compareTo = function (val)
+            {
+                return val == scope.confirmPassword;
+            };
+            scope.$watch("confirmPassword", function ()
+            {
+                modelVal.$validate();
+            });
+        }
+    };
+});
 //**************************************Usuarios*************************************************//
 wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout, $log,$uibModal){
- 
+
   $scope.status = {
     isopen: false
   };
@@ -86,10 +86,10 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
 
    $scope.btn_nuevo = function() {
         $scope.nuevo_obj = !$scope.nuevo_obj;
-         $scope.usuario={}; 
+         $scope.usuario={};
      };
 
-      
+
       $http.get('/api/usuarios').success(
 
               function(usuarios) {
@@ -97,10 +97,10 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
             }).error(function(error) {
                  $scope.error = error;
             });
-     
+
 
       //Roles
-      
+
             $http.get('/api/roles').success(
 
               function(roles) {
@@ -108,7 +108,7 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
             }).error(function(error) {
                  $scope.error = error;
             });
-      
+
       //Restaurar usuarios
 
       $scope.btn_eliminados= function(){
@@ -121,15 +121,15 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
                  $scope.error = error;
             });
 
-      }
+      };
 
 
       //Nuevo Usuario
-         
+
       $scope.usuario={};
       $scope.guardarUsuario = function(){
          console.log($scope.usuario);
-    
+
         ApiUsuarioNuevo.save($scope.usuario, function(){
           console.log("Guardado correctamente");
            $scope.nuevo_obj = false;
@@ -140,23 +140,23 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
             }).error(function(error) {
                  $scope.error = error;
             });
-            $timeout(function () { $scope.alertaNuevo = true; }, 1000);  
-            $timeout(function () { $scope.alertaNuevo = false; }, 5000);  
+            $timeout(function () { $scope.alertaNuevo = true; }, 1000);
+            $timeout(function () { $scope.alertaNuevo = false; }, 5000);
           },
           function(error){
             console.log("Parece que el usuario ya existe");
-            $timeout(function () { $scope.alertaExiste = true; }, 100);  
-            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+            $timeout(function () { $scope.alertaExiste = true; }, 100);
+            $timeout(function () { $scope.alertaExiste = false; }, 5000);
           });
-           
+
       };
       //Editar Usuario
         $scope.btn_editar = function(usuario) {
           $scope.editar_obj = !$scope.editar_obj;
-          $scope.existeUser= usuario; 
+          $scope.existeUser= usuario;
           $scope.acti_rol = false;
           $scope.acti_cla = false;
-       }; 
+       };
 
        $scope.act_rol = function() {
           $scope.acti_rol = !$scope.acti_rol;
@@ -167,7 +167,7 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
        };
 
       $scope.editarUsuario = function(){
-            
+
             if($scope.acti_rol){
                if($scope.acti_cla){
                           var data = {
@@ -186,7 +186,7 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
                           email: $scope.existeUser.email,
                           role_id: $scope.existeUser.role_id
                           };
-                }          
+                }
              }else{
 
                 if($scope.acti_cla){
@@ -206,8 +206,8 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
                         email: $scope.existeUser.email
                         };
                   }
-              };
-                
+              }
+
                 console.log(data);
                 $http.put('api/usuario/' +  $scope.existeUser.id, data)
                 .success(function (data, status, headers) {
@@ -220,12 +220,12 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
                              $scope.error = error;
                         });
                        $scope.editar_obj = false;
-                        $timeout(function () { $scope.alertaEditado = true; }, 1000);  
-                        $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                        $timeout(function () { $scope.alertaEditado = true; }, 1000);
+                        $timeout(function () { $scope.alertaEditado = false; }, 5000);
                 })
                 .error(function (data, status, header, config) {
                     console.log('Parece que existe un error al modificar el usuario.');
-                });    
+                });
 
         };
 
@@ -245,8 +245,8 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
                     }).error(function(error) {
                          $scope.error = error;
                     });
-                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);  
-                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
+                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);
+                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);
             })
             .error(function (data, status, header, config) {
                 console.log('Parece que existe un error al borrar el usuario.');
@@ -268,8 +268,8 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
                     }).error(function(error) {
                          $scope.error = error;
                     });
-                    //$timeout(function () { $scope.alertaEliminado = true; }, 1000);  
-                   // $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
+                    //$timeout(function () { $scope.alertaEliminado = true; }, 1000);
+                   // $timeout(function () { $scope.alertaEliminado = false; }, 5000);
                    $scope.ver_eli = false;
             })
             .error(function (data, status, header, config) {
@@ -318,15 +318,15 @@ wApp.controller('ProveedoresCtrl',function($scope, $http,ApiProveedorNuevo, $tim
                         $scope.proveedores = proveedores.datos;
             }).error(function(error) {
                  $scope.error = error;
-            });  
+            });
 
 
       //Nuevo Proveedor
-         
+
       $scope.proveedor={};
       $scope.guardarProveedor = function(){
          // console.log($scope.usuario);
-    
+
         ApiProveedorNuevo.save($scope.proveedor, function(){
           console.log("Guardado correctamente");
            $scope.nuevo_obj = false;
@@ -337,16 +337,16 @@ wApp.controller('ProveedoresCtrl',function($scope, $http,ApiProveedorNuevo, $tim
             }).error(function(error) {
                  $scope.error = error;
             });
-            $timeout(function () { $scope.alertaNuevo = true; }, 1000);  
-            $timeout(function () { $scope.alertaNuevo = false; }, 5000);  
+            $timeout(function () { $scope.alertaNuevo = true; }, 1000);
+            $timeout(function () { $scope.alertaNuevo = false; }, 5000);
           },
           function(error){
             console.log("Parece que el proveedor ya existe");
-            $timeout(function () { $scope.alertaExiste = true; }, 100);  
-            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+            $timeout(function () { $scope.alertaExiste = true; }, 100);
+            $timeout(function () { $scope.alertaExiste = false; }, 5000);
           });
-           
-      };    
+
+      };
 
        //Eliminar Proveedor
       $scope.btn_eliminar = function(id){
@@ -363,19 +363,19 @@ wApp.controller('ProveedoresCtrl',function($scope, $http,ApiProveedorNuevo, $tim
                             }).error(function(error) {
                                  $scope.error = error;
                             });
-                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);  
-                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
+                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);
+                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);
             })
             .error(function (data, status, header, config) {
                 console.log('Parece que existe un error al borrar el proveedor.');
             });
-      };  
+      };
 
        //Editar Proveedor
         $scope.btn_editar = function(proveedor) {
           $scope.editar_obj = !$scope.editar_obj;
-          $scope.existeProve= proveedor; 
-       }; 
+          $scope.existeProve= proveedor;
+       };
 
 
       $scope.editarProveedor = function(){
@@ -399,13 +399,13 @@ wApp.controller('ProveedoresCtrl',function($scope, $http,ApiProveedorNuevo, $tim
                              $scope.error = error;
                         });
                        $scope.editar_obj = false;
-                        $timeout(function () { $scope.alertaEditado = true; }, 1000);  
-                        $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                        $timeout(function () { $scope.alertaEditado = true; }, 1000);
+                        $timeout(function () { $scope.alertaEditado = false; }, 5000);
                 })
                 .error(function (data, status, header, config) {
                     console.log('Parece que existe un error al modificar el usuario.');
-                });  
-            
+                });
+
         };
 
 
@@ -456,9 +456,9 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
             }).error(function(error) {
                  $scope.error = error;
             });
-     
 
-     
+
+
 
            //Productos
        $http.get('/api/productos').success(
@@ -467,10 +467,10 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
                         $scope.productos = productos.datos;
             }).error(function(error) {
                  $scope.error = error;
-            });     
+            });
 
             //Stock Productos
-             
+
             $scope.mistock=function(producto){
                 $scope.mipro=producto.id;
                 producto.stock={};
@@ -481,17 +481,17 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
                                  console.log( producto.stock);
                     }).error(function(error) {
                          $scope.error = error;
-                    });  
+                    });
 
-            }
+            };
 
 
      //Nueva Linea
-         
+
       $scope.linea={};
       $scope.guardarLinea = function(){
          // console.log($scope.usuario);
-    
+
         ApiLineaNuevo.save($scope.linea, function(){
           console.log("Guardado correctamente");
            $scope.linea={};
@@ -505,16 +505,16 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
           },
           function(error){
             console.log("Parece que la linea ya existe");
-            $timeout(function () { $scope.alertaExiste = true; }, 100);  
-            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+            $timeout(function () { $scope.alertaExiste = true; }, 100);
+            $timeout(function () { $scope.alertaExiste = false; }, 5000);
           });
-           
-      }; 
+
+      };
 
        //Editar Linea
         $scope.btn_editarl = function(linea) {
-          $scope.existeLinea= linea; 
-       }; 
+          $scope.existeLinea= linea;
+       };
       $scope.editarLinea = function(){
                 var data = {
                   nombre: $scope.existeLinea.nombre
@@ -529,14 +529,14 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
                         }).error(function(error) {
                              $scope.error = error;
                         });
-                           $timeout(function () { $scope.alertaEditadol = true; }, 1000);  
-                           $timeout(function () { $scope.alertaEditadol = false; }, 5000);  
+                           $timeout(function () { $scope.alertaEditadol = true; }, 1000);
+                           $timeout(function () { $scope.alertaEditadol = false; }, 5000);
                 })
                 .error(function (data, status, header, config) {
                     console.log('Parece que existe un error al modificar la linea del producto.');
-                });  
-            
-        };  
+                });
+
+        };
 
          //Eliminar Linea
       $scope.btn_eliminar = function(id){
@@ -552,21 +552,21 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
                         }).error(function(error) {
                              $scope.error = error;
                         });
-                           $timeout(function () { $scope.alertaEliminadol = true; }, 1000);  
-                           $timeout(function () { $scope.alertaEliminadol = false; }, 5000);  
-                
+                           $timeout(function () { $scope.alertaEliminadol = true; }, 1000);
+                           $timeout(function () { $scope.alertaEliminadol = false; }, 5000);
+
             })
             .error(function (data, status, header, config) {
                 console.log('Parece que existe un error al borrar la linea de producto.');
             });
-      };  
+      };
 
       //Nuevo producto
-         
+
       $scope.producto={};
       $scope.guardarProducto = function(){
          // console.log($scope.usuario);
-    
+
         ApiProductoNuevo.save($scope.producto, function(){
           console.log("Guardado correctamente");
            $scope.nuevo_obj = false;
@@ -577,23 +577,23 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
             }).error(function(error) {
                  $scope.error = error;
             });
-            $timeout(function () { $scope.alertaNuevo = true; }, 1000);  
-            $timeout(function () { $scope.alertaNuevo = false; }, 5000);  
+            $timeout(function () { $scope.alertaNuevo = true; }, 1000);
+            $timeout(function () { $scope.alertaNuevo = false; }, 5000);
           },
           function(error){
             console.log("Parece que el producto ya existe");
-            $timeout(function () { $scope.alertaExiste = true; }, 100);  
-            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+            $timeout(function () { $scope.alertaExiste = true; }, 100);
+            $timeout(function () { $scope.alertaExiste = false; }, 5000);
           });
-           
-      };   
- 
-     
+
+      };
+
+
        //Editar Producto
         $scope.btn_editar = function(producto) {
            $scope.editar_obj = !$scope.editar_obj;
-          $scope.existeProducto= producto; 
-       }; 
+          $scope.existeProducto= producto;
+       };
       $scope.editarProducto = function(){
                 var data = {
                   nombre: $scope.existeProducto.nombre,
@@ -614,14 +614,14 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
                              $scope.error = error;
                         });
                          $scope.editar_obj = false;
-                           $timeout(function () { $scope.alertaEditado = true; }, 1000);  
-                           $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                           $timeout(function () { $scope.alertaEditado = true; }, 1000);
+                           $timeout(function () { $scope.alertaEditado = false; }, 5000);
                 })
                 .error(function (data, status, header, config) {
                     console.log('Parece que existe un error al modificar el producto.');
-                }); 
-            
-        }; 
+                });
+
+        };
 
        //Eliminar Producto
       $scope.btn_eliminarpro = function(id){
@@ -637,16 +637,16 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
                         }).error(function(error) {
                              $scope.error = error;
                         });
-                           $timeout(function () { $scope.alertaEliminado = true; }, 1000);  
-                           $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
-                
+                           $timeout(function () { $scope.alertaEliminado = true; }, 1000);
+                           $timeout(function () { $scope.alertaEliminado = false; }, 5000);
+
             })
             .error(function (data, status, header, config) {
                 console.log('Parece que existe un error al borrar el producto.');
             });
-      };  
+      };
 
-     
+
 });
 
 
@@ -669,13 +669,13 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
      $scope.Fecha = new Date();
     //Fecha y Hora actual
                   $scope.clock = "..."; // initialise the time variable
-                  $scope.tickInterval = 1000 //ms
+                  $scope.tickInterval = 1000; //ms
 
                   var tick = function() {
-                      $scope.clock = Date.now() // get the current time
+                      $scope.clock = Date.now(); // get the current time
                       $timeout(tick, $scope.tickInterval); // reset the timer
-                  }
-                  $timeout(tick, $scope.tickInterval);          
+                  };
+                  $timeout(tick, $scope.tickInterval);
 
   $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 
@@ -702,8 +702,8 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                         $scope.proveedores = proveedores.datos;
             }).error(function(error) {
                  $scope.error = error;
-            });  
-      
+            });
+
        //Todas las compras
       $http.get('/api/compras').success(
 
@@ -711,7 +711,7 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                         $scope.compras = compras.datos;
             }).error(function(error) {
                  $scope.error = error;
-            });  
+            });
 
 
       $scope.estimadas=[
@@ -721,10 +721,10 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
          {'id': '60','nombre': '60 dias'}
       ];
       //Nueva Compra
-         
+
       $scope.compra={};
       $scope.guardarCompra = function(){
-           $scope.nuevo_obj = false; 
+           $scope.nuevo_obj = false;
 
            $scope.procompra={};
 
@@ -733,7 +733,7 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
               fecha_entrega: $scope.compra.fecha_entrega
             };
 
-           $http.post('/api/compra/create', datacompra)    
+           $http.post('/api/compra/create', datacompra)
             .success(function (data, status, headers) {
                   $scope.midata=data.id_user;
                    console.log($scope.midata);
@@ -744,32 +744,32 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                       }).error(function(error) {
                            $scope.error = error;
                       });
-                  $timeout(function () { $scope.alertaNuevo = true; }, 1000);  
-                   $timeout(function () { $scope.alertaNuevo = false; }, 5000);      
+                  $timeout(function () { $scope.alertaNuevo = true; }, 1000);
+                   $timeout(function () { $scope.alertaNuevo = false; }, 5000);
                })
             .error(function (data, status, header, config) {
                 console.log("Parece que el producto ya existe");
-                $timeout(function () { $scope.alertaExiste = true; }, 100);  
-                $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+                $timeout(function () { $scope.alertaExiste = true; }, 100);
+                $timeout(function () { $scope.alertaExiste = false; }, 5000);
             });
 
 
-          
-            
-      };    
-      
+
+
+      };
+
       $scope.abrircompra= function(com,de){
           $scope.mas_obj = !$scope.mas_obj;
-         
+
           $scope.de=de;
              $scope.exisCompra=com;
              $scope.miorden=com.id;
-         
-         
+
+
           $scope.ProTotal = 0;
             $scope.btn_cerrarc=function(){
              $scope.mas_obj = false;
-           }
+           };
 
           //Productos
           $http.get('/api/productos').success(
@@ -778,15 +778,15 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                         $scope.productos = productos.datos;
             }).error(function(error) {
                  $scope.error = error;
-            });     
-           
+            });
+
          $http.get('/api/procompras/'+$scope.miorden).success(
 
             function(procompras) {
                       $scope.procompras = procompras.datos;
           }).error(function(error) {
                $scope.error = error;
-              }); 
+              });
 
           //Agregar producto
            $scope.procompra={};
@@ -797,27 +797,27 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                           id_producto: $scope.procompra.id_producto,
                           cantidad: $scope.procompra.cantidad,
                     };
-                     $http.post('/api/procompra/create', dataprocompra)    
+                     $http.post('/api/procompra/create', dataprocompra)
                         .success(function (data, status, headers) {
                                $http.get('/api/procompras/'+$scope.miorden).success(
                                     function(procompras) {
                                               $scope.procompras = procompras.datos;
                                   }).error(function(error) {
                                        $scope.error = error;
-                                  });  
+                                  });
                                     $scope.procompra={};
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que el producto ya existe");
-                            $timeout(function () { $scope.alertaExiste = true; }, 100);  
-                            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);
                         });
              };
 
              //Editar Productos Compra
              $scope.btn_editarl = function(procompra) {
-                $scope.existePro= procompra; 
-             }; 
+                $scope.existePro= procompra;
+             };
               $scope.btn_proeditar = function(id){
                  var data = {
                   cantidad: $scope.existePro.cantidad,
@@ -827,16 +827,16 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                 $http.put('api/procompra/' +  $scope.existePro.id,data)
                     .success(function (data, status, headers) {
                        console.log('Producto de Compra '+$scope.existePro.id+' editado correctamente.');
-                       
+
                           $http.get('/api/procompras/'+$scope.miorden).success(
 
                                     function(procompras) {
                                               $scope.procompras = procompras.datos;
                                   }).error(function(error) {
                                        $scope.error = error;
-                                  }); 
-                               $timeout(function () { $scope.alertaEditadol = true; }, 1000);  
-                               $timeout(function () { $scope.alertaEditadol = false; }, 5000);  
+                                  });
+                               $timeout(function () { $scope.alertaEditadol = true; }, 1000);
+                               $timeout(function () { $scope.alertaEditadol = false; }, 5000);
                     })
                     .error(function (data, status, header, config) {
                         console.log('Parece que existe un error al borrar la compra.');
@@ -849,16 +849,16 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                  $http.delete('api/procompra/destroy/' +  $scope.idprocompra)
                     .success(function (data, status, headers) {
                        console.log('Producto de Compra '+$scope.idprocompra+' borrado correctamente.');
-                       
+
                           $http.get('/api/procompras/'+$scope.miorden).success(
 
                                     function(procompras) {
                                               $scope.procompras = procompras.datos;
                                   }).error(function(error) {
                                        $scope.error = error;
-                                  }); 
-                            $timeout(function () { $scope.alertaEliminadoPro = true; }, 1000);  
-                            $timeout(function () { $scope.alertaEliminadoPro = false; }, 5000);  
+                                  });
+                            $timeout(function () { $scope.alertaEliminadoPro = true; }, 1000);
+                            $timeout(function () { $scope.alertaEliminadoPro = false; }, 5000);
                     })
                     .error(function (data, status, header, config) {
                         console.log('Parece que existe un error al borrar la compra.');
@@ -871,16 +871,16 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                  $http.delete('api/procompra/destroy2/' +  $scope.idprocompra)
                     .success(function (data, status, headers) {
                        console.log('Producto de Compra '+$scope.idprocompra+' borrado correctamente.');
-                       
+
                           $http.get('/api/procompras/'+$scope.miorden).success(
 
                                     function(procompras) {
                                               $scope.procompras = procompras.datos;
                                   }).error(function(error) {
                                        $scope.error = error;
-                                  }); 
-                            $timeout(function () { $scope.alertaEliminadoPro = true; }, 1000);  
-                            $timeout(function () { $scope.alertaEliminadoPro = false; }, 5000);  
+                                  });
+                            $timeout(function () { $scope.alertaEliminadoPro = true; }, 1000);
+                            $timeout(function () { $scope.alertaEliminadoPro = false; }, 5000);
                     })
                     .error(function (data, status, header, config) {
                         console.log('Parece que existe un error al borrar la compra.');
@@ -888,36 +888,55 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
               };
 
               //Enviar Paso 1
-              $scope.mien={};
               $scope.enviarCompra=function(){
-                  var envcompra={
-                          total_compra:  $scope.mien.total_compra
-                    };
-                    console.log(envcompra);
-                     $http.put('api/compra/p1/' + $scope.miorden, envcompra)
+                     $http.post('api/compra/p1/' + $scope.miorden)
                         .success(function (data, status, headers) {
                            console.log('Compra No.'+$scope.miorden+' modificada correctamente en el paso 1.');
                                $http.get('/api/compras').success(
 
                                       function(compras) {
                                                 $scope.compras = compras.datos;
-                                            
+
                                     }).error(function(error) {
                                          $scope.error = error;
                                     });
-                                   $scope.mas_obj = false;  
-                                 
-                                 /*  $timeout(function () { $scope.alertaEditadop1 = true; }, 1000);  
-                                   $timeout(function () { $scope.alertaEditadop1 = false; }, 5000);*/  
+                                   $scope.mas_obj = false;
+
+                                 /*  $timeout(function () { $scope.alertaEditadop1 = true; }, 1000);
+                                   $timeout(function () { $scope.alertaEditadop1 = false; }, 5000);*/
                         })
                         .error(function (data, status, header, config) {
                             console.log('Parece que existe un error al modificar la compra.');
-                        }); 
+                        });
+
+              };
+
+               //Enviar productos pendientes
+              $scope.pendienteCompra=function(){
+                     $http.post('api/compra/pen/' + $scope.miorden)
+                        .success(function (data, status, headers) {
+                           console.log('Compra No.'+$scope.miorden+' modificada correctamente en el paso 1.');
+                               $http.get('/api/compras').success(
+
+                                      function(compras) {
+                                                $scope.compras = compras.datos;
+
+                                    }).error(function(error) {
+                                         $scope.error = error;
+                                    });
+                                   $scope.mas_obj = false;
+
+                                 /*  $timeout(function () { $scope.alertaEditadop1 = true; }, 1000);
+                                   $timeout(function () { $scope.alertaEditadop1 = false; }, 5000);*/
+                        })
+                        .error(function (data, status, header, config) {
+                            console.log('Parece que existe un error al modificar la compra.');
+                        });
 
               };
 
               //Enviar Producto a bodega
-              
+
                 $scope.procompra={};
               $scope.agregarProBodega=function(procompra){
                 $scope.procompra=procompra;
@@ -928,7 +947,7 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                       id_procompra: $scope.procompra.id
                   };
                   console.log(envpro);
-                   $http.post('/api/procompra/envioproducto', envpro)    
+                   $http.post('/api/procompra/envioproducto', envpro)
                         .success(function (data, status, headers) {
                                $http.get('/api/procompras/'+$scope.miorden).success(
                                     function(procompras) {
@@ -936,16 +955,48 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                                                  console.log('Producto enviado a bodega central.');
                                   }).error(function(error) {
                                        $scope.error = error;
-                                  });  
+                                  });
                                     $scope.procompra={};
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que el producto de compra  ya existe");
-                            $timeout(function () { $scope.alertaExiste = true; }, 100);  
-                            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);
                         });
 
               };
+
+                 $scope.propcompra={};
+              $scope.agregarProBodegaPen=function(propcompra){
+                $scope.propcompra=propcompra;
+                  var envpro={
+                      id_orden:$scope.propcompra.id_orden,
+                      id_producto:$scope.propcompra.id_producto,
+                      cantidad: $scope.propcompra.pendiente_producto.cantidad,
+                      id_procompra: $scope.propcompra.id
+                  };
+                  console.log(envpro);
+                  $http.post('/api/procompra/envioproductopen', envpro)
+                        .success(function (data, status, headers) {
+                               $http.get('/api/procompras/'+$scope.miorden).success(
+                                    function(procompras) {
+                                              $scope.procompras = procompras.datos;
+                                                 console.log('Producto enviado a bodega central.');
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });
+                                    $scope.procompra={};
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que el producto de compra  ya existe");
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);
+                        });
+
+              };
+
+
+
               //Finalizar Compra
                $scope.finalizarCompra=function(){
                      $http.put('api/compra/p2/' + $scope.miorden)
@@ -955,15 +1006,15 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
 
                                       function(compras) {
                                                 $scope.compras = compras.datos;
-                                            
+
                                     }).error(function(error) {
                                          $scope.error = error;
                                     });
-                                   $scope.mas_obj = false;  
+                                   $scope.mas_obj = false;
                         })
                         .error(function (data, status, header, config) {
                             console.log('Parece que existe un error al modificar la compra.');
-                        }); 
+                        });
 
               };
 
@@ -983,21 +1034,21 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                             }).error(function(error) {
                                  $scope.error = error;
                             });
-                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);  
-                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
+                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);
+                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);
             })
             .error(function (data, status, header, config) {
                 console.log('Parece que existe un error al borrar la compra.');
             });
-      };  
+      };
 
-      
+
 
        //Editar Compra
         $scope.btn_editar = function(compra) {
           $scope.editar_obj = !$scope.editar_obj;
-          $scope.existeCompra= compra; 
-       }; 
+          $scope.existeCompra= compra;
+       };
 
 
       $scope.editarCompra = function(){
@@ -1016,13 +1067,13 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                              $scope.error = error;
                         });
                        $scope.editar_obj = false;
-                        $timeout(function () { $scope.alertaEditado = true; }, 1000);  
-                        $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                        $timeout(function () { $scope.alertaEditado = true; }, 1000);
+                        $timeout(function () { $scope.alertaEditado = false; }, 5000);
                 })
                 .error(function (data, status, header, config) {
                     console.log('Parece que existe un error al modificar la compra.');
-                });  
-            
+                });
+
         };
 
 
@@ -1044,15 +1095,15 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
   $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 
 
-   $scope.nuevo_obj = false; 
-   $scope.editar_obj = false; 
+   $scope.nuevo_obj = false;
+   $scope.editar_obj = false;
    $scope.mas_obj= false;
-   $scope.ver_eli = false; 
-   $scope.alertaNuevo = false; 
-   $scope.alertaExiste = false; 
-   $scope.alertaEliminado = false; 
-   $scope.alertaEliminadopro = false; 
-   $scope.alertaEditado = false; 
+   $scope.ver_eli = false;
+   $scope.alertaNuevo = false;
+   $scope.alertaExiste = false;
+   $scope.alertaEliminado = false;
+   $scope.alertaEliminadopro = false;
+   $scope.alertaEditado = false;
 
    $scope.btn_nuevo = function() {
         $scope.nuevo_obj = !$scope.nuevo_obj;
@@ -1067,7 +1118,7 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                         $scope.sucursales = sucursales.datos;
             }).error(function(error) {
                  $scope.error = error;
-            });  
+            });
 
          //Todos los usuarios
       $http.get('/api/sucursales/usuarios').success(
@@ -1076,8 +1127,8 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                         $scope.usuarios = usuarios.datos;
             }).error(function(error) {
                  $scope.error = error;
-            });  
-     
+            });
+
      //Productos
           $http.get('/api/productos').success(
 
@@ -1085,7 +1136,7 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                         $scope.productos = productos.datos;
             }).error(function(error) {
                  $scope.error = error;
-            }); 
+            });
 
             $scope.elstock=function(id){
               $scope.idpro=id;
@@ -1095,15 +1146,15 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                               $scope.stock = stock.datos;
                   }).error(function(error) {
                        $scope.error = error;
-                  }); 
-            } 
+                  });
+            };
 
       //Nueva Sucursal
-         
+
       $scope.sucursal={};
       $scope.guardarSucursal = function(){
          // console.log($scope.usuario);
-    
+
         ApiSucursalNuevo.save($scope.sucursal, function(){
           console.log("Guardado correctamente");
            $scope.nuevo_obj = false;
@@ -1114,16 +1165,16 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
             }).error(function(error) {
                  $scope.error = error;
             });
-            $timeout(function () { $scope.alertaNuevo = true; }, 1000);  
-            $timeout(function () { $scope.alertaNuevo = false; }, 5000);  
+            $timeout(function () { $scope.alertaNuevo = true; }, 1000);
+            $timeout(function () { $scope.alertaNuevo = false; }, 5000);
           },
           function(error){
             console.log("Parece que la sucursal ya existe");
-            $timeout(function () { $scope.alertaExiste = true; }, 100);  
-            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+            $timeout(function () { $scope.alertaExiste = true; }, 100);
+            $timeout(function () { $scope.alertaExiste = false; }, 5000);
           });
-           
-      };    
+
+      };
 
        //Eliminar Sucursal
       $scope.btn_eliminar = function(id){
@@ -1140,19 +1191,19 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                             }).error(function(error) {
                                  $scope.error = error;
                             });
-                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);  
-                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
+                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);
+                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);
             })
             .error(function (data, status, header, config) {
                 console.log('Parece que existe un error al borrar la sucursal.');
             });
-      };  
+      };
 
        //Editar Sucursal
         $scope.btn_editar = function(sucursal) {
           $scope.editar_obj = !$scope.editar_obj;
-          $scope.existeSucu= sucursal; 
-       }; 
+          $scope.existeSucu= sucursal;
+       };
 
 
       $scope.editarSucursal = function(){
@@ -1172,13 +1223,13 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                              $scope.error = error;
                         });
                        $scope.editar_obj = false;
-                        $timeout(function () { $scope.alertaEditado = true; }, 1000);  
-                        $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                        $timeout(function () { $scope.alertaEditado = true; }, 1000);
+                        $timeout(function () { $scope.alertaEditado = false; }, 5000);
                 })
                 .error(function (data, status, header, config) {
                     console.log('Parece que existe un error al modificar el usuario.');
-                }); 
-            
+                });
+
         };
 
         //Abrir Sucursal
@@ -1190,7 +1241,7 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
 
              $scope.btn_cerrarc=function(){
              $scope.mas_obj = false;
-           }
+           };
 
            $scope.prosucursal={};
 
@@ -1199,7 +1250,7 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                           $scope.prosucursales = prosucursales.datos;
               }).error(function(error) {
                    $scope.error = error;
-              }); 
+              });
 
            $scope.guardarProSucursal= function(){
 
@@ -1209,27 +1260,27 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                           stock: $scope.prosucursal.cantidad,
                     };
                     console.log(dataprosu);
-                     $http.post('/api/prosucursal/create', dataprosu)    
+                     $http.post('/api/prosucursal/create', dataprosu)
                         .success(function (data, status, headers) {
                                $http.get('/api/prosucursales/'+$scope.miid).success(
                                     function(prosucursales) {
                                               $scope.prosucursales = prosucursales.datos;
                                   }).error(function(error) {
                                        $scope.error = error;
-                                  });  
+                                  });
                                     $scope.procompra={};
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al guardar el producto");
-                            $timeout(function () { $scope.alertaExiste = true; }, 100);  
-                            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);
                         });
            };
 
             //Editar Productos Sucursal
              $scope.btn_editarl = function(prosucursal) {
-                $scope.existePro= prosucursal; 
-             }; 
+                $scope.existePro= prosucursal;
+             };
               $scope.btn_proeditar = function(id){
                  var data = {
                   cantidad: $scope.existePro.stock
@@ -1238,16 +1289,16 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                 /*$http.put('api/procompra/' +  $scope.existePro.id,data)
                     .success(function (data, status, headers) {
                        console.log('Producto '+$scope.existePro.nombre_producto.codigo+' editado correctamente.');
-                       
+
                           $http.get('/api/prosucursal/'+$scope.miid).success(
 
                                     function(prosucursales) {
                                               $scope.prosucursales = prosucursales.datos;
                                   }).error(function(error) {
                                        $scope.error = error;
-                                  }); 
-                               $timeout(function () { $scope.alertaEditadol = true; }, 1000);  
-                               $timeout(function () { $scope.alertaEditadol = false; }, 5000);  
+                                  });
+                               $timeout(function () { $scope.alertaEditadol = true; }, 1000);
+                               $timeout(function () { $scope.alertaEditadol = false; }, 5000);
                     })
                     .error(function (data, status, header, config) {
                         console.log('Parece que existe un error al borrar el producto.');
@@ -1270,13 +1321,13 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                                     }).error(function(error) {
                                          $scope.error = error;
                                     });
-                            $timeout(function () { $scope.alertaEliminadopro = true; }, 1000);  
-                            $timeout(function () { $scope.alertaEliminadopro = false; }, 5000);  
+                            $timeout(function () { $scope.alertaEliminadopro = true; }, 1000);
+                            $timeout(function () { $scope.alertaEliminadopro = false; }, 5000);
                     })
                     .error(function (data, status, header, config) {
                         console.log('Parece que existe un error al borrar la sucursal.');
                     });
-              };  
+              };
 
 
    };
@@ -1326,15 +1377,15 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
                         $scope.clientes = clientes.datos;
             }).error(function(error) {
                  $scope.error = error;
-            });  
+            });
 
 
       //Nuevo Cliente
-         
+
       $scope.cliente={};
       $scope.guardarCliente = function(){
          // console.log($scope.usuario);
-        
+
           var datacliente = {
               empresa: $scope.cliente.empresa,
               nombre: $scope.cliente.nombre,
@@ -1344,9 +1395,9 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
               celular: $scope.cliente.celular,
               email: $scope.cliente.email,
               tipo_cliente: $scope.cliente.tipo_cliente
-            };  
+            };
 
-        $http.post('/api/cliente/create', datacliente)    
+        $http.post('/api/cliente/create', datacliente)
           .success(function (data, status, headers) {
            console.log("Guardado correctamente");
            $scope.nuevo_obj = false;
@@ -1357,16 +1408,16 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
             }).error(function(error) {
                  $scope.error = error;
             });
-            $timeout(function () { $scope.alertaNuevo = true; }, 1000);  
-            $timeout(function () { $scope.alertaNuevo = false; }, 5000);  
+            $timeout(function () { $scope.alertaNuevo = true; }, 1000);
+            $timeout(function () { $scope.alertaNuevo = false; }, 5000);
            })
             .error(function (data, status, header, config) {
                 console.log("Parece que el cliente ya existe");
-                $timeout(function () { $scope.alertaExiste = true; }, 100);  
-                $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+                $timeout(function () { $scope.alertaExiste = true; }, 100);
+                $timeout(function () { $scope.alertaExiste = false; }, 5000);
             });
-  
-        };    
+
+        };
 
        //Eliminar Cliente
       $scope.btn_eliminar = function(id){
@@ -1383,19 +1434,19 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
                             }).error(function(error) {
                                  $scope.error = error;
                             });
-                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);  
-                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);  
+                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);
+                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);
             })
             .error(function (data, status, header, config) {
                 console.log('Parece que existe un error al borrar el proveedor.');
             });
-      };  
+      };
 
        //Editar Cliente
         $scope.btn_editar = function(cliente) {
           $scope.editar_obj = !$scope.editar_obj;
-          $scope.existeCliente= cliente; 
-       }; 
+          $scope.existeCliente= cliente;
+       };
 
 
       $scope.editarCliente = function(){
@@ -1420,13 +1471,13 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
                              $scope.error = error;
                         });
                        $scope.editar_obj = false;
-                        $timeout(function () { $scope.alertaEditado = true; }, 1000);  
-                        $timeout(function () { $scope.alertaEditado = false; }, 5000);  
+                        $timeout(function () { $scope.alertaEditado = true; }, 1000);
+                        $timeout(function () { $scope.alertaEditado = false; }, 5000);
                 })
                 .error(function (data, status, header, config) {
                     console.log('Parece que existe un error al modificar el usuario.');
-                });  
-            
+                });
+
         };
 
 
@@ -1442,7 +1493,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
                         $scope.ventas = ventas.datos;
             }).error(function(error) {
                  $scope.error = error;
-            }); 
+            });
 
 });
 //************************************Venta N**********************************************//
@@ -1479,8 +1530,8 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
 
       $scope.act_cliente = function() {
           $scope.acti_cliente =true;
-       };  
-  
+       };
+
 
 
    $scope.tipos=[
@@ -1491,12 +1542,12 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
    $scope.tpagos=[
         {id:'1',pago:'Efectivo'},
         {id:'2',pago:'POS/Tarjeta'},
-  ]; 
+  ];
 
   $scope.tfacs=[
         {id:'1',factura:'Impresa'},
         {id:'2',factura:'Electrónica'},
-  ];    
+  ];
 
      //Todos los clientes
       $http.get('/api/clientes').success(
@@ -1505,11 +1556,11 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                         $scope.clientes = clientes.datos;
             }).error(function(error) {
                  $scope.error = error;
-            });  
+            });
 
 
       //Nuevo Cliente
-         
+
       $scope.cliente={};
       $scope.guardarClienteCrear = function(){
 
@@ -1524,7 +1575,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                         tipo_cliente: $scope.cliente.tipo_cliente
                     };
                     console.log(dataventa);
-                    $http.post('/api/ventacliente/create', dataventa)    
+                    $http.post('/api/ventacliente/create', dataventa)
                         .success(function (data, status, headers) {
                              $scope.id_venta=data.id_venta;
                              $scope.agregarProductos($scope.id_venta);
@@ -1532,11 +1583,11 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al guardar la venta");
-                            $timeout(function () { $scope.alertaExiste = true; }, 100);  
-                            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);
                         });
-           
-      };    
+
+      };
 
 
        //Productos
@@ -1546,7 +1597,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                         $scope.productos = productos.datos;
             }).error(function(error) {
                  $scope.error = error;
-            });   
+            });
 
       $scope.elstock=function(id){
             $scope.idpro=id;
@@ -1556,12 +1607,12 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                             $scope.stock = stock.datos;
                 }).error(function(error) {
                      $scope.error = error;
-                }); 
-        }; 
-         
+                });
+        };
+
 
         //Nueva Venta
-         
+
       $scope.venta={};
       $scope.nuevaVenta = function(){
 
@@ -1569,7 +1620,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                           id_cliente:  $scope.venta.cliente.id
                     };
                     console.log(dataventa);
-                    $http.post('/api/ventacentral/create', dataventa)    
+                    $http.post('/api/ventacentral/create', dataventa)
                         .success(function (data, status, headers) {
                              $scope.id_venta=data.id_venta;
                              $scope.agregarProductos($scope.id_venta);
@@ -1577,10 +1628,10 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al guardar la venta");
-                            $timeout(function () { $scope.alertaExiste = true; }, 100);  
-                            $timeout(function () { $scope.alertaExiste = false; }, 5000);  
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);
                         });
-             
+
       };
       $scope.agregarProductos=function(idventa){
         $scope.idventa=idventa;
@@ -1593,8 +1644,8 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                   $scope.miventa = miventa.datos;
                       }).error(function(error) {
                            $scope.error = error;
-                      }); 
-              $scope.proventa={};        
+                      });
+              $scope.proventa={};
               $scope.guardarProVenta=function(){
                       var datapro={
                            id_ventas:  $scope.idventa,
@@ -1603,7 +1654,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                       };
                       console.log(datapro);
 
-                       $http.post('/api/ventaproducto/create', datapro)    
+                       $http.post('/api/ventaproducto/create', datapro)
                         .success(function (data, status, headers) {
                               console.log("Producto agregado correctamente");
 
@@ -1613,8 +1664,8 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                                   $scope.misproductos = misproductos.datos;
                                       }).error(function(error) {
                                            $scope.error = error;
-                                      }); 
-                                  $scope.proventa={};    
+                                      });
+                                  $scope.proventa={};
 
                                   //Mi Venta
                                   $http.get('/api/miventa/'+$scope.idventa).success(
@@ -1623,13 +1674,13 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                                     $scope.miventa = miventa.datos;
                                         }).error(function(error) {
                                              $scope.error = error;
-                                        });       
+                                        });
 
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al guardar el producto");
-                            $timeout(function () { $scope.alertaExistePro = true; }, 100);  
-                            $timeout(function () { $scope.alertaExistePro = false; }, 5000);  
+                            $timeout(function () { $scope.alertaExistePro = true; }, 100);
+                            $timeout(function () { $scope.alertaExistePro = false; }, 5000);
                         });
 
 
@@ -1637,8 +1688,8 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
 
               //Editar Producto Venta
              $scope.btn_editarl = function(mipro) {
-                $scope.existePro= mipro; 
-             }; 
+                $scope.existePro= mipro;
+             };
               $scope.btn_proeditar = function(id){
                  var data = {
                   cantidad: $scope.existePro.cantidad
@@ -1647,7 +1698,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                 $http.put('api/proventa/' +  $scope.existePro.id,data)
                     .success(function (data, status, headers) {
                        console.log('Producto '+$scope.existePro.nombre_producto.codigo+' editado correctamente.');
-                       
+
                             $http.get('/api/miproducto/'+$scope.idventa).success(
 
                                 function(misproductos) {
@@ -1655,8 +1706,8 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                     }).error(function(error) {
                                          $scope.error = error;
                                     });
-                               $timeout(function () { $scope.alertaEditadol = true; }, 1000);  
-                               $timeout(function () { $scope.alertaEditadol = false; }, 5000);  
+                               $timeout(function () { $scope.alertaEditadol = true; }, 1000);
+                               $timeout(function () { $scope.alertaEditadol = false; }, 5000);
                     })
                     .error(function (data, status, header, config) {
                         console.log('Parece que existe un error al borrar el producto.');
@@ -1679,8 +1730,8 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                     }).error(function(error) {
                                          $scope.error = error;
                                     });
-                            $timeout(function () { $scope.alertaEliminadopro = true; }, 1000);  
-                            $timeout(function () { $scope.alertaEliminadopro = false; }, 5000);  
+                            $timeout(function () { $scope.alertaEliminadopro = true; }, 1000);
+                            $timeout(function () { $scope.alertaEliminadopro = false; }, 5000);
 
                               //Mi Venta
                                   $http.get('/api/miventa/'+$scope.idventa).success(
@@ -1689,12 +1740,12 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                                     $scope.miventa = miventa.datos;
                                         }).error(function(error) {
                                              $scope.error = error;
-                                        });     
+                                        });
                     })
                     .error(function (data, status, header, config) {
                         console.log('Parece que existe un error al borrar el producto.');
                     });
-              };  
+              };
       };
       $scope.factura={};
       $scope.btn_facturar=function(){
@@ -1706,18 +1757,18 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
             };
             console.log(datafact);
 
-               $http.post('/api/factura/create', datafact)    
+               $http.post('/api/factura/create', datafact)
                         .success(function (data, status, headers) {
                               console.log("Factura creada correctamente");
                               $location.path('../ventas');
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al enviar la factura");
-                            $timeout(function () { $scope.alertaExistePro = true; }, 100);  
-                            $timeout(function () { $scope.alertaExistePro = false; }, 5000);  
+                            $timeout(function () { $scope.alertaExistePro = true; }, 100);
+                            $timeout(function () { $scope.alertaExistePro = false; }, 5000);
                         });
-      }          
-   
+      };
+
 
 });
 
@@ -1729,11 +1780,11 @@ wApp.controller('menuDos',function($scope, $timeout){
    $scope.Fecha = new Date();
     //Fecha y Hora actual
                   $scope.clock = "..."; // initialise the time variable
-                  $scope.tickInterval = 1000 //ms
+                  $scope.tickInterval = 1000; //ms
 
                   var tick = function() {
-                      $scope.clock = Date.now() // get the current time
+                      $scope.clock = Date.now(); // get the current time
                       $timeout(tick, $scope.tickInterval); // reset the timer
-                  }
-                  $timeout(tick, $scope.tickInterval);          
+                  };
+                  $timeout(tick, $scope.tickInterval);
 });

@@ -1392,9 +1392,24 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 		background: rgba(0, 171, 239,0.1) !important;
 	}
 
+
+.trc_fus{
+	background: rgba(238, 170, 247,0.1);
+	td{
+		border-bottom-color: rgba(238, 170, 247,0.15) !important;
+	}
+	.td_first{
+		background: rgba(238, 170, 247,0.50);
+	}
+}
+	.trc_fus:hover{
+		background: rgba(238, 170, 247,0.2) !important;
+	}
+
 .ico_excelazul{
 		background: url('img/ico_excelazul.svg') no-repeat center;
  		background-size: 18px; 
+ 	
 }
 
 .ico_excelazul:hover{

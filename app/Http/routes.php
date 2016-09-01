@@ -20,6 +20,7 @@ Route::auth();
 
 Route::get('/', 'HomeController@index');
 
+
 Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 {
 	   //Usuarios
@@ -78,12 +79,14 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::post('/api/compra/create', 'OrdenCompraController@store');
 			Route::post('/api/procompra/create', 'OrdenCompraController@storeprocompra');
 			Route::post('/api/procompra/envioproducto', 'OrdenCompraController@enviarproductos');
+			Route::post('/api/procompra/envioproductopen', 'OrdenCompraController@enviarproductopen');
 			Route::delete('/api/compra/destroy/{id}','OrdenCompraController@destroy');
 			Route::delete('/api/procompra/destroy/{id}','OrdenCompraController@destroypro');
 			Route::delete('/api/procompra/destroy2/{id}','OrdenCompraController@destroypro2');
 			Route::put('/api/compra/{id}', 'OrdenCompraController@update');
 			Route::put('/api/procompra/{id}', 'OrdenCompraController@updatepro');
-			Route::put('/api/compra/p1/{id}', 'OrdenCompraController@updatep1');
+			Route::post('/api/compra/p1/{id}', 'OrdenCompraController@updatep1');
+			Route::post('/api/compra/pen/{id}', 'OrdenCompraController@updatepen');
 			Route::put('/api/compra/p2/{id}', 'OrdenCompraController@updatep2');
 
 			 //Sucursales

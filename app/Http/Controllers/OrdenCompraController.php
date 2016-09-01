@@ -11,8 +11,10 @@ use App\Models\Producto;
 use App\Models\EntregaCompra;
 use App\Models\PendienteProcompra;
 use App\Models\StockProducto;
+use App\Models\Proveedores;
 use Auth;
 use Excel;
+use Mail;
 use Carbon\Carbon;
 
 class OrdenCompraController extends Controller
@@ -52,15 +54,7 @@ class OrdenCompraController extends Controller
         }
          return response()->json(['datos' =>  $procompras],200);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+   
 
     /**
      * Store a newly created resource in storage.
@@ -83,6 +77,17 @@ class OrdenCompraController extends Controller
            'estado_producto' => 1,
                 ]);
           $productocompra->save();
+
+            $idorden=$productocompra->id_orden;
+
+              $ordencompra=OrdenCompra::find($idorden);
+              //Sumar el subtotal actual
+              $totalfinal=($ordencompra->total_compra)+$subtotal;
+              $ordencompra->fill([
+                        'total_compra' => $totalfinal,
+                  ]);
+              $ordencompra->save();
+
            return response()->json(['id_procompra' => $productocompra->id],200);
     }
 
@@ -123,18 +128,21 @@ class OrdenCompraController extends Controller
          $cantidadasig=$productocompra->cantidad;
          if($cantidadasig>$cantidad){
            $actualcanti=$cantidadasig-$cantidad;
-            $pendienteprocompra=PendienteProcompra::create([
-                  'id_orden' => $idorden,
-                  'id_procompra' => $idprocompra,
-                  'id_producto' =>  $idproducto,
-                  'cantidad' =>  $actualcanti,
-              ]);
-           $pendienteprocompra->save();
 
-             $productocompra->fill([
-                  'estado_producto' => 3,
-            ]);
-            $productocompra->save();
+                 //Creando la compra pendiente
+                  $pendienteprocompra=PendienteProcompra::create([
+                        'id_orden' => $idorden,
+                        'id_procompra' => $idprocompra,
+                        'id_producto' =>  $idproducto,
+                        'cantidad' =>  $actualcanti,
+                    ]);
+                 $pendienteprocompra->save();
+
+                  //Cambiando el estado del producto
+                 $productocompra->fill([
+                      'estado_producto' => 3,
+                  ]);
+                  $productocompra->save();
 
          }else{
             $productocompra->fill([
@@ -185,9 +193,71 @@ class OrdenCompraController extends Controller
         return response()->json(['id_procompra' => $productocompra->id],200);
     }
 
+     public function enviarproductopen(Request $request)
+    {
+        $user = Auth::User();     
+        $userId = $user->id; 
+
+        $idproducto=$request['id_producto'];
+        $idprocompra=$request['id_procompra'];
+        $idorden=$request['id_orden'];
+        $cantidad=$request['cantidad'];
+        $producto=Producto::where('id',$idproducto)->first();
+
+        //Producto compra cambia a estado 2
+        $productocompra=ProductoCompra::find($idprocompra);
+      
+            $productocompra->fill([
+                  'estado_producto' => 2,
+            ]);
+            $productocompra->save();
+        
+        
+
+        //Se realiza un dato de la entrega de compra del producto
+        $entregacompra=EntregaCompra::create([
+                  'id_orden' => $idorden,
+                  'id_procompra' => $idprocompra,
+                  'id_producto' =>  $idproducto,
+                  'cantidad' =>  $cantidad,
+              ]);
+         $entregacompra->save();
+
+
+
+
+         //Se envia a Stock de Producto con Bodega Central
+          $stockproducto=StockProducto::find($idproducto);
+
+          if($stockproducto === null){
+
+                $nuevoStock=StockProducto::create([
+                          'id_producto' => $idproducto,
+                          'stock' => $cantidad,
+                          'bodega_actual' =>  1,
+                          'act_su' =>  0,
+                          'act_co' =>  0,
+                          'id_user' =>  $userId,
+                          'estado_producto' =>  1,
+                      ]);
+                 $nuevoStock->save();
+          }else{
+                 $mistock= $stockproducto->stock;
+                 $sumstock=$mistock+$cantidad;
+                 $stockproducto->fill([
+                         'stock' => $sumstock,
+                         'id_user' =>  $userId,
+                  ]);
+                 $stockproducto->save();
+          }
+
+      
+        return response()->json(['id_procompra' => $productocompra->id],200);
+    }
+
 
     /**
-     * Update the specified resource in storage.
+     * Enviando a proveedor la primera opcion de compra
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -195,14 +265,19 @@ class OrdenCompraController extends Controller
      */
     public function updatep1(Request $request, $id)
     {
+      //Cambiando orden a estado de Compra Enviada
        $ordencompra=OrdenCompra::find($id);
         $ordencompra->fill([
-                  'total_compra' => $request['total_compra'],
                   'estado_orden' => 2,
             ]);
         $ordencompra->save();
+        $idprove=$ordencompra->id_proveedor;
+        //Información de Proveedores, en especial el email
+         $proveedor=Proveedores::where('id', $idprove)->first();
+         $emailprove=$proveedor->email_encargado;
+         $encargado=$proveedor->encargado;
 
-
+        //Query de los productos comprados del numero de orden
         $procompra = ProductoCompra::join('producto', 'producto.id', '=', 'producto_compra.id_producto')
                   ->select(
                     'producto.codigo', 
@@ -220,31 +295,117 @@ class OrdenCompraController extends Controller
         $proArray[] = ['Codigo','Producto','Precio','Cantidad','Subtotal'];
 
          foreach ($procompra as $pro) {
-        $proArray[] = $pro->toArray();
-       }
-      $hoy=Carbon::now();
+            $proArray[] = $pro->toArray();
+           }
+         $hoy=Carbon::now();
 
 
-      //Creando Excel para orden
-      Excel::create($nombrearchivo, function($excel) use($proArray,$id, $hoy){
-                $excel->sheet('Orden-'.$id, function($sheet) use($proArray,$id, $hoy) {
-                    $sheet->row(1, function ($row) {
-                            $row->setFontSize(25);
-                        });
-                     $sheet->cells('A5:E5', function ($cells) {
-                           $cells->setFontWeight('bold');
-                          $cells->setBorder('solid', 'none', 'none', 'solid');
-                        });
-                    $sheet->row(1, array('Orden de Compra-#'.$id));
-                     
-                   $sheet->row(2, array('Wakami Guatemala'));
-                   $sheet->row(3, array('Fecha:'.$hoy));
-                   $sheet->fromArray($proArray, null, 'A5', false, false);
-                  });
-          })->store('xlsx', public_path('exports/ordenes'));
+        //Creando Excel para orden
+        Excel::create($nombrearchivo, function($excel) use($proArray,$id, $hoy){
+                  $excel->sheet('Orden-'.$id, function($sheet) use($proArray,$id, $hoy) {
+                      $sheet->row(1, function ($row) {
+                              $row->setFontSize(25);
+                          });
+                       $sheet->cells('A5:E5', function ($cells) {
+                             $cells->setFontWeight('bold');
+                            $cells->setBorder('solid', 'none', 'none', 'solid');
+                          });
+                      $sheet->row(1, array('Orden de Compra-#'.$id));
+                       
+                     $sheet->row(2, array('Wakami Guatemala'));
+                     $sheet->row(3, array('Fecha:'.$hoy));
+                     $sheet->fromArray($proArray, null, 'A5', false, false);
+                    });
+            })->store('xlsx', public_path('exports/ordenes'));
+
+          //Enviando correo a proveedor
+
+        $exceladj=public_path().'/exports/ordenes/'.$nombrearchivo.'.xlsx';
+
+        Mail::send('emails.ordenes', ['orden' => $id,'encargado' => $encargado], function ($message) use ($id, $exceladj, $emailprove) {
+              $message->from('carlos.ruano@creationgt.com', 'Wakami Guatemala');
+
+              $message->to($emailprove);
+              $message->subject(' Nueva Orden de Compra-No '.$id);
+              $message->attach($exceladj);
+          });
+
 
 
     }
+
+
+    public function updatepen(Request $request, $id)
+    {
+      //Cambiando orden a estado de Compra Enviada
+       $ordencompra=OrdenCompra::find($id);
+        $ordencompra->fill([
+                  'estado_orden' => 3,
+            ]);
+        $ordencompra->save();
+        $idprove=$ordencompra->id_proveedor;
+        //Información de Proveedores, en especial el email
+         $proveedor=Proveedores::where('id', $idprove)->first();
+         $emailprove=$proveedor->email_encargado;
+         $encargado=$proveedor->encargado;
+
+        //Query de los productos comprados del numero de orden
+        $procompra = PendienteProcompra::join('producto', 'producto.id', '=', 'pendiente_procompra.id_producto')
+                  ->select(
+                    'producto.codigo', 
+                    'producto.nombre', 
+                    'producto.costo', 
+                    'pendiente_procompra.cantidad'
+                       )
+                  ->where('pendiente_procompra.id_orden',$id)
+                  ->get();
+
+        $nombrearchivo='PendienteCompra-No'.$id;
+
+        $proArray = []; 
+        $proArray[] = ['Codigo','Producto','Precio','Cantidad'];
+
+         foreach ($procompra as $pro) {
+            $proArray[] = $pro->toArray();
+           }
+         $hoy=Carbon::now();
+
+
+        //Creando Excel para orden
+        Excel::create($nombrearchivo, function($excel) use($proArray,$id, $hoy){
+                  $excel->sheet('OrdenPendiente-'.$id, function($sheet) use($proArray,$id, $hoy) {
+                      $sheet->row(1, function ($row) {
+                              $row->setFontSize(25);
+                          });
+                       $sheet->cells('A5:E5', function ($cells) {
+                             $cells->setFontWeight('bold');
+                            $cells->setBorder('solid', 'none', 'none', 'solid');
+                          });
+                      $sheet->row(1, array('Orden de Compra-#'.$id));
+                       
+                     $sheet->row(2, array('Productos Pendientes'));
+                     $sheet->row(3, array('Fecha:'.$hoy));
+                     $sheet->setCellValue('B5','=SUM(B2:B4)');
+                     $sheet->fromArray($proArray, null, 'A5', false, false);
+                    });
+            })->store('xlsx', public_path('exports/ordenes'));
+
+          //Enviando correo a proveedor
+
+        $exceladj=public_path().'/exports/ordenes/'.$nombrearchivo.'.xlsx';
+
+        Mail::send('emails.pendientes', ['orden' => $id,'encargado' => $encargado], function ($message) use ($id, $exceladj, $emailprove) {
+              $message->from('carlos.ruano@creationgt.com', 'Wakami Guatemala');
+
+              $message->to($emailprove);
+              $message->subject('Productos pendientes de Compra-No '.$id);
+              $message->attach($exceladj);
+          });
+
+
+
+    }
+
 
      public function updatep2(Request $request, $id)
     {
@@ -310,11 +471,7 @@ class OrdenCompraController extends Controller
     
      public function destroypro($id)
     {
-         ProductoCompra::destroy($id);
-    }
-     public function destroypro2($id)
-    {
-        $procompra=ProductoCompra::find($id);
+         $procompra=ProductoCompra::find($id);
         $idorden=$procompra->id_orden;
         $subtotal=$procompra->subtotal;
 
@@ -324,7 +481,49 @@ class OrdenCompraController extends Controller
                   'total_compra' => $restartotal,
             ]);
         $ordencompra->save();
-
          ProductoCompra::destroy($id);
+    }
+
+
+     public function destroypro2($id)
+    {
+        //Productos pendientes
+        $pencompra=PendienteProcompra::where('id_procompra',$id)->first();
+        //Productos compra
+        $procompra=ProductoCompra::find($id);
+        //Columnas de compra
+        $idorden=$procompra->id_orden;
+        $preciopro=$procompra->precio_producto;
+        $cantidad_pro=$procompra->cantidad;
+
+        //Columna de pendientes
+        $id_pen= $pencompra->id;
+        $cantidad_pen=$pencompra->cantidad;
+
+        //Operaciones
+        $cantidad_actual=$cantidad_pro-$cantidad_pen;
+        $subtotal= $preciopro*$cantidad_pen;
+         $restarsubtotal=$procompra->subtotal- $subtotal;
+        //Guardando nueva cantidad al producto
+         $procompra->fill([
+                  'cantidad' => $cantidad_actual,
+                  'subtotal' => $restarsubtotal,
+                   'estado_producto' => 2,
+            ]);
+        $procompra->save();
+
+
+        //Actualizando total
+  
+        $ordencompra=OrdenCompra::find($idorden);
+
+        $restartotal=$ordencompra->total_compra- $subtotal;
+        $ordencompra->fill([
+                  'total_compra' => $restartotal,
+            ]);
+        $ordencompra->save();
+
+          //Eliminando productos pendientes
+         PendienteProcompra::destroy($id_pen);
     }
 }

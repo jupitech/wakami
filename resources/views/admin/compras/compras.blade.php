@@ -167,18 +167,68 @@
                                        </table>
                       </div>
                          {{-- Productos para enviar a bodega --}}
-                      <div class="col-sm-12 conte table_height" ng-if="exisCompra.estado_orden==2">
+                      <div class="col-sm-12 conte table_height" ng-if="exisCompra.estado_orden>1 && exisCompra.estado_orden<4">
                         <div class="col-sm-12">
                              <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Producto agregado</strong> a bodega central.</div>
                         </div>
                         <div class="col-sm-12 spd spi">
                           <div class="agre_pro">
+                          {{-- Productos pendientes de recibir --}}
+                          <h2 ng-if="(procompras | filter:{estado_producto:3}).length > 0" ><strong>Productos Pendientes de recibir</strong></h2>
+                          <table class="table" ng-if="(procompras | filter:{estado_producto:3}).length > 0">
+                             <thead>
+                               
+                             </thead>
+                             <tbody>
+                                              <tr  ng-repeat="propcompra in procompras" ng-if="propcompra.estado_producto==3">
+                                              
+                                              <form class="form-horizontal" name="frm" role="form">
+                                                  <td> <small class="label label-success">@{{propcompra.nombre_producto.codigo}}</small> @{{propcompra.nombre_producto.nombre}}</td>
+                                                  <td class="maxtd_long">
+                                                      <div class="form-group">
+                                                        <div class="col-md-12 spd spi">
+                                                             <input id="cantidad" type="number" class="form-control" name="cantidad" ng-model="propcompra.pendiente_producto.cantidad"  ng-init="maxcantidad = propcompra.pendiente_producto.cantidad" min="0" max="@{{maxcantidad}}" required>
+                                                             <div class="col-sm-12 spd spi">
+                                                                <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Req</div>
+                                                             </div>
+                                                              <input type="hidden" ng-model="propcompra.id_producto"/>
+                                                              <input type="hidden" ng-model="propcompra.id_orden"/>
+                                                              <input type="hidden" ng-model="propcompra.id"/>
+                                                        </div>
+                                                   </div>
+                                                  </td>
+                                                  <td>
+                                                
+                                                     <div class="op_elim">
+                                                          <a href="" class="btn_delitem" id="simple-dropdown"><span class="ico_del" ng-click="btn_proeliminar2(propcompra.id)"></span></a>
+                                                     </div>
+                                                      <div class="op_elim">
+                                                          <a href="" class="btn_additem" id="simple-dropdown" ng-disabled="frm.$invalid"  ng-click="agregarProBodegaPen(propcompra)"><span class="ico_check"></span></a>
+                                                     </div>
+
+                                                   
+                                                  </td>
+
+                                              </form>
+                                            </tr>
+                             </tbody>
+                          </table>
+
+                            {{-- Productos agregados y por agregar --}}
                           <table  class="table">
                            <thead>
-                                               <th>Producto</th>
-                                               <th>Cant</th>
-                                               <th>Opciones</th>
-                                           </thead>
+                                           <tr>
+                                           <th rowspan="2">Producto</th>
+                                             <th colspan="2">Cantidad</th>
+                                             <th rowspan="2">Opciones</th>
+                                           </tr>
+                                            <th>Ent 1</th>
+                                            <th>Ent 2</th>
+                                           <tr>
+                                             
+                                           </tr>
+                                              
+                           </thead>
                             <tbody>
                               <tr  ng-repeat="procompra in procompras" ng-if="procompra.estado_producto==1">
                                 <form class="form-horizontal" name="frm" role="form">
@@ -196,6 +246,7 @@
                                           </div>
                                      </div>
                                     </td>
+                                    <td></td>
                                     <td>
                                   
                                        <div class="op_elim">
@@ -211,45 +262,14 @@
                                 </form>
                               </tr>
                               <tr ng-repeat="procompra in procompras" ng-if="procompra.estado_producto!=1" class="fondo_acep">
-                                <td> <small class="label label-success">@{{procompra.nombre_producto.codigo}}</small> @{{procompra.nombre_producto.nombre}}</td>
+                                <td> <small class="label label-success">@{{procompra.nombre_producto.codigo}}</small> @{{procompra.nombre_producto.nombre}} <small class="label label-primary">Q@{{procompra.nombre_producto.costo | number:2}}</small></td>
                                 <td>@{{procompra.entrega_producto.cantidad}}</td>
+                                <td>@{{procompra.pendiente_producto.cantidad}}</td>
                                 <td>En bodega</td>
                               </tr>
-                              {{-- Productos pendientes de recibir --}}
-                                <tr  ng-repeat="procompra in procompras" ng-if="procompra.estado_producto==3">
-                                <form class="form-horizontal" name="frm" role="form">
-                                    <td> <small class="label label-success">@{{procompra.nombre_producto.codigo}}</small> @{{procompra.nombre_producto.nombre}}</td>
-                                    <td class="maxtd_long">
-                                        <div class="form-group">
-                                          <div class="col-md-12 spd spi">
-                                               <input id="cantidad" type="number" class="form-control" name="cantidad" ng-model="procompra.pendiente_producto.cantidad"  ng-init="maxcantidad = procompra.pendiente_producto.cantidad" min="0" max="@{{maxcantidad}}" required>
-                                               <div class="col-sm-12 spd spi">
-                                                  <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Req</div>
-                                               </div>
-                                                <input type="hidden" ng-model="procompra.id_producto"/>
-                                                <input type="hidden" ng-model="procompra.id_orden"/>
-                                                <input type="hidden" ng-model="procompra.id"/>
-                                          </div>
-                                     </div>
-                                    </td>
-                                    <td>
-                                  
-                                       <div class="op_elim">
-                                            <a href="" class="btn_delitem" id="simple-dropdown"><span class="ico_del" ng-click="btn_proeliminar2(procompra.id)"></span></a>
-                                       </div>
-                                        <div class="op_elim">
-                                            <a href="" class="btn_additem" id="simple-dropdown" ng-disabled="frm.$invalid"  ng-click="agregarProBodega(procompra)"><span class="ico_check"></span></a>
-                                       </div>
-
-                                     
-                                    </td>
-
-                                </form>
-                              </tr>
-
                             </tbody>
                           </table>
-                          
+                     
                           </div>
                         </div>
                       </div>
@@ -295,7 +315,6 @@
                                                 <p class="info_paso"><strong>PASO 1</strong> Envio de los productos para solicitud de compra al proveedor</p>
                                               </div>
                                               <div class="col-sm-5">
-                                              <input type="hidden" ng-model="mien.total_compra" ng-init="mien.total_compra = (procompras | SumaItem:'subtotal')"/>
                                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">Enviar Compra</button>
                                               </div>
                                            </div>
@@ -305,7 +324,7 @@
                            <p class="info_paso"><strong>AGREGA PRODUCTOS</strong> Cuando se agreguen productos podrán enviarlo al proveedor y proceder al PASO 2 para enviar productos recibidos a la bodega central</p>
                         </div>
                         {{-- Estado de Orden 2 --}}
-                             <div class="col-sm-8" ng-if="exisCompra.estado_orden==2 && procompras.length == (procompras | filter:{estado_producto:2}).length" >
+                             <div class="col-sm-8" ng-if="exisCompra.estado_orden>1 && exisCompra.estado_orden<4 && procompras.length == (procompras | filter:{estado_producto:2}).length" >
                                    <form class="form-horizontal" name="frm" role="form" ng-submit="finalizarCompra()" >
                                               <div class="form-group">
                                                   <div class="col-sm-7">
@@ -318,23 +337,24 @@
                                          </form>
                             </div>
                             <div class="col-sm-8" ng-if="exisCompra.estado_orden==2 && procompras.length != (procompras | filter:{estado_producto:2}).length" >
-                            <div class="col-sm-12 spd spi" ng-if="(procompras | filter:{estado_producto:3}).length > 0">
-                                      <form class="form-horizontal" name="frm" role="form" ng-submit="enviarPenCompra()" >
-                                          <div class="form-group">
-                                              <div class="col-sm-7">
-                                                <p class="info_paso"><strong>PENDIENDTE</strong> Envio de los productos para solicitar de nuevo los restantes.</p>
-                                              </div>
-                                              <div class="col-sm-5">
-                                                    <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">Reenviar Compra</button>
-                                              </div>
-                                           </div>
-                                     </form>
-                            </div>
-                            <div class="col-sm-12 spd spi" ng-if="(procompras | filter:{estado_producto:3}).length < 1">
-                               <p class="info_paso"><strong>FALTAN PRODUCTOS</strong> por confirmar para agregar a la bodega central, o hacen falta productos que no fueron entregados por el proveedor</p>
-                            </div>
+                                <div class="col-sm-12 spd spi" ng-if="(procompras | filter:{estado_producto:3}).length > 0">
+                                          <form class="form-horizontal" name="frm" role="form" ng-submit="pendienteCompra()" >
+                                              <div class="form-group">
+                                                  <div class="col-sm-7">
+                                                    <p class="info_paso"><strong>PENDIENTE</strong> Envio de los productos para solicitar de nuevo los restantes.</p>
+                                                  </div>
+                                                  <div class="col-sm-5">
+                                                        <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">Reenviar Compra</button>
+                                                  </div>
+                                               </div>
+                                         </form>
+                                </div>
+                                <div class="col-sm-12 spd spi" ng-if="(procompras | filter:{estado_producto:3}).length < 1">
+                                   <p class="info_paso"><strong>FALTAN PRODUCTOS</strong> por confirmar para agregar a la bodega central, o hacen falta productos que no fueron entregados por el proveedor</p>
+                                </div>
                               
                             </div>
+
                       </div>
                     </div>
               </div>
@@ -433,7 +453,7 @@
 	                   <th>Opciones</th>
 	               </thead>
 	                 <tbody>
-                     <tr ng-repeat="compra in compras  | orderBy:'-id'" ng-class="{'trc_ama':compra.estado_orden==1,'trc_ver':compra.estado_orden==2}">
+                     <tr ng-repeat="compra in compras  | orderBy:'-id'" ng-class="{'trc_ama':compra.estado_orden==1,'trc_ver':compra.estado_orden==2,'trc_fus':compra.estado_orden==3}">
                      <td class="td_first"></td>
                          <td class="td_no" ng-click="abrircompra(compra,1)"><strong>@{{compra.id}}</strong></td>
                          <td ng-click="abrircompra(compra,1)">@{{compra.nombre_proveedor.empresa}} </td>

@@ -5,6 +5,7 @@ node_modules/
 bootstrap/compiled.php
 app/storage/
 public/uploads/
+public/exports/
 
 # Laravel 5 & Lumen specific
 .env.*.php
