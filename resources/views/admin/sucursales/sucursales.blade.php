@@ -153,42 +153,12 @@
                               <h2> @{{exisSucursal.perfil_usuario.nombre}} @{{exisSucursal.perfil_usuario.apellido}}</h2>
                           </div>
                       </div>
-                      <div class="col-sm-12 middle">
-                      			<form class="form-horizontal" name="frm" role="form" ng-submit="guardarProSucursal()" >
-                                          <div class="form-group">
-                                           
-                                                <div class="col-sm-8 col-md-8 col-lg-9">
-                                                    <label for="name">Producto</label>
-                                                     <ol class="nya-bs-select" ng-model="prosucursal.id_producto" data-live-search="true"  title="Selecciona un producto..." required>
-                                                          <li nya-bs-option="producto in productos" data-value="producto.id">
-                                                            <a>
-                                                             <span>
-                                                              <small class="label label-success">@{{ producto.codigo }}</small>
-                                                                  @{{ producto.nombre }}-<strong> Q@{{ producto.costo }} </strong>
-                                                                </span>
-                                                              <span class="glyphicon glyphicon-ok check-mark"></span>
-                                                            </a>
-                                                          </li>
-                                                        </ol>
-                                                </div>
-                                                     <div class="col-sm-2 col-md-2 col-lg-2">
-                                                     <label for="cantidad">Cant Max @{{stock.stock}}</label>
-                                                     <input id="cantidad" type="number" class="form-control" name="cantidad" ng-model="prosucursal.cantidad" required ng-click="elstock(prosucursal.id_producto)" max="@{{stock.stock}}" min="1">
-                                                        <div class="col-sm-12 spd spi">
-			                                          	  <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Req.</div>
-			                                           </div>
-                                                </div>
-                                                <div class="col-sm-2 col-md-2 col-lg-1 spi">
-                                                    <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid"><span class="ico_agregar"></span></button>
-                                                </div>
-                                           </div>
-                                     </form>
-                      </div>
-                        {{-- Productos agregados a compras --}}
+                      
+                        {{-- Productos de stock en sucursal --}}
                       <div class="col-sm-12 conte table_height">
-                      <div class="col-sm-12">
-                          <div class="alert alert-danger" role="alert" ng-if="alertaEliminadoPro"> <strong>Producto borrado</strong> No se podrá recuperar los datos.</div>  
-                      </div>
+                            <div class="col-sm-12">
+                                <div class="alert alert-danger" role="alert" ng-if="alertaEliminadoPro"> <strong>Producto borrado</strong> No se podrá recuperar los datos.</div>  
+                            </div>
                                   <table class="table">
                                            <thead>
                                                <th>Producto</th>
@@ -211,32 +181,7 @@
                                                    </td>
                                                    <td>
                                                           <div class="area_opciones">
-                                                             <ul>
-                                                                    <li class="ed_drop"  uib-dropdown>
-                                                                           <a href="" class="ico_editar" id="simple-dropdown" uib-dropdown-toggle ng-click="btn_editarl(prosucursal)"></a>
-                                                                                  <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-                                                                                  <form class="form-horizontal" name="frmed" role="form" ng-submit="btn_proeditar()" >
-                                                                                         <div class="col-sm-9 ">
-                                                                                             <input id="name" type="number" class="form-control" name="nombre" ng-model="existePro.stock" min="1" required>
-                                                                                         </div>
-                                                                                         <div class="col-sm-3 spd spi">
-                                                                                          <button type="submit" class="btn_g btn_editarg" ng-disabled="frmed.$invalid"></button>
-                                                                                         </div>
-                                                                                  </form>
-                                                                                  </div>
-                                                                           </li>
-                                                                 <li class="op_drop"  uib-dropdown>
-                                                                       <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
-                                                                       <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-                                                                           <div class="col-sm-8 spd">
-                                                                             <p>Eliminar <strong>@{{prosucursal.nombre_producto.codigo}}</strong></p>
-                                                                           </div>
-                                                                           <div class="col-sm-4 spd spi">
-                                                                             <a href="" ng-click="btn_proeliminar(prosucursal.id)" class=" btn_g ico_eliminarg"></a>
-                                                                           </div>
-                                                                        </div>
-                                                                 </li>
-                                                             </ul>
+                                                            
                                                          </div> 
                                                    </td>
                                                </tr>
@@ -250,18 +195,230 @@
                      </div>		
                </div>
 
+               {{-- Nueva Orden de Envio --}}
+                 <div id="area_nuevo" ng-if="opcion_obj">
+                    <div class="header_nuevo">
+
+                        <div class="col-sm-12">
+                              <h1>Nueva orden de envio</h1>
+                              <a class="btn_cerrar" ng-click="btn_cerraro()"></a>
+                        </div>
+                    </div>
+                    <div class="conte_nuevo">
+                        <div class="col-sm-12">
+                      <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Envio existente!</strong> Intenta de nuevo con otro nombre de envio</div>
+                        <form class="form-horizontal" name="frm" role="form" ng-submit="guardarEnvio()" >
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="name">Sucursal</label>
+                                         <ol class="nya-bs-select" ng-model="envio.id_sucursal" title="Selecciona una sucursal..." name="id_sucursal" required>
+                                            <li nya-bs-option="sucursal in sucursales" data-value="sucursal.id">
+                                              <a>
+                                                @{{ sucursal.nombre }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>
+                                    </div>
+                               </div>
+                               <div class="form-group">
+                                 <div class="col-sm-6">
+                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">CREAR</button>
+                                  </div>
+                                   <div class="col-sm-6">
+                                     <a class="btn btn_cancelar" ng-click="btn_envio()">CANCELAR</a>
+                                  </div>
+                               </div>
+                              
+                        </form>
+                      </div>
+                    </div>
+                 </div>
+
+                 {{-- Area de ordenes --}}
+
+                 <div id="area_mas" ng-if="abmas_obj">
+                    <div class="header_nuevo">
+
+                        <div class="col-sm-12">
+                              <h1>Orden de envio #@{{exisEnvio.id}}</h1>
+                              <a class="btn_cerrar" ng-click="btn_cerrarab()"></a>
+                        </div>
+                    </div>
+                    <div class="conte_nuevo">
+                        <div class="col-sm-12">
+                              <div class="col-sm-12">
+                                  <div class="col-sm-6 spi">
+                                      <h3>Sucursal</h3>
+                                      <h2> @{{exisEnvio.nombre_sucursal.nombre}}</h2>
+                                  </div>
+                                  <div class="col-sm-6 spd">
+                                      <h3>Fecha de creación</h3>
+                                      <h2> @{{exisEnvio.created_at  | amDateFormat: 'DD/MM/YYYY HH:mm:ss'}}</h2>
+                                  </div>
+                              </div>
+                        </div>
+                        {{-- Agregando productos de la orden de envio --}}
+                         <div class="col-sm-12 middle" ng-if="exisEnvio.estado_orden==1">
+                           <form class="form-horizontal" name="frm" role="form" ng-submit="guardarProEnvio()" >
+                                          <div class="form-group">
+                                                <div class="col-sm-2 col-md-2 col-lg-2">
+                                                     <label for="cantidad">Cant.</label>
+                                                     <input id="cantidad" type="number" class="form-control" name="cantidad" ng-model="proenvio.cantidad" required>
+                                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Req.</div>
+                                           </div>
+                                                </div>
+                                                <div class="col-sm-8 col-md-8 col-lg-9">
+                                                    <label for="name">Producto</label>
+                                                     <ol class="nya-bs-select" ng-model="proenvio.id_producto" data-live-search="true"  title="Selecciona un producto..." required>
+                                                          <li nya-bs-option="producto in productos" data-value="producto.id">
+                                                            <a>
+                                                             <span>
+                                                              <small class="label label-success">@{{ producto.codigo }}</small>
+                                                                  @{{ producto.nombre }}-<strong>@{{ producto.preciop  | currency: 'Q' }} </strong>
+                                                                </span>
+                                                              <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                            </a>
+                                                          </li>
+                                                        </ol>
+                                                </div>
+                                                <div class="col-sm-2 col-md-2 col-lg-1 spi">
+                                                    <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid"><span class="ico_agregar"></span></button>
+                                                </div>
+                                           </div>
+                                     </form>
+                          </div>
+
+                             {{-- Productos agregados a envios --}}
+                      <div class="col-sm-12 conte table_height" ng-if="exisEnvio.estado_orden==1">
+                          <div class="col-sm-12">
+                              <div class="alert alert-danger" role="alert" ng-if="alertaEliminadoPro"> <strong>Producto borrado</strong> No se podrá recuperar los datos.</div>  
+                          </div>
+                                  <table class="table">
+                                           <thead>
+                                               <th>Producto</th>
+                                               <th>Cant.</th>
+                                               <th>Costo</th>
+                                               <th>Subtotal</th>
+                                               <th>Opciones</th>
+                                           </thead>
+                                             <tbody>
+                                               <tr ng-repeat="proenvio in proenvios">
+                                                   <td><small class="label label-success">@{{ proenvio.nombre_producto.codigo }}</small> @{{proenvio.nombre_producto.nombre}}</td>
+                                                   <td>@{{proenvio.cantidad}} </td>
+                                                   <td>@{{proenvio.precio_producto  | currency: 'Q'}}</td>
+                                                   <td ng-init="ProTotal = ProTotal+proenvio.subtotal">@{{proenvio.subtotal  | currency: 'Q'}}</td>
+                                                   <td>
+                                                       <div class="area_opciones">
+                                                           <ul>
+                                                                  <li class="ed_drop"  uib-dropdown>
+                                                                         <a href="" class="ico_editar" id="simple-dropdown" uib-dropdown-toggle ng-click="btn_editarl(proenvio)"></a>
+                                                                                <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                                                                <form class="form-horizontal" name="frmed" role="form" ng-submit="btn_proeditar()" >
+                                                                                       <div class="col-sm-9 ">
+                                                                                           <input id="name" type="number" class="form-control" name="nombre" ng-model="existePro.cantidad" min="1" required>
+                                                                                       </div>
+                                                                                       <div class="col-sm-3 spd spi">
+                                                                                        <button type="submit" class="btn_g btn_editarg" ng-disabled="frmed.$invalid"></button>
+                                                                                       </div>
+                                                                                </form>
+                                                                                </div>
+                                                                         </li>
+                                                               <li class="op_drop"  uib-dropdown>
+                                                                     <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
+                                                                     <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                                                         <div class="col-sm-8 spd">
+                                                                           <p>Eliminar <strong>@{{proenvio.nombre_producto.nombre}}</strong></p>
+                                                                         </div>
+                                                                         <div class="col-sm-4 spd spi">
+                                                                           <a href="" ng-click="btn_proeliminar(proenvio.id)" class=" btn_g ico_eliminarg"></a>
+                                                                         </div>
+                                                                      </div>
+                                                               </li>
+                                                           </ul>
+                                                       </div>
+                                                   </td>
+                                               </tr>
+                                              
+                                           </tbody>
+                                       </table>
+                      </div>
+
+                              {{-- Productos enviados --}}
+                      <div class="col-sm-12 conte table_height" ng-if="exisEnvio.estado_orden==2">
+                          <div class="col-sm-12">
+                              <div class="alert alert-danger" role="alert" ng-if="alertaEliminadoPro"> <strong>Producto borrado</strong> No se podrá recuperar los datos.</div>  
+                          </div>
+                                  <table class="table">
+                                           <thead>
+                                               <th>Producto</th>
+                                               <th>Cant.</th>
+                                               <th>Costo</th>
+                                               <th>Subtotal</th>
+                                               <th>Estado</th>
+                                           </thead>
+                                             <tbody>
+                                               <tr ng-repeat="proenvio in proenvios">
+                                                   <td><small class="label label-success">@{{ proenvio.nombre_producto.codigo }}</small> @{{proenvio.nombre_producto.nombre}}</td>
+                                                   <td>@{{proenvio.cantidad}} </td>
+                                                   <td>@{{proenvio.precio_producto  | currency: 'Q'}}</td>
+                                                   <td ng-init="ProTotal = ProTotal+proenvio.subtotal">@{{proenvio.subtotal  | currency: 'Q'}}</td>
+                                                   <td ng-switch="proenvio.estado_producto">
+                                                      <p class="label label-warning" ng-switch-when="1">
+                                                        Enviado
+                                                      </p>
+                                                      <p class="label label-primary" ng-switch-when="2">
+                                                        Agregado
+                                                      </p>
+                                                   </td>
+                                               </tr>
+                                              
+                                           </tbody>
+                                       </table>
+                      </div>
+                         {{-- Totales y opciones --}}
+                          <div class="col-sm-12 footer">
+                              <div class="col-sm-4">
+                                    <h3>Total</h3>
+                                    <h1>Q@{{proenvios | SumaItem:'subtotal'}}</h1>
+                              </div>
+                               <div class="col-sm-8" ng-if="exisEnvio.estado_orden==1 && proenvios.length > 0">
+                                     <form class="form-horizontal" name="frm" role="form" ng-submit="enviarEnvio()" >
+                                          <div class="form-group">
+                                              <div class="col-sm-7">
+                                                <p class="info_paso"><strong>PASO 1</strong> Envio de los productos hacia la sucursal</p>
+                                              </div>
+                                              <div class="col-sm-5">
+                                                    <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">Enviar Productos</button>
+                                              </div>
+                                           </div>
+                                     </form>
+                             </div>
+                             <div class="col-sm-8" ng-if="exisEnvio.estado_orden==1 && proenvios.length < 1">
+                                 <p class="info_paso"><strong>AGREGA PRODUCTOS</strong> Cuando se agreguen productos podrán enviarlo a la sucursal asignada.</p>
+                             </div>
+                          </div>     
+                    </div>
+                 </div>
+
 {{-- Sucursales --}}
 
 	 	<div class="header_conte">
 	      <h1>Sucursales</h1>
-	        <div class="btn_nuevo">
-	            <a href="" ng-click="btn_nuevo()">Nueva Sucursal</a>
-	        </div>
+          <div class="btn_nuevo">
+              <a href="" ng-click="btn_nuevo()">Nueva Sucursal</a>
+          </div>
+            <div class="btn_opcion2">
+              <a href="" ng-click="btn_envio()">Nuevo Envio</a>
+          </div>
 	 	 </div>
 		<div class="col-sm-12">
 			    <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Sucursal nueva</strong> guardado correctamente, creado por administradores.</div>
 		        <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Sucursal borrada</strong> No se podrá recuperar los datos.</div>	
 			    <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Sucursal editada</strong> Puedes ver en el listado de sucursales las modificaciones realizadas.</div>
+
+        {{-- Todas las sucursales --}}  
 			 <div class="caja_contenido">
 			 		 <table class="table">
 			 		  <thead>
@@ -297,6 +454,76 @@
 	                   </tbody>
 			 		 </table>
 			 </div>
+        {{-- Todos los envios --}}
+              <div class="col-sm-12 spd spi">
+                <h4 class="h4_tit">Ordenes de envio</h4>
+              </div>
+              <div class="col-sm-12 spd spi">
+                  <div class="info_colores">
+                    <ul>
+                      <li><span class="color_ncom"></span> <p>Nuevo Envio</p></li>
+                      <li><span class="color_encom"></span> <p>Productos Agregados</p></li>
+                      <li><span class="color_falcom"></span> <p>Productos faltantes</p></li>
+                      <li><span class="color_tercom"></span> <p>Envio Terminado</p></li>
+                    </ul>
+                  </div>
+                </div> 
+              <div class="caja_contenido">
+                 <div class="col-sm-12 bus_tabla">
+                   <h3>Por Sucursal</h3>
+                   <div class="col-sm-3">
+                      <ol class="nya-bs-select" ng-model="busfiltro" title="Selecciona una sucursal..." name="id_sucursal" required>
+                      <li ng-click="deselec()"><a>
+                      Todos
+                         <span class="glyphicon glyphicon-ok check-mark"></span>
+                      </a></li>
+                      <li nya-bs-option="sucursal in sucursales" data-value="sucursal.nombre">
+                        <a>
+                          @{{ sucursal.nombre }}
+                          <span class="glyphicon glyphicon-ok check-mark"></span>
+                        </a>
+                      </li>
+                    </ol>
+                   </div>
+                  
+                 </div>
+                 <table class="table">
+                  <thead>
+                              <th></th>
+                              <th>#Envio</th>
+                               <th>Sucursal</th>
+                               <th>Total</th>
+                               <th>Estado</th>
+                               <th>Opciones</th>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="envio in envios | filter: busfiltro | orderBy:'-id'" ng-class="{'trc_ama':envio.estado_orden==1,'trc_ver':envio.estado_orden==2,'trc_fus':envio.estado_orden==3}">
+                              <td class="td_first"></td>
+                              <td ng-click="abrirorden(envio)"><strong>@{{envio.id}}</strong></td>
+                              <td ng-click="abrirorden(envio)">@{{envio.nombre_sucursal.nombre}}</td>
+                              <td ng-click="abrirorden(envio)">@{{envio.total_compra | currency: 'Q'}}</td>
+                              <td ng-click="abrirorden(envio)">@{{envio.estado_orden}}</td>
+                              <td>
+                                <div class="area_opciones">
+                                         <ul>
+                                             <li class="op_drop"  uib-dropdown>
+                                                   <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
+                                                   <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                                       <div class="col-sm-8 spd">
+                                                         <p>Eliminar Sucursal <strong>@{{sucursal.nombre}}</strong></p>
+                                                       </div>
+                                                       <div class="col-sm-4 spd spi">
+                                                         <a href="" ng-click="btn_eliminar(sucursal.id)" class=" btn_g ico_eliminarg"></a>
+                                                       </div>
+                                                    </div>
+                                             </li>
+                                         </ul>
+                                     </div>
+                              </td>
+                              </tr>
+                           </tbody>
+                 </table>
+             </div>
 		</div>
   </div>
 @endsection

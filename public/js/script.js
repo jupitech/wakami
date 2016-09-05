@@ -1098,6 +1098,8 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
    $scope.nuevo_obj = false;
    $scope.editar_obj = false;
    $scope.mas_obj= false;
+     $scope.abmas_obj= false;
+   $scope.opcion_obj= false;
    $scope.ver_eli = false;
    $scope.alertaNuevo = false;
    $scope.alertaExiste = false;
@@ -1109,7 +1111,9 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
         $scope.nuevo_obj = !$scope.nuevo_obj;
        $scope.sucursal={};
      };
-
+  $scope.deselec=function(){
+    $scope.busfiltro='';
+  }
 
      //Todos las sucursales
       $http.get('/api/sucursales').success(
@@ -1148,6 +1152,15 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                        $scope.error = error;
                   });
             };
+
+      //Envios
+        $http.get('/api/envios').success(
+
+          function(envios) {
+                    $scope.envios = envios.datos;
+        }).error(function(error) {
+             $scope.error = error;
+        });
 
       //Nueva Sucursal
 
@@ -1232,7 +1245,7 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
 
         };
 
-        //Abrir Sucursal
+    //Abrir Sucursal
     $scope.abrirsucursal= function(sucursal){
           $scope.mas_obj = !$scope.mas_obj;
 
@@ -1251,86 +1264,183 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
               }).error(function(error) {
                    $scope.error = error;
               });
+   };
 
-           $scope.guardarProSucursal= function(){
+    //Nuevo Envio
+    $scope.btn_envio= function(){
+          $scope.opcion_obj = !$scope.opcion_obj;
 
-                    var dataprosu={
-                          id_sucursal:  $scope.miid,
-                          id_producto: $scope.prosucursal.id_producto,
-                          stock: $scope.prosucursal.cantidad,
-                    };
-                    console.log(dataprosu);
-                     $http.post('/api/prosucursal/create', dataprosu)
-                        .success(function (data, status, headers) {
-                               $http.get('/api/prosucursales/'+$scope.miid).success(
-                                    function(prosucursales) {
-                                              $scope.prosucursales = prosucursales.datos;
-                                  }).error(function(error) {
-                                       $scope.error = error;
-                                  });
-                                    $scope.procompra={};
-                           })
-                        .error(function (data, status, header, config) {
-                            console.log("Parece que hay error al guardar el producto");
-                            $timeout(function () { $scope.alertaExiste = true; }, 100);
-                            $timeout(function () { $scope.alertaExiste = false; }, 5000);
-                        });
+
+             $scope.btn_cerraro=function(){
+             $scope.opcion_obj = false;
            };
-
-            //Editar Productos Sucursal
-             $scope.btn_editarl = function(prosucursal) {
-                $scope.existePro= prosucursal;
-             };
-              $scope.btn_proeditar = function(id){
-                 var data = {
-                  cantidad: $scope.existePro.stock
-                };
-                console.log(data);
-                /*$http.put('api/procompra/' +  $scope.existePro.id,data)
-                    .success(function (data, status, headers) {
-                       console.log('Producto '+$scope.existePro.nombre_producto.codigo+' editado correctamente.');
-
-                          $http.get('/api/prosucursal/'+$scope.miid).success(
-
-                                    function(prosucursales) {
-                                              $scope.prosucursales = prosucursales.datos;
-                                  }).error(function(error) {
-                                       $scope.error = error;
-                                  });
-                               $timeout(function () { $scope.alertaEditadol = true; }, 1000);
-                               $timeout(function () { $scope.alertaEditadol = false; }, 5000);
-                    })
-                    .error(function (data, status, header, config) {
-                        console.log('Parece que existe un error al borrar el producto.');
-                    });*/
-              };
-
-
-               //Eliminar Productos Sucursal
-              $scope.btn_proeliminar = function(id){
-                $scope.idprosucursal= id;
-                console.log($scope.idprosucursal);
-
-                 $http.delete('api/prosucursal/destroy/' +  $scope.idprosucursal)
-                    .success(function (data, status, headers) {
-                       console.log('Producto '+$scope.idprosucursal+' borrado correctamente.');
-                           $http.get('/api/prosucursales/'+$scope.miid).success(
-
-                                function(prosucursales) {
-                                $scope.prosucursales = prosucursales.datos;
-                                    }).error(function(error) {
-                                         $scope.error = error;
-                                    });
-                            $timeout(function () { $scope.alertaEliminadopro = true; }, 1000);
-                            $timeout(function () { $scope.alertaEliminadopro = false; }, 5000);
-                    })
-                    .error(function (data, status, header, config) {
-                        console.log('Parece que existe un error al borrar la sucursal.');
-                    });
-              };
 
 
    };
+
+
+      //Nuevo Envio
+      $scope.envio={};
+      $scope.guardarEnvio = function(){
+           $scope.opcion_obj = false;
+
+           $scope.proenvio={};
+
+           var dataenvio = {
+              id_sucursal: $scope.envio.id_sucursal
+            };
+
+           $http.post('/api/envio/create', dataenvio)
+            .success(function (data, status, headers) {
+                console.log("Orden de envio creada correctamente");
+                    $http.get('/api/envios').success(
+
+                        function(envios) {
+                                  $scope.envios = envios.datos;
+                      }).error(function(error) {
+                           $scope.error = error;
+                      });
+                  $timeout(function () { $scope.alertaNuevo = true; }, 1000);
+                   $timeout(function () { $scope.alertaNuevo = false; }, 5000);
+               })
+            .error(function (data, status, header, config) {
+                console.log("Parece que el envio ya existe");
+                $timeout(function () { $scope.alertaExiste = true; }, 100);
+                $timeout(function () { $scope.alertaExiste = false; }, 5000);
+            });
+      };
+
+
+    //Area de envios
+    $scope.abrirorden= function(envio){
+          $scope.abmas_obj = !$scope.abmas_obj;
+
+
+             $scope.btn_cerrarab=function(){
+                 $scope.abmas_obj = false;
+            };
+
+           $scope.exisEnvio=envio;
+           $scope.miorden=envio.id;
+
+
+            //Productos
+              $http.get('/api/proenvios/'+$scope.miorden).success(
+                    function(proenvios) {
+                              $scope.proenvios = proenvios.datos;
+                             // console.log($scope.proenvios);
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+           //Agregar producto
+           $scope.proenvio={};
+           $scope.guardarProEnvio = function(){
+
+                    var dataproenvio={
+                          id_orden:  $scope.miorden,
+                          id_producto: $scope.proenvio.id_producto,
+                          cantidad: $scope.proenvio.cantidad,
+                    };
+                     $http.post('/api/proenvio/create', dataproenvio)
+                        .success(function (data, status, headers) {
+                               $http.get('/api/proenvios/'+$scope.miorden).success(
+                                    function(proenvios) {
+                                              $scope.proenvios = proenvios.datos;
+                                              //console.log($scope.proenvios);
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });
+                                    $scope.proenvio={};
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que el producto ya existe");
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);
+                        });
+             };
+
+             //Editar Productos Envio
+             $scope.btn_editarl = function(proenvio) {
+                $scope.existePro= proenvio;
+             };
+              $scope.btn_proeditar = function(id){
+                 var dataproenvio = {
+                        cantidad: $scope.existePro.cantidad,
+                        id_producto: $scope.existePro.id_producto
+                    };
+
+                $http.put('api/proenvio/' +  $scope.existePro.id,dataproenvio)
+                    .success(function (data, status, headers) {
+                       console.log('Producto de Envio '+$scope.existePro.id+' editado correctamente.');
+
+                          $http.get('/api/proenvios/'+$scope.miorden).success(
+
+                                  function(proenvios) {
+                                              $scope.proenvios = proenvios.datos;
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });
+                                   $timeout(function () { $scope.alertaEditadol = true; }, 1000);
+                                   $timeout(function () { $scope.alertaEditadol = false; }, 5000);
+
+                                   //Envios
+                                  $http.get('/api/envios').success(
+
+                                    function(envios) {
+                                              $scope.envios = envios.datos;
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });
+                          })
+                      .error(function (data, status, header, config) {
+                          console.log('Parece que existe un error al borrar el envio.');
+                      });
+
+              };
+
+               //Eliminar Producto de envios
+              $scope.btn_proeliminar = function(id){
+                    $scope.idpro= id;
+                    //console.log($scope.idpro);
+
+                     $http.delete('api/proenvio/destroy/' +  $scope.idpro)
+                      .success(function (data, status, headers) {
+                           console.log('Producto de envio #'+$scope.idpro+' borrado correctamente.');
+                               $http.get('/api/proenvios/'+$scope.miorden).success(
+
+                                 function(proenvios) {
+                                         $scope.proenvios = proenvios.datos;
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });
+                      })
+                      .error(function (data, status, header, config) {
+                          console.log('Parece que existe un error al borrar la sucursal.');
+                      });
+              };
+
+              //Enviar orden a sucursal
+              $scope.enviarEnvio= function(){
+                     $http.post('api/envio/p1/' +  $scope.miorden)
+                      .success(function (data, status, headers) {
+                           console.log('Orden enviada a Sucursal #'+$scope.miorden);
+                               $http.get('api/envios/').success(
+
+                                 function(envios) {
+                                         $scope.envios = envios.datos;
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });
+                                  $scope.abmas_obj = false;
+                      })
+                      .error(function (data, status, header, config) {
+                          console.log('Parece que existe un error al borrar la sucursal.');
+                      });
+              };
+
+
+   };//Termina abrirorden
 
 });
 

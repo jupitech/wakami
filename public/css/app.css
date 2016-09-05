@@ -5775,7 +5775,7 @@ body {
   .area_login .form-control {
     background: none !important;
     border: none !important;
-    border-bottom: 2px solid #535353 !important;
+    border-bottom: 2px solid #333C44 !important;
     border-radius: 0px !important;
     box-shadow: inset 0 1px 1px transparent !important; }
 
@@ -5904,7 +5904,7 @@ body {
   position: static; }
 
 .navbar-default {
-  background-color: #535353 !important;
+  background-color: #333C44 !important;
   border: none !important;
   border-radius: 0 !important;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.15);
@@ -6321,6 +6321,24 @@ body {
     text-decoration: none;
     background: #ddd url("img/ico_eliminados.svg") no-repeat center;
     background-size: 22px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15); }
+
+.btn_opcion2 {
+  float: right; }
+  .btn_opcion2 a {
+    float: left;
+    height: 38px;
+    padding: 9px 15px;
+    margin-left: 5px;
+    border-radius: 5px;
+    color: #333;
+    font-size: 14px;
+    text-align: center;
+    background: #ddd;
+    text-decoration: none;
+    transition: all 0.1s linear; }
+  .btn_opcion2 a:hover {
+    text-decoration: none;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15); }
 
 @keyframes bocultar {
@@ -7072,5 +7090,22 @@ body {
 
 .mbotom {
   margin-bottom: 15px; }
+
+.h4_tit {
+  margin-top: 15px; }
+
+.bus_tabla {
+  float: left;
+  width: 100%; }
+  .bus_tabla h3 {
+    font-size: 14px;
+    font-weight: bold;
+    float: left;
+    margin-right: 10px;
+    padding: 5px 0; }
+  .bus_tabla ol {
+    float: left;
+    width: 100%;
+    margin-top: 10px; }
 
 /*# sourceMappingURL=app.css.map */

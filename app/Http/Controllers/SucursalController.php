@@ -8,6 +8,10 @@ use App\Http\Requests;
 use App\Models\Sucursales;
 use App\Models\StockSucursal;
 use App\Models\StockProducto;
+use App\Models\OrdenEnvio;
+use App\Models\ProductoEnvio;
+use App\Models\Producto;
+use App\Models\PendientePenvio;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -15,7 +19,7 @@ use Carbon\Carbon;
 class SucursalController extends Controller
 {
     public function __contruct(){
-        $this->middleware('role:admin|operativo');
+        $this->middleware('role:admin|operativo|vendedor');
     }
     /**
      * Display a listing of the resource.
@@ -70,6 +74,26 @@ class SucursalController extends Controller
     }
 
 
+      public function indexenvios()
+    {
+           //Trayendo Productos de Sucursales
+         $envios=OrdenEnvio::with("NombreSucursal")->get();
+         if(!$envios){
+             return response()->json(['mensaje' =>  'No se encuentran envios actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $envios],200);
+    }
+
+     public function indexproenvios($id)
+    {
+           //Trayendo Productos de Sucursales
+         $envios=ProductoEnvio::with("NombreProducto","PendienteProducto")->where('id_orden',$id)->get();
+         if(!$envios){
+             return response()->json(['mensaje' =>  'No se encuentran envios actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $envios],200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -87,24 +111,60 @@ class SucursalController extends Controller
           $sucursales->save();
     }
 
-    public function storepro(Request $request)
-    {
-        $sucursal=$request['id_sucursal'];
-        $producto=$request['id_producto'];
-        $stocksucursal=StockSucursal::where('id_sucursal',$sucursal)->where('id_producto',$producto)->first();
-         if(!$stocksucursal){
-                 $prosucursal=StockSucursal::create([
-                  'id_sucursal' => $request['id_sucursal'],
-                  'id_producto' => $request['id_producto'],
-                  'stock' =>  $request['stock'],
-                  'estado_producto' =>  1,
-                        ]);
-                $prosucursal->save();
-         }else{
-                  return response()->json(['mensaje' =>  'El producto ya existe en la sucursal','codigo'=>404],404);
-         }
 
-             
+
+       public function storeenvio(Request $request)
+    {
+          $user = Auth::User();     
+          $userId = $user->id; 
+
+
+           $ordenenvio=OrdenEnvio::create([
+          'id_sucursal' => $request['id_sucursal'],
+          'id_user' => $userId,
+          'estado_orden' => 1,
+                ]);
+          $ordenenvio->save();
+           return response()->json(['id_user' => $ordenenvio->id],200);
+    }
+
+
+      public function storeproenvio(Request $request)
+    {
+        $idproducto=$request['id_producto'];
+        $idorden=$request['id_orden'];
+        $producto=Producto::where('id',$idproducto)->first();
+        $subtotal=$request['cantidad']*$producto->preciop;
+
+        $existepro=ProductoEnvio::where('id_orden',$idorden)->where('id_producto',$idproducto)->first();
+
+            if($existepro === null){
+                  $productoenvio=ProductoEnvio::create([
+                     'id_orden' =>  $idorden,
+                     'id_producto' => $idproducto,
+                     'precio_producto' => $producto->preciop,
+                     'cantidad' => $request['cantidad'],
+                     'subtotal' => $subtotal,
+                      'estado_producto' => 1,
+                    ]);
+                   $productoenvio->save();
+
+                  $idorden=$productoenvio->id_orden;
+
+                    $ordenenvio=OrdenEnvio::find($idorden);
+                    //Sumar el subtotal actual
+                    $totalfinal=($ordenenvio->total_compra)+$subtotal;
+                    $ordenenvio->fill([
+                              'total_compra' => $totalfinal,
+                        ]);
+                    $ordenenvio->save();
+
+                   return response()->json(['id_proenvio' => $productoenvio->id],200);
+            }else{
+
+                    return response()->json(['mensaje' =>  'Producto ya ingresado al envio','codigo'=>404],404);
+            }
+           
     }
     
     /**
@@ -125,6 +185,47 @@ class SucursalController extends Controller
         $sucursales->save();
     }
 
+
+    public function updateproenvio(Request $request, $id)
+    {
+        $idproducto=$request['id_producto'];
+        $producto=Producto::where('id',$idproducto)->first();
+        $subtotal=$request['cantidad']*$producto->preciop;
+
+        $productoenvio=ProductoEnvio::find($id);
+        $idorden=$productoenvio->id_orden;
+
+        $ordenenvio=OrdenEnvio::find($idorden);
+        //Restar subtotal del producto
+        $restartotal=$ordenenvio->total_compra- $productoenvio->subtotal;
+        //Sumar el subtotal actual
+        $totalfinal=$restartotal+ $subtotal;
+        $ordenenvio->fill([
+                  'total_compra' => $totalfinal,
+            ]);
+        $ordenenvio->save();
+
+
+        $productoenvio->fill([
+                  'cantidad' => $request['cantidad'],
+                  'subtotal' => $subtotal,
+            ]);
+        $productoenvio->save();
+
+       
+    }
+
+    //Enviar Orden
+    public function updatep1(Request $request, $id)
+    {
+        $ordenenvio=OrdenEnvio::find($id);
+        $ordenenvio->fill([
+              'estado_orden' => 2,
+              'fecha_entrega' => Carbon::now(),
+            ]);
+        $ordenenvio->save();
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -135,8 +236,19 @@ class SucursalController extends Controller
     {
         Sucursales::destroy($id);
     }
+
     public function destroypro($id)
     {
-        StockSucursal::destroy($id);
+        $proenvio=ProductoEnvio::find($id);
+        $idorden=$proenvio->id_orden;
+        $subtotal=$proenvio->subtotal;
+
+        $ordenenvio=OrdenEnvio::find($idorden);
+        $restartotal=$ordenenvio->total_compra- $subtotal;
+        $ordenenvio->fill([
+                  'total_compra' => $restartotal,
+            ]);
+        $ordenenvio->save();
+        ProductoEnvio::destroy($id);
     }
 }

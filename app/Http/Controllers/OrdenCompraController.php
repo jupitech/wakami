@@ -65,30 +65,36 @@ class OrdenCompraController extends Controller
     public function storeprocompra(Request $request)
     {
         $idproducto=$request['id_producto'];
+         $idorden=$request['id_orden'];
         $producto=Producto::where('id',$idproducto)->first();
         $subtotal=$request['cantidad']*$producto->costo;
 
-           $productocompra=ProductoCompra::create([
-          'id_orden' => $request['id_orden'],
-           'id_producto' => $idproducto,
-           'precio_producto' => $producto->costo,
-           'cantidad' => $request['cantidad'],
-            'subtotal' => $subtotal,
-           'estado_producto' => 1,
-                ]);
-          $productocompra->save();
+         $existepro=ProductoCompra::where('id_orden',$idorden)->where('id_producto',$idproducto)->first();
+           if($existepro === null){
+                   $productocompra=ProductoCompra::create([
+                  'id_orden' =>   $idorden,
+                   'id_producto' => $idproducto,
+                   'precio_producto' => $producto->costo,
+                   'cantidad' => $request['cantidad'],
+                    'subtotal' => $subtotal,
+                   'estado_producto' => 1,
+                        ]);
+                  $productocompra->save();
 
-            $idorden=$productocompra->id_orden;
+                    $idorden=$productocompra->id_orden;
 
-              $ordencompra=OrdenCompra::find($idorden);
-              //Sumar el subtotal actual
-              $totalfinal=($ordencompra->total_compra)+$subtotal;
-              $ordencompra->fill([
-                        'total_compra' => $totalfinal,
-                  ]);
-              $ordencompra->save();
+                      $ordencompra=OrdenCompra::find($idorden);
+                      //Sumar el subtotal actual
+                      $totalfinal=($ordencompra->total_compra)+$subtotal;
+                      $ordencompra->fill([
+                                'total_compra' => $totalfinal,
+                          ]);
+                      $ordencompra->save();
 
-           return response()->json(['id_procompra' => $productocompra->id],200);
+                   return response()->json(['id_procompra' => $productocompra->id],200);
+            }else{
+                return response()->json(['mensaje' =>  'Producto ya ingresado a la compra','codigo'=>404],404);
+            }       
     }
 
 

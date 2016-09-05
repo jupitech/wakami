@@ -91,14 +91,22 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 
 			 //Sucursales
             Route::get('/api/sucursales', 'SucursalController@indexsucursales');
+            Route::get('/api/envios', 'SucursalController@indexenvios');
             Route::get('/api/prosucursales/{id}', 'SucursalController@indexprosucursales');
             Route::get('/api/sucursales/usuarios', 'SucursalController@indexusers');
             Route::get('/api/sucursales/stockproducto/{id}', 'SucursalController@stockproducto');
 			Route::post('/api/sucursal/create', 'SucursalController@store');
-			Route::post('/api/prosucursal/create', 'SucursalController@storepro');
 			Route::delete('/api/sucursal/destroy/{id}','SucursalController@destroy');
-			Route::delete('/api/prosucursal/destroy/{id}','SucursalController@destroypro');
 			Route::put('/api/sucursal/{id}', 'SucursalController@update');
+
+			Route::post('/api/envio/create', 'SucursalController@storeenvio');
+			Route::post('/api/proenvio/create', 'SucursalController@storeproenvio');
+			Route::get('/api/proenvios/{id}', 'SucursalController@indexproenvios');
+			Route::put('/api/proenvio/{id}', 'SucursalController@updateproenvio');
+			Route::delete('/api/proenvio/destroy/{id}','SucursalController@destroypro');
+			Route::post('/api/envio/p1/{id}', 'SucursalController@updatep1');
+
+
 
 			//Clientes
             Route::get('/api/clientes', 'ClientesController@indexclientes');

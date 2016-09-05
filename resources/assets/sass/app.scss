@@ -2,7 +2,7 @@
 
 $fontp: 'Ubuntu', sans-serif;
 $fonts: 'Inconsolata', sans-serif;
-$cnegro: #535353;
+$cnegro: #333C44;
 $cblanco: #fff;
 $cboton: #3fb1b5;
 $cgris: #ddd;
@@ -701,6 +701,31 @@ body{
 		text-decoration: none;
 		background: $cgris url('img/ico_eliminados.svg') no-repeat center;
 		background-size: 22px;
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+	}
+}
+
+.btn_opcion2{
+	float: right;
+
+	a{
+		float: left;
+		height: 38px;
+		padding: 9px 15px;
+		margin-left: 5px;
+		border-radius: 5px;
+		color: #333;
+		font-size: 14px;
+		text-align: center;
+		background: $cgris;
+		text-decoration: none;
+			  -webkit-transition: all 0.1s linear;
+		     -moz-transition: all 0.1s linear;
+		       -o-transition: all 0.1s linear;
+		          transition: all 0.1s linear;
+	}
+	a:hover{
+		text-decoration: none;
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
 	}
 }
@@ -1585,4 +1610,24 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 }
 .mbotom{
 	margin-bottom: 15px;
+}
+.h4_tit{
+	margin-top: 15px;
+}
+.bus_tabla{
+	float: left;
+	width: 100%;
+
+	h3{
+		font-size: 14px;
+		font-weight: bold;
+		float: left;
+		margin-right: 10px;
+		padding: 5px 0;
+	}
+	ol{
+		float: left;
+		width: 100%;
+		margin-top: 10px;
+	}
 }
