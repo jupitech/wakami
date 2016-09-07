@@ -75,7 +75,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle ico_gastos" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gastos/Compras</a>
               <ul class="dropdown-menu">
-                <li><a href="#">Gastos</a></li>
+                <li><a href="{{ URL::to('/gastos') }}">Gastos</a></li>
                 <li><a href="{{ URL::to('/compras') }}">Compras</a></li>
                  <li><a href="{{ URL::to('/proveedores') }}">Proveedores</a></li>
                  <li><a href="#">Donaciones</a></li>
@@ -103,7 +103,7 @@
                             <a href="#" class="dropdown-toggle ico_productos" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Productos</a>
                             <ul class="dropdown-menu">
                               <li><a href="">Listado de productos</a></li>
-                              <li><a href="">Mi Sucursal</a></li>
+                              <li><a href="{{ URL::to('/misucursal') }}">Mi Sucursal</a></li>
                               <li><a href="">Productos de devolución</a></li>
                             </ul>
                           </li>

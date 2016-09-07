@@ -7108,4 +7108,9 @@ body {
     width: 100%;
     margin-top: 10px; }
 
+.h3_noasig {
+  text-align: center;
+  margin-top: 50px;
+  font-weight: 200; }
+
 /*# sourceMappingURL=app.css.map */

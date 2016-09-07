@@ -36,7 +36,7 @@
                   @endrole
                     @role('vendedor')
                       <li><a href="">Listado de productos</a></li>
-                       <li><a href="">Mi Sucursal</a></li>
+                       <li><a href="{{ URL::to('/misucursal') }}">Mi Sucursal</a></li>
                         <li><a href="">Productos de devolución</a></li>
                     @endrole
            				</ul>
@@ -89,7 +89,7 @@
 	           			<div class="ima_mescri ico_gastos"></div>
 	           				<h1>Gastos/Compras</h1>
 	           				<ul>
-	           					<li><a href="">Gastos</a></li>
+	           					<li><a href="{{ URL::to('/gastos') }}">Gastos</a></li>
 	           					<li><a href="{{ URL::to('/compras') }}">Compras</a></li>
                       <li><a href="{{ URL::to('/proveedores')}}">Proveedores</a></li>
 	           					<li><a href="">Donaciones</a></li>

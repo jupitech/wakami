@@ -1882,6 +1882,65 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
 
 });
 
+
+
+//************************************Mi Sucursal**********************************************//
+wApp.controller('MiSucursalCtrl',function($scope, $http, $timeout, $log,$uibModal){
+
+    $scope.abmas_obj = false;
+   //MiUsuario
+      $http.get('api/mi/miusuario').success(
+
+              function(miusuario) {
+                        $scope.miusuario = miusuario.datos;
+                       
+                        $scope.actsucu($scope.miusuario.sucursal_usuario.id);
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+
+     $scope.actsucu=function(idsucu){
+
+      //Id Sucursal
+          $scope.misucu=idsucu;
+
+            $http.get('api/mi/misenvios/'+$scope.misucu).success(
+
+              function(misenvios) {
+                        $scope.misenvios = misenvios.datos;
+                       console.log($scope.misenvios);
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+
+        //Abrir Envios
+        $scope.abrirorden= function(envio){
+
+               $scope.abmas_obj = !$scope.abmas_obj;
+
+
+                 $scope.btn_cerrarab=function(){
+                     $scope.abmas_obj = false;
+                };
+
+                 $scope.exisEnvio=envio;
+                 $scope.miorden=envio.id;
+              };   
+
+              //Productos
+              $http.get('/api/proenvios/'+$scope.miorden).success(
+                    function(proenvios) {
+                              $scope.proenvios = proenvios.datos;
+                             // console.log($scope.proenvios);
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+       };      
+
+
+});
+
 //************************************Menu Dos*************************************************//
 wApp.controller('menuDos',function($scope, $timeout){
   $scope.btn_menu = function() {

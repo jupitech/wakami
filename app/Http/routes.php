@@ -36,9 +36,12 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 	   //Clientes
 	   Route::get('/clientes', 'ClientesController@index');
 
-	     //Ventas
-	    Route::get('/ventas', 'VentasCentralController@index');
-	  	 Route::get('/nuevaventa', 'VentasCentralController@indexnueva');
+	   //Ventas
+	   Route::get('/ventas', 'VentasCentralController@index');
+	   Route::get('/nuevaventa', 'VentasCentralController@indexnueva');
+
+	   //Proveedores
+	   Route::get('/gastos', 'GastosController@index');
 
 
        Route::group(['middleware' => ['cors']], function()
@@ -126,4 +129,18 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::delete('/api/proventa/destroy/{id}','VentasCentralController@destroypro');
 			Route::put('/api/proventa/{id}', 'VentasCentralController@updatepro');
 		});
+});
+
+Route::group(['middleware' => ['auth','role:vendedor']], function(){
+
+	//Mi Sucursal
+	 Route::get('/misucursal', 'MiSucursalController@index');
+
+	 Route::group(['middleware' => 'cors','prefix' => 'api/mi'], function()
+	{   
+
+		 Route::get('/miusuario', 'MiSucursalController@misucursal');
+		 Route::get('/misenvios/{id}', 'MiSucursalController@indexenvios');
+		 Route::get('/proenvios/{id}', 'MiSucursalController@indexproenvios');
+	});		
 });
