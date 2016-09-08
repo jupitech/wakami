@@ -1133,6 +1133,27 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 		}
 }
 
+@media (max-width: 1199px) {
+	.menu_dos {
+		.navbar-nav > li > a{
+				text-indent: -99999px;
+				padding-left: 30px;
+				padding-right: 30px;
+				background-position: center center;
+		}
+
+	}
+	.td_first{
+		width: 0px !important;
+	}
+	.table > tbody > tr > td{
+		font-size: 12px !important;
+	}
+	.table > thead > tr > th{
+		font-size: 12px !important;
+	}
+}
+
 @media (min-width: 768px) {
 
 		.caja_productos{

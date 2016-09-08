@@ -1908,7 +1908,7 @@ wApp.controller('MiSucursalCtrl',function($scope, $http, $timeout, $log,$uibModa
 
               function(misenvios) {
                         $scope.misenvios = misenvios.datos;
-                       console.log($scope.misenvios);
+                       //console.log($scope.misenvios);
             }).error(function(error) {
                  $scope.error = error;
             });
@@ -1924,17 +1924,54 @@ wApp.controller('MiSucursalCtrl',function($scope, $http, $timeout, $log,$uibModa
                 };
 
                  $scope.exisEnvio=envio;
+                    //console.log($scope.exisEnvio);
                  $scope.miorden=envio.id;
-              };   
 
               //Productos
-              $http.get('/api/proenvios/'+$scope.miorden).success(
+              $http.get('/api/mi/proenvios/'+$scope.miorden).success(
                     function(proenvios) {
                               $scope.proenvios = proenvios.datos;
-                             // console.log($scope.proenvios);
+                              //console.log($scope.proenvios);
                   }).error(function(error) {
                        $scope.error = error;
                   });
+
+              //Enviar Producto a bodega
+
+              $scope.proenvio={};
+              $scope.agregarProBodega=function(proenvio){
+                $scope.proenvio=proenvio;
+                  var envpro={
+                      id_sucursal: $scope.misucu,
+                      id_orden:$scope.proenvio.id_orden,
+                      id_producto:$scope.proenvio.id_producto,
+                      cantidad: $scope.proenvio.cantidad,
+                      id_proenvio: $scope.proenvio.id
+                  };
+                  console.log(envpro);
+                   $http.post('/api/mi/proenvio/envioproducto', envpro)
+                        .success(function (data, status, headers) {
+                               $http.get('/api/mi/proenvios/'+$scope.miorden).success(
+                                    function(proenvios) {
+                                              $scope.proenvios = proenvios.datos;
+                                                 console.log('Producto enviado a bodega de sucursal.');
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });
+                                    $scope.proenvio={};
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que el producto de compra  ya existe");
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);
+                        });
+
+              };
+
+
+
+          };   
+
 
        };      
 

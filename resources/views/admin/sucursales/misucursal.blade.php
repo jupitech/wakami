@@ -30,6 +30,114 @@
                               </div>
                           </div>
                     </div>
+                         {{-- Productos para enviar a bodega --}}
+                      <div class="col-sm-12 conte table_height" ng-if="exisEnvio.estado_orden>1 && exisEnvio.estado_orden<4">
+                        <div class="col-sm-12">
+                             <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Producto agregado</strong> a bodega central.</div>
+                        </div>
+                        <div class="col-sm-12 spd spi">
+                          <div class="agre_pro">
+                          {{-- Productos pendientes de recibir --}}
+                          <h2 ng-if="(proenvios | filter:{estado_producto:3}).length > 0" ><strong>Productos Pendientes de recibir</strong></h2>
+                          <table class="table" ng-if="(proenvios | filter:{estado_producto:3}).length > 0">
+                             <thead>
+                               
+                             </thead>
+                             <tbody>
+                                              <tr  ng-repeat="proenvio in proenvios" ng-if="proenvio.estado_producto==3">
+                                              
+                                              <form class="form-horizontal" name="frm" role="form">
+                                                  <td> <small class="label label-success">@{{proenvio.nombre_producto.codigo}}</small> @{{proenvio.nombre_producto.nombre}}</td>
+                                                  <td class="maxtd_long">
+                                                      <div class="form-group">
+                                                        <div class="col-md-12 spd spi">
+                                                             <input id="cantidad" type="number" class="form-control" name="cantidad" ng-model="proenvio.pendiente_producto.cantidad"  ng-init="maxcantidad = proenvio.pendiente_producto.cantidad" min="0" max="@{{maxcantidad}}" required>
+                                                             <div class="col-sm-12 spd spi">
+                                                                <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Req</div>
+                                                             </div>
+                                                              <input type="hidden" ng-model="proenvio.id_producto"/>
+                                                              <input type="hidden" ng-model="proenvio.id_orden"/>
+                                                              <input type="hidden" ng-model="proenvio.id"/>
+                                                        </div>
+                                                   </div>
+                                                  </td>
+                                                  <td>
+                                                
+                                                     <div class="op_elim">
+                                                          <a href="" class="btn_delitem" id="simple-dropdown"><span class="ico_del" ng-click="btn_proeliminar2(proenvio.id)"></span></a>
+                                                     </div>
+                                                      <div class="op_elim">
+                                                          <a href="" class="btn_additem" id="simple-dropdown" ng-disabled="frm.$invalid"  ng-click="agregarProBodegaPen(proenvio)"><span class="ico_check"></span></a>
+                                                     </div>
+
+                                                   
+                                                  </td>
+
+                                              </form>
+                                            </tr>
+                             </tbody>
+                          </table>
+
+                            {{-- Productos agregados y por agregar --}}
+                          <table  class="table">
+                           <thead>
+                                           <tr>
+                                           <th rowspan="2">Producto</th>
+                                             <th colspan="2">Cantidad</th>
+                                             <th rowspan="2">Opciones</th>
+                                           </tr>
+                                            <th>Ent 1</th>
+                                            <th>Ent 2</th>
+                                           <tr>
+                                             
+                                           </tr>
+                                              
+                           </thead>
+                            <tbody>
+                              <tr  ng-repeat="proenvio in proenvios" ng-if="proenvio.estado_producto==1">
+                                <form class="form-horizontal" name="frm" role="form">
+                                    <td> <small class="label label-success">@{{proenvio.nombre_producto.codigo}}</small> @{{proenvio.nombre_producto.nombre}}</td>
+                                    <td class="maxtd_long">
+                                        <div class="form-group">
+                                          <div class="col-md-12 spd spi">
+                                               <input id="cantidad" type="number" class="form-control" name="cantidad" ng-model="proenvio.cantidad"  ng-init="maxcantidad = proenvio.cantidad" min="0" max="@{{maxcantidad}}" required>
+                                               <div class="col-sm-12 spd spi">
+                                                  <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Req</div>
+                                               </div>
+                                                <input type="hidden" ng-model="proenvio.id_producto"/>
+                                                <input type="hidden" ng-model="proenvio.id_orden"/>
+                                                <input type="hidden" ng-model="proenvio.id"/>
+                                          </div>
+                                     </div>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                  
+                                       <div class="op_elim">
+                                            <a href="" class="btn_delitem" id="simple-dropdown"><span class="ico_del" ng-click="btn_proeliminar2(proenvio.id)"></span></a>
+                                       </div>
+                                        <div class="op_elim">
+                                            <a href="" class="btn_additem" id="simple-dropdown" ng-disabled="frm.$invalid"  ng-click="agregarProBodega(proenvio)"><span class="ico_check"></span></a>
+                                       </div>
+
+                                     
+                                    </td>
+
+                                </form>
+                              </tr>
+                              <tr ng-repeat="proenvio in proenvios" ng-if="proenvio.estado_producto!=1" class="fondo_acep">
+                                <td> <small class="label label-success">@{{proenvio.nombre_producto.codigo}}</small> @{{proenvio.nombre_producto.nombre}} <small class="label label-primary">Q@{{proenvio.nombre_producto.preciop | number:2}}</small></td>
+                                <td>@{{proenvio.cantidad}}</td>
+                                <td>@{{proenvio.pendiente_producto.cantidad}}</td>
+                                <td>En bodega</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                     
+                          </div>
+                        </div>
+                      </div>
+  
          </div>
       
      </div>

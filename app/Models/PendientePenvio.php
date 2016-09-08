@@ -19,7 +19,7 @@ class PendientePenvio extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_orden','id_orden','id_proenvio','id_producto','cantidad'];
+    protected $fillable = ['id_sucursal','id_orden','id_proenvio','id_producto','cantidad'];
 
     /**
      * The attributes excluded from the model's JSON form.

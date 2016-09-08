@@ -82,6 +82,90 @@ class MiSucursalController extends Controller
         //
     }
 
+
+    public function enviarproductos(Request $request)
+    {
+        $user = Auth::User();     
+        $userId = $user->id; 
+
+        $idproducto=$request['id_producto'];
+        $idsucursal=$request['id_sucursal'];
+        $idproenvio=$request['id_proenvio'];
+        $idorden=$request['id_orden'];
+        $cantidad=$request['cantidad'];
+
+        $producto=Producto::where('id',$idproducto)->first();
+
+        //Producto compra cambia a estado 2
+        $productoenvio=ProductoEnvio::find($idproenvio);
+      
+        //Verificando si hay productos pendientes en la compra
+         $cantidadasig=$productoenvio->cantidad;
+         if($cantidadasig>$cantidad){
+           $actualcanti=$cantidadasig-$cantidad;
+
+                 //Creando la compra pendiente
+                  $pendienteproenvio=PendientePenvio::create([
+                        'id_sucursal' => $idsucursal,
+                        'id_orden' => $idorden,
+                        'id_proenvio' => $idproenvio,
+                        'id_producto' =>  $idproducto,
+                        'cantidad' =>  $actualcanti,
+                    ]);
+                 $pendienteproenvio->save();
+
+                  //Cambiando el estado del producto
+                 $productoenvio->fill([
+                      'estado_producto' => 3,
+                      'cantidad' =>  $cantidad,
+                  ]);
+                  $productoenvio->save();
+
+         }else{
+            $productoenvio->fill([
+                  'estado_producto' => 2,
+            ]);
+            $productoenvio->save();
+         }
+        
+
+        //Stock de Producto de Bodega Central
+        $stockproducto=StockProducto::find($idproducto);  
+        $stockactual=$stockproducto->stock;
+
+        //Restando stock de bodega central
+        $restastock=$stockactual-$cantidad;
+
+        $stockproducto->fill([
+                  'stock' => $restastock,
+            ]);
+        $stockproducto->save();
+
+         //Se envia a Stock de Producto con Bodega Central
+        $Stocksucursal=StockSucursal::where('id_sucursal',$idsucursal)->where('id_producto',$idproducto)->first();
+
+          if($Stocksucursal === null){
+
+                $nuevoStock=StockSucursal::create([
+                          'id_sucursal' => $idsucursal,
+                          'id_producto' => $idproducto,
+                          'stock' => $cantidad,
+                          'estado_producto' =>  1,
+                      ]);
+                 $nuevoStock->save();
+          }else{
+                 $mistock= $Stocksucursal->stock;
+                 $sumstock=$mistock+$cantidad;
+                 $Stocksucursal->fill([
+                         'stock' => $sumstock,
+                  ]);
+                 $Stocksucursal->save();
+          }
+
+      
+        return response()->json(['id_proenvio' => $productoenvio->id],200);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -125,5 +209,20 @@ class MiSucursalController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function destroypro($id)
+    {
+         $proenvio=ProductoEnvio::find($id);
+        $idorden=$proenvio->id_orden;
+        $subtotal=$proenvio->subtotal;
+
+        $ordenenvio=OrdenEnvio::find($idorden);
+        $restartotal=$ordenenvio->total_compra- $subtotal;
+        $ordenenvio->fill([
+                  'total_compra' => $restartotal,
+            ]);
+        $ordenenvio->save();
+         ProductoEnvio::destroy($id);
     }
 }

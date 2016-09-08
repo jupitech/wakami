@@ -142,5 +142,6 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		 Route::get('/miusuario', 'MiSucursalController@misucursal');
 		 Route::get('/misenvios/{id}', 'MiSucursalController@indexenvios');
 		 Route::get('/proenvios/{id}', 'MiSucursalController@indexproenvios');
+		 Route::post('/proenvio/envioproducto', 'MiSucursalController@enviarproductos');
 	});		
 });
