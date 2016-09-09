@@ -226,6 +226,15 @@ class SucursalController extends Controller
         $ordenenvio->save();
     }
 
+    public function updatep2(Request $request, $id)
+    {
+        $ordenenvio=OrdenEnvio::find($id);
+        $ordenenvio->fill([
+                  'estado_orden' => 4,
+            ]);
+        $ordenenvio->save();
+
+    }
     /**
      * Remove the specified resource from storage.
      *

@@ -6701,6 +6701,9 @@ body {
     padding-right: 15px;
     vertical-align: top; }
 
+.h2_top {
+  margin-top: 35px !important; }
+
 @media (max-width: 1199px) {
   .menu_dos .navbar-nav > li > a {
     text-indent: -99999px;

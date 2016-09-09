@@ -1439,6 +1439,25 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                       });
               };
 
+               //Finalizar Envio
+               $scope.completarEnvio=function(){
+                     $http.put('/api/envio/p2/' + $scope.miorden)
+                        .success(function (data, status, headers) {
+                           console.log('Envio No.'+$scope.miorden+' finalizada correctamente.');
+                               $http.get('api/envios/').success(
+
+                                 function(envios) {
+                                         $scope.envios = envios.datos;
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });
+                                   $scope.abmas_obj = false;
+                        })
+                        .error(function (data, status, header, config) {
+                            console.log('Parece que existe un error al modificar la compra.');
+                        });
+               }; 
+
 
    };//Termina abrirorden
 
@@ -1966,9 +1985,78 @@ wApp.controller('MiSucursalCtrl',function($scope, $http, $timeout, $log,$uibModa
                             $timeout(function () { $scope.alertaExiste = false; }, 5000);
                         });
 
-              };
+              };//Fin agregarprobodega
 
+               $scope.agregarProBodegaPen=function(proenvio){
+                $scope.proenvio=proenvio;
+                  var envpro={
+                      id_sucursal: $scope.misucu,
+                      id_orden:$scope.proenvio.id_orden,
+                      id_producto:$scope.proenvio.id_producto,
+                      cantidad: $scope.proenvio.cantidad,
+                      id_proenvio: $scope.proenvio.id
+                  };
+                  //console.log(envpro);
+                   $http.post('/api/mi/proenvio/envioproductopen', envpro)
+                        .success(function (data, status, headers) {
+                               $http.get('/api/mi/proenvios/'+$scope.miorden).success(
+                                    function(proenvios) {
+                                              $scope.proenvios = proenvios.datos;
+                                                 console.log('Producto enviado a bodega de sucursal.');
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });
+                                    $scope.proenvio={};
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que el producto de compra  ya existe");
+                            $timeout(function () { $scope.alertaExiste = true; }, 100);
+                            $timeout(function () { $scope.alertaExiste = false; }, 5000);
+                        });
 
+              };//Fin agregarprobodegaPen
+
+              //Finalizar Envio
+               $scope.completarEnvio=function(){
+                     $http.put('/api/mi/envio/p2/' + $scope.miorden)
+                        .success(function (data, status, headers) {
+                           console.log('Envio No.'+$scope.miorden+' finalizada correctamente.');
+                               $http.get('/api/mi/misenvios/'+$scope.misucu).success(
+
+                                      function(misenvios) {
+                                                $scope.misenvios = misenvios.datos;
+
+                                    }).error(function(error) {
+                                         $scope.error = error;
+                                    });
+                                   $scope.abmas_obj = false;
+                        })
+                        .error(function (data, status, header, config) {
+                            console.log('Parece que existe un error al modificar la compra.');
+                        });
+               }; 
+
+                 //Eliminar Productos Envio restando el total en la Orden
+                $scope.btn_proeliminar2 = function(id){
+                  $scope.idproenvio= id;
+                   $http.delete('api/mi/proenvio/destroy/' +  $scope.idproenvio)
+                      .success(function (data, status, headers) {
+                         console.log('Producto de Envio '+$scope.idproenvio+' borrado correctamente.');
+
+                              $http.get('/api/mi/proenvios/'+$scope.miorden).success(
+                                    function(proenvios) {
+                                              $scope.proenvios = proenvios.datos;
+                                                 console.log('Producto enviado a bodega de sucursal.');
+                                  }).error(function(error) {
+                                       $scope.error = error;
+                                  });
+                              $timeout(function () { $scope.alertaEliminadoPro = true; }, 1000);
+                              $timeout(function () { $scope.alertaEliminadoPro = false; }, 5000);
+                      })
+                      .error(function (data, status, header, config) {
+                          console.log('Parece que existe un error al borrar la compra.');
+                      });
+                }; 
 
           };   
 

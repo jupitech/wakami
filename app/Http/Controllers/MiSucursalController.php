@@ -71,22 +71,8 @@ class MiSucursalController extends Controller
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-
     public function enviarproductos(Request $request)
     {
-        $user = Auth::User();     
-        $userId = $user->id; 
 
         $idproducto=$request['id_producto'];
         $idsucursal=$request['id_sucursal'];
@@ -166,27 +152,54 @@ class MiSucursalController extends Controller
         return response()->json(['id_proenvio' => $productoenvio->id],200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+     public function enviarproductopen(Request $request)
     {
-        //
+
+        $idproducto=$request['id_producto'];
+        $idsucursal=$request['id_sucursal'];
+        $idproenvio=$request['id_proenvio'];
+        $idorden=$request['id_orden'];
+        $cantidad=$request['cantidad'];
+
+        $producto=Producto::where('id',$idproducto)->first();
+
+        //Producto compra cambia a estado 2
+        $productoenvio=ProductoEnvio::find($idproenvio);
+      
+            $productoenvio->fill([
+                  'estado_producto' => 2,
+            ]);
+            $productoenvio->save();
+        
+
+
+        //Se envia a Stock de Producto con Bodega Central
+        $Stocksucursal=StockSucursal::where('id_sucursal',$idsucursal)->where('id_producto',$idproducto)->first();
+
+         if($Stocksucursal === null){
+
+                $nuevoStock=StockSucursal::create([
+                          'id_sucursal' => $idsucursal,
+                          'id_producto' => $idproducto,
+                          'stock' => $cantidad,
+                          'estado_producto' =>  1,
+                      ]);
+                 $nuevoStock->save();
+          }else{
+                 $mistock= $Stocksucursal->stock;
+                 $sumstock=$mistock+$cantidad;
+                 $Stocksucursal->fill([
+                         'stock' => $sumstock,
+                  ]);
+                 $Stocksucursal->save();
+          }
+
+      
+        return response()->json(['id_proenvio' => $productoenvio->id],200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -195,27 +208,35 @@ class MiSucursalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
+
+    public function updatep2(Request $request, $id)
+    {
+        $ordenenvio=OrdenEnvio::find($id);
+        $ordenenvio->fill([
+                  'estado_orden' => 4,
+            ]);
+        $ordenenvio->save();
+
+    }
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
 
     public function destroypro($id)
     {
-         $proenvio=ProductoEnvio::find($id);
-        $idorden=$proenvio->id_orden;
-        $subtotal=$proenvio->subtotal;
+        $pendienteenvio=PendientePenvio::find($id);
+        $idorden=$pendienteenvio->id_orden;
+        $idproducto=$pendienteenvio->id_producto;
+        $idproenvio=$pendienteenvio->id_proenvio;
+        $cantidad=$pendienteenvio->cantidad;
+
+        $producto=Producto::where('id',$idproducto)->first();
+        $preciop=$producto->preciop;
+        $subtotal=$cantidad*$preciop;
 
         $ordenenvio=OrdenEnvio::find($idorden);
         $restartotal=$ordenenvio->total_compra- $subtotal;
@@ -223,6 +244,13 @@ class MiSucursalController extends Controller
                   'total_compra' => $restartotal,
             ]);
         $ordenenvio->save();
-         ProductoEnvio::destroy($id);
+
+        $productoenvio=ProductoEnvio::find($idproenvio);
+        $productoenvio->fill([
+                  'estado_producto' => 2,
+            ]);
+        $productoenvio->save();
+        
+        PendientePenvio::destroy($id);
     }
 }

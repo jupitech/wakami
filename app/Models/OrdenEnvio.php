@@ -19,14 +19,14 @@ class OrdenEnvio extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_sucursal','id_user','fecha_entrega','total_compra','estado_orden','created_at'];
+    protected $fillable = ['id_sucursal','id_user','fecha_entrega','total_compra','estado_orden','created_at','updated_at'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['updated_at'];
+   
 
       public function NombreSucursal(){
         return $this->hasOne('App\Models\Sucursales','id','id_sucursal');

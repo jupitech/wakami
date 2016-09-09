@@ -290,6 +290,26 @@
                                      </form>
                           </div>
 
+                                    {{-- Productos pendientes de recibir --}}
+                                    <div class="col-sm-12">
+                                      <h2 class="h2_top" ng-if="(proenvios | filter:{estado_producto:3}).length > 0" ><strong>Productos Pendientes de recibir</strong></h2>
+                                      <table class="table" ng-if="(proenvios | filter:{estado_producto:3}).length > 0">
+                                         <thead>
+                                           
+                                         </thead>
+                                         <tbody>
+                                                          <tr  ng-repeat="proenvio in proenvios" ng-if="proenvio.estado_producto==3">
+                                                          
+                                                        
+                                                              <td> <small class="label label-success">@{{proenvio.nombre_producto.codigo}}</small> @{{proenvio.nombre_producto.nombre}}</td>
+                                                               <td>Cant: @{{proenvio.pendiente_producto.cantidad}} </td>
+                                                              <td>
+                                                              </td>
+                                                        </tr>
+                                         </tbody>
+                                      </table>
+                          </div>
+
                              {{-- Productos agregados a envios --}}
                       <div class="col-sm-12 conte table_height" ng-if="exisEnvio.estado_orden==1">
                           <div class="col-sm-12">
@@ -361,7 +381,7 @@
                                              <tbody>
                                                <tr ng-repeat="proenvio in proenvios">
                                                    <td><small class="label label-success">@{{ proenvio.nombre_producto.codigo }}</small> @{{proenvio.nombre_producto.nombre}}</td>
-                                                   <td>@{{proenvio.cantidad}} </td>
+                                                   <td>@{{proenvio.cantidad}} <span class="label label-default" >@{{proenvio.pendiente_producto.cantidad}}</span> </td>
                                                    <td>@{{proenvio.precio_producto  | currency: 'Q'}}</td>
                                                    <td ng-init="ProTotal = ProTotal+proenvio.subtotal">@{{proenvio.subtotal  | currency: 'Q'}}</td>
                                                    <td ng-switch="proenvio.estado_producto">
@@ -371,11 +391,51 @@
                                                       <p class="label label-primary" ng-switch-when="2">
                                                         Agregado
                                                       </p>
+                                                       <p class="label label-default" ng-switch-when="3">
+                                                        Pendiente
+                                                      </p>
                                                    </td>
                                                </tr>
                                               
                                            </tbody>
                                        </table>
+                      </div>
+                       {{-- Productos y compra terminada --}}
+                      <div class="col-sm-12 conte table_height" ng-if="exisEnvio.estado_orden==4">
+                             <div class="col-sm-12 spd spi">
+                          <div class="agre_pro">
+                         <table class="table">
+                                           <thead>
+                                               <th>Producto</th>
+                                               <th>Cant.</th>
+                                               <th>Costo</th>
+                                               <th>Subtotal</th>
+                                               <th>Estado</th>
+                                           </thead>
+                                             <tbody>
+                                               <tr ng-repeat="proenvio in proenvios">
+                                                   <td><small class="label label-success">@{{ proenvio.nombre_producto.codigo }}</small> @{{proenvio.nombre_producto.nombre}}</td>
+                                                   <td>@{{proenvio.cantidad}} <span class="label label-default" >@{{proenvio.pendiente_producto.cantidad}}</span> </td>
+                                                   <td>@{{proenvio.precio_producto  | currency: 'Q'}}</td>
+                                                   <td ng-init="ProTotal = ProTotal+proenvio.subtotal">@{{proenvio.subtotal  | currency: 'Q'}}</td>
+                                                   <td ng-switch="proenvio.estado_producto">
+                                                      <p class="label label-warning" ng-switch-when="1">
+                                                        Enviado
+                                                      </p>
+                                                      <p class="label label-primary" ng-switch-when="2">
+                                                        Agregado
+                                                      </p>
+                                                       <p class="label label-default" ng-switch-when="3">
+                                                        Pendiente
+                                                      </p>
+                                                   </td>
+                                               </tr>
+                                              
+                                           </tbody>
+                             </table>
+                          
+                          </div>
+                        </div>
                       </div>
                          {{-- Totales y opciones --}}
                           <div class="col-sm-12 footer">
@@ -398,6 +458,18 @@
                              <div class="col-sm-8" ng-if="exisEnvio.estado_orden==1 && proenvios.length < 1">
                                  <p class="info_paso"><strong>AGREGA PRODUCTOS</strong> Cuando se agreguen productos podrán enviarlo a la sucursal asignada.</p>
                              </div>
+                              <div class="col-sm-8" ng-if="exisEnvio.estado_orden==2 && (proenvios | filter:{estado_producto:3}).length < 1 && (proenvios | filter:{estado_producto:1}).length < 1">
+                                                 <form class="form-horizontal" name="frm" role="form" ng-submit="completarEnvio()" >
+                                                      <div class="form-group">
+                                                          <div class="col-sm-7">
+                                                            <p class="info_paso"><strong>PASO 2</strong> Terminar orden para completar datos</p>
+                                                          </div>
+                                                          <div class="col-sm-5">
+                                                                <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">Completar Orden</button>
+                                                          </div>
+                                                       </div>
+                                                 </form>
+                                         </div>
                           </div>     
                     </div>
                  </div>
@@ -493,7 +565,8 @@
                               <th>#Envio</th>
                                <th>Sucursal</th>
                                <th>Total</th>
-                               <th>Estado</th>
+                               <th>Fecha de Entrega</th>
+                               <th>Fecha de Movimiento</th>
                                <th>Opciones</th>
                            </thead>
                            <tbody>
@@ -502,7 +575,8 @@
                               <td ng-click="abrirorden(envio)"><strong>@{{envio.id}}</strong></td>
                               <td ng-click="abrirorden(envio)">@{{envio.nombre_sucursal.nombre}}</td>
                               <td ng-click="abrirorden(envio)">@{{envio.total_compra | currency: 'Q'}}</td>
-                              <td ng-click="abrirorden(envio)">@{{envio.estado_orden}}</td>
+                              <td ng-click="abrirorden(envio)">@{{envio.fecha_entrega  | amDateFormat: 'DD/MM/YYYY HH:mm:ss'}}</td>
+                              <td ng-click="abrirorden(envio)">@{{envio.updated_at  | amDateFormat: 'DD/MM/YYYY HH:mm:ss'}}</td>
                               <td>
                                 <div class="area_opciones">
                                          <ul>
