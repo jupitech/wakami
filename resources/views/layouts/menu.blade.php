@@ -51,8 +51,6 @@
               <a href="#" class="dropdown-toggle ico_sucursales" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sucursales</a>
               <ul class="dropdown-menu">
                  <li><a href="{{ URL::to('/sucursales') }}">Bodega de Sucursales</a></li>
-                <li><a href="#">Okland Mall</a></li>
-                <li><a href="#">Miraflores</a></li>
               </ul>
             </li>
             <li class="dropdown">
@@ -95,7 +93,7 @@
                         <a href="#" class="dropdown-toggle ico_ventas" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ventas</a>
                         <ul class="dropdown-menu">
                           <li><a href="">Nueva Venta</a></li>
-                          <li><a href="">Clientes</a></li>
+                          <li><a href="{{ URL::to('/clientes') }}">Clientes</a></li>
                           <li><a href="">Listado de ventas</a></li>
                         </ul>
                       </li>

@@ -241,7 +241,8 @@
 	                           <div class="area_opciones">
 	                               <ul>
 	                                   <li><a href="" class="ico_editar" ng-click="btn_editar(cliente)"></a></li>
-	                                   <li class="op_drop"  uib-dropdown>
+                                      @role('admin|operativo') 
+	                                   <li class="op_drop"  uib-dropdown >
 	                                         <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
 	                                         <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
 	                                             <div class="col-sm-8 spd">
@@ -252,6 +253,7 @@
 	                                             </div>
 	                                          </div>
 	                                   </li>
+                                      @endrole
 	                               </ul>
 	                           </div>
 	                       </td>

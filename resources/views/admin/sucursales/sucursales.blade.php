@@ -38,6 +38,16 @@
                                   </div>
                                   
                                </div>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                       <label for="serie">Serie</label>
+                                       <input id="serie" type="text" class="form-control" name="serie" ng-model="sucursal.serie" placeholder="Serie de factura" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.serie.$dirty && frm.serie.$error.required">Campo requerido</div>
+                                         </div>
+                                  </div>
+                                  
+                               </div>
                                <div class="form-group">
                                   <div class="col-md-12">
                                        <label for="rol">Usuario asignado</label>
@@ -102,6 +112,16 @@
                                   </div>
                                   
                                </div>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                       <label for="serie">Serie</label>
+                                       <input id="serie" type="text" class="form-control" name="serie" ng-model="existeSucu.serie" placeholder="Serie de factura" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.serie.$dirty && frm.serie.$error.required">Campo requerido</div>
+                                         </div>
+                                  </div>
+                                  
+                               </div>
                                <div class="form-group">
                                   <div class="col-md-12">
                                        <label for="rol">Usuario asignado</label>
@@ -119,6 +139,7 @@
 
                                   </div>
                                   </div>
+
                               
                                <div class="form-group">
                                  <div class="col-sm-6">
@@ -151,6 +172,10 @@
                           <div class="col-sm-6 spd">
                               <h3>Usuario Asignado</h3>
                               <h2> @{{exisSucursal.perfil_usuario.nombre}} @{{exisSucursal.perfil_usuario.apellido}}</h2>
+                          </div>
+                           <div class="col-sm-6 spd">
+                              <h3>Serie de factura</h3>
+                              <h2>@{{exisSucursal.serie}}</h2>
                           </div>
                       </div>
                       
@@ -495,6 +520,7 @@
 			 		 <table class="table">
 			 		  <thead>
 	                       <th>Nombre</th>
+                         <th>Serie</th>
 	                       <th>Ubicación</th>
 	                       <th>Usuario</th>
 	                       <th>Opciones</th>
@@ -502,6 +528,7 @@
 	                   <tbody>
 	                   		<tr ng-repeat="sucursal in sucursales">
 	                   		<td ng-click="abrirsucursal(sucursal)">@{{sucursal.nombre}}</td>
+                        <td ng-click="abrirsucursal(sucursal)">@{{sucursal.serie}}</td>
 	                   		<td ng-click="abrirsucursal(sucursal)">@{{sucursal.ubicacion}}</td>
 	                   		<td ng-click="abrirsucursal(sucursal)">@{{sucursal.perfil_usuario.nombre}} @{{sucursal.perfil_usuario.apellido}}</td>
 	                   		<td>

@@ -201,9 +201,6 @@
 
      <div class="header_conte">
               <h1>Mi Sucursal</h1>
-                <div class="btn_nuevo">
-                    <a href="" ng-click="btn_nuevo()">Nuevo Gasto</a>
-                </div>
      </div>
     <div class="col-sm-12"  ng-if="!miusuario.sucursal_usuario.id">
          <div class="caja_contenido">

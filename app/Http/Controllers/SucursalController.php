@@ -106,6 +106,7 @@ class SucursalController extends Controller
               $sucursales=Sucursales::create([
                   'nombre' => $request['nombre'],
                   'ubicacion' => $request['ubicacion'],
+                  'serie' => $request['serie'],
                   'id_user' =>  $request['id_user'],
                         ]);
           $sucursales->save();
@@ -180,6 +181,7 @@ class SucursalController extends Controller
         $sucursales->fill([
               'nombre' => $request['nombre'],
               'ubicacion' => $request['ubicacion'],
+              'serie' => $request['serie'],
               'id_user' =>  $request['id_user'],
             ]);
         $sucursales->save();

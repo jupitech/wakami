@@ -1223,9 +1223,10 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                 var data = {
                   nombre: $scope.existeSucu.nombre,
                   ubicacion: $scope.existeSucu.ubicacion,
+                  serie: $scope.existeSucu.serie,
                   id_user: $scope.existeSucu.id_user
                 };
-                 //console.log(data);
+                 console.log(data);
                 $http.put('api/sucursal/' +  $scope.existeSucu.id, data)
                 .success(function (data, status, headers) {
                    console.log('Sucursal '+$scope.existeSucu.nombre+' modificada correctamente.');

@@ -21,6 +21,25 @@ Route::auth();
 Route::get('/', 'HomeController@index');
 
 
+Route::group(['middleware' => ['auth','role:admin|operativo|vendedor']], function()
+{
+	   //Clientes
+	   Route::get('/clientes', 'ClientesController@index');
+
+	Route::group(['middleware' => 'cors','prefix' => 'api'], function()
+	{ 
+
+		 //Clientes
+        Route::get('/clientes', 'ClientesController@indexclientes');
+		Route::post('/cliente/create', 'ClientesController@store');
+		Route::put('/cliente/{id}', 'ClientesController@update');
+		Route::delete('/cliente/destroy/{id}','ClientesController@destroy');
+
+	});	
+
+
+});	
+
 Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 {
 	   //Usuarios
@@ -33,8 +52,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 	   Route::get('/compras', 'OrdenCompraController@index');
 	   //Sucursales
 	   Route::get('/sucursales', 'SucursalController@index');
-	   //Clientes
-	   Route::get('/clientes', 'ClientesController@index');
+
 
 	   //Ventas
 	   Route::get('/ventas', 'VentasCentralController@index');
@@ -111,12 +129,6 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::put('/api/envio/p2/{id}', 'SucursalController@updatep2');
 
 
-			//Clientes
-            Route::get('/api/clientes', 'ClientesController@indexclientes');
-			Route::post('/api/cliente/create', 'ClientesController@store');
-			Route::delete('/api/cliente/destroy/{id}','ClientesController@destroy');
-			Route::put('/api/cliente/{id}', 'ClientesController@update');
-
 			//Ventas Central
 			Route::get('/api/ventas', 'VentasCentralController@indexventas');
 			Route::post('/api/ventacentral/create', 'VentasCentralController@store');
@@ -136,6 +148,7 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 	//Mi Sucursal
 	 Route::get('/misucursal', 'MiSucursalController@index');
 
+
 	 Route::group(['middleware' => 'cors','prefix' => 'api/mi'], function()
 	{   
 
@@ -146,5 +159,8 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		 Route::post('/proenvio/envioproductopen', 'MiSucursalController@enviarproductopen');
 		 Route::put('/envio/p2/{id}', 'MiSucursalController@updatep2');
 		 Route::delete('/proenvio/destroy/{id}','MiSucursalController@destroypro');
-	});		
+
+	});	
+
+		
 });

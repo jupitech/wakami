@@ -19,7 +19,7 @@ class Sucursales extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre','ubicacion','id_user'];
+    protected $fillable = ['nombre','ubicacion','id_user','serie'];
 
     /**
      * The attributes excluded from the model's JSON form.
