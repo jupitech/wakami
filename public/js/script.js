@@ -2446,6 +2446,61 @@ wApp.controller('MisProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProdu
 
 });
 
+//************************************Venta**********************************************//
+wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
+
+      //MiUsuario
+      $http.get('api/mi/miusuario').success(
+
+              function(miusuario) {
+                        $scope.miusuario = miusuario.datos;
+                       
+                        $scope.actsucu($scope.miusuario.sucursal_usuario.id);
+            }).error(function(error) {
+                 $scope.error = error;
+            }); 
+
+    $scope.actsucu=function(idsucu){
+
+      //Id Sucursal
+          $scope.misucu=idsucu;            
+
+   //Todos las ventas
+      $http.get('/api/mi/ventas/'+ $scope.misucu).success(
+
+              function(ventas) {
+                        $scope.ventas = ventas.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+
+       //Eliminar venta 
+      $scope.btn_eliminar = function(id){
+        $scope.idventa= id;
+        console.log($scope.idventa);
+
+         $http.delete('api/mi/venta/destroy/' +  $scope.idventa)
+            .success(function (data, status, headers) {
+               console.log('Venta '+$scope.idventa+' borrada correctamente.');
+                   $http.get('/api/mi/ventas/'+ $scope.misucu).success(
+
+                        function(ventas) {
+                        $scope.ventas = ventas.datos;
+                            }).error(function(error) {
+                                 $scope.error = error;
+                            });
+                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);
+                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar el proveedor.');
+            });
+      };   
+
+  };        
+
+});
+
 
 //************************************Menu Dos*************************************************//
 wApp.controller('menuDos',function($scope, $timeout){

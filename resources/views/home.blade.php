@@ -20,7 +20,7 @@
                     @role('vendedor') 
                     <li><a href="{{ URL::to('/minuevaventa') }}">Nueva Venta</a></li>
                     <li><a href="{{ URL::to('/clientes') }}">Clientes</a></li>
-                    <li><a href="">Listado de ventas</a></li>
+                    <li><a href="{{ URL::to('/misventas') }}">Listado de ventas</a></li>
                     @endrole
            				</ul>
            			</div>

@@ -174,7 +174,7 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 
 
 		//Ventas
-		Route::get('/ventas', 'VentasController@indexventas');
+		Route::get('/ventas/{id}', 'VentasController@indexventas');
 		Route::post('/venta/create', 'VentasController@store');
 		Route::post('/ventacliente/create', 'VentasController@storeclie');
 		Route::post('/ventaproducto/create', 'VentasController@storepro');
@@ -184,6 +184,7 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		Route::get('/ventas/stockproducto/{sucursal}/{id}', 'VentasController@stockproducto');
 		Route::delete('/proventa/destroy/{id}','VentasController@destroypro');
 		Route::put('/proventa/{id}', 'VentasController@updatepro');
+		Route::delete('/venta/destroy/{id}','VentasController@destroy');
 
 		//Productos
 		Route::get('/productos/{id}', 'MiProductoController@indexproductos');

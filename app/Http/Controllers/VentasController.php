@@ -272,7 +272,19 @@ class VentasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ventas=Ventas::find($id);
+
+        if($ventas->estado_ventas==1){
+             $productoventas=ProductoVenta::where('id_ventas',$id)->get();
+
+              foreach ($productoventas as $productoventa) {
+
+                  ProductoVenta::destroy($productoventa->id);
+              }
+
+               Ventas::destroy($id);
+        }
+
     }
      public function destroypro($id)
     {
