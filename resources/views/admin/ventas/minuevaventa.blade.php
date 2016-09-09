@@ -12,10 +12,19 @@
 	 <div class="header_conte">
               <h1>Nueva Venta</h1>
      </div>
-	<div class="col-sm-12">
-	   <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Cliente nuevo</strong> guardado correctamente, creado por administradores.</div>
-        <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Cliente borrado</strong> No se podrá recuperar los datos.</div>	
-	 <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Cliente editado</strong> Puedes ver en el listado de cliente las modificaciones realizadas.</div>
+      <div class="col-sm-12"  ng-if="!miusuario.sucursal_usuario.id">
+         <div class="caja_contenido">
+               <div class="col-sm-12">
+                  <h3 class="h3_noasig">No tienes asignado Sucursal a tu usuario, pide al administrador el acceso</h3>
+               </div>
+           
+         </div>
+          
+     </div>
+	 <div class="col-sm-12" ng-if="miusuario.sucursal_usuario.id && acti_venta">
+          	   <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Cliente nuevo</strong> guardado correctamente, creado por administradores.</div>
+                  <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Cliente borrado</strong> No se podrá recuperar los datos.</div>	
+          	 <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Cliente editado</strong> Puedes ver en el listado de cliente las modificaciones realizadas.</div>
 
 	  <div class="caja_contenido sinheight">
 	       <div class="header_caja">
@@ -212,11 +221,11 @@
                                           <div class="form-group">
                                              <div class="col-sm-8 col-md-8 col-lg-9 topinput">
                                                      <ol class="nya-bs-select" ng-model="proventa.id_producto" data-live-search="true"  title="Selecciona un producto..." required>
-                                                          <li nya-bs-option="producto in productos" data-value="producto.id">
+                                                          <li nya-bs-option="producto in productos" data-value="producto.id_producto">
                                                             <a>
                                                              <span>
-                                                              <small class="label label-success">@{{ producto.codigo }}</small>
-                                                                  @{{ producto.nombre }}-<strong> Q@{{ producto.preciop | number:2 }} </strong>
+                                                              <small class="label label-success">@{{ producto.nombre_producto.codigo }}</small>
+                                                                  @{{ producto.nombre_producto.nombre }}-<strong> Q@{{ producto.nombre_producto.preciop | number:2 }} </strong>
                                                                 </span>
                                                               <span class="glyphicon glyphicon-ok check-mark"></span>
                                                             </a>
@@ -333,6 +342,63 @@
            </div>
       </div>
    </div>
+
+
+    <div class="col-sm-12" ng-if="miusuario.sucursal_usuario.id && termi_venta">
+    {{-- Venta Terminada --}}
+              <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                 <div class="caja_contenido top_conte">
+                       <div class="info_final">
+                              <h3>Wakami Guatemala S.A.</h3>
+                              <h4>12 av. 14-68 Zona 10, Guatemala</h4>
+                                  {{-- Información de cliente --}}
+                               <div class="info_finalusuario" ng-if="acti_areapro" ng-repeat="mi in miventa">
+                                  <div class="col-sm-12">
+                                      <p>Nombre:@{{mi.info_clientes.empresa }}</p>
+                                       <p>NIT: @{{mi.info_clientes.nit}}</p>
+                                  </div>
+                                  <div class="col-sm-12">
+                                      <p>Dirección: @{{mi.info_clientes.direccion}}</p>
+                                       <p>Teléfono: @{{mi.info_clientes.telefono}}</p>
+                                  </div>
+                             </div>
+                                  {{-- Información de productos --}}
+                              <div class="info_finalproductos" ng-if="acti_areapro">
+                                    <table>
+                                      <thead>
+                                        <tr>
+                                          <th>Cant.</th>
+                                          <th>Descripción</th>
+                                          <th>Subtotal</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                       <tr ng-repeat="mipro in misproductos">
+                                            <td>@{{mipro.cantidad}}</td>
+                                            <td>@{{mipro.nombre_producto.nombre}}</td>
+                                            <td>Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</td>
+                                        </tr>     
+                                      </tbody>
+                                    </table>
+                              </div>
+                              <div class="info_finaltotal">
+                                   <div class="eltotal">
+                                     <p ng-repeat="mi in miventa">Total <strong>Q@{{mi.total | number:2}}</strong></p>
+                                   </div>
+                              </div>
+                              <div class="col-sm-12 spd spi">
+                                <div class="col-sm-6">
+                                    <a class="btn btn-primary btn_regis">IMPRIMIR</a>
+                                </div>
+                                <div class="col-sm-6">
+                                  <a class="btn btn_cancelar" ng-click="iraventas()">IR A VENTAS</a>
+                                </div>
+                              </div>
+                       </div>
+                 </div>
+              </div>
+
+    </div>
 @endsection
 @push('scripts')
     <script src="/js/script.js"></script>

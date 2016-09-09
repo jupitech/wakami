@@ -71,10 +71,10 @@ class VentasController extends Controller
          return response()->json(['datos' =>  $productos],200);
     }
 
-       public function stockproducto($idsucursal,$id)
+       public function stockproducto($sucursal,$id)
     {
            //Trayendo Productos de Sucursales
-         $stocksucursal=StockSucursal::where('id_producto',$id)->where('id_sucursal',$idsucursal)->first();
+         $stocksucursal=StockSucursal::with("NombreProducto")->where('id_sucursal',$sucursal)->where('id_producto',$id)->first();
          if(!$stocksucursal){
              return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
         }
@@ -192,6 +192,27 @@ class VentasController extends Controller
                 'estado_ventas' => 2,
             ]);
         $ventas->save();
+
+        $idsucursal=$ventas->id_sucursal;
+
+        //Buscando productos en ventas agregados
+         $productoventas=ProductoVenta::where('id_ventas',$idventas)->get();
+          foreach ($productoventas as $productoventa) {
+            //Reduciendo stock desde los productos vendidos
+               $stocksucursal=StockSucursal::where('id_sucursal',$idsucursal)->where('id_producto',$productoventa->id_producto)->first();
+
+                  if(!is_null($stocksucursal) ){
+                    $stockactual=$stocksucursal->stock;
+                    $restastock=$stockactual-$productoventa->cantidad;
+                      $stocksucursal->fill([
+                                        'stock' =>  $restastock,
+                                    ]);
+                      $stocksucursal->save();
+
+                  }
+
+          }
+
     }
 
 

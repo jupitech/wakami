@@ -144,6 +144,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::get('/api/ventas/stockproducto/{id}', 'VentasCentralController@stockproducto');
 			Route::delete('/api/proventa/destroy/{id}','VentasCentralController@destroypro');
 			Route::put('/api/proventa/{id}', 'VentasCentralController@updatepro');
+			Route::delete('/api/venta/destroy/{id}','VentasCentralController@destroy');
 		});
 });
 
@@ -180,7 +181,7 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		Route::post('/factura/create', 'VentasController@storefac');
 		Route::get('/miventa/{id}', 'VentasController@indexmiventa');
 		Route::get('/miproducto/{id}', 'VentasController@indexmiproducto');
-		Route::get('/ventas/stockproducto/{idsucursal}/{id}', 'VentasController@stockproducto');
+		Route::get('/ventas/stockproducto/{sucursal}/{id}', 'VentasController@stockproducto');
 		Route::delete('/proventa/destroy/{id}','VentasController@destroypro');
 		Route::put('/proventa/{id}', 'VentasController@updatepro');
 

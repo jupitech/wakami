@@ -52,7 +52,7 @@ class VentasCentralController extends Controller
       public function indexventas()
     {
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta")->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal")->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
@@ -189,6 +189,24 @@ class VentasCentralController extends Controller
                 'estado_ventas' => 2,
             ]);
         $ventas->save();
+
+             //Buscando productos en ventas agregados
+         $productoventas=ProductoVenta::where('id_ventas',$idventas)->get();
+          foreach ($productoventas as $productoventa) {
+            //Reduciendo stock desde los productos vendidos
+               $stockproducto=StockProducto::where('id_producto',$productoventa->id_producto)->first();
+
+                  if(!is_null($stockproducto) ){
+                    $stockactual=$stockproducto->stock;
+                    $restastock=$stockactual-$productoventa->cantidad;
+                      $stockproducto->fill([
+                                        'stock' =>  $restastock,
+                                    ]);
+                      $stockproducto->save();
+
+                  }
+
+          }
     }
 
 
@@ -249,8 +267,22 @@ class VentasCentralController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ventas=Ventas::find($id);
+
+        if($ventas->estado_ventas==1){
+             $productoventas=ProductoVenta::where('id_ventas',$id)->get();
+
+              foreach ($productoventas as $productoventa) {
+
+                  ProductoVenta::destroy($productoventa->id);
+              }
+
+               Ventas::destroy($id);
+        }
+
     }
+
+
      public function destroypro($id)
     {
         $productoventa=ProductoVenta::find($id);

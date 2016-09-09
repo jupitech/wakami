@@ -1411,7 +1411,7 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 	position: relative;
 }
 .td_first{
-	width: 30px;
+	width: 10px;
 }
 .td_no{
 	width: 80px;
@@ -1660,4 +1660,70 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 	text-align: center;
 	margin-top: 50px;
 	font-weight: 200;
+}
+.info_final{
+	float: left;
+	width: 100%;
+	padding: 15px;
+	font-family: "Inconsolata", sans-serif;
+	h3{
+		float: left;
+		width: 100%;
+		text-align: center;
+		font-weight: bold;
+	}
+	h4{
+		float: left;
+		width: 100%;
+		font-size: 15px;
+		text-align: center;
+		margin-top: 0;
+		padding-bottom: 10px;
+		border-bottom: 1px solid #ccc;
+	}
+}
+.info_finalusuario{
+	float: left;
+	width: 100%;
+			padding-bottom: 10px;
+}
+.info_finalproductos{
+	float: left;
+	width: 100%;
+	padding: 20px 0;
+
+	table{
+		width: 100%;
+
+		thead>tr>th{
+			font-size: 11px;
+			font-weight: bold;
+			border-bottom: 2px solid #ccc;	
+			padding: 5px 5px;	
+		}
+
+		tbody>tr>td{
+			font-size: 12px;
+			font-weight: normal;
+			border:none;	
+			padding: 7px 5px;	
+		}
+	}
+}
+
+.info_finaltotal{
+	float: left;
+	width: 100%;
+	border-top: 2px solid #ccc;
+
+	.eltotal{
+		float: right;
+		p{
+			float: left;
+			text-align: right;
+			font-size: 15px;
+			padding-right: 10px;
+			padding-top: 5px;
+		}
+	}
 }

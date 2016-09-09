@@ -1625,9 +1625,32 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
                  $scope.error = error;
             });
 
+       //Eliminar Proveedor
+      $scope.btn_eliminar = function(id){
+        $scope.idventa= id;
+        console.log($scope.idventa);
+
+         $http.delete('api/venta/destroy/' +  $scope.idventa)
+            .success(function (data, status, headers) {
+               console.log('Venta '+$scope.idventa+' borrada correctamente.');
+                   $http.get('/api/ventas').success(
+
+                        function(ventas) {
+                        $scope.ventas = ventas.datos;
+                            }).error(function(error) {
+                                 $scope.error = error;
+                            });
+                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);
+                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar el proveedor.');
+            });
+      };       
+
 });
 //************************************Venta N**********************************************//
-wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $location){
+wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $location,$window){
    $scope.status = {
     isopen: false
   };
@@ -1649,9 +1672,12 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
    $scope.alertaExistePro = false; // Alerta si el proveedor ya esta en existencia
    $scope.alertaEliminado = false; // Alerta de proveedor eliminado
    $scope.alertaEditado = false; // Alerta de proveedor editado
-    $scope.acti_rol=false;
-     $scope.acti_cliente=false;
-      $scope.acti_areapro=false;
+   $scope.acti_venta=true;
+   $scope.termi_venta=false;
+   $scope.acti_rol=false;
+   $scope.acti_cliente=false;
+   $scope.acti_areapro=false;
+
 
      $scope.act_rol = function() {
           $scope.acti_rol = !$scope.acti_rol;
@@ -1890,7 +1916,9 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                $http.post('/api/factura/create', datafact)
                         .success(function (data, status, headers) {
                               console.log("Factura creada correctamente");
-                              $location.path('../ventas');
+                               $scope.acti_venta=false;
+                               $scope.termi_venta=true;
+                               //  $window.location.href = '/ventas';
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al enviar la factura");
@@ -1898,6 +1926,11 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                             $timeout(function () { $scope.alertaExistePro = false; }, 5000);
                         });
       };
+
+
+      $scope.iraventas=function(){
+            $window.location.href = '/ventas';
+      }
 
 
 });
@@ -2091,6 +2124,8 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
    $scope.alertaExistePro = false; // Alerta si el proveedor ya esta en existencia
    $scope.alertaEliminado = false; // Alerta de proveedor eliminado
    $scope.alertaEditado = false; // Alerta de proveedor editado
+   $scope.acti_venta=true;
+   $scope.termi_venta=false;
    $scope.acti_rol=false;
     $scope.acti_cliente=false;
     $scope.acti_areapro=false;
@@ -2181,7 +2216,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
 
 
        //Productos
-          $http.get('/api/productos').success(
+          $http.get('/api/mi/productos/'+ $scope.misucu).success(
 
               function(productos) {
                         $scope.productos = productos.datos;
@@ -2325,7 +2360,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                             $timeout(function () { $scope.alertaEliminadopro = false; }, 5000);
 
                               //Mi Venta
-                                  $http.get('/api/ni/miventa/'+$scope.idventa).success(
+                                  $http.get('/api/mi/miventa/'+$scope.idventa).success(
 
                                           function(miventa) {
                                                     $scope.miventa = miventa.datos;
@@ -2351,7 +2386,8 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                $http.post('/api/mi/factura/create', datafact)
                         .success(function (data, status, headers) {
                               console.log("Factura creada correctamente");
-                              $location.path('../ventas');
+                                 $scope.acti_venta=false;
+                                 $scope.termi_venta=true;
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al enviar la factura");

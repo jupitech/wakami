@@ -39,4 +39,7 @@ class Ventas extends Model
     public function FacVenta(){
         return $this->hasOne('App\Models\TfacVenta','id_ventas','id');
     }
+        public function NombreSucursal(){
+        return $this->hasOne('App\Models\Sucursales','id','id_sucursal');
+    }
 }

@@ -13,11 +13,21 @@
 	 <div class="header_conte">
               <h1>Productos</h1>
      </div>
-     <div class="col-sm-12">
-     <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Producto nuevo</strong> guardado correctamente, creado por administradores.</div>
-     <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Producto borrado</strong> No se podrá recuperar los datos.</div>  
-       <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Producto editado</strong> Puedes ver en el listado de productos las modificaciones realizadas.</div>
+     <div class="col-sm-12"  ng-if="!miusuario.sucursal_usuario.id">
+         <div class="caja_contenido">
+               <div class="col-sm-12">
+                  <h3 class="h3_noasig">No tienes asignado Sucursal a tu usuario, pide al administrador el acceso</h3>
+               </div>
+           
+         </div>
+          
      </div>
+      <div class="col-sm-12" ng-if="miusuario.sucursal_usuario.id">
+           <div class="col-sm-12">
+                 <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Producto nuevo</strong> guardado correctamente, creado por administradores.</div>
+                 <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Producto borrado</strong> No se podrá recuperar los datos.</div>  
+                   <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Producto editado</strong> Puedes ver en el listado de productos las modificaciones realizadas.</div>
+           </div>
 
                 <div class="caja_productos">
                 <div class="col-sm-12">
@@ -52,7 +62,7 @@
                                 </div>
                                 <div class="box_opciones">
                                 <div class="col-sm-6 spd spi">
-                                  <p class="p_stock" ng-init="mistock(producto)"><strong>@{{producto.stock}}</strong> uni</p>
+                                  <p class="p_stock" ><strong>@{{producto.stock}}</strong> uni</p>
                                 </div>
                                 <div class="col-sm-6 spd spi">
                                       <div class="area_opciones">
@@ -70,7 +80,7 @@
                         </li>
                       </ul>
               </div>
-
+      </div>
    </div>
 @endsection
 @push('scripts')
