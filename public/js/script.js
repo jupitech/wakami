@@ -2102,7 +2102,7 @@ wApp.controller('MiSucursalCtrl',function($scope, $http, $timeout, $log,$uibModa
 
 
 //************************************Venta N**********************************************//
-wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $location){
+wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $location,$window){
    $scope.status = {
     isopen: false
   };
@@ -2395,6 +2395,12 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                             $timeout(function () { $scope.alertaExistePro = false; }, 5000);
                         });
       };
+
+
+      $scope.iraventas=function(){
+            $window.location.href = '/misventas';
+      }
+
 
   };
       
