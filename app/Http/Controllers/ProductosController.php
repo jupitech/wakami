@@ -15,7 +15,7 @@ class ProductosController extends Controller
 
 
     public function __contruct(){
-        $this->middleware('role:admin|operativo');
+        $this->middleware('role:admin|operativo|vendedor');
     }
     /**
      * Display a listing of the resource.

@@ -25,6 +25,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo|vendedor']], functio
 {
 	   //Clientes
 	   Route::get('/clientes', 'ClientesController@index');
+	     //Productos
+	   Route::get('/productos', 'ProductosController@index');
 
 	Route::group(['middleware' => 'cors','prefix' => 'api'], function()
 	{ 
@@ -35,6 +37,10 @@ Route::group(['middleware' => ['auth','role:admin|operativo|vendedor']], functio
 		Route::put('/cliente/{id}', 'ClientesController@update');
 		Route::delete('/cliente/destroy/{id}','ClientesController@destroy');
 
+		//Productos
+
+		Route::get('/productos', 'ProductosController@indexproductos');
+
 	});	
 
 
@@ -44,10 +50,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 {
 	   //Usuarios
 	   Route::get('/usuarios', 'UsuariosController@index');
-	   //Proveedores
-	   Route::get('/proveedores', 'ProveedoresController@index');
-	   //Productos
-	   Route::get('/productos', 'ProductosController@index');
+
+	 
 	   //Compras
 	   Route::get('/compras', 'OrdenCompraController@index');
 	   //Sucursales
@@ -86,7 +90,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::put('/api/lineaproducto/{id}', 'ProductosController@updatelinea');
 			Route::delete('api/lineaproducto/destroy/{id}','ProductosController@destroylinea');
 
-			Route::get('/api/productos', 'ProductosController@indexproductos');
+			
 			Route::post('/api/producto/create', 'ProductosController@store');
 			Route::put('/api/producto/{id}', 'ProductosController@update');
 			Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
@@ -148,6 +152,13 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 	//Mi Sucursal
 	 Route::get('/misucursal', 'MiSucursalController@index');
 
+	 	 	//Ventas
+	   Route::get('/misventas', 'VentasController@index');
+	   Route::get('/minuevaventa', 'VentasController@indexnueva');
+
+	   //Productos
+	    Route::get('/misproductos', 'MiProductoController@index');
+
 
 	 Route::group(['middleware' => 'cors','prefix' => 'api/mi'], function()
 	{   
@@ -159,6 +170,22 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		 Route::post('/proenvio/envioproductopen', 'MiSucursalController@enviarproductopen');
 		 Route::put('/envio/p2/{id}', 'MiSucursalController@updatep2');
 		 Route::delete('/proenvio/destroy/{id}','MiSucursalController@destroypro');
+
+
+		//Ventas
+		Route::get('/ventas', 'VentasController@indexventas');
+		Route::post('/venta/create', 'VentasController@store');
+		Route::post('/ventacliente/create', 'VentasController@storeclie');
+		Route::post('/ventaproducto/create', 'VentasController@storepro');
+		Route::post('/factura/create', 'VentasController@storefac');
+		Route::get('/miventa/{id}', 'VentasController@indexmiventa');
+		Route::get('/miproducto/{id}', 'VentasController@indexmiproducto');
+		Route::get('/ventas/stockproducto/{idsucursal}/{id}', 'VentasController@stockproducto');
+		Route::delete('/proventa/destroy/{id}','VentasController@destroypro');
+		Route::put('/proventa/{id}', 'VentasController@updatepro');
+
+		//Productos
+		Route::get('/productos/{id}', 'MiProductoController@indexproductos');
 
 	});	
 

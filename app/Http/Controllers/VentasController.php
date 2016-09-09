@@ -10,36 +10,37 @@ use App\Models\ProductoVenta;
 use App\Models\TpagoVenta;
 use App\Models\TfacVenta;
 use App\Models\StockProducto;
+use App\Models\StockSucursal;
 use App\Models\Clientes;
 use App\Models\Producto;
 use App\User;
 use Auth;
 use Carbon\Carbon;
 
-class VentasCentralController extends Controller
+
+class VentasController extends Controller
 {
+
+
+    public function __contruct(){
+        $this->middleware('role:vendedor');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-       public function __contruct(){
-        $this->middleware('role:admin|operativo');
-    }
-
-
     public function index()
     {
-        return view('admin.ventas.ventas');
+        return view('admin.ventas.misventas');
     }
 
-     public function indexnueva()
+    public function indexnueva()
     {
-        return view('admin.ventas.nuevaventa');
+        return view('admin.ventas.minuevaventa');
     }
 
-     public function indexmiventa($id)
+    public function indexmiventa($id)
     {
            //Trayendo Producto
          $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta")->where('id',$id)->get();
@@ -49,10 +50,11 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $ventas],200);
     }
 
-      public function indexventas()
+
+      public function indexventas($id)
     {
-           //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta")->get();
+           //Trayendo Ventas de sucursal
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta")->where('id_sucursal',$id)->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
@@ -69,31 +71,31 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $productos],200);
     }
 
-       public function stockproducto($id)
+       public function stockproducto($idsucursal,$id)
     {
            //Trayendo Productos de Sucursales
-         $stockproducto=StockProducto::where('id_producto',$id)->where('bodega_actual',1)->first();
-         if(!$stockproducto){
+         $stocksucursal=StockSucursal::where('id_producto',$id)->where('id_sucursal',$idsucursal)->first();
+         if(!$stocksucursal){
              return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
         }
-         return response()->json(['datos' =>  $stockproducto],200);
+         return response()->json(['datos' =>  $stocksucursal],200);
     }
 
-    
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+     public function store(Request $request)
     {
         $user = Auth::User();     
           $userId = $user->id; 
         
               $ventas=Ventas::create([
                   'id_cliente' => $request['id_cliente'],
-                  'id_sucursal' => 3,
+                  'id_sucursal' => $request['id_sucursal'],
                   'id_user' => $userId,
                   'estado_ventas' => 1,
                         ]);
@@ -101,7 +103,7 @@ class VentasCentralController extends Controller
            return response()->json(['id_venta' => $ventas->id],200);
     }
 
-    public function storeclie(Request $request)
+     public function storeclie(Request $request)
     {
       $user = Auth::User();     
       $userId = $user->id; 
@@ -162,7 +164,8 @@ class VentasCentralController extends Controller
            return response()->json(['id_venta' => $ventas->id],200);
     }
 
-     public function storefac(Request $request)
+
+      public function storefac(Request $request)
     {
         $idventas =$request['id_ventas'];
         $tipopago =$request['id_tpago'];      
@@ -223,7 +226,6 @@ class VentasCentralController extends Controller
                   return response()->json(['mensaje' =>  'El producto ya existe en la venta','codigo'=>404],404);
          }
     }
-
 
     /**
      * Update the specified resource in storage.

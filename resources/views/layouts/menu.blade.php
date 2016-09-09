@@ -92,7 +92,7 @@
                        <li class="dropdown">
                         <a href="#" class="dropdown-toggle ico_ventas" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ventas</a>
                         <ul class="dropdown-menu">
-                          <li><a href="">Nueva Venta</a></li>
+                          <li><a href="{{ URL::to('/minuevaventa') }}">Nueva Venta</a></li>
                           <li><a href="{{ URL::to('/clientes') }}">Clientes</a></li>
                           <li><a href="">Listado de ventas</a></li>
                         </ul>
@@ -100,7 +100,7 @@
                          <li class="dropdown">
                             <a href="#" class="dropdown-toggle ico_productos" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Productos</a>
                             <ul class="dropdown-menu">
-                              <li><a href="">Listado de productos</a></li>
+                              <li><a href="{{ URL::to('/misproductos') }}">Listado de productos</a></li>
                               <li><a href="{{ URL::to('/misucursal') }}">Mi Sucursal</a></li>
                               <li><a href="">Productos de devolución</a></li>
                             </ul>

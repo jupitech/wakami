@@ -29,6 +29,7 @@ class StockSucursal extends Model
     protected $hidden = ['created_at','updated_at'];
     
     public function NombreProducto(){
-        return $this->hasOne('\App\Models\Producto','id','id_producto');
+        return $this->hasOne('\App\Models\Producto','id','id_producto')->with("NombreLinea","NombreImagen");
     }
+
 }

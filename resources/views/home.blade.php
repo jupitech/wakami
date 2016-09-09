@@ -18,7 +18,7 @@
            					<li><a href="">Movimiento de ventas</a></li>
                     @endrole
                     @role('vendedor') 
-                    <li><a href="">Nueva Venta</a></li>
+                    <li><a href="{{ URL::to('/minuevaventa') }}">Nueva Venta</a></li>
                     <li><a href="{{ URL::to('/clientes') }}">Clientes</a></li>
                     <li><a href="">Listado de ventas</a></li>
                     @endrole
@@ -35,7 +35,7 @@
            					<li><a href="">Top Productos</a></li>
                   @endrole
                     @role('vendedor')
-                      <li><a href="">Listado de productos</a></li>
+                      <li><a href="{{ URL::to('/misproductos') }}">Listado de productos</a></li>
                        <li><a href="{{ URL::to('/misucursal') }}">Mi Sucursal</a></li>
                         <li><a href="">Productos de devolución</a></li>
                     @endrole
