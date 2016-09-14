@@ -75,6 +75,9 @@ class ProductosController extends Controller
 
     public function store(Request $request)
 
+    {
+
+      
     $codigobarra= $request['codigo_barra'];
 
      if($codigobarra=''){
@@ -83,7 +86,6 @@ class ProductosController extends Controller
           $mibarra= $codigobarra;
       }
 
-    {
            $productos=Producto::create([
                   'codigo' => $request['codigo'],
                   'codigo_barra' => $mibarra,
