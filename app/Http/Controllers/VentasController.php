@@ -110,6 +110,8 @@ class VentasController extends Controller
         
       $nit= $request['nit'];
       $celular= $request['celular'];
+      $telefono= $request['telefono'];
+      $email= $request['email'];
 
       if($celular=''){
           $micel='';
@@ -117,16 +119,27 @@ class VentasController extends Controller
           $micel= $celular;
       }
 
+      if($telefono=''){
+          $mitelefono='';
+      }else{
+          $mitelefono= $telefono;
+      }
+
+      if($email=''){
+          $miemail='';
+      }else{
+          $miemail= $email;
+      }
+
 
       if($nit=='cf' || $nit=='CF' || $nit=='c/f' || $nit=='C/F'){
-                 $clientes=Clientes::create([
-                  'empresa' => $request['empresa'],
+                $clientes=Clientes::create([
                   'nombre' => $request['nombre'],
                   'direccion' => $request['direccion'],
-                  'telefono' => $request['telefono'],
+                  'telefono' => $mitelefono,
                   'celular' => $micel,
-                  'email' => $request['email'],
-                  'tipo_cliente' => $request['tipo_cliente'],
+                  'email' => $miemail,
+                  'tipo_cliente' => 1,
                         ]);
                 $clientes->save();
 
@@ -140,14 +153,13 @@ class VentasController extends Controller
 
             }else{
                $clientes=Clientes::create([
-                          'empresa' => $request['empresa'],
-                          'nombre' => $request['nombre'],
-                          'nit' => $request['nit'],
-                          'direccion' => $request['direccion'],
-                          'telefono' => $request['telefono'],
-                          'celular' => $micel,
-                          'email' => $request['email'],
-                          'tipo_cliente' => $request['tipo_cliente'],
+                        'nombre' => $request['nombre'],
+                        'nit' => $request['nit'],
+                        'direccion' => $request['direccion'],
+                        'telefono' => $mitelefono,
+                        'celular' => $micel,
+                        'email' => $miemail,
+                        'tipo_cliente' => 1,
                                 ]);
                   $clientes->save();
             }
@@ -170,21 +182,20 @@ class VentasController extends Controller
         $idventas =$request['id_ventas'];
         $tipopago =$request['id_tpago'];      
         $tipofac =$request['id_tfac'];  
-        $referencia =$request['referencia'];    
+        $referencia =$request['referencia'];  
+
+        if($referencia=''){
+            $mirefe='';
+        } else{
+             $mirefe=$referencia;
+        } 
         
               $pagoventa=TpagoVenta::create([
                   'id_ventas' => $idventas,
                   'tipo_pago' => $tipopago,
-                  'referencia' => $referencia,
+                  'referencia' => $mirefe,
                         ]);
              $pagoventa->save();
-
-               $facventa=TfacVenta::create([
-                  'id_ventas' => $idventas,
-                  'tipo_factura' => $tipofac,
-                  'referencia' => $referencia,
-                        ]);
-                $facventa->save();
 
         $ventas=Ventas::find( $idventas );
         $ventas->fill([
@@ -257,11 +268,37 @@ class VentasController extends Controller
      */
     public function updatepro(Request $request, $id)
     {
-           $productos=ProductoVenta::find($id);
-        $productos->fill([
-              'cantidad' => $request['cantidad'],
+        $productoventa=ProductoVenta::find($id);
+
+
+        $cantiactual= $productoventa->cantidad;
+        $idventas= $productoventa->id_ventas;
+        $idproducto= $productoventa->id_producto;
+   
+        $ventas=Ventas::where('id',$idventas)->first();
+        $productos=Producto::where('id',$idproducto)->first();
+
+
+        $totalactual=$ventas->total;
+        $preciop=$productos->preciop;
+
+        $subtotal=$preciop*$request['cantidad'];
+        $subtotalante=$preciop*$cantiactual;
+
+        $restotal=$totalactual-$subtotalante;
+        $total=$restotal+$subtotal;
+
+        $ventas->fill([
+              'total' => $total,
             ]);
-        $productos->save();
+        $ventas->save();
+
+        $productoventa->fill([
+          'cantidad' => $request['cantidad'],
+        ]);
+        $productoventa->save();
+
+
     }
 
     /**

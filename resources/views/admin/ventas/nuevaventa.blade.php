@@ -68,10 +68,10 @@
                         </div>  
                           <div class="form-group" ng-if="acti_cliente">
                             <div class="col-sm-4">
-                                <label for="empresa">Nombre Cliente</label>
-                                 <input id="empresa" type="text" class="form-control" name="empresa" ng-model="venta.cliente.empresa" required disabled>
+                                <label for="nombre">Nombre Cliente</label>
+                                 <input id="nombre" type="text" class="form-control" name="nombre" ng-model="venta.cliente.nombre" required disabled>
                                 <div class="col-sm-12 spd spi">
-                                         <div class="alert alert-danger" ng-show="frm.empresa.$dirty && frm.empresa.$error.required">Req.</div>
+                                         <div class="alert alert-danger" ng-show="frm.nombre.$dirty && frm.nombre.$error.required">Req.</div>
                                  </div>
                             </div> 
                              <div class="col-sm-4">
@@ -108,10 +108,7 @@
                                                   <div class="form-group">
                                                       <div class="col-sm-6">
                                                           <label for="name">Empresa</label>
-                                                           <input id="name" type="text" class="form-control" name="empresa" ng-model="cliente.empresa" placeholder="Nombre de la empresa" required>
-                                                           <div class="col-sm-12 spd spi">
-                                                              <div class="alert alert-danger" ng-show="frm.empresa.$dirty && frm.empresa.$error.required">Campo requerido</div>
-                                                           </div>
+                                                           <input id="name" type="text" class="form-control" name="empresa" ng-model="cliente.empresa" placeholder="Nombre de la empresa">
                                                           
                                                       </div>
                                                      <div class="col-sm-6">
@@ -161,9 +158,8 @@
                                                       </div>
                                                       <div class="col-sm-6">
                                                           <label for="email">Email</label>
-                                                           <input id="email" type="email" class="form-control" name="email" ng-model="cliente.email" required>
+                                                           <input id="email" type="email" class="form-control" name="email" ng-model="cliente.email">
                                                              <div class="col-sm-12 spd spi">
-                                                              <div class="alert alert-danger" ng-show="frm.email.$dirty && frm.email.$error.required">Campo requerido</div>
                                                               <div class="alert alert-danger" ng-show="frm.email.$dirty && frm.email.$error.email">Email Invalido</div>
                                                            </div>
                                                       </div>
@@ -183,7 +179,7 @@
                       <div class="col-sm-12">
                         <div class="col-sm-8">
                           <h3>Nombre</h3>
-                          <p>@{{mi.info_clientes.empresa }}</p>
+                          <p>@{{mi.info_clientes.nombre }} - <small>@{{mi.info_clientes.empresa }}</small></p>
                         </div>
                         <div class="col-sm-4">
                            <h3>NIT</h3>
@@ -211,25 +207,20 @@
                 <div class="agregar_pro conte_nuevo">
                             <form class="form-horizontal" name="frm" role="form" ng-submit="guardarProVenta()" >
                                                   <div class="form-group">
-                                                     <div class="col-sm-8 col-md-8 col-lg-9 topinput">
+                                                     <div class="col-sm-10 col-md-10 col-lg-11 topinput">
                                                              <ol class="nya-bs-select" ng-model="proventa.id_producto" data-live-search="true"  title="Selecciona un producto..." required>
                                                                   <li nya-bs-option="producto in productos" data-value="producto.id">
                                                                     <a>
                                                                      <span>
                                                                       <small class="label label-success">@{{ producto.codigo }}</small>
                                                                           @{{ producto.nombre }}-<strong> Q@{{ producto.preciop | number:2 }} </strong>
+                                                                           <small class="label label-info">Stock @{{ producto.stock }}</small>
+                                                                          <small class="label label-gris">@{{ producto.codigo_barra }}</small>
                                                                         </span>
                                                                       <span class="glyphicon glyphicon-ok check-mark"></span>
                                                                     </a>
                                                                   </li>
                                                                 </ol>
-                                                        </div>
-                                                        <div class="col-sm-2 col-md-2 col-lg-2">
-                                                             <label for="cantidad">Cant Max @{{stock.stock}}</label>
-                                                             <input id="cantidad" type="number" class="form-control" name="cantidad" ng-model="proventa.cantidad" required ng-click="elstock(proventa.id_producto)" max="@{{stock.stock}}" min="1">
-                                                                <div class="col-sm-12 spd spi">
-                                                          <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Req.</div>
-                                                   </div>
                                                         </div>
                                                        
                                                         <div class="col-sm-2 col-md-2 col-lg-1 spi">
@@ -298,8 +289,7 @@
                    <div class="col-sm-12 tfactura ">
                       <form class="form-horizontal" name="frm" role="form" ng-submit="btn_facturar()" >
                           <div class="form-group">
-                                <div class="col-sm-5">
-                                  <div class="col-sm-6">
+                                  <div class="col-sm-4">
                                                            <ol class="nya-bs-select" ng-model="factura.tipo_pago" title="Tipo de pago..." required>
                                                               <li nya-bs-option="tpago in tpagos" data-value="tpago.id">
                                                                 <a>
@@ -310,21 +300,10 @@
                                                             </ol>
                                                           
                                   </div>
-                                  <div class="col-sm-6">
+                                  <div class="col-sm-5">
                                       <label for="name">Referencia</label>
                                        <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS">
                                   </div>
-                                </div>
-                                <div class="col-sm-4">
-                                                           <ol class="nya-bs-select" ng-model="factura.tipo_factura" title="Tipo de factura..." required>
-                                                              <li nya-bs-option="tfac in tfacs" data-value="tfac.id">
-                                                                <a>
-                                                                  @{{ tfac.factura }}
-                                                                  <span class="glyphicon glyphicon-ok check-mark"></span>
-                                                                </a>
-                                                              </li>
-                                                            </ol>
-                                </div>
                                 <div class="col-sm-3">
                                    <input type="hidden" ng-model="idventa"/>
                                   <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">FACTURAR</button>

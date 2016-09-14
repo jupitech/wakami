@@ -40,7 +40,7 @@
 	                   <tr ng-repeat="venta in ventas | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1}">
 	                     <td class="td_first"></td>
                          <td></td>
-	                       <td>@{{venta.info_clientes.empresa}}</td>
+	                       <td>@{{venta.info_clientes.nombre}}</td>
 	                       <td>@{{venta.info_clientes.nit}} </td>
 	                       <td>@{{venta.info_clientes.direccion}}</td>
 	                       <td>@{{venta.info_clientes.telefono}}</td>

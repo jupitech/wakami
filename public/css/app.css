@@ -5815,7 +5815,7 @@ body {
   color: #aaa; }
 
 .btn_regis {
-  margin-top: 10px;
+  margin-top: 14px;
   background: #3fb1b5;
   border: none !important;
   text-transform: uppercase;
@@ -7066,6 +7066,11 @@ body {
   width: 100%;
   padding: 10px 15px;
   background: #f9f9f9; }
+
+.label-gris {
+  padding: .2em .6em .3em;
+  color: #eee;
+  font-size: 75%; }
 
 .estilo_middle {
   margin-top: 10px; }

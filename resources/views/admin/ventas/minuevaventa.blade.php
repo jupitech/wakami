@@ -53,13 +53,11 @@
                <div class="form-group">
                      <div class="col-sm-8 topinput">
                        <ol class="nya-bs-select" ng-model="venta.cliente" title="Seleccionar Cliente.." data-live-search="true">
-                            <li nya-bs-option="cliente in clientes | orderBy:'empresa'" data-value="cliente" ng-click="act_cliente()">
+                            <li nya-bs-option="cliente in clientes | orderBy:'nombre'" data-value="cliente" ng-click="act_cliente()">
                               <a>
                                 <span>
-                                <small class="label label-success">@{{ cliente.nit }}</small> 
-                                     @{{ cliente.nombre }}-<strong>@{{ cliente.empresa }} </strong>
-                                     <small class="label label-default">Direccion: @{{ cliente.direccion }}</small> 
-                                     <small class="label label-warning">Teléfono: @{{ cliente.telefono }}</small> 
+                                <small class="label label-success">@{{ cliente.nit }}</small><strong> @{{ cliente.nombre }} </strong>
+                                     <small>Direccion: @{{ cliente.direccion }}</small> 
                                   </span>
                                 <span class="glyphicon glyphicon-ok check-mark"></span>
                               </a>
@@ -76,10 +74,10 @@
                 </div>  
                   <div class="form-group" ng-if="acti_cliente">
                     <div class="col-sm-4">
-                        <label for="empresa">Nombre Cliente</label>
-                         <input id="empresa" type="text" class="form-control" name="empresa" ng-model="venta.cliente.empresa" required disabled>
+                        <label for="nombre">Nombre Cliente</label>
+                         <input id="nombre" type="text" class="form-control" name="nombre" ng-model="venta.cliente.nombre" required disabled>
                         <div class="col-sm-12 spd spi">
-                                 <div class="alert alert-danger" ng-show="frm.empresa.$dirty && frm.empresa.$error.required">Req.</div>
+                                 <div class="alert alert-danger" ng-show="frm.nombre.$dirty && frm.nombre.$error.required">Req.</div>
                          </div>
                     </div> 
                      <div class="col-sm-4">
@@ -114,14 +112,6 @@
                                 <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Cliente existente!</strong> Intenta de nuevo con otro cliente cambiando NIT</div>
                                   <form class="form-horizontal" name="frm" role="form" ng-submit="guardarClienteCrear()" >
                                           <div class="form-group">
-                                              <div class="col-sm-6">
-                                                  <label for="name">Empresa</label>
-                                                   <input id="name" type="text" class="form-control" name="empresa" ng-model="cliente.empresa" placeholder="Nombre de la empresa" required>
-                                                   <div class="col-sm-12 spd spi">
-                                                      <div class="alert alert-danger" ng-show="frm.empresa.$dirty && frm.empresa.$error.required">Campo requerido</div>
-                                                   </div>
-                                                  
-                                              </div>
                                              <div class="col-sm-6">
                                                  <label for="nombre">Nombre</label>
                                                  <input id="nombre" type="text" class="form-control" name="nombre" ng-model="cliente.nombre" placeholder="Nombre del cliente" required>
@@ -129,9 +119,7 @@
                                                       <div class="alert alert-danger" ng-show="frm.nombre.$dirty && frm.nombre.$error.required">Campo requerido</div>
                                                    </div>
                                             </div>
-                                         </div>
-                                         <div class="form-group">
-                                             <div class="col-sm-3">
+                                              <div class="col-sm-3">
                                                  <label for="nit">NIT</label>
                                                  <input id="nit" type="text" class="form-control" name="nit" ng-model="cliente.nit" placeholder="XXXXXX-X" required>
                                                    <div class="col-sm-12 spd spi">
@@ -140,27 +128,8 @@
                                             </div>
                                              <div class="col-sm-3">
                                                  <label for="nombre">Télefono</label>
-                                                 <input id="nombre" type="text" class="form-control" name="telefono" ng-model="cliente.telefono" required>
-                                                  <div class="col-sm-12 spd spi">
-                                                      <div class="alert alert-danger" ng-show="frm.telefono.$dirty && frm.telefono.$error.required">Campo requerido</div>
-                                                   </div>
+                                                 <input id="nombre" type="text" class="form-control" name="telefono" ng-model="cliente.telefono">
                                             </div>
-                                             <div class="col-sm-3">
-                                                 <label for="celular">Celular</label>
-                                                 <input id="celular" type="text" class="form-control" name="celular" ng-model="cliente.celular">
-                                            </div>
-                                             <div class="col-sm-3">
-                                                  <label for="name">Tipo Cliente</label>
-                                                   <ol class="nya-bs-select" ng-model="cliente.tipo_cliente" title="Selecciona un cliente...">
-                                                      <li nya-bs-option="tipo in tipos" data-value="tipo.id">
-                                                        <a>
-                                                          @{{ tipo.cliente }}
-                                                          <span class="glyphicon glyphicon-ok check-mark"></span>
-                                                        </a>
-                                                      </li>
-                                                    </ol>
-                                                  
-                                              </div>
                                          </div>
                                          <div class="form-group">
                                               <div class="col-sm-6">
@@ -169,9 +138,8 @@
                                               </div>
                                               <div class="col-sm-6">
                                                   <label for="email">Email</label>
-                                                   <input id="email" type="email" class="form-control" name="email" ng-model="cliente.email" required>
+                                                   <input id="email" type="email" class="form-control" name="email" ng-model="cliente.email">
                                                      <div class="col-sm-12 spd spi">
-                                                      <div class="alert alert-danger" ng-show="frm.email.$dirty && frm.email.$error.required">Campo requerido</div>
                                                       <div class="alert alert-danger" ng-show="frm.email.$dirty && frm.email.$error.email">Email Invalido</div>
                                                    </div>
                                               </div>
@@ -191,7 +159,7 @@
               <div class="col-sm-12">
                 <div class="col-sm-8">
                   <h3>Nombre</h3>
-                  <p>@{{mi.info_clientes.empresa }}</p>
+                  <p>@{{mi.info_clientes.nombre }}</p>
                 </div>
                 <div class="col-sm-4">
                    <h3>NIT</h3>
@@ -219,25 +187,20 @@
         <div class="agregar_pro conte_nuevo">
                     <form class="form-horizontal" name="frm" role="form" ng-submit="guardarProVenta()" >
                                           <div class="form-group">
-                                             <div class="col-sm-8 col-md-8 col-lg-9 topinput">
+                                             <div class="col-sm-10 col-md-10 col-lg-9 topinput">
                                                      <ol class="nya-bs-select" ng-model="proventa.id_producto" data-live-search="true"  title="Selecciona un producto..." required>
                                                           <li nya-bs-option="producto in productos" data-value="producto.id_producto">
                                                             <a>
                                                              <span>
                                                               <small class="label label-success">@{{ producto.nombre_producto.codigo }}</small>
                                                                   @{{ producto.nombre_producto.nombre }}-<strong> Q@{{ producto.nombre_producto.preciop | number:2 }} </strong>
+                                                                   <small class="label label-info">Stock @{{ producto.stock }}</small>
+                                                                  <small class="label label-gris">@{{ producto.nombre_producto.codigo_barra }}</small>
                                                                 </span>
                                                               <span class="glyphicon glyphicon-ok check-mark"></span>
                                                             </a>
                                                           </li>
                                                         </ol>
-                                                </div>
-                                                <div class="col-sm-2 col-md-2 col-lg-2">
-                                                     <label for="cantidad">Cant Max @{{stock.stock}}</label>
-                                                     <input id="cantidad" type="number" class="form-control" name="cantidad" ng-model="proventa.cantidad" required ng-click="elstock(proventa.id_producto)" max="@{{stock.stock}}" min="1">
-                                                        <div class="col-sm-12 spd spi">
-                                                  <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Req.</div>
-                                           </div>
                                                 </div>
                                                
                                                 <div class="col-sm-2 col-md-2 col-lg-1 spi">
@@ -246,7 +209,7 @@
                                            </div>
                                      </form>
         </div>
-        <div class="col-sm-12 conte table_height">
+        <div class="col-sm-12 conte">
          <table class="table">
              <thead>
                  <th>Producto</th>
@@ -306,8 +269,7 @@
            <div class="col-sm-12 tfactura ">
               <form class="form-horizontal" name="frm" role="form" ng-submit="btn_facturar()" >
                   <div class="form-group">
-                        <div class="col-sm-5">
-                          <div class="col-sm-6">
+                          <div class="col-sm-4">
                                                    <ol class="nya-bs-select" ng-model="factura.tipo_pago" title="Tipo de pago..." required>
                                                       <li nya-bs-option="tpago in tpagos" data-value="tpago.id">
                                                         <a>
@@ -318,21 +280,11 @@
                                                     </ol>
                                                   
                           </div>
-                          <div class="col-sm-6">
+                          <div class="col-sm-5">
                               <label for="name">Referencia</label>
                                <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS">
                           </div>
-                        </div>
-                        <div class="col-sm-4">
-                                                   <ol class="nya-bs-select" ng-model="factura.tipo_factura" title="Tipo de factura..." required>
-                                                      <li nya-bs-option="tfac in tfacs" data-value="tfac.id">
-                                                        <a>
-                                                          @{{ tfac.factura }}
-                                                          <span class="glyphicon glyphicon-ok check-mark"></span>
-                                                        </a>
-                                                      </li>
-                                                    </ol>
-                        </div>
+                      
                         <div class="col-sm-3">
                            <input type="hidden" ng-model="idventa"/>
                           <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">FACTURAR</button>

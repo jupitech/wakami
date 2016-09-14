@@ -835,6 +835,8 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                                   }).error(function(error) {
                                        $scope.error = error;
                                   });
+
+
                                $timeout(function () { $scope.alertaEditadol = true; }, 1000);
                                $timeout(function () { $scope.alertaEditadol = false; }, 5000);
                     })
@@ -1698,12 +1700,10 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
    $scope.tpagos=[
         {id:'1',pago:'Efectivo'},
         {id:'2',pago:'POS/Tarjeta'},
+        {id:'3',pago:'Cheque'},
+        {id:'4',pago:'Crédito'},
   ];
 
-  $scope.tfacs=[
-        {id:'1',factura:'Impresa'},
-        {id:'2',factura:'Electrónica'},
-  ];
 
      //Todos los clientes
       $http.get('/api/clientes').success(
@@ -1806,7 +1806,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                       var datapro={
                            id_ventas:  $scope.idventa,
                            id_producto: $scope.proventa.id_producto,
-                           cantidad: $scope.proventa.cantidad,
+                           cantidad:1,
                       };
                       console.log(datapro);
 
@@ -1862,6 +1862,17 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                     }).error(function(error) {
                                          $scope.error = error;
                                     });
+
+
+                                     //Mi Venta
+                                  $http.get('/api/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+
                                $timeout(function () { $scope.alertaEditadol = true; }, 1000);
                                $timeout(function () { $scope.alertaEditadol = false; }, 5000);
                     })
@@ -1908,7 +1919,6 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
             var datafact={
                 id_tpago: $scope.factura.tipo_pago,
                 referencia: $scope.factura.referencia,
-                id_tfac: $scope.factura.tipo_factura,
                 id_ventas: $scope.idventa,
             };
             console.log(datafact);
@@ -2140,9 +2150,6 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
        };
 
 
-
-
-
    $scope.tipos=[
         {id:'1',cliente:'Individual'},
         {id:'2',cliente:'Empresa'},
@@ -2151,11 +2158,8 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
    $scope.tpagos=[
         {id:'1',pago:'Efectivo'},
         {id:'2',pago:'POS/Tarjeta'},
-  ];
-
-  $scope.tfacs=[
-        {id:'1',factura:'Impresa'},
-        {id:'2',factura:'Electrónica'},
+        {id:'3',pago:'Cheque'},
+        {id:'4',pago:'Crédito'},
   ];
 
      //Todos los clientes
@@ -2190,14 +2194,11 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
         $scope.guardarClienteCrear = function(){
 
                var dataventa={
-                        empresa: $scope.cliente.empresa,
                         nombre: $scope.cliente.nombre,
                         nit: $scope.cliente.nit,
                         direccion: $scope.cliente.direccion,
                         telefono: $scope.cliente.telefono,
-                        celular: $scope.cliente.celular,
-                        email: $scope.cliente.email,
-                        tipo_cliente: $scope.cliente.tipo_cliente
+                        email: $scope.cliente.email
                     };
                     console.log(dataventa);
                     $http.post('/api/mi/ventacliente/create', dataventa)
@@ -2276,7 +2277,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                       var datapro={
                            id_ventas:  $scope.idventa,
                            id_producto: $scope.proventa.id_producto,
-                           cantidad: $scope.proventa.cantidad,
+                           cantidad: 1,
                       };
                       console.log(datapro);
 
@@ -2332,6 +2333,16 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                                     }).error(function(error) {
                                          $scope.error = error;
                                     });
+
+                                     //Mi Venta
+                                  $http.get('/api/mi/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+
                                $timeout(function () { $scope.alertaEditadol = true; }, 1000);
                                $timeout(function () { $scope.alertaEditadol = false; }, 5000);
                     })
@@ -2378,7 +2389,6 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
             var datafact={
                 id_tpago: $scope.factura.tipo_pago,
                 referencia: $scope.factura.referencia,
-                id_tfac: $scope.factura.tipo_factura,
                 id_ventas: $scope.idventa,
             };
             console.log(datafact);
@@ -2399,7 +2409,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
 
       $scope.iraventas=function(){
             $window.location.href = '/misventas';
-      }
+      };
 
 
   };

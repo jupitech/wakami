@@ -42,7 +42,7 @@
 	                     <td class="td_first"></td>
                          <td></td>
                            <td>@{{venta.nombre_sucursal.nombre}}</td>
-	                       <td>@{{venta.info_clientes.empresa}}</td>
+	                       <td>@{{venta.info_clientes.nombre}} <small>@{{venta.info_clientes.empresa}}</small></td>
 	                       <td>@{{venta.info_clientes.nit}} </td>
 	                       <td>@{{venta.info_clientes.direccion}}</td>
 	                       <td>@{{venta.info_clientes.telefono}}</td>
