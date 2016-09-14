@@ -202,7 +202,7 @@
      <div class="header_conte">
               <h1>Mi Sucursal</h1>
      </div>
-    <div class="col-sm-12"  ng-if="!miusuario.sucursal_usuario.id">
+    <div class="col-sm-12"  ng-if="miusuario.sucursal_usuario.id===null || miusuario.sucursal_usuario2.id===null">
          <div class="caja_contenido">
                <div class="col-sm-12">
                   <h3 class="h3_noasig">No tienes asignado Sucursal a tu usuario, pide al administrador el acceso</h3>
@@ -211,7 +211,7 @@
          </div>
           
      </div>
-     <div class="col-sm-12" ng-if="miusuario.sucursal_usuario.id">
+     <div class="col-sm-12" ng-if="miusuario.sucursal_usuario.id || miusuario.sucursal_usuario2.id">
                {{-- Todos los envios --}}
               <div class="col-sm-12 spd spi">
                 <h4 class="h4_tit">Ordenes de envio</h4>

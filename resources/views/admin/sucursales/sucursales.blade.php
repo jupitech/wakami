@@ -50,9 +50,26 @@
                                </div>
                                <div class="form-group">
                                   <div class="col-md-12">
-                                       <label for="rol">Usuario asignado</label>
-                                       <ol class="nya-bs-select" ng-model="sucursal.id_user" title="Selecciona un usuario...">
+                                       <label for="rol">Usuario asignado principal</label>
+                                       <ol class="nya-bs-select" ng-model="sucursal.id_user" title="Selecciona un usuario..." required>
                                             <li nya-bs-option="usuario in usuarios | orderBy:'-id'" data-value="usuario.id">
+                                              <a>
+                                               <span>
+                                                <small class="label label-success">@{{ usuario.rol_usuario.el_rol.name }}</small> @{{ usuario.name }}
+                                               </span>
+                                              
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>   
+
+                                  </div>
+                                  </div>
+                                       <div class="form-group">
+                                  <div class="col-md-12">
+                                       <label for="rol">Usuario asignado secundario</label>
+                                       <ol class="nya-bs-select" ng-model="sucursal.id_user2" title="Selecciona un usuario...">
+                                            <li nya-bs-option="usuario in usuarios | orderBy:'-id' | filter: { id: '!' + sucursal.id_user }" data-value="usuario.id">
                                               <a>
                                                <span>
                                                 <small class="label label-success">@{{ usuario.rol_usuario.el_rol.name }}</small> @{{ usuario.name }}
@@ -124,9 +141,27 @@
                                </div>
                                <div class="form-group">
                                   <div class="col-md-12">
-                                       <label for="rol">Usuario asignado</label>
-                                       <ol class="nya-bs-select" ng-model="existeSucu.id_user" title="Selecciona un usuario...">
+                                       <label for="rol">Usuario asignado principal</label>
+                                       <ol class="nya-bs-select" ng-model="existeSucu.id_user" title="Selecciona un usuario..." required>
                                             <li nya-bs-option="usuario in usuarios | orderBy:'-id'" data-value="usuario.id">
+                                              <a>
+                                               <span>
+                                                <small class="label label-success">@{{ usuario.rol_usuario.el_rol.name }}</small> @{{ usuario.name }}
+                                               </span>
+                                              
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>   
+
+                                  </div>
+                                  </div>
+
+                                   <div class="form-group">
+                                  <div class="col-md-12">
+                                       <label for="rol">Usuario asignado secundario</label>
+                                       <ol class="nya-bs-select" ng-model="existeSucu.id_user2" title="Selecciona un usuario...">
+                                            <li nya-bs-option="usuario in usuarios | orderBy:'-id' | filter: { id: '!' + existeSucu.id_user }"  data-value="usuario.id">
                                               <a>
                                                <span>
                                                 <small class="label label-success">@{{ usuario.rol_usuario.el_rol.name }}</small> @{{ usuario.name }}
@@ -523,6 +558,7 @@
                          <th>Serie</th>
 	                       <th>Ubicación</th>
 	                       <th>Usuario</th>
+                         <th>Usuario 2</th>
 	                       <th>Opciones</th>
 	                   </thead>
 	                   <tbody>
@@ -531,6 +567,7 @@
                         <td ng-click="abrirsucursal(sucursal)">@{{sucursal.serie}}</td>
 	                   		<td ng-click="abrirsucursal(sucursal)">@{{sucursal.ubicacion}}</td>
 	                   		<td ng-click="abrirsucursal(sucursal)">@{{sucursal.perfil_usuario.nombre}} @{{sucursal.perfil_usuario.apellido}}</td>
+                        <td ng-click="abrirsucursal(sucursal)">@{{sucursal.perfil_usuario2.nombre}} @{{sucursal.perfil_usuario2.apellido}}</td>
 	                   		<td>
 	                   			<div class="area_opciones">
 	                                 <ul>

@@ -41,7 +41,7 @@ class MiSucursalController extends Controller
         $user = Auth::User();     
         $userId = $user->id; 
 
-        $miusuario=User::with("PerfilUsuario","RolUsuario","SucursalUsuario")->where('id',$userId)->first();
+        $miusuario=User::with("PerfilUsuario","RolUsuario","SucursalUsuario","SucursalUsuario2")->where('id',$userId)->first();
 
         if(!$miusuario){
              return response()->json(['mensaje' =>  'No se encuentran usuarios actualmente','codigo'=>404],404);

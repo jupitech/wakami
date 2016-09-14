@@ -50,6 +50,11 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
     public function SucursalUsuario(){
         return $this->hasOne('\App\Models\Sucursales','id_user','id');
     }
+
+       public function SucursalUsuario2(){
+        return $this->hasOne('\App\Models\Sucursales','id_user2','id');
+    }
+
     public function getRolNombre(){
         return \App\Models\Roles::where('id',$this->RolUsuario->role_id)->first()->name;
     }

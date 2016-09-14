@@ -1226,7 +1226,8 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                   nombre: $scope.existeSucu.nombre,
                   ubicacion: $scope.existeSucu.ubicacion,
                   serie: $scope.existeSucu.serie,
-                  id_user: $scope.existeSucu.id_user
+                  id_user: $scope.existeSucu.id_user,
+                  id_user2: $scope.existeSucu.id_user2
                 };
                  console.log(data);
                 $http.put('api/sucursal/' +  $scope.existeSucu.id, data)
@@ -1956,8 +1957,15 @@ wApp.controller('MiSucursalCtrl',function($scope, $http, $timeout, $log,$uibModa
 
               function(miusuario) {
                         $scope.miusuario = miusuario.datos;
-                       
-                        $scope.actsucu($scope.miusuario.sucursal_usuario.id);
+                        $scope.idusuario=$scope.miusuario.sucursal_usuario;
+                        $scope.idusuario2=$scope.miusuario.sucursal_usuario2;
+
+                        if($scope.idusuario!=null){
+                          $scope.actsucu($scope.miusuario.sucursal_usuario.id);
+                        } else{
+                           $scope.actsucu($scope.miusuario.sucursal_usuario2.id);
+                        }
+                        
             }).error(function(error) {
                  $scope.error = error;
             });

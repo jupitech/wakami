@@ -35,7 +35,7 @@ class SucursalController extends Controller
     {
 
            //Trayendo Sucursales
-         $sucursales=Sucursales::with("PerfilUsuario")->get();
+         $sucursales=Sucursales::with("PerfilUsuario","PerfilUsuario2")->get();
          if(!$sucursales){
              return response()->json(['mensaje' =>  'No se encuentran sucursales actualmente','codigo'=>404],404);
         }
@@ -108,6 +108,7 @@ class SucursalController extends Controller
                   'ubicacion' => $request['ubicacion'],
                   'serie' => $request['serie'],
                   'id_user' =>  $request['id_user'],
+                  'id_user2' =>  $request['id_user2'],
                         ]);
           $sucursales->save();
     }
@@ -183,6 +184,7 @@ class SucursalController extends Controller
               'ubicacion' => $request['ubicacion'],
               'serie' => $request['serie'],
               'id_user' =>  $request['id_user'],
+              'id_user2' =>  $request['id_user2'],
             ]);
         $sucursales->save();
     }
