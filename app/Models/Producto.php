@@ -34,4 +34,9 @@ class Producto extends Model
        public function NombreImagen(){
         return $this->hasOne('\App\Models\GaleriaImagen','id','imagen_id');
     }
+
+
+    public function StockProducto(){
+        return $this->hasOne('\App\Models\StockProducto','id_producto','id');
+    }
 }

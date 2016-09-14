@@ -214,7 +214,7 @@
                                                                      <span>
                                                                       <small class="label label-success">@{{ producto.codigo }}</small>
                                                                           @{{ producto.nombre }}-<strong> Q@{{ producto.preciop | number:2 }} </strong>
-                                                                           <small class="label label-info">Stock @{{ producto.stock }}</small>
+                                                                           <small class="label label-info">Stock @{{ producto.stock_producto.stock }}</small>
                                                                           <small class="label label-gris">@{{ producto.codigo_barra }}</small>
                                                                         </span>
                                                                       <span class="glyphicon glyphicon-ok check-mark"></span>

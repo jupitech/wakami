@@ -30,7 +30,7 @@ class ProductosController extends Controller
     public function indexproductos()
     {
            //Trayendo Producto
-         $productos=Producto::with("NombreLinea","NombreImagen")->get();
+         $productos=Producto::with("NombreLinea","NombreImagen","StockProducto")->get();
          if(!$productos){
              return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
         }
@@ -74,10 +74,19 @@ class ProductosController extends Controller
 
 
     public function store(Request $request)
+
+    $codigobarra= $request['codigo_barra'];
+
+     if($codigobarra=''){
+          $mibarra='';
+      }else{
+          $mibarra= $codigobarra;
+      }
+
     {
            $productos=Producto::create([
                   'codigo' => $request['codigo'],
-                  'codigo_barra' => $request['codigo_barra'],
+                  'codigo_barra' => $mibarra,
                   'linea' => $request['linea'],
                   'nombre' => $request['nombre'],
                   'costo' => $request['costo'],

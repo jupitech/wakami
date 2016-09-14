@@ -63,8 +63,9 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 	   Route::get('/nuevaventa', 'VentasCentralController@indexnueva');
 
 	   //Proveedores
+	   Route::get('/proveedores', 'ProveedoresController@index');
+	   	   //Gastos
 	   Route::get('/gastos', 'GastosController@index');
-
 
        Route::group(['middleware' => ['cors']], function()
 		{     
