@@ -43,7 +43,7 @@ class VentasController extends Controller
     public function indexmiventa($id)
     {
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta")->where('id',$id)->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","PerfilUsuario")->where('id',$id)->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
@@ -54,7 +54,7 @@ class VentasController extends Controller
       public function indexventas($id)
     {
            //Trayendo Ventas de sucursal
-         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta")->where('id_sucursal',$id)->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","PerfilUsuario")->where('id_sucursal',$id)->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }

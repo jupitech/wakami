@@ -16,6 +16,12 @@
                 </div>
      </div>
 	<div class="col-sm-12">
+
+    <div class="col-sm-12 spd spi">
+                 <div class="busqueda_texto col-sm-4 spd spi">
+                <input type="text" id="query" ng-model="query"  onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de ventas.." />
+                 </div>
+      </div>
 	   <div class="info_colores">
 		      <ul>
 		        <li><span class="color_ncom"></span> <p>Venta no completada</p></li>
@@ -27,29 +33,37 @@
 	               <thead>
 	               <th></th>
 	                   <th>No.Factura</th>
+                     <th>Total</th>
+                      <th>Pago</th>
 	                   <th>Nombre</th>
 	                   <th>NIT</th>
-                     <th>Dirección</th>
-	                   <th>Teléfono</th>
+                    	 <th>Detalles Cliente</th>
                      <th>Tipo Cliente</th>
-                     <th>Total</th>
                      <th>Fecha Factura</th>
+                      <th>Vendedor</th>
 	                   <th>Opciones</th>
 	               </thead>
 	               <tbody>
-	                   <tr ng-repeat="venta in ventas | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1}">
+	                   <tr ng-repeat="venta in ventas | filter: query | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1}">
 	                     <td class="td_first"></td>
                          <td></td>
+                         <td class="tot_venta">@{{venta.total | currency: 'Q'}}</td>
+                          <td ng-switch="venta.pago_venta.tipo_pago">
+                               <span ng-switch-when="1" class="ico_td ico_pefectivo">Efectivo</span>
+                               <span ng-switch-when="2" class="ico_td ico_ppos">POS</span>
+                               <span ng-switch-when="3" class="ico_td ico_pcheque">Cheque</span>
+                               <span ng-switch-when="4" class="ico_td ico_pcredito">Crédito</span>
+                         </td>
 	                       <td>@{{venta.info_clientes.nombre}}</td>
 	                       <td>@{{venta.info_clientes.nit}} </td>
-	                       <td>@{{venta.info_clientes.direccion}}</td>
-	                       <td>@{{venta.info_clientes.telefono}}</td>
+	                       <td>@{{venta.info_clientes.direccion}}-@{{venta.info_clientes.telefono}}</td>
                          <td ng-switch="venta.info_clientes.tipo_cliente">
                            <span ng-switch-when="1">Individual</span>
                            <span ng-switch-when="2">Empresa</span>
                          </td>
-                         <td>@{{venta.total | number:2}}</td>
                           <td>@{{venta.fecha_factura  | amDateFormat: 'DD/MM/YYYY HH:mm:ss'}}</td>
+                          <td>@{{venta.perfil_usuario.nombre}} @{{venta.perfil_usuario.apellido}}</td>
+                         
 	                       <td>
 	                           <div class="area_opciones" ng-if="venta.estado_ventas==1">
                                  <ul>

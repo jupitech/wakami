@@ -42,4 +42,7 @@ class Ventas extends Model
         public function NombreSucursal(){
         return $this->hasOne('App\Models\Sucursales','id','id_sucursal');
     }
+        public function PerfilUsuario(){
+        return $this->hasOne('App\Models\UserProfile','user_id','id_user');
+    }
 }

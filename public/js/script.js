@@ -1618,7 +1618,9 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
 
 //************************************Venta**********************************************//
 wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
-
+    $scope.deselecpago=function(){
+    $scope.busfiltropago='';
+  }
    //Todos las ventas
       $http.get('/api/ventas').success(
 
@@ -1627,6 +1629,14 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
             }).error(function(error) {
                  $scope.error = error;
             });
+
+        $scope.tpagos=[
+          {id:'1',pago:'Efectivo'},
+          {id:'2',pago:'POS'},
+          {id:'3',pago:'Cheque'},
+          {id:'4',pago:'Crédito'},
+         ];
+      
 
        //Eliminar Proveedor
       $scope.btn_eliminar = function(id){
@@ -2179,16 +2189,23 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                  $scope.error = error;
             });
 
-     //MiUsuario
+   //MiUsuario
       $http.get('api/mi/miusuario').success(
 
               function(miusuario) {
                         $scope.miusuario = miusuario.datos;
-                       
-                        $scope.actsucu($scope.miusuario.sucursal_usuario.id);
+                        $scope.idusuario=$scope.miusuario.sucursal_usuario;
+                        $scope.idusuario2=$scope.miusuario.sucursal_usuario2;
+
+                        if($scope.idusuario!=null){
+                          $scope.actsucu($scope.miusuario.sucursal_usuario.id);
+                        } else{
+                           $scope.actsucu($scope.miusuario.sucursal_usuario2.id);
+                        }
+                        
             }).error(function(error) {
                  $scope.error = error;
-            }); 
+            });
 
   $scope.actsucu=function(idsucu){
 
@@ -2439,16 +2456,23 @@ wApp.controller('MisProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProdu
 
   $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 
-       //MiUsuario
+   //MiUsuario
       $http.get('api/mi/miusuario').success(
 
               function(miusuario) {
                         $scope.miusuario = miusuario.datos;
-                       
-                        $scope.actsucu($scope.miusuario.sucursal_usuario.id);
+                        $scope.idusuario=$scope.miusuario.sucursal_usuario;
+                        $scope.idusuario2=$scope.miusuario.sucursal_usuario2;
+
+                        if($scope.idusuario!=null){
+                          $scope.actsucu($scope.miusuario.sucursal_usuario.id);
+                        } else{
+                           $scope.actsucu($scope.miusuario.sucursal_usuario2.id);
+                        }
+                        
             }).error(function(error) {
                  $scope.error = error;
-            }); 
+            });
 
   $scope.actsucu=function(idsucu){
 
@@ -2473,16 +2497,23 @@ wApp.controller('MisProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProdu
 //************************************Venta**********************************************//
 wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
 
-      //MiUsuario
+   //MiUsuario
       $http.get('api/mi/miusuario').success(
 
               function(miusuario) {
                         $scope.miusuario = miusuario.datos;
-                       
-                        $scope.actsucu($scope.miusuario.sucursal_usuario.id);
+                        $scope.idusuario=$scope.miusuario.sucursal_usuario;
+                        $scope.idusuario2=$scope.miusuario.sucursal_usuario2;
+
+                        if($scope.idusuario!=null){
+                          $scope.actsucu($scope.miusuario.sucursal_usuario.id);
+                        } else{
+                           $scope.actsucu($scope.miusuario.sucursal_usuario2.id);
+                        }
+                        
             }).error(function(error) {
                  $scope.error = error;
-            }); 
+            });
 
     $scope.actsucu=function(idsucu){
 

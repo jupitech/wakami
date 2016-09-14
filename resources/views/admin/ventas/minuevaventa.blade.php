@@ -12,7 +12,7 @@
 	 <div class="header_conte">
               <h1>Nueva Venta</h1>
      </div>
-      <div class="col-sm-12"  ng-if="!miusuario.sucursal_usuario.id">
+      <div class="col-sm-12"  ng-if="miusuario.sucursal_usuario.id===null || miusuario.sucursal_usuario2.id===null">
          <div class="caja_contenido">
                <div class="col-sm-12">
                   <h3 class="h3_noasig">No tienes asignado Sucursal a tu usuario, pide al administrador el acceso</h3>
@@ -21,7 +21,7 @@
          </div>
           
      </div>
-	 <div class="col-sm-12" ng-if="miusuario.sucursal_usuario.id && acti_venta">
+	 <div class="col-sm-12" ng-if="miusuario.sucursal_usuario.id || miusuario.sucursal_usuario2.id && acti_venta">
           	   <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Cliente nuevo</strong> guardado correctamente, creado por administradores.</div>
                   <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Cliente borrado</strong> No se podrá recuperar los datos.</div>	
           	 <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Cliente editado</strong> Puedes ver en el listado de cliente las modificaciones realizadas.</div>
@@ -296,7 +296,7 @@
    </div>
 
 
-    <div class="col-sm-12" ng-if="miusuario.sucursal_usuario.id && termi_venta">
+    <div class="col-sm-12" ng-if="miusuario.sucursal_usuario.id || miusuario.sucursal_usuario2.id && termi_venta">
     {{-- Venta Terminada --}}
               <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
                  <div class="caja_contenido top_conte">
