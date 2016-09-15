@@ -94,7 +94,7 @@
                                                 </div>
                                                 <div class="col-sm-8 col-md-8 col-lg-9">
                                                     <label for="name">Producto</label>
-                                                     <ol class="nya-bs-select" ng-model="procompra.id_producto" data-live-search="true"  title="Selecciona un producto..." required>
+                                                     <ol class="nya-bs-select" ng-model="procompra.id_producto" data-live-search="true"  title="Selecciona un producto..." required  data-size="10">
                                                           <li nya-bs-option="producto in productos" data-value="producto.id">
                                                             <a>
                                                              <span>
