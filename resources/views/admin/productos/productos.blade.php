@@ -114,7 +114,7 @@
                                <div class="form-group">
                                      <div class="col-md-12">
                                          <label for="rol">Linea</label>
-                                       <ol class="nya-bs-select" ng-model="producto.linea" data-live-search="true"  title="Selecciona una linea...">
+                                       <ol class="nya-bs-select" ng-model="producto.linea" data-live-search="true"  title="Selecciona una linea..." data-size="10">
                                             <li nya-bs-option="linea in lineas" data-value="linea.id">
                                               <a>
                                                 @{{ linea.nombre }}
@@ -194,7 +194,7 @@
                                <div class="form-group">
                                   <div class="col-md-12">
                                          <label for="rol">Linea</label>
-                                       <ol class="nya-bs-select" ng-model="existeProducto.linea" data-live-search="true">
+                                       <ol class="nya-bs-select" ng-model="existeProducto.linea" data-live-search="true" data-size="10">
                                             <li nya-bs-option="linea in lineas" data-value="linea.id">
                                               <!-- the text content of anchor element will be used for search -->
                                               <a>
@@ -268,13 +268,28 @@
 
                 <div class="caja_productos">
                 <div class="col-sm-12">
+                     <div class="busqueda_linea col-sm-3 spi">
+                                
+                                    <ol class="nya-bs-select" ng-model="buslinea" title="Buscar por linea" name="id_linea" data-size="10" onfocus="pxtrack.emit('counter', '1')" >
+                                    <li ng-click="deselecli()"><a>
+                                    Todos
+                                       <span class="glyphicon glyphicon-ok check-mark"></span>
+                                    </a></li>
+                                    <li nya-bs-option="linea in lineas" data-value="linea.nombre">
+                                      <a>
+                                        @{{ linea.nombre }}
+                                        <span class="glyphicon glyphicon-ok check-mark"></span>
+                                      </a>
+                                    </li>
+                                  </ol>
+                     </div> 
                      <div class="busqueda_texto col-sm-4">
                     <input type="text" id="query" ng-model="query" onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de productos.." />
                      </div>
                 </div>
                
                       <ul>
-                        <li ng-repeat="producto in productos | filter: query | orderBy:'-id'">
+                        <li ng-repeat="producto in productos | filter: query | filter: buslinea | orderBy:'-id'">
                           <div class="box_pro">
                                 <div class="box_header">
 

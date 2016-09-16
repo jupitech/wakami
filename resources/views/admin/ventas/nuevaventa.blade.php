@@ -300,10 +300,29 @@
                                                             </ol>
                                                           
                                   </div>
-                                  <div class="col-sm-5">
+                                  <div class="col-sm-5" ng-if="factura.tipo_pago!=4">
                                       <label for="name">Referencia</label>
-                                       <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS">
+                                       <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS ó No.Cheque">
                                   </div>
+
+                                  <div class="col-sm-5" ng-if="factura.tipo_pago==4">
+                                          <div class="col-sm-6">
+                                                <ol class="nya-bs-select" ng-model="factura.dias_credito" title="Dias de crédito" required>
+                                                              <li nya-bs-option="dia in diascre" data-value="dia.dias">
+                                                                <a>
+                                                                  @{{ dia.nombre }}
+                                                                  <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                                </a>
+                                                              </li>
+                                                            </ol>
+                                          </div>
+                                          <div class="col-sm-6">
+                                              <label for="name">Referencia</label>
+                                       <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS ó No.Cheque">
+                                          </div>
+                                    
+                                  </div>
+
                                 <div class="col-sm-3">
                                    <input type="hidden" ng-model="idventa"/>
                                   <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">FACTURAR</button>

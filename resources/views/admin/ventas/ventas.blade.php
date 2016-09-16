@@ -24,6 +24,7 @@
 	   <div class="info_colores">
 		      <ul>
 		        <li><span class="color_ncom"></span> <p>Venta no completada</p></li>
+             <li><span class="color_encom"></span> <p>Venta al crédito</p></li>
 		        <li><span class="color_tercom"></span> <p>Venta facturada</p></li>
 		      </ul>
     </div>
@@ -43,7 +44,7 @@
 	                   <th>Opciones</th>
 	               </thead>
 	               <tbody>
-	                   <tr ng-repeat="venta in ventas | filter: query | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1}">
+	                   <tr ng-repeat="venta in ventas | filter: query | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1,'trc_ver':venta.estado_ventas==3}">
 	                     <td class="td_first"></td>
                          <td></td>
 

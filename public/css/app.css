@@ -6879,6 +6879,24 @@ body {
     color: #999;
     background: transparent; }
 
+.busqueda_linea ol {
+  width: 100% !important; }
+
+.busqueda_linea li {
+  width: 100% !important; }
+
+.busqueda_linea h3 {
+  font-size: 14px;
+  margin: 12px 0;
+  float: left;
+  width: 100%; }
+
+.busqueda_linea .btn-default {
+  background: #eee !important;
+  border-color: #ddd !important;
+  padding: 8px 10px !important;
+  color: #999 !important; }
+
 .agre_pro {
   float: left;
   width: 100%; }
@@ -7205,6 +7223,10 @@ body {
 
 .ico_pcheque {
   background: url("img/pago-cheque.svg") no-repeat center;
+  background-size: 20px; }
+
+.ico_pcredito {
+  background: url("img/pago-credito.svg") no-repeat center;
   background-size: 20px; }
 
 .tot_venta {

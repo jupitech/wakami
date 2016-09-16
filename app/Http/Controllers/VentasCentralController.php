@@ -12,6 +12,7 @@ use App\Models\TfacVenta;
 use App\Models\StockProducto;
 use App\Models\Clientes;
 use App\Models\Producto;
+use App\Models\CreditosVentas;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -189,6 +190,7 @@ class VentasCentralController extends Controller
         $tipopago =$request['id_tpago'];      
         $tipofac =$request['id_tfac'];  
         $referencia =$request['referencia'];    
+        $diascredito =$request['dias_credito'];    
 
         if($referencia=''){
             $mirefe='';
@@ -204,13 +206,40 @@ class VentasCentralController extends Controller
 
 
         $ventas=Ventas::find( $idventas );
-        $ventas->fill([
-                'fecha_factura' => Carbon::now(),
-                'estado_ventas' => 2,
-            ]);
-        $ventas->save();
 
-             //Buscando productos en ventas agregados
+
+
+        //Analizando tipo de pago y actualizando factura 
+        if($tipopago==4){
+
+              $ventas->fill([
+                      'fecha_factura' => Carbon::now(),
+                      'estado_ventas' => 3,
+                  ]);
+              $ventas->save();
+
+              $fechalimite=Carbon::now()->addDays($diascredito);
+
+
+               $creditoventa=CreditosVentas::create([
+                  'id_ventas' => $idventas,
+                  'dias_credito' => $diascredito,
+                  'fecha_limite' => $fechalimite,
+                  'estado_credito' => 1,
+                        ]);
+               $creditoventa->save();
+
+        }else{
+
+              $ventas->fill([
+                      'fecha_factura' => Carbon::now(),
+                      'estado_ventas' => 2,
+                  ]);
+              $ventas->save();
+
+        }
+
+        //Buscando productos en ventas agregados
          $productoventas=ProductoVenta::where('id_ventas',$idventas)->get();
           foreach ($productoventas as $productoventa) {
             //Reduciendo stock desde los productos vendidos

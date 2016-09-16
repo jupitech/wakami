@@ -448,6 +448,10 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
        $scope.linea={};
      };
 
+       $scope.deselecli=function(){
+          $scope.buslinea='';
+       }
+
        //Lineas de productos
        $http.get('/api/lineaproductos').success(
 
@@ -478,7 +482,7 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
 
                       function(stock) {
                                producto.stock = stock.datos;
-                                 console.log( producto.stock);
+                               //  console.log( producto.stock);
                     }).error(function(error) {
                          $scope.error = error;
                     });
@@ -1706,7 +1710,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
    $scope.tipos=[
         {id:'1',cliente:'Individual'},
         {id:'2',cliente:'Empresa'},
-        ];
+   ];
 
    $scope.tpagos=[
         {id:'1',pago:'Efectivo'},
@@ -1714,6 +1718,11 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
         {id:'3',pago:'Cheque'},
         {id:'4',pago:'Crédito'},
   ];
+
+     $scope.diascre=[
+        {dias:'15',nombre:'15 dias'},
+        {dias:'30',nombre:'30 dias'},
+   ];
 
 
      //Todos los clientes
@@ -1931,10 +1940,11 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                 id_tpago: $scope.factura.tipo_pago,
                 referencia: $scope.factura.referencia,
                 id_ventas: $scope.idventa,
+                dias_credito: $scope.factura.dias_credito,
             };
             console.log(datafact);
 
-               $http.post('/api/factura/create', datafact)
+              $http.post('/api/factura/create', datafact)
                         .success(function (data, status, headers) {
                               console.log("Factura creada correctamente");
                                $scope.acti_venta=false;
@@ -2176,8 +2186,6 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
    $scope.tpagos=[
         {id:'1',pago:'Efectivo'},
         {id:'2',pago:'POS/Tarjeta'},
-        {id:'3',pago:'Cheque'},
-        {id:'4',pago:'Crédito'},
   ];
 
      //Todos los clientes
