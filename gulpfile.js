@@ -28,6 +28,7 @@ elixir(function(mix) {
     mix.copy(npmDir + 'moment-timezone/moment-timezone.js',jsDir);
     mix.copy(npmDir + 'angular-moment/angular-moment.min.js',jsDir);
      mix.copy(npmDir + 'nya-bootstrap-select/dist/js/nya-bs-select.min.js',jsDir);
+      mix.copy(npmDir + 'angular-lazy-img/release/angular-lazy-img.js',jsDir);
     mix.scripts([
     	'angular.min.js',
     	'angular-route.min.js',
@@ -39,6 +40,7 @@ elixir(function(mix) {
         'moment.js',
         'moment-timezone.js',
         'angular-moment.min.js',
-        'nya-bs-select.min.js'
+        'nya-bs-select.min.js',
+        'angular-lazy-img.js'
     ], 'public/js/vendor.js');	
 });

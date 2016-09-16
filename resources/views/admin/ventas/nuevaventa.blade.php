@@ -44,7 +44,7 @@
                  <form class="form-horizontal" name="frm" role="form" ng-submit="nuevaVenta()" >
                        <div class="form-group">
                              <div class="col-sm-8 topinput">
-                               <ol class="nya-bs-select" ng-model="venta.cliente" title="Seleccionar Cliente.." data-live-search="true">
+                               <ol class="nya-bs-select" ng-model="venta.cliente" title="Seleccionar Cliente.." data-live-search="true" data-size="10">
                                     <li nya-bs-option="cliente in clientes | orderBy:'empresa'" data-value="cliente" ng-click="act_cliente()">
                                       <a>
                                         <span>
@@ -208,7 +208,7 @@
                             <form class="form-horizontal" name="frm" role="form" ng-submit="guardarProVenta()" >
                                                   <div class="form-group">
                                                      <div class="col-sm-10 col-md-10 col-lg-11 topinput">
-                                                             <ol class="nya-bs-select" ng-model="proventa.id_producto" data-live-search="true"  title="Selecciona un producto..." required>
+                                                             <ol class="nya-bs-select" ng-model="proventa.id_producto" data-live-search="true"  title="Selecciona un producto..." required data-size="10">
                                                                   <li nya-bs-option="producto in productos" data-value="producto.id">
                                                                     <a>
                                                                      <span>
