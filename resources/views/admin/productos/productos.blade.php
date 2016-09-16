@@ -298,7 +298,7 @@
                                 </div>
                                 
                                 <div ng-if="producto.imagen_id != 0 " class="con_imagen">
-                                  <img width="210" lazy-img="@{{producto.nombre_imagen.ruta}}" alt="">
+                                  <img width="210" lazy-img="@{{producto.nombre_imagen.ruta}}" alt="" class="afkl-lazy-wrapper afkl-img-ratio-1-1 own-classname">
                                 </div>
 
                                 </div>

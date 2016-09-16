@@ -6354,7 +6354,7 @@ body {
     right: 0; } }
 
 #area_nuevo {
-  position: absolute;
+  position: fixed;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   min-height: 100%;
@@ -6369,7 +6369,7 @@ body {
   animation: 0.2s bocultar; }
 
 #area_mas {
-  position: absolute;
+  position: fixed;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   min-height: 100%;
