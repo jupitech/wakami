@@ -6690,7 +6690,7 @@ body {
     display: table;
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 25px 0;
     width: 100%; }
   .caja_productos li {
     display: inline-block;
