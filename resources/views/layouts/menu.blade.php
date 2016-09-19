@@ -1,5 +1,5 @@
 @section('menu')
-<div ng-controller="menuDos">
+<div class="top_menu" ng-controller="menuDos">
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->

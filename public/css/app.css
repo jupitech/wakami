@@ -5904,6 +5904,8 @@ body {
   position: static; }
 
 .navbar-default {
+  position: fixed;
+  width: 100%;
   background-color: #333C44 !important;
   border: none !important;
   border-radius: 0 !important;
@@ -5964,6 +5966,7 @@ body {
   animation: 0.2s aocultar; }
 
 .menu_dos {
+  margin-top: 50px;
   float: left;
   width: 100%;
   height: 50px;
@@ -7077,6 +7080,9 @@ body {
   background: url("img/ico_nuevo.svg") no-repeat center;
   background-size: 15px; }
 
+.top_menu {
+  height: 50px; }
+
 .top_conte {
   margin-top: 15px; }
 
@@ -7233,5 +7239,16 @@ body {
   font-size: 15px !important;
   font-weight: normal !important;
   color: #006DF0 !important; }
+
+.info_cliente {
+  font-family: "Inconsolata", sans-serif !important;
+  margin-bottom: 15px; }
+  .info_cliente h2 {
+    font-weight: bold !important;
+    font-size: 15px !important;
+    color: #3fb1b5 !important;
+    margin: 0 0 5px 0; }
+  .info_cliente p {
+    margin: 5px 0; }
 
 /*# sourceMappingURL=app.css.map */

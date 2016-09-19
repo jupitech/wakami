@@ -6,7 +6,80 @@
 </div>
 
    <div class="col-md-12 top_conte" ng-controller="MisVentasCtrl">
+      
+   {{-- Area de venta seleccionada --}}
+      <div id="area_mas" ng-if="mas_obj">
+           <div class="header_nuevo">
 
+                        <div class="col-sm-12">
+                              <h1>Venta No.@{{exisVenta.id}}</h1>
+                              <a class="btn_cerrar" ng-click="btn_cerrarc()"></a>
+                        </div>
+            </div>
+            <div class="conte_nuevo">
+                    <div class="col-sm-6">
+                      <div class="info_cliente">
+                           <h2>Cliente</h2>
+                           <p><strong>Nombre: </strong>@{{exisVenta.info_clientes.nombre}}-@{{exisVenta.info_clientes.empresa}} </p>
+                           <p><strong>NIT: </strong>@{{exisVenta.info_clientes.nit}}</p>
+                           <p><strong>Dirección: </strong>@{{exisVenta.info_clientes.direccion}}</p>
+                           <p><strong>Teléfono: </strong>@{{exisVenta.info_clientes.telefono}} / @{{exisVenta.info_clientes.celular}}</p>
+                           <p ng-switch="exisVenta.info_clientes.tipo_cliente"><strong>Tipo de cliente: </strong>
+                            <span ng-switch-when="1">Individual</span>
+                             <span ng-switch-when="2">Empresa</span>
+                           </p>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                       <div class="info_cliente">
+                           <h2>Datos de factura</h2>
+                           <p><strong>No.Factura: </strong>@{{exisVenta.correlativo}} </p>
+                           <p  ng-switch="exisVenta.pago_venta.tipo_pago"><strong>Tipo de pago: </strong>
+                               <span ng-switch-when="1">Efectivo</span>
+                               <span ng-switch-when="2">POS</span>
+                               <span ng-switch-when="3">Cheque</span>
+                               <span ng-switch-when="4">Crédito</span>
+                            - Ref: @{{exisVenta.pago_venta.referencia}}
+                           </p>
+                           <p><strong>Fecha de factura: </strong>@{{exisVenta.fecha_factura | amDateFormat: 'DD/MM/YYYY HH:mm:ss'}}</p>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                     <div class="info_cliente">
+                     <h2>Poductos</h2>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Cod.</th>
+                              <th>Producto</th>
+                              <th>Precio</th>
+                              <th>Cantidad</th>
+                              <th>Subtotal</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr  ng-repeat="miproducto in misproductos">
+                                <td>@{{miproducto.nombre_producto.codigo}}</td>
+                                <td>@{{miproducto.nombre_producto.nombre}}</td>
+                                <td>@{{miproducto.nombre_producto.preciop | currency: 'Q'}}</td>
+                                <td>X @{{miproducto.cantidad}}</td>
+                                 <td>@{{miproducto.nombre_producto.preciop*miproducto.cantidad | currency: 'Q' }}</td>
+                            </tr>
+                            <tr>
+                              <td colspan="3"></td>
+                              <th>Total</th>
+                              <th>@{{exisVenta.total | currency: 'Q' }}</th>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                     </div>
+                    </div>
+
+            </div>
+
+      </div>
 	{{-- Ventas --}}
 	
 	 <div class="header_conte">
@@ -47,17 +120,17 @@
 	                   <tr ng-repeat="venta in ventas | filter: query | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1}">
 	                     <td class="td_first"></td>
                          <td></td>
-                         <td class="tot_venta">@{{venta.total | currency: 'Q'}}</td>
-                          <td ng-switch="venta.pago_venta.tipo_pago">
+                         <td class="tot_venta" ng-click="abrirventa(venta)">@{{venta.total | currency: 'Q'}}</td>
+                          <td ng-switch="venta.pago_venta.tipo_pago" ng-click="abrirventa(venta)">
                                <span ng-switch-when="1" class="ico_td ico_pefectivo">Efectivo</span>
                                <span ng-switch-when="2" class="ico_td ico_ppos">POS</span>
                                <span ng-switch-when="3" class="ico_td ico_pcheque">Cheque</span>
                                <span ng-switch-when="4" class="ico_td ico_pcredito">Crédito</span>
                          </td>
-	                       <td>@{{venta.info_clientes.nombre}}</td>
-	                       <td>@{{venta.info_clientes.nit}} </td>
-	                       <td>@{{venta.info_clientes.direccion}}-@{{venta.info_clientes.telefono}}</td>
-                         <td ng-switch="venta.info_clientes.tipo_cliente">
+	                       <td ng-click="abrirventa(venta)">@{{venta.info_clientes.nombre}}</td>
+	                       <td ng-click="abrirventa(venta)">@{{venta.info_clientes.nit}} </td>
+	                       <td ng-click="abrirventa(venta)">@{{venta.info_clientes.direccion}}-@{{venta.info_clientes.telefono}}</td>
+                         <td ng-click="abrirventa(venta)" ng-switch="venta.info_clientes.tipo_cliente">
                            <span ng-switch-when="1">Individual</span>
                            <span ng-switch-when="2">Empresa</span>
                          </td>

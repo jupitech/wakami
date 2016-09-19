@@ -71,6 +71,8 @@ wApp.directive("compareTo", function ()
         }
     };
 });
+
+
 //**************************************Usuarios*************************************************//
 wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout, $log,$uibModal){
 
@@ -1638,6 +1640,9 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
     $scope.deselecpago=function(){
     $scope.busfiltropago='';
   }
+
+     $scope.mas_obj = false; //Nuevo proveedor
+
    //Todos las ventas
       $http.get('/api/ventas').success(
 
@@ -1676,7 +1681,32 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
             .error(function (data, status, header, config) {
                 console.log('Parece que existe un error al borrar el proveedor.');
             });
-      };       
+      };   
+
+       $scope.abrirventa= function(venta){
+          $scope.mas_obj = !$scope.mas_obj;   
+
+          //Datos de la venta
+           $scope.exisVenta=venta;
+             $scope.miventa=venta.id;
+
+          // console.log($scope.exisVenta);
+         
+          $scope.btn_cerrarc=function(){
+             $scope.mas_obj = false;
+           };
+
+        $http.get('/api/miproducto/'+$scope.miventa).success(
+
+                                  function(misproductos) {
+                                            $scope.misproductos = misproductos.datos;
+                                          //  console.log($scope.misproductos);
+                                }).error(function(error) {
+                                     $scope.error = error;
+                                });
+
+
+      };    
 
 });
 //************************************Venta N**********************************************//
@@ -2518,6 +2548,8 @@ wApp.controller('MisProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProdu
 //************************************Venta**********************************************//
 wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
 
+     $scope.mas_obj = false; //Nuevo proveedor
+
    //MiUsuario
       $http.get('api/mi/miusuario').success(
 
@@ -2571,7 +2603,32 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
             .error(function (data, status, header, config) {
                 console.log('Parece que existe un error al borrar el proveedor.');
             });
-      };   
+      }; 
+
+       $scope.abrirventa= function(venta){
+          $scope.mas_obj = !$scope.mas_obj;   
+
+          //Datos de la venta
+           $scope.exisVenta=venta;
+             $scope.miventa=venta.id;
+
+          // console.log($scope.exisVenta);
+         
+          $scope.btn_cerrarc=function(){
+             $scope.mas_obj = false;
+           };
+
+        $http.get('/api/mi/miproducto/'+$scope.miventa).success(
+
+                                  function(misproductos) {
+                                            $scope.misproductos = misproductos.datos;
+                                            //console.log($scope.misproductos);
+                                }).error(function(error) {
+                                     $scope.error = error;
+                                });
+
+
+      };      
 
   };        
 
