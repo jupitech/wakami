@@ -369,4 +369,5 @@
 @endsection
 @push('scripts')
     <script src="/js/script.js"></script>
+    <script src="/js/controller/ProductosCtrl.js"></script>
 @endpush

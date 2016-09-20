@@ -170,4 +170,5 @@
 @endsection
 @push('scripts')
     <script src="/js/script.js"></script>
+    <script src="/js/controller/VentasCtrl.js"></script>
 @endpush

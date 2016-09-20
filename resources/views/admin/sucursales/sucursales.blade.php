@@ -667,4 +667,5 @@
 @endsection
 @push('scripts')
     <script src="/js/script.js"></script>
+    <script src="/js/controller/SucursalesCtrl.js"></script>
 @endpush
