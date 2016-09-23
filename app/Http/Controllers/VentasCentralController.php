@@ -11,8 +11,10 @@ use App\Models\TpagoVenta;
 use App\Models\TfacVenta;
 use App\Models\StockProducto;
 use App\Models\Clientes;
+use App\Models\PorcentajeCliente;
 use App\Models\Producto;
 use App\Models\CreditosVentas;
+use App\Models\DescuentosVentas;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -43,7 +45,7 @@ class VentasCentralController extends Controller
      public function indexmiventa($id)
     {
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta")->where('id',$id)->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","DescuentosVentas")->where('id',$id)->first();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
@@ -53,7 +55,7 @@ class VentasCentralController extends Controller
       public function indexventas()
     {
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal")->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal","DescuentosVentas")->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
@@ -63,11 +65,21 @@ class VentasCentralController extends Controller
       public function indexmiproducto($id)
     {
            //Trayendo Producto
-         $productos=ProductoVenta::with("NombreProducto")->where('id_ventas',$id)->get();
+         $productos=ProductoVenta::with("NombreProducto","Venta")->where('id_ventas',$id)->get();
          if(!$productos){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
          return response()->json(['datos' =>  $productos],200);
+    }
+
+      public function indexmidescuento($id)
+    {
+           //Trayendo Producto
+         $descuentos=DescuentosVentas::where('id_ventas',$id)->get();
+         if(!$descuentos){
+             return response()->json(['mensaje' =>  'No se encuentran descuentos actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $descuentos],200);
     }
 
        public function stockproducto($id)
@@ -286,9 +298,71 @@ class VentasCentralController extends Controller
                           'total' => $total,
                         ]);
                     $ventas->save();
+
+             //Analizar si existe descuento para modificarlo
+             $descuento=DescuentosVentas::where("id_ventas",$idventas)->first();
+
+             if($descuento){
+
+                  $porcentaje=$descuento->porcentaje;
+                  $midescuento=$descuento->descuento;
+                  $mitotal=$ventas->total;
+
+                  $regretotal=$mitotal+ $midescuento;
+                  //Obteniendo monto de descuento10
+                  $aplides=($regretotal*$porcentaje)/100;
+
+                  //Total Actual
+                  $totalactual=$regretotal-$aplides;
+
+                  $ventas->fill([
+                      'total' => $totalactual,
+                    ]);
+                  $ventas->save();
+
+                   $descuento->fill([
+                      'descuento' => $aplides,
+                    ]);
+                  $descuento->save();
+             }
+
          }else{
                   return response()->json(['mensaje' =>  'El producto ya existe en la venta','codigo'=>404],404);
          }
+    }
+
+    public function storedes(Request $request)
+    {
+      $idventas= $request['id_ventas'];
+      $idcliente= $request['id_cliente'];
+
+      $porcliente=PorcentajeCliente::where('id_cliente',$idcliente)->first();
+      $ventas=Ventas::where('id',$idventas)->first();
+
+      $miporcentaje=$porcliente->porcentaje;
+      $mitotal=$ventas->total;
+
+      //Obteniendo monto de descuento10
+      $aplides=($mitotal*$miporcentaje)/100;
+
+      //Total Actual
+      $totalactual=$mitotal-$aplides;
+
+
+      $ventas->fill([
+          'total' => $totalactual,
+        ]);
+        $ventas->save();
+
+      $descuentos=DescuentosVentas::create([
+                  'id_cliente' => $idcliente,
+                  'id_ventas' => $idventas,
+                  'porcentaje' => $miporcentaje,
+                  'descuento' => $aplides,
+                        ]);
+      $descuentos->save();
+
+           return response()->json(['id_venta' => $ventas->id],200);
     }
 
 
@@ -330,6 +404,33 @@ class VentasCentralController extends Controller
           'cantidad' => $request['cantidad'],
         ]);
         $productoventa->save();
+
+         //Analizar si existe descuento para modificarlo
+             $descuento=DescuentosVentas::where("id_ventas",$idventas)->first();
+
+             if($descuento){
+
+                  $porcentaje=$descuento->porcentaje;
+                  $midescuento=$descuento->descuento;
+                  $mitotal=$ventas->total;
+
+                  $regretotal=$mitotal+ $midescuento;
+                  //Obteniendo monto de descuento10
+                  $aplides=($regretotal*$porcentaje)/100;
+
+                  //Total Actual
+                  $totalactual=$regretotal-$aplides;
+
+                  $ventas->fill([
+                      'total' => $totalactual,
+                    ]);
+                  $ventas->save();
+
+                   $descuento->fill([
+                      'descuento' => $aplides,
+                    ]);
+                  $descuento->save();
+             }
     }
 
     /**
@@ -376,5 +477,25 @@ class VentasCentralController extends Controller
                     $ventas->save();
 
         ProductoVenta::destroy($id);
+    }
+
+     public function destroydes($id)
+    {
+        $desventas=DescuentosVentas::where('id_ventas',$id)->first();
+        $descuento=$desventas->descuento;
+        $iddes=$desventas->id;
+
+             $ventas=Ventas::where('id',$id)->first();
+
+             $total=$ventas->total;
+
+             $nuevototal=$total+$descuento;
+
+              $ventas->fill([
+                    'total' => $nuevototal,
+                  ]);
+              $ventas->save();
+
+        DescuentosVentas::destroy($iddes);
     }
 }

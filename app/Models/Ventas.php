@@ -33,7 +33,7 @@ class Ventas extends Model
     }
 
       public function InfoClientes(){
-        return $this->hasOne('App\Models\Clientes','id','id_cliente');
+        return $this->hasOne('App\Models\Clientes','id','id_cliente')->with("PorcentajeCliente");
     }
 
     public function FacVenta(){
@@ -44,5 +44,8 @@ class Ventas extends Model
     }
         public function PerfilUsuario(){
         return $this->hasOne('App\Models\UserProfile','user_id','id_user');
+    }
+        public function DescuentosVentas(){
+        return $this->hasOne('App\Models\DescuentosVentas','id_ventas','id');
     }
 }

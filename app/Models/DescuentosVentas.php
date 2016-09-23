@@ -4,22 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Clientes extends Model
+class DescuentosVentas extends Model
 {
-      //  use SoftDeletes;
+       //  use SoftDeletes;
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'clientes';
+    protected $table = 'descuentos_ventas';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['empresa','nombre','nit','direccion','telefono','celular','email','tipo_cliente'];
+    protected $fillable = ['id_ventas','id_cliente','porcentaje','descuento'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -27,8 +27,4 @@ class Clientes extends Model
      * @var array
      */
     protected $hidden = ['created_at','updated_at'];
-
-    public function PorcentajeCliente(){
-        return $this->hasOne('\App\Models\PorcentajeCliente','id_cliente','id');
-    }
 }

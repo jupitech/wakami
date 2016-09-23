@@ -219,31 +219,61 @@
 	                   <th>Cliente</th>
 	                   <th>NIT</th>
 	                   <th>Dirección</th>
-	                   <th>Teléfono</th>
-	                   <th>Celular</th>
+	                   <th>Teléfono / Celular</th>
 	                   <th>Email</th>
                      <th>Tipo Cliente</th>
-	                   <th>Opciones</th>
+                      <th>%</th>
+	                   <th class="td_opciones">Opciones</th>
 	               </thead>
 	               <tbody>
-	                   <tr ng-repeat="cliente in clientes">
+	                   <tr ng-repeat="cliente in clientes | orderBy:'-id'">
 	                       <td>@{{cliente.nombre}} <small>@{{cliente.empresa}}</small></td>
 	                       <td>@{{cliente.nit}} </td>
 	                       <td>@{{cliente.direccion}}</td>
-	                       <td>@{{cliente.telefono}}</td>
-	                       <td>@{{cliente.celular}}</td>
+	                       <td>@{{cliente.telefono}} / @{{cliente.celular}}</td>
 	                       <td>@{{cliente.email}}</td>
                          <td ng-switch="cliente.tipo_cliente">
                            <span ng-switch-when="1">Individual</span>
                            <span ng-switch-when="2">Empresa</span>
                          </td>
-	                       <td>
+                         <td><span ng-if="cliente.porcentaje_cliente.porcentaje" class="por_ac">@{{cliente.porcentaje_cliente.porcentaje}}%</span></td>
+	                       <td class="td_opciones">
 	                           <div class="area_opciones">
 	                               <ul>
+                                     @role('admin|operativo') 
+                                     <li class="op_drop"  uib-dropdown >
+                                           <a href="" class="ico_porcentaje" id="simple-dropdown" uib-dropdown-toggle ng-click="btn_porcen(cliente)"></a>
+                                           <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown" ng-if="!cliente.porcentaje_cliente.porcentaje"  > 
+                                          <form class="form-horizontal" name="frmed" role="form" ng-submit="nuevo_porcen()" >
+                                                 <div class="col-sm-8 adap_op">
+                                                     <input id="name" type="number" class="form-control" name="nombre" ng-model="porcen.cantidad" min="1" required>
+                                                 </div>
+                                                 <div class="col-sm-4 spd spi">
+                                                  <input type="hidden" ng-model="cliente.id"/>
+                                                  <input type="hidden" ng-model="cliente.tipo_cliente"/>
+                                                  <button type="submit" class="btn_g btn_nuevog" ng-disabled="frmed.$invalid"></button>
+                                                 </div>
+                                          </form>
+                                          </div>
+
+                                          <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown" ng-if="cliente.porcentaje_cliente.porcentaje"  > 
+                                          <form class="form-horizontal" name="frmed" role="form" ng-submit="editar_porcen(exisPor)" >
+                                                 <div class="col-sm-8 adap_op">
+                                                     <input id="name" type="number" class="form-control" name="nombre" ng-model="exisPor.cantidad" ng-init="exisPor.cantidad=cliente.porcentaje_cliente.porcentaje" min="1" required>
+                                                 </div>
+                                                 <div class="col-sm-4 spd spi">
+                                                  <input type="hidden" ng-model="cliente.id"/>
+                                                  <input type="hidden" ng-model="cliente.tipo_cliente"/>
+                                                  <button type="submit" class="btn_g btn_editarg" ng-disabled="frmed.$invalid"></button>
+                                                 </div>
+                                          </form>
+                                          </div>
+                                     </li>
+                                      @endrole
 	                                   <li><a href="" class="ico_editar" ng-click="btn_editar(cliente)"></a></li>
                                       @role('admin|operativo') 
 	                                   <li class="op_drop"  uib-dropdown >
-	                                         <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
+	                                         <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle ></a>
 	                                         <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
 	                                             <div class="col-sm-8 spd">
 	                                               <p>Eliminar <strong>@{{cliente.nombre}}</strong></p>

@@ -27,7 +27,7 @@ class ClientesController extends Controller
      public function indexclientes()
     {
            //Trayendo Proveedores
-         $clientes=Clientes::all();
+         $clientes=Clientes::with("PorcentajeCliente")->get();
          if(!$clientes){
              return response()->json(['mensaje' =>  'No se encuentran clientes actualmente','codigo'=>404],404);
         }
@@ -90,6 +90,18 @@ class ClientesController extends Controller
         
     }
 
+      public function storepor(Request $request)
+    {
+
+             $porcentaje=PorcentajeCliente::create([
+                  'id_cliente' => $request['id_cliente'],
+                  'tipo_cliente' => $request['tipo_cliente'],
+                  'porcentaje' => $request['porcentaje'],
+                        ]);
+              $porcentaje->save();
+        
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -132,6 +144,17 @@ class ClientesController extends Controller
                             ]);
                         $clientes->save();
             }
+    }
+
+    public function updatepor(Request $request, $id)
+    {
+              $porcentaje=PorcentajeCliente::where('id_cliente',$id)->first();
+
+             $porcentaje->fill([
+                  'porcentaje' => $request['porcentaje'],
+                        ]);
+              $porcentaje->save();
+        
     }
 
     /**

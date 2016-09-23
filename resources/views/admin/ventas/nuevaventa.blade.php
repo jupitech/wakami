@@ -175,25 +175,25 @@
                               </div>
                 </div>
                 {{-- Cliente Asignado --}}
-                <div class="middle_caja estilo_middle" ng-if="acti_areapro" ng-repeat="mi in miventa">
+                <div class="middle_caja estilo_middle" ng-if="acti_areapro">
                       <div class="col-sm-12">
                         <div class="col-sm-8">
                           <h3>Nombre</h3>
-                          <p>@{{mi.info_clientes.nombre }} - <small>@{{mi.info_clientes.empresa }}</small></p>
+                          <p>@{{miventa.info_clientes.nombre }} - <small>@{{miventa.info_clientes.empresa }}</small></p>
                         </div>
                         <div class="col-sm-4">
                            <h3>NIT</h3>
-                           <p>@{{mi.info_clientes.nit}}</p>
+                           <p>@{{miventa.info_clientes.nit}}</p>
                         </div>
                       </div>
                       <div class="col-sm-12">
                         <div class="col-sm-8">
                           <h3>Dirección</h3>
-                          <p>@{{mi.info_clientes.direccion}}</p>
+                          <p>@{{miventa.info_clientes.direccion}}</p>
                         </div>
                         <div class="col-sm-4">
                            <h3>Teléfono</h3>
-                           <p>@{{mi.info_clientes.telefono}}</p>
+                           <p>@{{miventa.info_clientes.telefono}}</p>
                         </div>
                       </div>
                 </div>
@@ -229,12 +229,13 @@
                                                    </div>
                                              </form>
                 </div>
-                <div class="col-sm-12 conte table_height">
+                <div class="col-sm-12 conte">
                  <table class="table">
                      <thead>
                          <th>Producto</th>
                          <th>Precio</th>
                          <th>Cantidad</th>
+                         <th ng-if="mides!=''">Descuento</th>
                          <th>Subtotal</th>
                          <th>Opciones</th>
                      </thead>
@@ -243,7 +244,9 @@
                         <td>@{{mipro.nombre_producto.codigo}} - @{{mipro.nombre_producto.nombre}}</td>
                         <td>Q@{{mipro.nombre_producto.preciop | number:2}}</td>
                          <td>@{{mipro.cantidad}}</td>
-                         <td>Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</td>
+                         <td ng-if="mides!=''"> <small>Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</small> - Q@{{((mipro.venta.descuentos_ventas.porcentaje*(mipro.nombre_producto.preciop*mipro.cantidad))/100) | number:2}}</td>
+                         <td ng-if="mides==''">Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</td>
+                         <td ng-if="mides!=''">Q@{{((mipro.nombre_producto.preciop*mipro.cantidad)-((mipro.venta.descuentos_ventas.porcentaje*(mipro.nombre_producto.preciop*mipro.cantidad))/100) ) | number:2}}</td>
                          <td>
                                  <div class="area_opciones">
                                                      <ul>
@@ -278,9 +281,42 @@
                      </tbody>
                  </table>
                 </div>
-                <div class="area_total">
-                 <p ng-repeat="mi in miventa">Q@{{mi.total | number:2}}</p>
-                 <h3>Total</h3>
+                {{-- Area total --}}
+                <div class="area_total" ng-if="acti_areapro && misproductos.length > 0" >
+                 <div class="col-sm-6 col-md-5 spi">
+                   <div class="descuento_venta" ng-if="mides==''">
+                             <div class="col-sm-10 spi">
+                               <p><strong>Descuento </strong></p>
+                               <p> @{{miventa.info_clientes.nombre }}- @{{miventa.info_clientes.porcentaje_cliente.porcentaje}}%</p>
+                             </div>
+                             <div class="col-sm-2 spd spi">
+                                    <a ng-click="aplides(miventa.id_cliente)" class="btn btn-primary btn_porcen"><span class="ico_porcenbtn"></span></a>
+                             </div>
+                   </div>
+                   <div class="descuento_venta" ng-if="mides!=''">
+                             <div class="col-sm-10 spi">
+                               <p><strong>Descuento Aplicado</strong></p>
+                               <p> Deseas quitar el descuento?</p>
+                             </div>
+                             <div class="col-sm-2 spd spi">
+                                    <a ng-click="deldes()" class="btn btn-primary btn_porcenx"><span class="ico_porcenbtnx"></span></a>
+                             </div>
+                   </div>
+                 </div>
+                 <div class="col-sm-6 col-md-7" ng-if="mides!=''">
+                    <div class="col-sm-6">
+                       <h4>Q@{{(miventa.total+miventa.descuentos_ventas.descuento) | number:2 }}</h4>
+                       <span>(@{{miventa.descuentos_ventas.porcentaje}}%-Q@{{miventa.descuentos_ventas.descuento | number:2}})</span>
+                    </div>
+                    <div class="col-sm-6">
+                       <p>Q@{{miventa.total | number:2}}</p>
+                       <h3>Total</h3>
+                    </div>
+                 </div>
+                  <div class="col-sm-6 col-md-7" ng-if="mides==''">
+                        <p>Q@{{miventa.total | number:2}}</p>
+                       <h3>Total</h3>
+                  </div>
                </div>
              </div>
               

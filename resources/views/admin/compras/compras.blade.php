@@ -123,7 +123,7 @@
                                                <th>Cant.</th>
                                                <th>Costo</th>
                                                <th>Subtotal</th>
-                                               <th>Opciones</th>
+                                               <th class="td_opciones">Opciones</th>
                                            </thead>
                                              <tbody>
                                                <tr ng-repeat="procompra in procompras">
@@ -131,7 +131,7 @@
                                                    <td>@{{procompra.cantidad}} </td>
                                                    <td>Q@{{procompra.precio_producto}}</td>
                                                    <td ng-init="ProTotal = ProTotal+procompra.subtotal">Q@{{procompra.subtotal}}</td>
-                                                   <td>
+                                                   <td class="td_opciones">
                                                        <div class="area_opciones">
                                                            <ul>
                                                                   <li class="ed_drop"  uib-dropdown>
@@ -450,7 +450,7 @@
 	                   <th>Proveedor</th>
 	                   <th>Fecha Entrega</th>
 	                   <th>Total Compra</th>
-	                   <th>Opciones</th>
+	                   <th class="td_opciones">Opciones</th>
 	               </thead>
 	                 <tbody>
                      <tr ng-repeat="compra in compras  | orderBy:'-id'" ng-class="{'trc_ama':compra.estado_orden==1,'trc_ver':compra.estado_orden==2,'trc_fus':compra.estado_orden==3}">
@@ -459,7 +459,7 @@
                          <td ng-click="abrircompra(compra,1)">@{{compra.nombre_proveedor.empresa}} </td>
                          <td ng-click="abrircompra(compra,1)">@{{compra.fecha_entrega | amDateFormat: 'DD/MM/YYYY'}}</td>
                          <td>Q @{{compra.total_compra | number:2}}</td>
-                         <td>
+                         <td class="td_opciones">
                              <div class="area_opciones">
                                  <ul>
                                  <li ng-if="compra.estado_orden==2"><a href="/exports/ordenes/OrdenCompra-No@{{compra.id}}.xlsx" class="ico_excelazul"></a></li>
