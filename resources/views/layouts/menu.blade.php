@@ -56,7 +56,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle ico_bodegas" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bodegas</a>
               <ul class="dropdown-menu">
-                <li><a href="#">Consignación</a></li>
+                <li><a href="{{ URL::to('/consignacion') }}">Consignación</a></li>
                   <li role="separator" class="divider"></li>
                 <li><a href="#">Movimiento entre bodegas</a></li>
               </ul>

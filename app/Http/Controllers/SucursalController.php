@@ -103,12 +103,33 @@ class SucursalController extends Controller
     public function store(Request $request)
     {
 
+      $iduser2= $request['id_user2'];
+
+      if($iduser2!=''){
+         $miduser2=$iduser2;
+      }else{
+         $miduser2='';
+      }
+
               $sucursales=Sucursales::create([
                   'nombre' => $request['nombre'],
                   'ubicacion' => $request['ubicacion'],
                   'serie' => $request['serie'],
                   'id_user' =>  $request['id_user'],
-                  'id_user2' =>  $request['id_user2'],
+                  'id_user2' =>  $miduser2,
+                  'codigo_esta' =>  $request['codigo_esta'],
+                  'codigo_sat' =>  $request['codigo_sat'],
+                  'resolucion' =>  $request['resolucion'],
+                  'fresolucion' =>  $request['fresolucion'],
+                  'codigo_satnce' =>  $request['codigo_satnce'],
+                  'serie_nce' =>  $request['serie_nce'],
+                  'resolucion_nce' =>  $request['resolucion_nce'],
+                  'fresolucion_nce' =>  $request['fresolucion_nce'],
+                  'codigo_satnde' =>  $request['codigo_satnde'],
+                  'serie_nde' =>  $request['serie_nde'],
+                  'resolucion_nde' =>  $request['resolucion_nde'],
+                  'fresolucion_nde' =>  $request['fresolucion_nde'],
+                  
                         ]);
           $sucursales->save();
     }
@@ -180,11 +201,23 @@ class SucursalController extends Controller
     {
           $sucursales=Sucursales::find($id);
         $sucursales->fill([
-              'nombre' => $request['nombre'],
-              'ubicacion' => $request['ubicacion'],
-              'serie' => $request['serie'],
-              'id_user' =>  $request['id_user'],
-              'id_user2' =>  $request['id_user2'],
+                'nombre' => $request['nombre'],
+                'ubicacion' => $request['ubicacion'],
+                'serie' => $request['serie'],
+                'id_user' =>  $request['id_user'],
+                'id_user2' =>  $request['id_user2'],
+                'codigo_esta' =>  $request['codigo_esta'],
+                'codigo_sat' =>  $request['codigo_sat'],
+                'resolucion' =>  $request['resolucion'],
+                'fresolucion' =>  $request['fresolucion'],
+                'codigo_satnce' =>  $request['codigo_satnce'],
+                'serie_nce' =>  $request['serie_nce'],
+                'resolucion_nce' =>  $request['resolucion_nce'],
+                'fresolucion_nce' =>  $request['fresolucion_nce'],
+                'codigo_satnde' =>  $request['codigo_satnde'],
+                'serie_nde' =>  $request['serie_nde'],
+                'resolucion_nde' =>  $request['resolucion_nde'],
+                'fresolucion_nde' =>  $request['fresolucion_nde'],
             ]);
         $sucursales->save();
     }

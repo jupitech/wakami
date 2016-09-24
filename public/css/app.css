@@ -6422,13 +6422,14 @@ body {
   position: fixed;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  min-height: 100%;
+  height: 100%;
   width: 35%;
   right: 0;
   top: 0;
   z-index: 200;
   padding-top: 70px;
-  animation: 0.2s baparecer; }
+  animation: 0.2s baparecer;
+  overflow: auto; }
 
 #area_nuevo.ng-leave {
   animation: 0.2s bocultar; }
@@ -6444,6 +6445,8 @@ body {
   z-index: 200;
   padding-top: 70px;
   animation: 0.2s baparecer; }
+  #area_mas .sep {
+    margin-top: 15px; }
   #area_mas .conte_nuevo {
     float: left;
     width: 100%;
@@ -6545,6 +6548,8 @@ body {
     color: #3fb1b5;
     font-weight: normal;
     font-size: 12px; }
+  .conte_nuevo .dcontrol label {
+    margin-top: 10px; }
 
 .form-control.ng-invalid {
   border: 1px solid #F2DEDE; }
@@ -7337,5 +7342,20 @@ body {
     float: left;
     margin-top: 5px;
     margin-right: 5px; }
+
+.label-c1 {
+  background: rgba(51, 122, 183, 0.2);
+  color: #333 !important;
+  font-weight: normal; }
+
+.label-c2 {
+  background: rgba(91, 192, 222, 0.2);
+  color: #333 !important;
+  font-weight: normal; }
+
+.label-c3 {
+  background: rgba(240, 173, 78, 0.2);
+  color: #333 !important;
+  font-weight: normal; }
 
 /*# sourceMappingURL=app.css.map */

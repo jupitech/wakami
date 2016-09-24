@@ -251,6 +251,10 @@ class VentasCentralController extends Controller
 
         }
 
+        //Enviando factura electronica
+        
+
+
         //Buscando productos en ventas agregados
          $productoventas=ProductoVenta::where('id_ventas',$idventas)->get();
           foreach ($productoventas as $productoventa) {

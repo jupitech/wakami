@@ -59,7 +59,7 @@
            				<div class="ima_mescri ico_bodegas"></div>
            				<h1>Bodegas</h1>
            				<ul>
-           					<li><a href="">Consignación</a></li>
+           					<li><a href="{{ URL::to('/consignacion') }}">Consignación</a></li>
            					<li><a href="">Movimiento entre bodegas</a></li>
            				</ul>
            			</div>

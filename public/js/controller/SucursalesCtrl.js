@@ -142,9 +142,24 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
 
       $scope.editarSucursal = function(){
                 var data = {
+                  codigo_esta: $scope.existeSucu.codigo_esta,
                   nombre: $scope.existeSucu.nombre,
                   ubicacion: $scope.existeSucu.ubicacion,
+                  codigo_sat: $scope.existeSucu.codigo_sat,
                   serie: $scope.existeSucu.serie,
+                  resolucion: $scope.existeSucu.resolucion,
+                  fresolucion: $scope.existeSucu.fresolucion, 
+
+                  codigo_satnce: $scope.existeSucu.codigo_satnce,
+                  serie_nce: $scope.existeSucu.serie_nce,
+                  resolucion_nce: $scope.existeSucu.resolucion_nce,
+                  fresolucion_nce: $scope.existeSucu.fresolucion_nce, 
+
+                  codigo_satnde: $scope.existeSucu.codigo_satnde,
+                  serie_nde: $scope.existeSucu.serie_nde,
+                  resolucion_nde: $scope.existeSucu.resolucion_nde,
+                  fresolucion_nde: $scope.existeSucu.fresolucion_nde, 
+
                   id_user: $scope.existeSucu.id_user,
                   id_user2: $scope.existeSucu.id_user2
                 };

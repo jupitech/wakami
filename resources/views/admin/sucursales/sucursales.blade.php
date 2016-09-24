@@ -19,13 +19,19 @@
                       <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Sucursal existente!</strong> Intenta de nuevo con otro nombre de sucursal.</div>
                         <form class="form-horizontal" name="frm" role="form" ng-submit="guardarSucursal()" >
                                 <div class="form-group">
-                                    <div class="col-md-12">
+                                    <div class="col-sm-4">
+                                        <label for="codigo_esta">Cod.Establecimiento</label>
+                                         <input id="codigo_esta" type="number" class="form-control" name="codigo_esta" ng-model="sucursal.codigo_esta" placeholder="1 a ?" required>
+                                         <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.codigo_esta.$dirty && frm.codigo_esta.$error.required">Campo requerido</div>
+                                         </div>
+                                    </div>
+                                    <div class="col-sm-8">
                                         <label for="nombre">Nombre</label>
                                          <input id="nombre" type="text" class="form-control" name="nombre" ng-model="sucursal.nombre" placeholder="Nombre de la sucursal" required>
                                          <div class="col-sm-12 spd spi">
                                             <div class="alert alert-danger" ng-show="frm.nombre.$dirty && frm.nombre.$error.required">Campo requerido</div>
                                          </div>
-                                        
                                     </div>
                                </div>
                                <div class="form-group">
@@ -38,17 +44,111 @@
                                   </div>
                                   
                                </div>
-                                <div class="form-group">
-                                  <div class="col-md-12">
-                                       <label for="serie">Serie</label>
-                                       <input id="serie" type="text" class="form-control" name="serie" ng-model="sucursal.serie" placeholder="Serie de factura" required>
-                                        <div class="col-sm-12 spd spi">
-                                            <div class="alert alert-danger" ng-show="frm.serie.$dirty && frm.serie.$error.required">Campo requerido</div>
-                                         </div>
-                                  </div>
-                                  
+                                <div class="form-group dcontrol">
+                                        <div class="col-sm-12">
+                                          <h5>Información de Factura</h5>
+                                        </div>
+                                        <div class="col-sm-4">
+                                               <label for="codigo_sat">Código Sat</label>
+                                               <input id="codigo_sat" type="number" class="form-control" name="codigo_sat" ng-model="sucursal.codigo_sat"  required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.codigo_sat.$dirty && frm.codigo_sat.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                                <label for="serie">Serie</label>
+                                               <input id="serie" type="text" class="form-control" name="serie" ng-model="sucursal.serie" placeholder="Serie de factura" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.serie.$dirty && frm.serie.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="resolucion">No.Resolución</label>
+                                               <input id="resolucion" type="text" class="form-control" name="resolucion" ng-model="sucursal.resolucion" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.resolucion.$dirty && frm.resolucion.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="fresolucion">Fecha de Resolución</label>
+                                               <input id="fresolucion" type="text" class="form-control" name="fresolucion" ng-model="sucursal.fresolucion" placeholder="DD/MM/YYYY" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.fresolucion.$dirty && frm.fresolucion.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
                                </div>
+                               <div class="form-group dcontrol">
+                                        <div class="col-sm-12">
+                                          <h5>Información de Nota de Crédito</h5>
+                                        </div>
+                                        <div class="col-sm-4">
+                                               <label for="codigo_satnce">Código Sat NCE</label>
+                                               <input id="codigo_satnce" type="number" class="form-control" name="codigo_satnce" ng-model="sucursal.codigo_satnce"  required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.codigo_satnce.$dirty && frm.codigo_satnce.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                                <label for="serie_nce">Serie NCE</label>
+                                               <input id="serie_nce" type="text" class="form-control" name="serie_nce" ng-model="sucursal.serie_nce" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.serie_nce.$dirty && frm.serie_nce.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="resolucion_nce">No.Resolución NCE</label>
+                                               <input id="resolucion_nce" type="text" class="form-control" name="resolucion_nce" ng-model="sucursal.resolucion_nce" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.resolucion_nce.$dirty && frm.resolucion_nce.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="fresolucion_nce">Fecha de Resolución</label>
+                                               <input id="fresolucion_nce" type="text" class="form-control" name="fresolucion_nce" ng-model="sucursal.fresolucion_nce" placeholder="DD/MM/YYYY" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.fresolucion_nce.$dirty && frm.fresolucion_nce.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                               </div>
+                               {{-- Nota de debito --}}
+                               <div class="form-group dcontrol">
+                                        <div class="col-sm-12">
+                                          <h5>Información de Nota de Débito</h5>
+                                        </div>
+                                        <div class="col-sm-4">
+                                               <label for="codigo_satnde">Código Sat NDE</label>
+                                               <input id="codigo_satnde" type="number" class="form-control" name="codigo_satnde" ng-model="sucursal.codigo_satnde"  required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.codigo_satnde.$dirty && frm.codigo_satnde.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                                <label for="serie_nde">Serie NDE</label>
+                                               <input id="serie_nde" type="text" class="form-control" name="serie_nde" ng-model="sucursal.serie_nde" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.serie_nde.$dirty && frm.serie_nde.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="resolucion_nde">No.Resolución NDE</label>
+                                               <input id="resolucion_nde" type="text" class="form-control" name="resolucion_nde" ng-model="sucursal.resolucion_nde" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.resolucion_nde.$dirty && frm.resolucion_nde.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="fresolucion_nde">Fecha de Resolución</label>
+                                               <input id="fresolucion_nde" type="text" class="form-control" name="fresolucion_nde" ng-model="sucursal.fresolucion_nde" placeholder="DD/MM/YYYY" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.fresolucion_nde.$dirty && frm.fresolucion_nde.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                               </div>
+
                                <div class="form-group">
+                                         <div class="col-sm-12">
+                                          <h5>Usuarios</h5>
+                                        </div>
                                   <div class="col-md-12">
                                        <label for="rol">Usuario asignado principal</label>
                                        <ol class="nya-bs-select" ng-model="sucursal.id_user" title="Selecciona un usuario..." required>
@@ -110,7 +210,14 @@
                       <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Sucursal existente!</strong> Intenta de nuevo con nombre</div>
                         <form class="form-horizontal" name="frmed" role="form" ng-submit="editarSucursal()" >
                                 <div class="form-group">
-                                    <div class="col-md-12">
+                                  <div class="col-sm-4">
+                                        <label for="codigo_esta">Cod.Establecimiento</label>
+                                         <input id="codigo_esta" type="number" class="form-control" name="codigo_esta" ng-model="existeSucu.codigo_esta" placeholder="1 a ?" required>
+                                         <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.codigo_esta.$dirty && frm.codigo_esta.$error.required">Campo requerido</div>
+                                         </div>
+                                    </div>
+                                    <div class="col-md-8">
                                         <label for="nombre">Nombre</label>
                                          <input id="nombre" type="text" class="form-control" name="nombre" ng-model="existeSucu.nombre" placeholder="Nombre de la sucursal" required>
                                          <div class="col-sm-12 spd spi">
@@ -129,16 +236,108 @@
                                   </div>
                                   
                                </div>
-                                <div class="form-group">
-                                  <div class="col-md-12">
-                                       <label for="serie">Serie</label>
-                                       <input id="serie" type="text" class="form-control" name="serie" ng-model="existeSucu.serie" placeholder="Serie de factura" required>
-                                        <div class="col-sm-12 spd spi">
-                                            <div class="alert alert-danger" ng-show="frm.serie.$dirty && frm.serie.$error.required">Campo requerido</div>
-                                         </div>
-                                  </div>
-                                  
+                               {{-- Factura --}}
+                                <div class="form-group dcontrol">
+                                        <div class="col-sm-12">
+                                          <h5>Información de Factura</h5>
+                                        </div>
+                                        <div class="col-sm-4">
+                                               <label for="codigo_sat">Código Sat</label>
+                                               <input id="codigo_sat" type="number" class="form-control" name="codigo_sat" ng-model="existeSucu.codigo_sat"  required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.codigo_sat.$dirty && frm.codigo_sat.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                                <label for="serie">Serie</label>
+                                               <input id="serie" type="text" class="form-control" name="serie" ng-model="existeSucu.serie" placeholder="Serie de factura" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.serie.$dirty && frm.serie.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="resolucion">No.Resolución</label>
+                                               <input id="resolucion" type="text" class="form-control" name="resolucion" ng-model="existeSucu.resolucion" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.resolucion.$dirty && frm.resolucion.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="fresolucion">Fecha de Resolución</label>
+                                               <input id="fresolucion" type="text" class="form-control" name="fresolucion" ng-model="existeSucu.fresolucion" placeholder="DD/MM/YYYY" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.fresolucion.$dirty && frm.fresolucion.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
                                </div>
+                               <div class="form-group dcontrol">
+                                        <div class="col-sm-12">
+                                          <h5>Información de Nota de Crédito</h5>
+                                        </div>
+                                        <div class="col-sm-4">
+                                               <label for="codigo_satnce">Código Sat NCE</label>
+                                               <input id="codigo_satnce" type="number" class="form-control" name="codigo_satnce" ng-model="existeSucu.codigo_satnce"  required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.codigo_satnce.$dirty && frm.codigo_satnce.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                                <label for="serie_nce">Serie NCE</label>
+                                               <input id="serie_nce" type="text" class="form-control" name="serie_nce" ng-model="existeSucu.serie_nce" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.serie_nce.$dirty && frm.serie_nce.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="resolucion_nce">No.Resolución NCE</label>
+                                               <input id="resolucion_nce" type="text" class="form-control" name="resolucion_nce" ng-model="existeSucu.resolucion_nce" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.resolucion_nce.$dirty && frm.resolucion_nce.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="fresolucion_nce">Fecha de Resolución</label>
+                                               <input id="fresolucion_nce" type="text" class="form-control" name="fresolucion_nce" ng-model="existeSucu.fresolucion_nce" placeholder="DD/MM/YYYY" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.fresolucion_nce.$dirty && frm.fresolucion_nce.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                               </div>
+                               {{-- Nota de debito --}}
+                               <div class="form-group dcontrol">
+                                        <div class="col-sm-12">
+                                          <h5>Información de Nota de Débito</h5>
+                                        </div>
+                                        <div class="col-sm-4">
+                                               <label for="codigo_satnde">Código Sat NDE</label>
+                                               <input id="codigo_satnde" type="number" class="form-control" name="codigo_satnde" ng-model="existeSucu.codigo_satnde"  required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.codigo_satnde.$dirty && frm.codigo_satnde.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                                <label for="serie_nde">Serie NDE</label>
+                                               <input id="serie_nde" type="text" class="form-control" name="serie_nde" ng-model="existeSucu.serie_nde" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.serie_nde.$dirty && frm.serie_nde.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="resolucion_nde">No.Resolución NDE</label>
+                                               <input id="resolucion_nde" type="text" class="form-control" name="resolucion_nde" ng-model="existeSucu.resolucion_nde" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.resolucion_nde.$dirty && frm.resolucion_nde.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                               <label for="fresolucion_nde">Fecha de Resolución</label>
+                                               <input id="fresolucion_nde" type="text" class="form-control" name="fresolucion_nde" ng-model="existeSucu.fresolucion_nde" placeholder="DD/MM/YYYY" required>
+                                                <div class="col-sm-12 spd spi">
+                                                    <div class="alert alert-danger" ng-show="frm.fresolucion_nde.$dirty && frm.fresolucion_nde.$error.required">Campo requerido</div>
+                                                 </div>
+                                        </div>
+                               </div>
+
                                <div class="form-group">
                                   <div class="col-md-12">
                                        <label for="rol">Usuario asignado principal</label>
@@ -200,17 +399,42 @@
                     </div>
                      <div class="conte_nuevo">
                      	<div class="col-sm-12">
-                          <div class="col-sm-6 spi">
-                              <h3>Ubicación</h3>
+                          <div class="col-sm-3 ">
+                              <h3>Sucursal</h3>
                               <h2> @{{exisSucursal.nombre}}</h2>
                           </div>
-                          <div class="col-sm-6 spd">
+                          <div class="col-sm-3">
                               <h3>Usuario Asignado</h3>
                               <h2> @{{exisSucursal.perfil_usuario.nombre}} @{{exisSucursal.perfil_usuario.apellido}}</h2>
                           </div>
-                           <div class="col-sm-6 spd">
-                              <h3>Serie de factura</h3>
-                              <h2>@{{exisSucursal.serie}}</h2>
+                           <div class="col-sm-3">
+                              <h3>Usuario Secundario</h3>
+                              <h2> @{{exisSucursal.perfil_usuario.nombre}} @{{exisSucursal.perfil_usuario.apellido}}</h2>
+                          </div>
+                          <div class="col-sm-3">
+                              <h3>Dirección</h3>
+                              <h2> @{{exisSucursal.ubicacion}}</h2>
+                          </div>
+                           <div class="col-sm-4 sep">
+                              <h3>Información de factura</h3>
+                              <h2><strong>Serie: </strong>@{{exisSucursal.serie}}</h2>
+                              <h2><strong>Resolución: </strong>@{{exisSucursal.resolucion}}</h2>
+                              <h2><strong>Código SAT: </strong>@{{exisSucursal.codigo_sat}}</h2>
+                              <h2><strong>Fecha de Resolución: </strong>@{{exisSucursal.fresolucion}}</h2>
+                          </div>
+                           <div class="col-sm-4 sep">
+                              <h3>Información de Nota de Crédito</h3>
+                              <h2><strong>Serie: </strong>@{{exisSucursal.serie_nce}}</h2>
+                              <h2><strong>Resolución: </strong>@{{exisSucursal.resolucion_nce}}</h2>
+                              <h2><strong>Código SAT: </strong>@{{exisSucursal.codigo_satnce}}</h2>
+                              <h2><strong>Fecha de Resolución: </strong>@{{exisSucursal.fresolucion_nce}}</h2>
+                          </div>
+                            <div class="col-sm-4 sep">
+                              <h3>Información de Nota de Débito</h3>
+                              <h2><strong>Serie: </strong>@{{exisSucursal.serie_nde}}</h2>
+                              <h2><strong>Resolución: </strong>@{{exisSucursal.resolucion_nde}}</h2>
+                              <h2><strong>Código SAT: </strong>@{{exisSucursal.codigo_satnde}}</h2>
+                              <h2><strong>Fecha de Resolución: </strong>@{{exisSucursal.fresolucion_nde}}</h2>
                           </div>
                       </div>
                       
@@ -554,17 +778,21 @@
 			 <div class="caja_contenido">
 			 		 <table class="table">
 			 		  <thead>
-	                       <th>Nombre</th>
-                         <th>Serie</th>
+	                       <th>Cod.</th>
+                         <th>Nombre</th>
+                         <th>Series</th>
+                         <th>Resolución</th>
 	                       <th>Ubicación</th>
 	                       <th>Usuario</th>
                          <th>Usuario 2</th>
 	                       <th>Opciones</th>
 	                   </thead>
 	                   <tbody>
-	                   		<tr ng-repeat="sucursal in sucursales">
+	                   		<tr ng-repeat="sucursal in sucursales | orderBy: 'codigo_esta'">
+                        <td ng-click="abrirsucursal(sucursal)">@{{sucursal.codigo_esta}}</td>
 	                   		<td ng-click="abrirsucursal(sucursal)">@{{sucursal.nombre}}</td>
-                        <td ng-click="abrirsucursal(sucursal)">@{{sucursal.serie}}</td>
+                        <td ng-click="abrirsucursal(sucursal)"><span class="label label-c1">@{{sucursal.serie}}</span> <span class="label label-c2">@{{sucursal.serie_nce}}</span> <span class="label label-c3">@{{sucursal.serie_nde}}</span></td>
+                         <td ng-click="abrirsucursal(sucursal)"><span class="label label-c1">@{{sucursal.resolucion}}</span> <span class="label label-c2">@{{sucursal.resolucion_nce}}</span> <span class="label label-c3">@{{sucursal.resolucion_nde}}</span></td>
 	                   		<td ng-click="abrirsucursal(sucursal)">@{{sucursal.ubicacion}}</td>
 	                   		<td ng-click="abrirsucursal(sucursal)">@{{sucursal.perfil_usuario.nombre}} @{{sucursal.perfil_usuario.apellido}}</td>
                         <td ng-click="abrirsucursal(sucursal)">@{{sucursal.perfil_usuario2.nombre}} @{{sucursal.perfil_usuario2.apellido}}</td>
@@ -572,7 +800,7 @@
 	                   			<div class="area_opciones">
 	                                 <ul>
 	                                     <li><a href="" class="ico_editar" ng-click="btn_editar(sucursal)"></a></li>
-	                                     <li class="op_drop"  uib-dropdown>
+	                                     <li class="op_drop"  uib-dropdown ng-if="sucursal.codigo_esta!=1">
 	                                           <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
 	                                           <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
 	                                               <div class="col-sm-8 spd">

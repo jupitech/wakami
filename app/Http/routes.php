@@ -69,6 +69,9 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 	   	   //Gastos
 	   Route::get('/gastos', 'GastosController@index');
 
+	    //Consignacion
+	   Route::get('/consignacion', 'ConsignacionController@index');
+
 
 		Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
 		Route::post('/producto/imagen/create',['as' => 'producto.imagen.create', 'uses' =>  'ProductosController@storeimagen']);
@@ -153,6 +156,16 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::delete('/descuento/destroy/{id}','VentasCentralController@destroydes');
 			Route::put('/proventa/{id}', 'VentasCentralController@updatepro');
 			Route::delete('/venta/destroy/{id}','VentasCentralController@destroy');
+
+
+			//Consignaciones
+            Route::get('/consignaciones', 'ConsignacionController@indexconsignacion');
+            Route::get('/proconsignacion/{id}', 'ConsignacionController@indexproconsignacion');
+            Route::get('/consignacion/stockproducto/{id}', 'ConsignacionController@stockproducto');
+			Route::post('/consignacion/create', 'ConsignacionController@store');
+			Route::delete('/consignacion/destroy/{id}','ConsignacionController@destroy');
+
+
 		});
 });
 
