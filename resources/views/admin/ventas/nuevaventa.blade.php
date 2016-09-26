@@ -379,14 +379,14 @@
                               <h3>Wakami Guatemala S.A.</h3>
                               <h4>12 av. 14-68 Zona 10, Guatemala</h4>
                                   {{-- Información de cliente --}}
-                               <div class="info_finalusuario" ng-if="acti_areapro" ng-repeat="mi in miventa">
+                               <div class="info_finalusuario" ng-if="acti_areapro">
                                   <div class="col-sm-12">
-                                      <p>Nombre:@{{mi.info_clientes.empresa }}</p>
-                                       <p>NIT: @{{mi.info_clientes.nit}}</p>
+                                      <p>Nombre:@{{miventa.info_clientes.empresa }}</p>
+                                       <p>NIT: @{{miventa.info_clientes.nit}}</p>
                                   </div>
                                   <div class="col-sm-12">
-                                      <p>Dirección: @{{mi.info_clientes.direccion}}</p>
-                                       <p>Teléfono: @{{mi.info_clientes.telefono}}</p>
+                                      <p>Dirección: @{{miventa.info_clientes.direccion}}</p>
+                                       <p>Teléfono: @{{miventa.info_clientes.telefono}}</p>
                                   </div>
                              </div>
                                   {{-- Información de productos --}}
@@ -410,7 +410,7 @@
                               </div>
                               <div class="info_finaltotal">
                                    <div class="eltotal">
-                                     <p ng-repeat="mi in miventa">Total <strong>Q@{{mi.total | number:2}}</strong></p>
+                                     <p>Total <strong>Q@{{miventa.total | number:2}}</strong></p>
                                    </div>
                               </div>
                               <div class="col-sm-12 spd spi">

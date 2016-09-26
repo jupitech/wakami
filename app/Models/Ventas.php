@@ -19,7 +19,7 @@ class Ventas extends Model
      *
      * @var array
      */
-    protected $fillable = ['serie_factura','correlativo','id_cliente','total','fecha_factura','id_sucursal','id_user','id_porcliente','estado_ventas'];
+    protected $fillable = ['serie_factura','correlativo','id_cliente','total','fecha_factura','id_sucursal','id_user','id_porcliente','estado_ventas','dte','cae'];
 
     /**
      * The attributes excluded from the model's JSON form.

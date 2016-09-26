@@ -15,7 +15,10 @@
         "maatwebsite/excel": "~2.1.0",
         "laravelcollective/bus": "^5.2",
         "guzzlehttp/guzzle": "^6.2",
-        "snowfire/beautymail": "dev-master"
+        "snowfire/beautymail": "dev-master",
+        "artisaninweb/laravel-soap": "0.2.*",
+        "besimple/soap-client": "^0.2.6",
+        "czim/laravel-service": "^0.9.28"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

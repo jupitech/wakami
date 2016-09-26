@@ -33,7 +33,7 @@
                     <div class="col-sm-6">
                        <div class="info_cliente">
                            <h2>Datos de factura</h2>
-                           <p><strong>No.Factura: </strong>@{{exisVenta.correlativo}} </p>
+                           <p><strong>No.Factura: </strong>@{{exisVenta.dte}} </p>
                             <p><strong>Sucursal: </strong>@{{exisVenta.nombre_sucursal.nombre}}</p>
                            <p  ng-switch="exisVenta.pago_venta.tipo_pago"><strong>Tipo de pago: </strong>
                                <span ng-switch-when="1">Efectivo</span>
@@ -121,7 +121,7 @@
 	               <tbody>
 	                   <tr ng-repeat="venta in ventas | filter: query | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1,'trc_ver':venta.estado_ventas==3}">
 	                     <td class="td_first"></td>
-                         <td></td>
+                         <td>@{{venta.dte}}</td>
 
                          <td class="tot_venta" ng-click="abrirventa(venta)">@{{venta.total | currency: 'Q'}}</td>
                           <td ng-click="abrirventa(venta)" ng-switch="venta.pago_venta.tipo_pago">

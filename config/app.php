@@ -166,6 +166,7 @@ return [
         Collective\Bus\BusServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Snowfire\Beautymail\BeautymailServiceProvider::class,
+        Artisaninweb\SoapWrapper\ServiceProvider::class,
     ],
 
     /*
@@ -215,6 +216,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'SoapWrapper' => Artisaninweb\SoapWrapper\Facades\SoapWrapper::class,
+        'SoapClient' => SoapClient::class,
     ],
 
 ];
