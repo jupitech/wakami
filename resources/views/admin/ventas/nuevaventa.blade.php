@@ -209,7 +209,7 @@
                                                   <div class="form-group">
                                                      <div class="col-sm-10 col-md-10 col-lg-11 topinput">
                                                              <ol class="nya-bs-select" ng-model="proventa.id_producto" data-live-search="true"  title="Selecciona un producto..." required data-size="10">
-                                                                  <li nya-bs-option="producto in productos" data-value="producto.id" ng-if="producto.stock_producto.stock>1">
+                                                                  <li nya-bs-option="producto in productos" data-value="producto.id">
                                                                     <a>
                                                                      <span>
                                                                       <small class="label label-success">@{{ producto.codigo }}</small>

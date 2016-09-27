@@ -386,7 +386,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
 
 
        //Productos
-          $http.get('/api/productos').success(
+          $http.get('/api/productosas').success(
 
               function(productos) {
                         $scope.productos = productos.datos;
@@ -746,6 +746,8 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
         {id:'1',pago:'Efectivo'},
         {id:'2',pago:'POS/Tarjeta'},
   ];
+
+  
 
      //Todos los clientes
       $http.get('/api/clientes').success(

@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|vendedor']], functio
 		//Productos
 
 		Route::get('/productos', 'ProductosController@indexproductos');
+		Route::get('/productosas', 'ProductosController@productosconstock');
 
 	});	
 

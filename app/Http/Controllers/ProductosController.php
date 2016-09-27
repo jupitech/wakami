@@ -37,6 +37,17 @@ class ProductosController extends Controller
          return response()->json(['datos' =>  $productos],200);
     }
 
+
+    public function productosconstock()
+    {
+           //Trayendo Producto
+         $productos=Producto::with("NombreLinea","NombreImagen","StockProducto")->whereHas('StockProducto',function ($query) {$query->where('stock','>',0);})->get();
+         if(!$productos){
+             return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $productos],200);
+    }
+
       public function indexlineas()
     {
            //Trayendo Lineas
