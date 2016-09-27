@@ -1,5 +1,5 @@
 /*AngularJS*/
-var wApp= angular.module('wApp', ['ngRoute', 'ngCookies','ngAnimate','ngResource', 'ngSanitize','ui.bootstrap','angularMoment','nya.bootstrap.select','angularLazyImg']);
+var wApp= angular.module('wApp', ['ngRoute', 'ngCookies','ngAnimate','ngResource', 'ngSanitize','ui.bootstrap','angularMoment','nya.bootstrap.select','angularLazyImg','ngPrint']);
 
 wApp.config(['lazyImgConfigProvider', function(lazyImgConfigProvider){
     var scrollable = document.querySelector('#scrollable');

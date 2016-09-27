@@ -121,7 +121,7 @@
 	               <tbody>
 	                   <tr ng-repeat="venta in ventas | filter: query | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1,'trc_ver':venta.estado_ventas==3}">
 	                     <td class="td_first"></td>
-                         <td>@{{venta.dte}}</td>
+                         <td ng-click="abrirventa(venta)"><small>@{{venta.dte}}</small></td>
 
                          <td class="tot_venta" ng-click="abrirventa(venta)">@{{venta.total | currency: 'Q'}}</td>
                           <td ng-click="abrirventa(venta)" ng-switch="venta.pago_venta.tipo_pago">

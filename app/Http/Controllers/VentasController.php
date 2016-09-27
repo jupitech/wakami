@@ -12,10 +12,14 @@ use App\Models\TfacVenta;
 use App\Models\StockProducto;
 use App\Models\StockSucursal;
 use App\Models\Clientes;
+use App\Models\Sucursales;
 use App\Models\Producto;
+use App\Models\DescuentosVentas;
 use App\User;
 use Auth;
 use Carbon\Carbon;
+use Artisaninweb\SoapWrapper\Facades\SoapWrapper;
+use SoapClient;
 
 
 class VentasController extends Controller
@@ -43,7 +47,7 @@ class VentasController extends Controller
     public function indexmiventa($id)
     {
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","PerfilUsuario")->where('id',$id)->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","PerfilUsuario")->where('id',$id)->first();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
@@ -70,6 +74,18 @@ class VentasController extends Controller
         }
          return response()->json(['datos' =>  $productos],200);
     }
+
+
+      public function indexmisucursal($id)
+    {
+           //Trayendo Producto
+         $sucursales=Sucursales::where('id',$id)->first();
+         if(!$sucursales){
+             return response()->json(['mensaje' =>  'No se encuentran sucursales actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $sucursales],200);
+    }
+
 
        public function stockproducto($sucursal,$id)
     {
@@ -177,54 +193,274 @@ class VentasController extends Controller
     }
 
 
-      public function storefac(Request $request)
-    {
+  public function storefac(Request $request)
+{
         $idventas =$request['id_ventas'];
         $tipopago =$request['id_tpago'];      
         $tipofac =$request['id_tfac'];  
         $referencia =$request['referencia'];  
+
+        $ahora=Carbon::now();
 
         if($referencia=''){
             $mirefe='';
         } else{
              $mirefe=$referencia;
         } 
-        
-              $pagoventa=TpagoVenta::create([
-                  'id_ventas' => $idventas,
-                  'tipo_pago' => $tipopago,
-                  'referencia' => $mirefe,
-                        ]);
-             $pagoventa->save();
 
         $ventas=Ventas::find( $idventas );
-        $ventas->fill([
-                'fecha_factura' => Carbon::now(),
-                'estado_ventas' => 2,
-            ]);
-        $ventas->save();
-
-        $idsucursal=$ventas->id_sucursal;
 
         //Buscando productos en ventas agregados
-         $productoventas=ProductoVenta::where('id_ventas',$idventas)->get();
-          foreach ($productoventas as $productoventa) {
-            //Reduciendo stock desde los productos vendidos
-               $stocksucursal=StockSucursal::where('id_sucursal',$idsucursal)->where('id_producto',$productoventa->id_producto)->first();
+        $productoventas=ProductoVenta::where('id_ventas',$idventas)->get();
 
-                  if(!is_null($stocksucursal) ){
-                    $stockactual=$stocksucursal->stock;
-                    $restastock=$stockactual-$productoventa->cantidad;
-                      $stocksucursal->fill([
-                                        'stock' =>  $restastock,
+        $ventas->fill([
+          'fecha_factura' => $ahora,
+          'estado_ventas' => 2,
+           ]);
+        $ventas->save();
+
+        
+         //Enviando factura electronica
+          $detalle=[];
+          $dte=[];
+            //Buscando información de la sucursal
+            $idsucursal=$ventas->id_sucursal;
+            $misucursal=Sucursales::where('id',$idsucursal)->first();
+            
+            //Buscando los productos y agregando a una variable array
+             foreach ($productoventas as $productoventa) {
+
+                  $codigoProducto=$productoventa->NombreProducto->codigo;
+                  $descripcionProducto=$productoventa->NombreProducto->nombre;
+                  $precioUni=$productoventa->NombreProducto->preciop;
+                  $montoBruto=round((($precioUni*$productoventa->cantidad)),2);
+
+                  $exisdescuento=$productoventa->Venta->DescuentosVentas;
+
+                    if($exisdescuento){
+               
+                      $porcentaje=$productoventa->Venta->DescuentosVentas->porcentaje;
+                      $descuentoUnitario=($precioUni*$porcentaje)/100;
+                      $precioUnitario=round(($precioUni-$descuentoUnitario),2);
+                      $montoDescuento=($montoBruto*$porcentaje)/100;
+                      $restamonto=round(($montoBruto-$montoDescuento),2);
+                      $importeNetoGravado=round(($restamonto),2);
+                      $detalleImpuestosIva=round(($restamonto*0.12),2);
+                      $importeTotalOperacion=round(($restamonto),2);
+                      $montoBr=round(($importeTotalOperacion-$detalleImpuestosIva),2);
+
+                    }else{
+                       $precioUnitario=round((($productoventa->NombreProducto->preciop)),2);
+                       $montoDescuento=0;
+                       $importeNetoGravado=round(($montoBruto),2);
+                       $detalleImpuestosIva= round(($montoBruto*0.12),2);
+                       $importeTotalOperacion=round(($montoBruto),2);
+                       $montoBr=round(($importeTotalOperacion-$detalleImpuestosIva),2);
+                    }
+
+                  $detalle[]=array(
+                       'cantidad'=> $productoventa->cantidad,
+                       'unidadMedida'=> 'UND',
+                       'codigoProducto'=>  $codigoProducto,
+                       'descripcionProducto'=> $descripcionProducto,
+                       'precioUnitario'=> "$precioUnitario",
+                       'montoBruto'=> "$montoBr",
+                       'montoDescuento'=> "$montoDescuento",
+                       'importeNetoGravado'=>  "$importeNetoGravado",
+                       'detalleImpuestosIva'=> "$detalleImpuestosIva",
+                       'importeExento'=> "0",
+                       'otrosImpuestos'=> "0",
+                       'importeOtrosImpuestos'=> "0",
+                       'importeTotalOperacion'=>"$importeTotalOperacion",
+                       'tipoProducto'=> 'B',
+                       'personalizado_01'=> 'N/A',
+                       'personalizado_02'=> 'N/A',
+                       'personalizado_03'=> 'N/A',
+                       'personalizado_04'=> 'N/A',
+                       'personalizado_05'=> 'N/A',
+                       'personalizado_06'=> 'N/A'
+                  );
+             }
+
+             $importeBruto= round((($ventas->total)/1.12),2);
+             $detalleImpuestosIvat=round((($ventas->total)*0.12),2);
+
+             $micliente=Clientes::where('id',$ventas->id_cliente)->first();
+             $exisempre=$micliente->empresa;
+             $existelefono=$micliente->telefono;
+             $exiscorreo=$micliente->email;
+
+             //Buscando CF en nit
+             $exisnit=$micliente->nit;
+             $nitcf='C/F';
+             $encuencf=stristr($exisnit,$nitcf);
+
+             if( $encuencf===true){
+                $nitComprador='C/F';
+                $nombreComercialComprador='Consumidor Final';
+             }else{
+                $nitComprador=str_replace("-", "", $exisnit);
+
+                 if($exisempre!=''){
+
+                    $nombreComercialComprador=$micliente->empresa;
+                 }else{
+                    $nombreComercialComprador=$micliente->nombre;
+                 }
+
+             }
+
+
+             if($existelefono!=''){
+                $telefonoComprador=$micliente->telefono;
+             }else{
+                $telefonoComprador='N/A';
+             }
+
+            if($exiscorreo!=''){
+                $correoComprador=$micliente->email;
+             }else{
+                $correoComprador='N/A';
+             }
+
+             //Formato fecha 
+            $fechafactura=Carbon::parse($ventas->fecha_factura);
+            $fanio=$fechafactura->year;
+            $fmes=$fechafactura->month;
+            $fdia=$fechafactura->day;
+
+            $createfecha=Carbon::create($fanio, $fmes, $fdia);
+
+            $fechaDocumento=$createfecha->toDateString();
+
+            $fechaResolucion='2016-09-21';
+
+             //Información de factura 
+             $dte=array(
+                  'usuario'=> 'FILUM',
+                  'clave'=> 'BA67C270504DA22D0BA7E817D8A9A3C9BFB34077A9B899D924170E3F8016B432',
+                  'validador'=> false,
+                  'dte'=> array(
+                          'codigoEstablecimiento'=> "$misucursal->codigo_esta",
+                          'idDispositivo'=>'001',
+                          'serieAutorizada'=>$misucursal->serie,
+                          'numeroResolucion'=>"$misucursal->resolucion",
+                          'fechaResolucion'=>$fechaResolucion,
+                          'tipoDocumento'=>'FACE',
+                          'serieDocumento'=>"$misucursal->codigo_sat",
+                          'estadoDocumento'=>'ACTIVO',
+                          'numeroDocumento'=>"$ventas->id",
+                          'fechaDocumento'=>$fechaDocumento,
+                          'codigoMoneda'=>'GTQ',
+                          'tipoCambio'=>'1',
+                          'nitComprador'=>$nitComprador,
+                          'nombreComercialComprador'=> $nombreComercialComprador, 
+                          'direccionComercialComprador'=>$micliente->direccion, 
+                          'telefonoComprador'=>$telefonoComprador,
+                          'correoComprador'=>$correoComprador,
+                          'regimen2989'=>false, 
+                          'departamentoComprador'=>'N/A', 
+                          'municipioComprador'=>'N/A',               
+                          'importeBruto'=>$importeBruto,
+                          'importeDescuento'=>0, 
+                          'importeTotalExento'=>0,
+                          'importeOtrosImpuestos'=>0,                               
+                          'importeNetoGravado'=>$ventas->total, 
+                          'detalleImpuestosIva'=>$detalleImpuestosIvat,
+                          'montoTotalOperacion'=>$ventas->total, 
+                          'descripcionOtroImpuesto'=>'N/A',
+                          'observaciones'=>'N/A',
+                          'nitVendedor'=>str_replace("-", "","8150406-3"),
+                          'departamentoVendedor'=>'GUATEMALA', 
+                          'municipioVendedor'=>'GUATEMALA',
+                          'direccionComercialVendedor'=>'12 av. 14-68 Zona 10', 
+                          'NombreComercialRazonSocialVendedor'=>'Filum Copropiedad', 
+                          'nombreCompletoVendedor'=>'Wakami',
+                          'regimenISR'=>'1',
+                          'personalizado_01'=>'N/A',
+                          'personalizado_02'=>'N/A',
+                          'personalizado_03'=>'N/A',
+                          'personalizado_04'=>'N/A',
+                          'personalizado_05'=>'N/A',
+                          'personalizado_06'=>'N/A',
+                          'personalizado_07'=>'N/A',
+                          'personalizado_08'=>'N/A',
+                          'personalizado_09'=>'N/A',
+                          'personalizado_10'=>'N/A',
+                          'personalizado_11'=>'N/A',
+                          'personalizado_12'=>'N/A',
+                          'personalizado_13'=>'N/A',
+                          'personalizado_14'=>'N/A',
+                          'personalizado_15'=>'N/A',
+                          'personalizado_16'=>'N/A',
+                          'personalizado_17'=>'N/A',
+                          'personalizado_18'=>'N/A',
+                          'personalizado_19'=>'N/A',
+                          'personalizado_20'=>'N/A',
+                                    
+                         'detalleDte'=>$detalle
+                  )
+             );
+
+
+
+  try{
+
+             $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
+
+             $resultado=$client->registrarDte(array("dte"=>$dte));
+
+                if($resultado->return->valido)
+                      {    
+
+                          //guardando tipo de pago
+                          $pagoventa=TpagoVenta::create([
+                              'id_ventas' => $idventas,
+                              'tipo_pago' => $tipopago,
+                              'referencia' => $mirefe,
                                     ]);
-                      $stocksucursal->save();
+                         $pagoventa->save();
 
-                  }
 
-          }
 
-    }
+                                 foreach ($productoventas as $productoventa) {
+                                      //Reduciendo stock desde los productos vendidos
+                                         $stocksucursal=StockSucursal::where('id_sucursal',$idsucursal)->where('id_producto',$productoventa->id_producto)->first();
+
+                                            if(!is_null($stocksucursal) ){
+                                              $stockactual=$stocksucursal->stock;
+                                              $restastock=$stockactual-$productoventa->cantidad;
+                                                $stocksucursal->fill([
+                                                                  'stock' =>  $restastock,
+                                                              ]);
+                                                $stocksucursal->save();
+
+                                            }
+
+                                    }
+
+                              //Recibiendo DTE y CAE para factura
+                              $midte=$resultado->return->numeroDte;
+                              $micae=$resultado->return->cae;
+                              
+                              $ventas->fill([
+                                              'dte' => $midte,
+                                              'cae' => $micae,
+                                          ]);
+                              $ventas->save();
+
+                             return response()->json(['DTE' => $midte,'CAE'=> $micae],200);                 
+ 
+            } else {
+                  return response()->json(['ERROR' =>  $resultado->return->descripcion],200); 
+            }
+
+     } catch (SoapFault $E) { 
+          $objResponse->addAlert($E->faultstring);
+      }
+      
+
+}
 
 
      public function storepro(Request $request)

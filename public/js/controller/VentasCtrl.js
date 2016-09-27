@@ -284,6 +284,8 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
 
 });
 //************************************Venta N**********************************************//
+
+
 wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $location,$window){
    $scope.status = {
     isopen: false
@@ -815,6 +817,15 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                  $scope.error = error;
             });
 
+               //Sucursal
+          $http.get('/api/mi/misucursal/'+ $scope.misucu).success(
+
+              function(misucursal) {
+                        $scope.misucursal = misucursal.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });    
+
       $scope.elstock=function(id){
             $scope.idpro=id;
                  $http.get('/api/mi/ventas/stockproducto/'+$scope.misucu+'/'+$scope.idpro).success(
@@ -983,7 +994,11 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
             };
             console.log(datafact);
 
-               $http.post('/api/mi/factura/create', datafact)
+            /*    console.log("Factura creada correctamente");
+                                 $scope.acti_venta=false;
+                                 $scope.termi_venta=true;*/
+
+              $http.post('/api/mi/factura/create', datafact)
                         .success(function (data, status, headers) {
                               console.log("Factura creada correctamente");
                                  $scope.acti_venta=false;

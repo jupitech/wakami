@@ -41,6 +41,6 @@ elixir(function(mix) {
         'moment-timezone.js',
         'angular-moment.min.js',
         'nya-bs-select.min.js',
-        'angular-lazy-img.js'
+        'angular-lazy-img.js',
     ], 'public/js/vendor.js');	
 });
