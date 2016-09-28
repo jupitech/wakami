@@ -314,7 +314,7 @@
                                 </div>
                                 <div class="box_opciones">
                                 <div class="col-sm-6 spd spi">
-                                  <p class="p_stock" ng-init="mistock(producto)"><strong>@{{producto.stock.stock}}</strong> uni</p>
+                                  <p class="p_stock"><strong>@{{producto.stock_producto.stock}}</strong> uni</p>
                                 </div>
                                 <div class="col-sm-6 spd spi">
                                       <div class="area_opciones">
