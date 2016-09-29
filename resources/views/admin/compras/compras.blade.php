@@ -462,7 +462,7 @@
                          <td class="td_opciones">
                              <div class="area_opciones">
                                  <ul>
-                                 <li ng-if="compra.estado_orden==2"><a href="/exports/ordenes/OrdenCompra-No@{{compra.id}}.xlsx" class="ico_excelazul"></a></li>
+                                 <li ng-if="compra.estado_orden==2 || compra.estado_orden==4 "><a href="/exports/ordenes/OrdenCompra-No@{{compra.id}}.xlsx" class="ico_excelazul"></a></li>
                                      <li><a href="" class="ico_editar" ng-click="btn_editar(compra)"></a></li>
                                      <li class="op_drop"  uib-dropdown>
                                            <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
