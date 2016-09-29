@@ -299,9 +299,9 @@
     <div class="col-sm-12" ng-if="(miusuario.sucursal_usuario.id || miusuario.sucursal_usuario2.id) && termi_venta">
     {{-- Venta Terminada --}}
               <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-                 <div class="caja_contenido top_conte">
+                 <div class="caja_contenido top_conte" >
                        <div id="areaimpresion" class="info_final">
-                            <table width="100%">
+                            <table width="100%" ng-if="acti_areapro">
                                     <tr><td><h3>FILUM COPROPIEDAD</h3></td></tr>
                                     <tr><td><h3>Wakami</h3></td></tr>
                                     <tr><td><h4>@{{misucursal.ubicacion}}</h4></td></tr>
