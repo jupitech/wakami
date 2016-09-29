@@ -342,7 +342,7 @@
                                    </div>
                                    <div class="footerimp">
                                       <span>Documento Tributario Electrónico Según Resolución SAT</span>
-                                      <span>201656870298776</span>
+                                      <span>@{{misucursal.resolucion}}</span>
                                       <span>De Fecha: 21-SEP-16 Serie: FOAK Del 1 Al 1000000 </span>
                                       <span>GFACE: INFILE,S.A. NIT: 1252133-7 </span>
                                       <h4>SUJETO A PAGOS TRIMESTRALES</h4>
