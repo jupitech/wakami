@@ -996,15 +996,27 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
             };
             console.log(datafact);
 
-            /*    console.log("Factura creada correctamente");
+             /*  console.log("Factura creada correctamente");
                                  $scope.acti_venta=false;
                                  $scope.termi_venta=true;*/
 
-              $http.post('/api/mi/factura/create', datafact)
+
+                                                
+
+             $http.post('/api/mi/factura/create', datafact)
                         .success(function (data, status, headers) {
                               console.log("Factura creada correctamente");
                                  $scope.acti_venta=false;
                                  $scope.termi_venta=true;
+
+                                   //Mi Venta
+                                  $http.get('/api/mi/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });  
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al enviar la factura");

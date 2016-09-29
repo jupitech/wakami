@@ -301,55 +301,46 @@
               <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
                  <div class="caja_contenido top_conte">
                        <div id="areaimpresion" class="info_final">
-                              <h3>FILUM COPROPIEDAD</h3>
-                              <h3>Wakami</h3>
-                              <h4>@{{misucursal.ubicacion}}</h4>
-                              <h4>TEL: 2336-7398</h4>
-                              <h4>NIT: 8150406-3</h4>
-                              <h4>Serie: FACE-@{{misucursal.serie}}</h4>
-                              <h4>Del 1 Al 1000000</h4>
-                              <h4>De Fecha: @{{misucursal.fresolucion}}</h4>
-                               <h4><strong>FACTURA ELECTRÓNICA</strong></h4>
-                               <h4><strong>@{{miventa.dte}}</strong></h4>
+                            <table width="100%">
+                                    <tr><td><h3>FILUM COPROPIEDAD</h3></td></tr>
+                                    <tr><td><h3>Wakami</h3></td></tr>
+                                    <tr><td><h4>@{{misucursal.ubicacion}}</h4></td></tr>
+                                    <tr><td><h4>TEL: 2336-7398</h4></td></tr>
+                                    <tr><td><h4>NIT: 8150406-3</h4></td></tr>
+                                    <tr><td><h4>Serie: FACE-@{{misucursal.serie}}</h4></td></tr>
+                                    <tr><td><h4>Del 1 Al 1000000</h4></td></tr>
+                                    <tr><td><h4>De Fecha: @{{misucursal.fresolucion}}</h4></td></tr>
+                                     <tr><td><h4><strong>FACTURA ELECTRÓNICA</strong></h4></td></tr>
+                                     <tr><td><h4><strong>@{{miventa.dte}}</strong></h4></td></tr>
+                               </table>
                                   {{-- Información de cliente --}}
-                               <div class="info_finalusuario" ng-if="acti_areapro">
-                                  <div class="col-sm-12">
-                                      <p>Fecha: @{{miventa.fecha_factura}}</p>
-                                      <p ng-if="miventa.info_clientes.empresa!=''">Nombre:@{{miventa.info_clientes.empresa }}</p>
-                                      <p ng-if="miventa.info_clientes.empresa==''">Nombre:@{{miventa.info_clientes.nombre }}</p>
-                                       <p>NIT: @{{miventa.info_clientes.nit}}</p>
-                                  </div>
-                                  <div class="col-sm-12">
-                                      <p>Dirección: @{{miventa.info_clientes.direccion}}</p>
-                                  </div>
+                            <div class="info_finalusuario" ng-if="acti_areapro">
+                                  <table>
+                                      <tr><td><p>Fecha: @{{miventa.fecha_factura}}</p>
+                                      <tr><td><p ng-if="miventa.info_clientes.empresa!=''">Nombre:@{{miventa.info_clientes.empresa }}</p></td></tr>
+                                     <tr><td> <p ng-if="miventa.info_clientes.empresa==''">Nombre:@{{miventa.info_clientes.nombre }}</p></td></tr>
+                                      <tr><td> <p>NIT: @{{miventa.info_clientes.nit}}</p></td></tr>
+                                      <tr><td> <p>Dirección: @{{miventa.info_clientes.direccion}}</p></td></tr>
+                                 </table>
                              </div>
                                   {{-- Información de productos --}}
                               <div class="info_finalproductos" ng-if="acti_areapro">
-                                    <table>
-                                      <thead>
-                                        <tr>
-                                          <th>Producto</th>
-                                          <th>Cant</th>
-                                          <th>Precio</th>
-                                          <th>Subtotal</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                       <tr ng-repeat="mipro in misproductos">
-                                            <td>@{{mipro.nombre_producto.nombre}}</td>
-                                            <td>@{{mipro.cantidad}}</td>
-                                            <td>Q@{{mipro.nombre_producto.preciop | number:2}}</td>
-                                            <td>Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</td>
-                                        </tr>     
-                                      </tbody>
-                                    </table>
+                              <div class="col-sm-12 spd spi">
+                                   <p class="ptit">Productos</p>
+                              </div>
+                              <div class="col-sm-12 spd spi">
+                                       <div class="col-sm-12 spd spi" ng-repeat="mipro in misproductos">
+                                            <p><strong>@{{mipro.nombre_producto.codigo}}</strong> @{{mipro.nombre_producto.nombre}}-Q@{{mipro.nombre_producto.preciop | number:2}} X  @{{mipro.cantidad}}- <strong>Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</strong></p>
+                                        </div>  
+                              </div>
+                                   
+                                 
                               </div>
                               <div class="info_finaltotal">
                                    <div class="eltotal">
                                      <p>Total <strong>Q@{{miventa.total | number:2}}</strong></p>
                                    </div>
                                    <div class="footerimp">
-                                      <p><strong>CAE:</strong> @{{miventa.cae}}</p>
                                       <span>Documento Tributario Electrónico Según Resolución SAT</span>
                                       <span>201656870298776</span>
                                       <span>De Fecha: 21-SEP-16 Serie: FOAK Del 1 Al 1000000 </span>
