@@ -55,7 +55,7 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
             });
 
      //Productos
-          $http.get('/api/productos').success(
+          $http.get('/api/productosas').success(
 
               function(productos) {
                         $scope.productos = productos.datos;
