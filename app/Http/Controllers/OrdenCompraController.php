@@ -171,9 +171,9 @@ class OrdenCompraController extends Controller
 
 
          //Se envia a Stock de Producto con Bodega Central
-          $stockproducto=StockProducto::find($idproducto);
+         $stockproducto=StockProducto::where('id_producto',$idproducto)->first();
 
-          if($stockproducto === null){
+          if(!$stockproducto){
 
                 $nuevoStock=StockProducto::create([
                           'id_producto' => $idproducto,
