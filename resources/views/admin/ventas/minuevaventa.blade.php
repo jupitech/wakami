@@ -305,7 +305,7 @@
                                     <tr><td><h3>FILUM COPROPIEDAD</h3></td></tr>
                                     <tr><td><h3>Wakami</h3></td></tr>
                                     <tr><td><h4>@{{misucursal.ubicacion}}</h4></td></tr>
-                                    <tr><td><h4>TEL: 2336-7398</h4></td></tr>
+                                    <tr><td><h4 ng-if="misucursal.id==2">TEL: 2336-7398</h4><h4 ng-if="misucursal.id==4">TEL: 2472-8610</h4></td></tr>
                                     <tr><td><h4>NIT: 8150406-3</h4></td></tr>
                                     <tr><td><h4>Serie: FACE-@{{misucursal.serie}}</h4></td></tr>
                                     <tr><td><h4>Del 1 Al 1000000</h4></td></tr>
