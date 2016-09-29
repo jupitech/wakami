@@ -119,11 +119,10 @@ class VentasController extends Controller
            return response()->json(['id_venta' => $ventas->id],200);
     }
 
-     public function storeclie(Request $request)
+     public function storeclie(Request $request,$id)
     {
       $user = Auth::User();     
       $userId = $user->id; 
-        
       $nit= $request['nit'];
       $celular= $request['celular'];
       $telefono= $request['telefono'];
@@ -184,7 +183,7 @@ class VentasController extends Controller
 
               $ventas=Ventas::create([
                   'id_cliente' => $clientes->id,
-                  'id_sucursal' => 3,
+                  'id_sucursal' => $id,
                   'id_user' => $userId,
                   'estado_ventas' => 1,
                         ]);

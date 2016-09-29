@@ -206,7 +206,7 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		//Ventas
 		Route::get('/ventas/{id}', 'VentasController@indexventas');
 		Route::post('/venta/create', 'VentasController@store');
-		Route::post('/ventacliente/create', 'VentasController@storeclie');
+		Route::post('/ventacliente/create/{id}', 'VentasController@storeclie');
 		Route::post('/ventaproducto/create', 'VentasController@storepro');
 		Route::post('/factura/create', 'VentasController@storefac');
 		Route::get('/miventa/{id}', 'VentasController@indexmiventa');

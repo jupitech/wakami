@@ -326,11 +326,11 @@ class VentasCentralController extends Controller
              $exiscorreo=$micliente->email;
 
              //Buscando CF en nit
-             $exisnit=$micliente->nit;
-             $nitcf='C/F';
-             $encuencf=stristr($exisnit,$nitcf);
+               $exisnit=$micliente->nit;
+             $nitcf='C';
+             $encuencf=substr($exisnit,0,1);
 
-             if( $encuencf===true){
+             if( $encuencf==$nitcf){
                 $nitComprador='C/F';
                 $nombreComercialComprador='Consumidor Final';
              }else{

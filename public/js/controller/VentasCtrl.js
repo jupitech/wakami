@@ -795,7 +795,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                         email: $scope.cliente.email
                     };
                     console.log(dataventa);
-                    $http.post('/api/mi/ventacliente/create', dataventa)
+                    $http.post('/api/mi/ventacliente/create/'+$scope.misucu, dataventa)
                         .success(function (data, status, headers) {
                              $scope.id_venta=data.id_venta;
                              $scope.agregarProductos($scope.id_venta);
