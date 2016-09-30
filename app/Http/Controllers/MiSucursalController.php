@@ -116,7 +116,7 @@ class MiSucursalController extends Controller
         
 
         //Stock de Producto de Bodega Central
-        $stockproducto=StockProducto::find($idproducto);  
+        $stockproducto=StockProducto::where('id_producto',$idproducto)->first();  
         $stockactual=$stockproducto->stock;
 
         //Restando stock de bodega central
