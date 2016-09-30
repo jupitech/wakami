@@ -1042,7 +1042,7 @@ class VentasCentralController extends Controller
                               
                         
 
-                                $notacredito=NotaCredito::create([
+                                $notacredito=NotaDebito::create([
                                     'id_ventas' =>$ventas->id,
                                      'dte' => $midte,
                                       'cae' => $micae,
