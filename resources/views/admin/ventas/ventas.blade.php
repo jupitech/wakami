@@ -101,6 +101,7 @@
 		        <li><span class="color_ncom"></span> <p>Venta no completada</p></li>
              <li><span class="color_encom"></span> <p>Venta al crédito</p></li>
 		        <li><span class="color_tercom"></span> <p>Venta facturada</p></li>
+            <li><span class="color_cancom"></span> <p>Facturas Canceladas</p></li>
 		      </ul>
     </div>
 	  <div class="caja_contenido">
@@ -119,7 +120,7 @@
 	                   <th>Opciones</th>
 	               </thead>
 	               <tbody>
-	                   <tr ng-repeat="venta in ventas | filter: query | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1,'trc_ver':venta.estado_ventas==3}">
+	                   <tr ng-repeat="venta in ventas | filter: query | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1,'trc_ver':venta.estado_ventas==3,'trc_fca':venta.estado_ventas==5}">
 	                     <td class="td_first"></td>
                          <td ng-click="abrirventa(venta)"><small>@{{venta.dte}}</small></td>
 
@@ -142,9 +143,20 @@
 
                           
 	                       <td>
-	                           <div class="area_opciones" ng-if="venta.estado_ventas==1">
+	                           <div class="area_opciones">
                                  <ul>
-                                     <li class="op_drop"  uib-dropdown>
+                                 <li class="ed_drop"  uib-dropdown  ng-if="venta.estado_ventas==2">
+                                           <a href="" class="ico_ncredito" id="simple-dropdown" uib-dropdown-toggle></a>
+                                           <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                               <div class="col-sm-8 spd">
+                                                 <p>Nota de Crédito <strong>@{{venta.dte}}</strong></p>
+                                               </div>
+                                               <div class="col-sm-4 spd spi">
+                                                 <a href="" ng-click="notacredito(venta.id)" class=" btn_g btn_ncreditog"></a>
+                                               </div>
+                                            </div>
+                                     </li>
+                                     <li class="op_drop"  uib-dropdown  ng-if="venta.estado_ventas==1">
                                            <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
                                            <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
                                                <div class="col-sm-8 spd">

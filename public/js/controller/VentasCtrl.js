@@ -280,7 +280,33 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
                                 });
 
 
-      };    
+      };  
+
+          $scope.notacredito = function(id) {
+          $scope.idventa=id;
+
+                   $http.post('/api/notacredito/'+$scope.idventa)
+                        .success(function (data, status, headers) {
+                              console.log("Factura creada correctamente");
+                              
+                                      //Todos las ventas
+                                          $http.get('/api/ventas').success(
+
+                                                  function(ventas) {
+                                                            $scope.ventas = ventas.datos;
+                                                }).error(function(error) {
+                                                     $scope.error = error;
+                                                });
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que hay error al enviar la factura");
+                            $timeout(function () { $scope.alertaExistePro = true; }, 100);
+                            $timeout(function () { $scope.alertaExistePro = false; }, 5000);
+                        });
+
+         };
+
+
 
 });
 //************************************Venta N**********************************************//

@@ -47,6 +47,8 @@ class MiProductoController extends Controller
         }
          return response()->json(['datos' =>  $lineas],200);
     }
+
+
     
 
 }

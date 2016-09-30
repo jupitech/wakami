@@ -149,6 +149,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::post('/ventacliente/create', 'VentasCentralController@storeclie');
 			Route::post('/ventaproducto/create', 'VentasCentralController@storepro');
 			Route::post('/factura/create', 'VentasCentralController@storefac');
+			Route::post('/notacredito/{id}', 'VentasCentralController@notacredito');
+			Route::post('/notadebito/{id}', 'VentasCentralController@notadebito');
 			Route::post('/ventades/create', 'VentasCentralController@storedes');
 			Route::get('/miventa/{id}', 'VentasCentralController@indexmiventa');
 			Route::get('/miproducto/{id}', 'VentasCentralController@indexmiproducto');
