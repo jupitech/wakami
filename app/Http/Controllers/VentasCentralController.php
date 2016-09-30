@@ -85,6 +85,17 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $descuentos],200);
     }
 
+    
+      public function indexmisucursal($id)
+    {
+           //Trayendo Producto
+         $sucursales=Sucursales::where('id',$id)->first();
+         if(!$sucursales){
+             return response()->json(['mensaje' =>  'No se encuentran sucursales actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $sucursales],200);
+    }
+
        public function stockproducto($id)
     {
            //Trayendo Productos de Sucursales
@@ -326,7 +337,7 @@ class VentasCentralController extends Controller
              $exiscorreo=$micliente->email;
 
              //Buscando CF en nit
-               $exisnit=$micliente->nit;
+             $exisnit=$micliente->nit;
              $nitcf='C';
              $encuencf=substr($exisnit,0,1);
 

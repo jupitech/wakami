@@ -374,56 +374,69 @@
     <div class="col-sm-12" ng-if="termi_venta">
     {{-- Venta Terminada --}}
               <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-                 <div class="caja_contenido top_conte">
-                       <div class="info_final">
-                              <h3>Wakami Guatemala S.A.</h3>
-                              <h4>12 av. 14-68 Zona 10, Guatemala</h4>
+                 <div class="caja_contenido top_conte" >
+                       <div id="areaimpresion" class="info_final">
+                            <table width="100%" ng-if="acti_areapro">
+                                    <tr><td><h3>FILUM COPROPIEDAD</h3></td></tr>
+                                    <tr><td><h3>Wakami</h3></td></tr>
+                                    <tr><td><h4>@{{misucursal.ubicacion}}</h4></td></tr>
+                                    <tr><td><h4 ng-if="misucursal.id==2">TEL: 2336-7398</h4><h4 ng-if="misucursal.id==4">TEL: 2472-8610</h4></td></tr>
+                                    <tr><td><h4>NIT: 8150406-3</h4></td></tr>
+                                    <tr><td><h4>Serie: FACE-@{{misucursal.serie}}</h4></td></tr>
+                                    <tr><td><h4>Del 1 Al 1000000</h4></td></tr>
+                                    <tr><td><h4>De Fecha: @{{misucursal.fresolucion}}</h4></td></tr>
+                                     <tr><td><h4><strong>FACTURA ELECTRÓNICA</strong></h4></td></tr>
+                                     <tr><td><h4><strong>@{{miventa.dte}}</strong></h4></td></tr>
+                               </table>
                                   {{-- Información de cliente --}}
-                               <div class="info_finalusuario" ng-if="acti_areapro">
-                                  <div class="col-sm-12">
-                                      <p>Nombre:@{{miventa.info_clientes.empresa }}</p>
-                                       <p>NIT: @{{miventa.info_clientes.nit}}</p>
-                                  </div>
-                                  <div class="col-sm-12">
-                                      <p>Dirección: @{{miventa.info_clientes.direccion}}</p>
-                                       <p>Teléfono: @{{miventa.info_clientes.telefono}}</p>
-                                  </div>
+                            <div class="info_finalusuario" ng-if="acti_areapro">
+                                  <table>
+                                      <tr><td><p>Fecha: @{{miventa.fecha_factura}}</p>
+                                      <tr><td><p ng-if="miventa.info_clientes.empresa!=''">Nombre:@{{miventa.info_clientes.empresa }}</p></td></tr>
+                                     <tr><td> <p ng-if="miventa.info_clientes.empresa==''">Nombre:@{{miventa.info_clientes.nombre }}</p></td></tr>
+                                      <tr><td> <p>NIT: @{{miventa.info_clientes.nit}}</p></td></tr>
+                                      <tr><td> <p>Dirección: @{{miventa.info_clientes.direccion}}</p></td></tr>
+                                 </table>
                              </div>
                                   {{-- Información de productos --}}
                               <div class="info_finalproductos" ng-if="acti_areapro">
-                                    <table>
-                                      <thead>
-                                        <tr>
-                                          <th>Cant.</th>
-                                          <th>Descripción</th>
-                                          <th>Subtotal</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                       <tr ng-repeat="mipro in misproductos">
-                                            <td>@{{mipro.cantidad}}</td>
-                                            <td>@{{mipro.nombre_producto.nombre}}</td>
-                                            <td>Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</td>
-                                        </tr>     
-                                      </tbody>
-                                    </table>
+                              <div class="col-sm-12 spd spi">
+                                   <p class="ptit">Productos</p>
+                              </div>
+                              <div class="col-sm-12 spd spi">
+                                       <div class="col-sm-12 spd spi" ng-repeat="mipro in misproductos">
+                                            <p><strong>@{{mipro.nombre_producto.codigo}}</strong> @{{mipro.nombre_producto.nombre}}-Q@{{mipro.nombre_producto.preciop | number:2}} X  @{{mipro.cantidad}}- <strong>Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</strong></p>
+                                        </div>  
+                              </div>
+                                   
+                                 
                               </div>
                               <div class="info_finaltotal">
                                    <div class="eltotal">
                                      <p>Total <strong>Q@{{miventa.total | number:2}}</strong></p>
                                    </div>
+                                   <div class="footerimp">
+                                      <span>Documento Tributario Electrónico Según Resolución SAT</span>
+                                      <span>@{{misucursal.resolucion}}</span>
+                                      <span>De Fecha: 21-SEP-16 Serie: FOAK Del 1 Al 1000000 </span>
+                                      <span>GFACE: INFILE,S.A. NIT: 1252133-7 </span>
+                                      <h4>SUJETO A PAGOS TRIMESTRALES</h4>
+                                      <h5>No se aceptan cambios ni devoluciones, exceptuando por defectos de producción 2 meses después de la compra presentando esta factura.</h5>
+                                   </div>
                               </div>
-                              <div class="col-sm-12 spd spi">
+                             
+                       </div>
+                        <div class="col-sm-12 spd spi">
                                 <div class="col-sm-6">
-                                    <a class="btn btn-primary btn_regis">IMPRIMIR</a>
+                                    <a class="btn btn-primary btn_regis" ng-print print-element-id="areaimpresion">IMPRIMIR</a>
                                 </div>
                                 <div class="col-sm-6">
                                   <a class="btn btn_cancelar" ng-click="iraventas()">IR A VENTAS</a>
                                 </div>
-                              </div>
-                       </div>
+                        </div>
                  </div>
               </div>
+
 
     </div>
 @endsection

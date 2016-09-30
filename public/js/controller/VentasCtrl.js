@@ -405,6 +405,15 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                 });
         };
 
+         //Sucursal
+          $http.get('/api/misucursal/'+ 3).success(
+
+              function(misucursal) {
+                        $scope.misucursal = misucursal.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });    
+
 
         //Nueva Venta
 
@@ -680,6 +689,23 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                $scope.acti_venta=false;
                                $scope.termi_venta=true;
                                //  $window.location.href = '/ventas';
+
+                                      //Mi Venta
+                                  $http.get('/api/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+                            //Mi Descuento
+                              $http.get('/api/midescuento/'+$scope.idventa).success(
+
+                                      function(mides) {
+                                                $scope.mides = mides.datos;
+                                    }).error(function(error) {
+                                         $scope.error = error;
+                                    });     
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al enviar la factura");

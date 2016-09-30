@@ -152,6 +152,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::get('/miventa/{id}', 'VentasCentralController@indexmiventa');
 			Route::get('/miproducto/{id}', 'VentasCentralController@indexmiproducto');
 			Route::get('/midescuento/{id}', 'VentasCentralController@indexmidescuento');
+			Route::get('/misucursal/{id}', 'VentasCentralController@indexmisucursal');
 			Route::get('/ventas/stockproducto/{id}', 'VentasCentralController@stockproducto');
 			Route::delete('/proventa/destroy/{id}','VentasCentralController@destroypro');
 			Route::delete('/descuento/destroy/{id}','VentasCentralController@destroydes');
