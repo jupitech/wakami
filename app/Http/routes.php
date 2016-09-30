@@ -100,6 +100,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::post('/lineaproducto/create', 'ProductosController@storelinea');
 			Route::put('/lineaproducto/{id}', 'ProductosController@updatelinea');
 			Route::delete('/lineaproducto/destroy/{id}','ProductosController@destroylinea');
+			Route::get('/excelproductos', 'ProductosController@excelproductos');
 
 			
 			Route::post('/producto/create', 'ProductosController@store');

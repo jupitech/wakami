@@ -259,6 +259,9 @@
                 <div class="btn_seg">
                     <a href="" ng-click="btn_linea()">Linea de Producto</a>
                 </div>
+                    <div class="btn_seg">
+                    <a href="{{ URL::to('/api/excelproductos') }}"><span class="glyphicon glyphicon-save"></span> Descargar Stock</a>
+                </div>
      </div>
      <div class="col-sm-12">
      <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Producto nuevo</strong> guardado correctamente, creado por administradores.</div>
