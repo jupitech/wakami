@@ -91,6 +91,49 @@
                 </div>
      </div>
 	<div class="col-sm-12">
+      <div class="ventasdia col-sm-12 spd spi">
+          <div class="col-sm-4 spi">
+            <div class="caja_contenido">
+              <h1>Ventas por sucursal del dia</h1>
+              <ul class="lisdia">
+                  <li ng-repeat="sucursaldia in ventadiasucursal" class="col-sm-4">
+                  <h2>@{{sucursaldia.nombre_sucursal.nombre}}</h2>
+                  <h3>@{{sucursaldia.cantidad}}</h3>
+                  <p>@{{sucursaldia.total| currency: 'Q'}}</p>
+                  </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="caja_contenido">
+              <h1>Ventas por sucursal ayer</h1>
+               <ul class="lisdia">
+                  <li ng-repeat="sucursalayer in ventaayersucursal" class="col-sm-4">
+                  <h2>@{{sucursalayer.nombre_sucursal.nombre}}</h2>
+                  <h3>@{{sucursalayer.cantidad}}</h3>
+                  <p>@{{sucursalayer.total| currency: 'Q'}}</p>
+                  </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-sm-4 spd">
+            <div class="caja_contenido">
+              <h1>Tipo de pago del dia </h1>
+                   <ul class="lisdia">
+                      <li ng-repeat="diapago in ventadiapago" class="col-sm-3">
+                       <h2 ng-switch="diapago.tipo_pago" class="icopago">
+                               <span ng-switch-when="1" class="ico_td ico_pefectivo">Efectivo</span>
+                               <span ng-switch-when="2" class="ico_td ico_ppos">POS</span>
+                               <span ng-switch-when="3" class="ico_td ico_pcheque">Cheque</span>
+                               <span ng-switch-when="4" class="ico_td ico_pcredito">Crédito</span>
+                         </h2>
+                      <h3>@{{diapago.cantidad}}</h3>
+                      <p>@{{diapago.total| currency: 'Q'}}</p>
+                      </li>
+                  </ul>
+            </div>
+          </div>
+      </div>
 	    <div class="col-sm-12 spd spi">
                  <div class="busqueda_texto col-sm-4 spd spi">
                 <input type="text" id="query" ng-model="query"  onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de ventas.." />
@@ -120,7 +163,7 @@
 	                   <th>Opciones</th>
 	               </thead>
 	               <tbody>
-	                   <tr ng-repeat="venta in ventas | filter: query | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1,'trc_ver':venta.estado_ventas==3,'trc_fca':venta.estado_ventas==5}">
+	                   <tr ng-repeat="venta in ventas | filter: query | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1,'trc_ver':venta.estado_ventas==3,'trc_fca':venta.estado_ventas==4}">
 	                     <td class="td_first"></td>
                          <td ng-click="abrirventa(venta)"><small>@{{venta.dte}}</small></td>
 
@@ -153,6 +196,17 @@
                                                </div>
                                                <div class="col-sm-4 spd spi">
                                                  <a href="" ng-click="notacredito(venta.id)" class=" btn_g btn_ncreditog"></a>
+                                               </div>
+                                            </div>
+                                     </li>
+                                      <li class="ed_drop"  uib-dropdown  ng-if="venta.estado_ventas==4">
+                                           <a href="" class="ico_ndebito" id="simple-dropdown" uib-dropdown-toggle></a>
+                                           <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                               <div class="col-sm-8 spd">
+                                                 <p>Nota de Débito <strong>@{{venta.dte}}</strong></p>
+                                               </div>
+                                               <div class="col-sm-4 spd spi">
+                                                 <a href="" ng-click="notadebito(venta.id)" class=" btn_g btn_ndebitog"></a>
                                                </div>
                                             </div>
                                      </li>

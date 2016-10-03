@@ -96,6 +96,7 @@ class VentasController extends Controller
         }
          return response()->json(['datos' =>  $stocksucursal],200);
     }
+    
 
 
     /**

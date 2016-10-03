@@ -637,6 +637,16 @@ body{
  		background-size: 15px; 
  	}
 
+ 		.ico_ndebito{
+ 		background: url('img/ico_debito.svg') no-repeat center;
+ 		background-size: 18px; 
+ 	}
+ 	.ico_ndebito:hover{
+ 		border-radius:50%;
+ 		background: $btn_rojo url('img/ico_debito_b.svg') no-repeat center;
+ 		background-size: 15px; 
+ 	}
+
 
    .nya-bs-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn){
    	width: 100% !important;
@@ -708,6 +718,19 @@ body{
  		background-size: 20px; 
 		          opacity: 1;
  	}
+
+ 	 	.btn_ndebitog{
+ 		border:none !important;
+ 		border-radius:3px !important;
+ 		background: $btn_rojo url('img/ico_debito_b.svg') no-repeat center;
+ 		background-size: 20px; 
+
+ 	}
+ 	.btn_ndebitog:hover{
+ 		background-size: 20px; 
+		          opacity: 1;
+ 	}
+
 
 .btn_nuevo{
 	float: right;
@@ -2025,6 +2048,63 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 	color: #333 !important;
 	font-weight: normal;
 }
+
+/*Reportes del dia*/
+.ventasdia{
+	margin:25px 0;
+	h1{
+		float:left;
+		width: 100%;
+		font-size: 14px;
+		font-weight: bold;
+		margin:0;
+		padding:10px 15px;
+		border-bottom: 1px solid #eee;
+	}
+
+}
+.lisdia{
+	float: left;
+	width: 100%;
+	padding: 15px 0;
+	margin:0;
+	list-style: none;
+	li{
+		h2{
+			font-size: 18px;
+			font-weight: normal;
+			color: $btn_azul;
+			text-align: center;
+			margin:15px 0 0;
+		}
+		h3{
+			font-size: 25px;
+			font-weight: bold;
+			text-align: center;
+			margin:15px 0 0;
+		}
+		p{
+			font-size: 18px;
+			text-align: center;
+			margin:15px 0 0;
+		}
+		.icopago{
+			float: left;
+			width: 100%;
+			margin:10px 0;
+			span{
+				float: left;
+				width: 100%;
+			height: 40px;
+			background-position: center;
+			background-size: 30px;
+			}
+		}
+	}
+}
+
+
+
 @media print {
    /*#areaimpresion{
    	width: 400px;

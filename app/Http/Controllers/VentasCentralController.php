@@ -108,6 +108,58 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $stockproducto],200);
     }
 
+        public function ventadiasucursal()
+    {
+           //Trayendo Producto
+         $ventas=Ventas::with("NombreSucursal")
+                  ->where('estado_ventas',2)
+                  ->where('fecha_factura','>=',Carbon::today())
+                  ->groupBy('id_sucursal')
+                  ->select('id_sucursal', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
+                  ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+      public function ventaayersucursal()
+    {
+           //Trayendo Producto
+         $ventas=Ventas::with("NombreSucursal")
+                  ->where('estado_ventas',2)
+                  ->where('fecha_factura','>=',Carbon::yesterday())
+                  ->where('fecha_factura','<',Carbon::today())
+                  ->groupBy('id_sucursal')
+                  ->select('id_sucursal', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
+                  ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+      public function ventadiapago()
+    {
+
+          $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
+          ->where('ventas.estado_ventas',2)
+          ->where('ventas.fecha_factura','>=',Carbon::yesterday()->subDays(2))
+          ->select(
+            'tpago_venta.tipo_pago', 
+            \DB::raw('count(ventas.id) as cantidad'),
+            \DB::raw('sum(ventas.total) as total')
+               )
+          ->groupBy('tpago_venta.tipo_pago')
+          ->get();        
+
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+
     
     /**
      * Store a newly created resource in storage.
@@ -527,38 +579,6 @@ class VentasCentralController extends Controller
          $productoventas=ProductoVenta::with("NombreProducto","Venta")->where('id_ventas',$idventas)->get();
 
 
-            //Analizando tipo de pago y actualizando factura 
-                         /*   if($tipopago==4){
-
-                                  $ventas->fill([
-                                          'fecha_factura' => $ahora,
-                                          'estado_ventas' => 3,
-                                      ]);
-                                  $ventas->save();
-
-                                  $fechalimite=Carbon::now()->addDays($diascredito);
-
-
-                                   $creditoventa=CreditosVentas::create([
-                                      'id_ventas' => $idventas,
-                                      'dias_credito' => $diascredito,
-                                      'fecha_limite' => $fechalimite,
-                                      'estado_credito' => 1,
-                                            ]);
-                                   $creditoventa->save();
-
-                            }else{
-
-                                  $ventas->fill([
-                                          'fecha_factura' => $ahora,
-                                          'estado_ventas' => 2,
-                                      ]);
-                                  $ventas->save();
-
-                            }*/
-
-
-
         //Enviando factura electronica
           $detalle=[];
           $dte=[];
@@ -803,37 +823,6 @@ class VentasCentralController extends Controller
          $productoventas=ProductoVenta::with("NombreProducto","Venta")->where('id_ventas',$idventas)->get();
 
 
-            //Analizando tipo de pago y actualizando factura 
-                         /*   if($tipopago==4){
-
-                                  $ventas->fill([
-                                          'fecha_factura' => $ahora,
-                                          'estado_ventas' => 3,
-                                      ]);
-                                  $ventas->save();
-
-                                  $fechalimite=Carbon::now()->addDays($diascredito);
-
-
-                                   $creditoventa=CreditosVentas::create([
-                                      'id_ventas' => $idventas,
-                                      'dias_credito' => $diascredito,
-                                      'fecha_limite' => $fechalimite,
-                                      'estado_credito' => 1,
-                                            ]);
-                                   $creditoventa->save();
-
-                            }else{
-
-                                  $ventas->fill([
-                                          'fecha_factura' => $ahora,
-                                          'estado_ventas' => 2,
-                                      ]);
-                                  $ventas->save();
-
-                            }*/
-
-
 
         //Enviando factura electronica
           $detalle=[];
@@ -1029,7 +1018,7 @@ class VentasCentralController extends Controller
                       {    
 
                                $ventas->fill([
-                                          'estado_ventas' => 4,
+                                          'estado_ventas' => 2,
                                       ]);
                                 $ventas->save();
 

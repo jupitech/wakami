@@ -217,14 +217,41 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
 
      $scope.mas_obj = false; //Nuevo proveedor
 
-   //Todos las ventas
-      $http.get('/api/ventas').success(
+         //Todos las ventas
+            $http.get('/api/ventas').success(
 
-              function(ventas) {
-                        $scope.ventas = ventas.datos;
-            }).error(function(error) {
-                 $scope.error = error;
-            });
+                    function(ventas) {
+                              $scope.ventas = ventas.datos;
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+             //Ventas por sucursal del dia
+            $http.get('/api/ventadiasucursal').success(
+
+                  function(ventadiasucursal) {
+                            $scope.ventadiasucursal = ventadiasucursal.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });    
+
+             //Ventas por sucursal de ayer
+            $http.get('/api/ventaayersucursal').success(
+
+                    function(ventaayersucursal) {
+                              $scope.ventaayersucursal = ventaayersucursal.datos;
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });    
+
+             //Ventas por sucursal de ayer
+            $http.get('/api/ventadiapago').success(
+
+                      function(ventadiapago) {
+                                $scope.ventadiapago = ventadiapago.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    });               
 
         $scope.tpagos=[
           {id:'1',pago:'Efectivo'},
@@ -249,6 +276,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
                             }).error(function(error) {
                                  $scope.error = error;
                             });
+      
                     $timeout(function () { $scope.alertaEliminado = true; }, 1000);
                     $timeout(function () { $scope.alertaEliminado = false; }, 5000);
             })
@@ -287,7 +315,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
 
                    $http.post('/api/notacredito/'+$scope.idventa)
                         .success(function (data, status, headers) {
-                              console.log("Factura creada correctamente");
+                              console.log("Nota de credito creada correctamente");
                               
                                       //Todos las ventas
                                           $http.get('/api/ventas').success(
@@ -297,6 +325,88 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
                                                 }).error(function(error) {
                                                      $scope.error = error;
                                                 });
+
+                                       //Ventas por sucursal del dia
+                                            $http.get('/api/ventadiasucursal').success(
+
+                                                    function(ventadiasucursal) {
+                                                              $scope.ventadiasucursal = ventadiasucursal.datos;
+                                                  }).error(function(error) {
+                                                       $scope.error = error;
+                                                  }); 
+
+                                          //Ventas por sucursal de ayer
+                                          $http.get('/api/ventaayersucursal').success(
+
+                                                  function(ventaayersucursal) {
+                                                            $scope.ventaayersucursal = ventaayersucursal.datos;
+                                                }).error(function(error) {
+                                                     $scope.error = error;
+                                                }); 
+
+                                         //Ventas por sucursal de ayer
+                                          $http.get('/api/ventadiapago').success(
+
+                                                    function(ventadiapago) {
+                                                              $scope.ventadiapago = ventadiapago.datos;
+                                                  }).error(function(error) {
+                                                       $scope.error = error;
+                                                  });                      
+                     
+
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que hay error al enviar la factura");
+                            $timeout(function () { $scope.alertaExistePro = true; }, 100);
+                            $timeout(function () { $scope.alertaExistePro = false; }, 5000);
+                        });
+
+         };
+
+           $scope.notadebito = function(id) {
+          $scope.idventa=id;
+
+                   $http.post('/api/notadebito/'+$scope.idventa)
+                        .success(function (data, status, headers) {
+                              console.log("Nota de debito creada correctamente");
+                              
+                                      //Todos las ventas
+                                          $http.get('/api/ventas').success(
+
+                                                  function(ventas) {
+                                                            $scope.ventas = ventas.datos;
+                                                }).error(function(error) {
+                                                     $scope.error = error;
+                                                });
+
+                                       //Ventas por sucursal del dia
+                                            $http.get('/api/ventadiasucursal').success(
+
+                                                    function(ventadiasucursal) {
+                                                              $scope.ventadiasucursal = ventadiasucursal.datos;
+                                                  }).error(function(error) {
+                                                       $scope.error = error;
+                                                  }); 
+
+                                          //Ventas por sucursal de ayer
+                                          $http.get('/api/ventaayersucursal').success(
+
+                                                  function(ventaayersucursal) {
+                                                            $scope.ventaayersucursal = ventaayersucursal.datos;
+                                                }).error(function(error) {
+                                                     $scope.error = error;
+                                                }); 
+
+                                         //Ventas por sucursal de ayer
+                                          $http.get('/api/ventadiapago').success(
+
+                                                    function(ventadiapago) {
+                                                              $scope.ventadiapago = ventadiapago.datos;
+                                                  }).error(function(error) {
+                                                       $scope.error = error;
+                                                  });                      
+                     
+
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al enviar la factura");

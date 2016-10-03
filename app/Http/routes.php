@@ -162,6 +162,10 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::put('/proventa/{id}', 'VentasCentralController@updatepro');
 			Route::delete('/venta/destroy/{id}','VentasCentralController@destroy');
 
+			Route::get('/ventadiasucursal', 'VentasCentralController@ventadiasucursal');
+			Route::get('/ventaayersucursal', 'VentasCentralController@ventaayersucursal');
+			Route::get('/ventadiapago', 'VentasCentralController@ventadiapago');
+
 
 			//Consignaciones
             Route::get('/consignaciones', 'ConsignacionController@indexconsignacion');
