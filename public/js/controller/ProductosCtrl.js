@@ -244,7 +244,7 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
 
 
 //************************************Mis productos**********************************************//
-wApp.controller('MisProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProductoNuevo, $timeout, $log,$uibModal,$interval){
+wApp.controller('MisProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProductoNuevo, $timeout, $log,$uibModal,$interval, $location,$window){
 
    $scope.status = {
     isopen: false
@@ -289,6 +289,13 @@ wApp.controller('MisProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProdu
             }).error(function(error) {
                  $scope.error = error;
             });
+
+
+              $scope.descargaexcel=function(){
+                 $window.location.href = '/api/mi/excelproductos/'+$scope.misucu;
+              }
+
+
 
      };
 

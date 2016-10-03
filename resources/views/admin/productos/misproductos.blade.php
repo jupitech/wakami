@@ -12,6 +12,10 @@
 	
 	 <div class="header_conte">
               <h1>Productos</h1>
+                                  <div class="btn_seg">
+
+                    <a ng-click="descargaexcel()"><span class="glyphicon glyphicon-save"></span> Descargar Stock</a>
+                </div>
      </div>
      <div class="col-sm-12"  ng-if="miusuario.sucursal_usuario.id===null || miusuario.sucursal_usuario2.id===null">
          <div class="caja_contenido">

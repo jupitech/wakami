@@ -199,6 +199,7 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 	    Route::get('/misproductos', 'MiProductoController@index');
 
 
+
 	 Route::group(['middleware' => 'cors','prefix' => 'api/mi'], function()
 	{   
 
@@ -209,6 +210,9 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		 Route::post('/proenvio/envioproductopen', 'MiSucursalController@enviarproductopen');
 		 Route::put('/envio/p2/{id}', 'MiSucursalController@updatep2');
 		 Route::delete('/proenvio/destroy/{id}','MiSucursalController@destroypro');
+
+
+		 Route::get('/excelproductos/{id}', 'MiProductoController@excelproductos');
 
 
 		//Ventas
