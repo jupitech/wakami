@@ -144,7 +144,7 @@ class VentasCentralController extends Controller
 
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
           ->where('ventas.estado_ventas',2)
-          ->where('ventas.fecha_factura','>=',Carbon::yesterday()->subDays(2))
+          ->where('ventas.fecha_factura','>=',Carbon::today())
           ->select(
             'tpago_venta.tipo_pago', 
             \DB::raw('count(ventas.id) as cantidad'),

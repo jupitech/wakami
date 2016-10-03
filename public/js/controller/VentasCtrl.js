@@ -1235,6 +1235,33 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
                  $scope.error = error;
             });
 
+         //Ventas por sucursal del dia
+            $http.get('/api/mi/ventadiasucursal/'+ $scope.misucu).success(
+
+                  function(ventadiasucursal) {
+                            $scope.ventadiasucursal = ventadiasucursal.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });    
+
+             //Ventas por sucursal de ayer
+            $http.get('/api/mi/ventaayersucursal/'+ $scope.misucu).success(
+
+                    function(ventaayersucursal) {
+                              $scope.ventaayersucursal = ventaayersucursal.datos;
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });    
+
+             //Ventas por sucursal de ayer
+            $http.get('/api/mi/ventadiapago/'+ $scope.misucu).success(
+
+                      function(ventadiapago) {
+                                $scope.ventadiapago = ventadiapago.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    });                     
+
        //Eliminar venta 
       $scope.btn_eliminar = function(id){
         $scope.idventa= id;

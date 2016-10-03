@@ -89,7 +89,49 @@
                 </div>
      </div>
 	<div class="col-sm-12">
-
+        <div class="ventasdia col-sm-12 spd spi">
+          <div class="col-sm-4 spi">
+            <div class="caja_contenido">
+              <h1>Ventas del dia</h1>
+              <ul class="lisdia">
+                  <li ng-repeat="sucursaldia in ventadiasucursal" class="col-sm-12">
+                  <h2>@{{sucursaldia.nombre_sucursal.nombre}}</h2>
+                  <h3>@{{sucursaldia.cantidad}}</h3>
+                  <p>@{{sucursaldia.total| currency: 'Q'}}</p>
+                  </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="caja_contenido">
+              <h1>Ventas del dia de ayer</h1>
+               <ul class="lisdia">
+                  <li ng-repeat="sucursalayer in ventaayersucursal" class="col-sm-12">
+                  <h2>@{{sucursalayer.nombre_sucursal.nombre}}</h2>
+                  <h3>@{{sucursalayer.cantidad}}</h3>
+                  <p>@{{sucursalayer.total| currency: 'Q'}}</p>
+                  </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-sm-4 spd">
+            <div class="caja_contenido">
+              <h1>Tipo de pago del dia </h1>
+                   <ul class="lisdia">
+                      <li ng-repeat="diapago in ventadiapago" class="col-sm-3">
+                       <h2 ng-switch="diapago.tipo_pago" class="icopago">
+                               <span ng-switch-when="1" class="ico_td ico_pefectivo">Efectivo</span>
+                               <span ng-switch-when="2" class="ico_td ico_ppos">POS</span>
+                               <span ng-switch-when="3" class="ico_td ico_pcheque">Cheque</span>
+                               <span ng-switch-when="4" class="ico_td ico_pcredito">Crédito</span>
+                         </h2>
+                      <h3>@{{diapago.cantidad}}</h3>
+                      <p>@{{diapago.total| currency: 'Q'}}</p>
+                      </li>
+                  </ul>
+            </div>
+          </div>
+      </div>
     <div class="col-sm-12 spd spi">
                  <div class="busqueda_texto col-sm-4 spd spi">
                 <input type="text" id="query" ng-model="query"  onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de ventas.." />
