@@ -61,7 +61,6 @@ class MiProductoController extends Controller
                             'linea_producto.nombre as linea', 
                             'producto.nombre as nombre', 
                             'stock_sucursal.stock',
-                            'producto.costo',
                             'producto.preciop'
                                )
                           ->where('stock_sucursal.id_sucursal',$id)
@@ -70,7 +69,7 @@ class MiProductoController extends Controller
                 $nombrearchivo='Stock Sucursal Hoy';
 
                 $proArray = []; 
-                $proArray[] = ['Codigo','Linea','Producto','Stock','Costo','Precio P'];
+                $proArray[] = ['Codigo','Linea','Producto','Stock','Precio P'];
 
                  foreach ($productos as $pro) {
                     $proArray[] = $pro->toArray();
