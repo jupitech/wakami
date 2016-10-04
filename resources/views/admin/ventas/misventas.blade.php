@@ -180,9 +180,9 @@
                           <td>@{{venta.perfil_usuario.nombre}} @{{venta.perfil_usuario.apellido}}</td>
                          
 	                       <td>
-	                           <div class="area_opciones" ng-if="venta.estado_ventas==1">
+	                           <div class="area_opciones" >
                                  <ul>
-                                     <li class="op_drop"  uib-dropdown>
+                                     <li class="op_drop"  uib-dropdown ng-if="venta.estado_ventas==1">
                                            <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
                                            <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
                                                <div class="col-sm-8 spd">
@@ -193,6 +193,7 @@
                                                </div>
                                             </div>
                                      </li>
+                                      <li><a href="" class="ico_pdf" ng-if="venta.estado_ventas==2 || venta.estado_ventas==3  || venta.estado_ventas==4" ng-click="btn_pdf(venta.id)"></a></li>
                                  </ul>
                              </div>
 	                       </td>

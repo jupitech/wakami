@@ -20,6 +20,8 @@ use Auth;
 use Carbon\Carbon;
 use Artisaninweb\SoapWrapper\Facades\SoapWrapper;
 use SoapClient;
+use Excel;
+use PDF;
 
 
 class VentasController extends Controller
@@ -590,6 +592,15 @@ class VentasController extends Controller
         $productoventa->save();
 
 
+    }
+
+      public function pdfventa($id)
+    {
+      //Trayendo ventas
+       $ventas=Ventas::with("InfoClientes","NombreSucursal","PerfilUsuario","DescuentosVentas")->where('id',$id)->first();
+       $pdf = PDF::loadView('pdf.invoice',['ventas'=>$ventas]);
+        return $pdf->download($ventas->dte.'.pdf');
+ 
     }
 
     /**

@@ -235,6 +235,8 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		Route::get('/ventaayersucursal/{id}', 'VentasController@ventaayersucursal');
 		Route::get('/ventadiapago/{id}', 'VentasController@ventadiapago');
 
+		Route::get('/pdfventa/{id}', 'VentasController@pdfventa');
+
 		//Productos
 		Route::get('/productos/{id}', 'MiProductoController@indexproductos');
 

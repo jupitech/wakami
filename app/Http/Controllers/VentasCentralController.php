@@ -1225,7 +1225,7 @@ class VentasCentralController extends Controller
       //Trayendo ventas
        $ventas=Ventas::with("InfoClientes","NombreSucursal","PerfilUsuario","DescuentosVentas")->where('id',$id)->first();
        $pdf = PDF::loadView('pdf.invoice',['ventas'=>$ventas]);
-       return $pdf->download('factura.pdf');
+        return $pdf->download($ventas->dte.'.pdf');
  
     }
 

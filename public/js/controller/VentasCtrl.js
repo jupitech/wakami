@@ -416,7 +416,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
          };
 
-           //Eliminar Venta borrador
+           //PDF Ventas
       $scope.btn_pdf = function(id){
         $scope.idventa= id;
 
@@ -1208,7 +1208,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
 
 
 //************************************Venta**********************************************//
-wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
+wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal, $location,$window){
 
      $scope.mas_obj = false; //Nuevo proveedor
 
@@ -1317,7 +1317,14 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
                                 });
 
 
-      };      
+      };
+
+          //PDF Ventas
+      $scope.btn_pdf = function(id){
+        $scope.idventa= id;
+
+         $window.location.href = '/api/mi/pdfventa/'+ $scope.idventa;
+      };         
 
   };        
 
