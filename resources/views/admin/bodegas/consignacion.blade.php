@@ -21,7 +21,7 @@
                                <div class="form-group">
                                   <div class="col-md-12">
                                        <label for="rol">Cliente</label>
-                                       <ol class="nya-bs-select" ng-model="consignacion.id_cliente" title="Selecciona un cliente..." required>
+                                       <ol class="nya-bs-select" ng-model="consignacion.id_cliente" data-live-search="true" title="Selecciona un cliente..." required>
                                             <li nya-bs-option="cliente in clientes | orderBy:'-id'" data-value="cliente.id">
                                               <a>
                                                <span> @{{ cliente.nombre }}-@{{ cliente.empresa }}

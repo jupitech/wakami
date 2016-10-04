@@ -54,7 +54,7 @@
               </ul>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle ico_bodegas" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bodegas</a>
+              <a href="#" class="dropdown-toggle ico_bodegas" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Consignación</a>
               <ul class="dropdown-menu">
                 <li><a href="{{ URL::to('/consignacion') }}">Consignación</a></li>
                   <li role="separator" class="divider"></li>

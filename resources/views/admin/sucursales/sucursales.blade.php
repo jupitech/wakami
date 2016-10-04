@@ -780,8 +780,6 @@
 			 		  <thead>
 	                       <th>Cod.</th>
                          <th>Nombre</th>
-                         <th>Series</th>
-                         <th>Resolución</th>
 	                       <th>Ubicación</th>
 	                       <th>Usuario</th>
                          <th>Usuario 2</th>
@@ -791,8 +789,6 @@
 	                   		<tr ng-repeat="sucursal in sucursales | orderBy: 'codigo_esta'">
                         <td ng-click="abrirsucursal(sucursal)">@{{sucursal.codigo_esta}}</td>
 	                   		<td ng-click="abrirsucursal(sucursal)">@{{sucursal.nombre}}</td>
-                        <td ng-click="abrirsucursal(sucursal)"><span class="label label-c1">@{{sucursal.serie}}</span> <span class="label label-c2">@{{sucursal.serie_nce}}</span> <span class="label label-c3">@{{sucursal.serie_nde}}</span></td>
-                         <td ng-click="abrirsucursal(sucursal)"><span class="label label-c1">@{{sucursal.resolucion}}</span> <span class="label label-c2">@{{sucursal.resolucion_nce}}</span> <span class="label label-c3">@{{sucursal.resolucion_nde}}</span></td>
 	                   		<td ng-click="abrirsucursal(sucursal)">@{{sucursal.ubicacion}}</td>
 	                   		<td ng-click="abrirsucursal(sucursal)">@{{sucursal.perfil_usuario.nombre}} @{{sucursal.perfil_usuario.apellido}}</td>
                         <td ng-click="abrirsucursal(sucursal)">@{{sucursal.perfil_usuario2.nombre}} @{{sucursal.perfil_usuario2.apellido}}</td>

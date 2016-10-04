@@ -31,7 +31,9 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
 
    $scope.tipos=[
         {id:'1',cliente:'Individual'},
-        {id:'2',cliente:'Empresa'},
+        {id:'2',cliente:'Consignación'},
+        {id:'3',cliente:'Contado'},
+        {id:'4',cliente:'Crédito'},
         ];
 
 
@@ -258,6 +260,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
           {id:'2',pago:'POS'},
           {id:'3',pago:'Cheque'},
           {id:'4',pago:'Crédito'},
+          {id:'5',pago:'Depósito'},
          ];
       
 
@@ -479,6 +482,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
         {id:'2',pago:'POS/Tarjeta'},
         {id:'3',pago:'Cheque'},
         {id:'4',pago:'Crédito'},
+        {id:'5',pago:'Depósito'},
   ];
 
      $scope.diascre=[
@@ -916,6 +920,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
    $scope.tpagos=[
         {id:'1',pago:'Efectivo'},
         {id:'2',pago:'POS/Tarjeta'},
+        {id:'5',pago:'Depósito'},
   ];
 
   

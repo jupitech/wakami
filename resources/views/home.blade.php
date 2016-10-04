@@ -57,7 +57,7 @@
            		<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
            			<div class="caja_mescri">
            				<div class="ima_mescri ico_bodegas"></div>
-           				<h1>Bodegas</h1>
+           				<h1>Consignación</h1>
            				<ul>
            					<li><a href="{{ URL::to('/consignacion') }}">Consignación</a></li>
            					<li><a href="">Movimiento entre bodegas</a></li>
