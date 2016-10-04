@@ -239,6 +239,7 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 
 		//Productos
 		Route::get('/productos/{id}', 'MiProductoController@indexproductos');
+		Route::get('/productosas/{id}', 'MiProductoController@indexproductosstock');
 
 	});	
 

@@ -982,7 +982,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
 
 
        //Productos
-          $http.get('/api/mi/productos/'+ $scope.misucu).success(
+          $http.get('/api/mi/productosas/'+ $scope.misucu).success(
 
               function(productos) {
                         $scope.productos = productos.datos;

@@ -40,6 +40,17 @@ class MiProductoController extends Controller
          return response()->json(['datos' =>  $productos],200);
     }
 
+     public function indexproductosstock($id)
+    {
+           //Trayendo Producto
+         $productos=StockSucursal::with("NombreProducto")->where('id_sucursal',$id)->where('stock','>',0)->get();
+         if(!$productos){
+             return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $productos],200);
+    }
+
+
       public function indexlineas()
     {
            //Trayendo Lineas
