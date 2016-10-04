@@ -167,6 +167,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Snowfire\Beautymail\BeautymailServiceProvider::class,
         Artisaninweb\SoapWrapper\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -218,6 +219,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'SoapWrapper' => Artisaninweb\SoapWrapper\Facades\SoapWrapper::class,
         'SoapClient' => SoapClient::class,
+        'PDF'       => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

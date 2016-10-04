@@ -166,6 +166,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::get('/ventaayersucursal', 'VentasCentralController@ventaayersucursal');
 			Route::get('/ventadiapago', 'VentasCentralController@ventadiapago');
 
+			Route::get('/pdfventa/{id}', 'VentasCentralController@pdfventa');
+
 
 			//Consignaciones
             Route::get('/consignaciones', 'ConsignacionController@indexconsignacion');

@@ -18,7 +18,8 @@
         "snowfire/beautymail": "dev-master",
         "artisaninweb/laravel-soap": "0.2.*",
         "besimple/soap-client": "^0.2.6",
-        "czim/laravel-service": "^0.9.28"
+        "czim/laravel-service": "^0.9.28",
+        "barryvdh/laravel-dompdf": "0.6.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
