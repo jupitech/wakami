@@ -221,6 +221,7 @@
                                                </div>
                                             </div>
                                      </li>
+                                      <li><a href="" class="ico_pdf" ng-if="venta.estado_ventas==2 || venta.estado_ventas==3  || venta.estado_ventas==4" ng-click="btn_pdf(venta.id)"></a></li>
                                  </ul>
                              </div>
 	                       </td>

@@ -210,7 +210,7 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
 
 
 //************************************Venta**********************************************//
-wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
+wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$location,$window){
     $scope.deselecpago=function(){
     $scope.busfiltropago='';
   }
@@ -261,7 +261,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
          ];
       
 
-       //Eliminar Proveedor
+       //Eliminar Venta borrador
       $scope.btn_eliminar = function(id){
         $scope.idventa= id;
         console.log($scope.idventa);
@@ -415,6 +415,13 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal){
                         });
 
          };
+
+           //Eliminar Venta borrador
+      $scope.btn_pdf = function(id){
+        $scope.idventa= id;
+
+         $window.location.href = '/api/pdfventa/'+ $scope.idventa;
+      };   
 
 
 
@@ -854,6 +861,8 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
       $scope.iraventas=function(){
             $window.location.href = '/ventas';
       }
+
+
 
 
 });

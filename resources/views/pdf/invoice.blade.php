@@ -98,14 +98,26 @@
                     $productos=\App\Models\ProductoVenta::with("NombreProducto","Venta")->where('id_ventas',$ventas->id)->get();
                     ?>
       <tbody class="tablepro">
+    
       	 	@foreach($productos as $producto)
-				<tr>
+      	 		  @if ($producto->Venta->DescuentosVentas)
+									<tr>
+										<td>{{$producto->NombreProducto->codigo}}-{{$producto->NombreProducto->nombre}}</td>
+										<td>{{$producto->cantidad}}</td>
+										<td>Q{{number_format( ($producto->NombreProducto->preciop-(($producto->Venta->DescuentosVentas->porcentaje*$producto->NombreProducto->preciop)/100)), 2, '.', ',')}}</td>
+										<td>Q{{number_format((($producto->NombreProducto->preciop-(($producto->Venta->DescuentosVentas->porcentaje*$producto->NombreProducto->preciop)/100))*$producto->cantidad), 2, '.', ',')}}</td>
+									</tr>
+			  	@else 
+			  	<tr>
 					<td>{{$producto->NombreProducto->codigo}}-{{$producto->NombreProducto->nombre}}</td>
 					<td>{{$producto->cantidad}}</td>
 					<td>Q{{number_format($producto->NombreProducto->preciop, 2, '.', ',')}}</td>
 					<td>Q{{number_format(($producto->NombreProducto->preciop*$producto->cantidad), 2, '.', ',')}}</td>
 				</tr>
+				@endif
       	 	@endforeach
+		
+
       </tbody>
       <tfoot>
       	<tr>
