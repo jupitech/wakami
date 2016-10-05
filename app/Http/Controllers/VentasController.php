@@ -272,7 +272,6 @@ class VentasController extends Controller
 
         $ventas->fill([
           'fecha_factura' => $ahora,
-          'estado_ventas' => 2,
            ]);
         $ventas->save();
 
@@ -501,6 +500,7 @@ class VentasController extends Controller
                               $micae=$resultado->return->cae;
                               
                               $ventas->fill([
+                                              'estado_ventas' => 2,
                                               'dte' => $midte,
                                               'cae' => $micae,
                                           ]);

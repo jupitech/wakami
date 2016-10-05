@@ -314,7 +314,6 @@ class VentasCentralController extends Controller
 
                                   $ventas->fill([
                                           'fecha_factura' => $ahora,
-                                          'estado_ventas' => 2,
                                       ]);
                                   $ventas->save();
 
@@ -546,6 +545,7 @@ class VentasCentralController extends Controller
                               $micae=$resultado->return->cae;
                               
                               $ventas->fill([
+                                              'estado_ventas' => 2,
                                               'dte' => $midte,
                                               'cae' => $micae,
                                           ]);

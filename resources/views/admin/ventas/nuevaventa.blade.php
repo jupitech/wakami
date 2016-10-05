@@ -361,7 +361,7 @@
 
                                 <div class="col-sm-3">
                                    <input type="hidden" ng-model="idventa"/>
-                                  <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">FACTURAR</button>
+                                  <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid || loading" button-spinner="loading" >FACTURAR</button>
                                 </div>
                           </div>
                       </form>

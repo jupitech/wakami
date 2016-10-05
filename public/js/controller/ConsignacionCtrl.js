@@ -27,6 +27,7 @@ wApp.controller('ConsignacionCtrl',function($scope, $http,ApiConsignacionNuevo, 
    $scope.alertaEliminado = false;
    $scope.alertaEliminadopro = false;
    $scope.alertaEditado = false;
+   $scope.loading = false;
 
    $scope.btn_nuevo = function() {
         $scope.nuevo_obj = !$scope.nuevo_obj;
@@ -82,7 +83,10 @@ wApp.controller('ConsignacionCtrl',function($scope, $http,ApiConsignacionNuevo, 
       $scope.consignacion={};
       $scope.guardarConsignacion = function(){
          // console.log($scope.usuario);
-
+         $scope.loading = true;
+         $timeout(function() { 
+            $scope.loading = false;
+          }, 3000);
         ApiConsignacionNuevo.save($scope.consignacion, function(){
           console.log("Guardado correctamente");
            $scope.nuevo_obj = false;

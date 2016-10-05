@@ -234,7 +234,7 @@
                               
                                <div class="form-group">
                                  <div class="col-sm-6">
-                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frmed.$invalid">EDITAR</button>
+                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frmed.$invalid">GUARDAR</button>
                                   </div>
                                    <div class="col-sm-6">
                                      <a class="btn btn_cancelar" ng-click="btn_editar()">CANCELAR</a>

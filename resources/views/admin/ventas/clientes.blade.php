@@ -21,7 +21,7 @@
                         <form class="form-horizontal" name="frm" role="form" ng-submit="guardarCliente()" >
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <label for="name">Empresa</label>
+                                        <label for="name">Nombre Comercial</label>
                                          <input id="name" type="text" class="form-control" name="empresa" ng-model="cliente.empresa" placeholder="Nombre de la empresa" required>
                                          <div class="col-sm-12 spd spi">
                                             <div class="alert alert-danger" ng-show="frm.empresa.$dirty && frm.empresa.$error.required">Campo requerido</div>
@@ -31,7 +31,7 @@
                                </div>
                                <div class="form-group">
                                   <div class="col-md-6">
-                                       <label for="nombre">Nombre</label>
+                                       <label for="nombre">Nombre de factura</label>
                                        <input id="nombre" type="text" class="form-control" name="nombre" ng-model="cliente.nombre" placeholder="Nombre del cliente" required>
                                         <div class="col-sm-12 spd spi">
                                             <div class="alert alert-danger" ng-show="frm.nombre.$dirty && frm.nombre.$error.required">Campo requerido</div>
@@ -117,7 +117,7 @@
                         <form class="form-horizontal" name="frmed" role="form" ng-submit="editarCliente()" >
                                <div class="form-group">
                                     <div class="col-md-12">
-                                        <label for="name">Empresa</label>
+                                        <label for="name">Nombre Comercial</label>
                                          <input id="name" type="text" class="form-control" name="empresa" ng-model="existeCliente.empresa" placeholder="Nombre de la empresa" required>
                                          <div class="col-sm-12 spd spi">
                                             <div class="alert alert-danger" ng-show="frm.empresa.$dirty && frm.empresa.$error.required">Campo requerido</div>
@@ -127,7 +127,7 @@
                                </div>
                                <div class="form-group">
                                   <div class="col-md-6">
-                                       <label for="nombre">Nombre</label>
+                                       <label for="nombre">Nombre de factura</label>
                                        <input id="nombre" type="text" class="form-control" name="nombre" ng-model="existeCliente.nombre" placeholder="Nombre del encargado" required>
                                         <div class="col-sm-12 spd spi">
                                             <div class="alert alert-danger" ng-show="frm.nombre.$dirty && frm.nombre.$error.required">Campo requerido</div>
@@ -187,7 +187,7 @@
                               
                                <div class="form-group">
                                  <div class="col-sm-6">
-                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frmed.$invalid">EDITAR</button>
+                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frmed.$invalid">GUARDAR</button>
                                   </div>
                                    <div class="col-sm-6">
                                      <a class="btn btn_cancelar" ng-click="btn_editar()">CANCELAR</a>
@@ -209,10 +209,16 @@
                 </div>
      </div>
 	<div class="col-sm-12">
+       <div class="col-sm-12 spd spi">
+                     <div class="busqueda_texto col-sm-4">
+                    <input type="text" id="query" ng-model="query" onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de clientes.." />
+                     </div>
+                </div>
+
 	   <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Cleinte nuevo</strong> guardado correctamente, creado por administradores.</div>
         <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Cliente borrado</strong> No se podrá recuperar los datos.</div>	
 	 <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Cliente editado</strong> Puedes ver en el listado de cliente las modificaciones realizadas.</div>
-
+  
 	  <div class="caja_contenido">
 	           <table class="table">
 	               <thead>
@@ -226,7 +232,7 @@
 	                   <th class="td_opciones">Opciones</th>
 	               </thead>
 	               <tbody>
-	                   <tr ng-repeat="cliente in clientes | orderBy:'-id'">
+	                   <tr ng-repeat="cliente in clientes| filter: query  | orderBy:'-id'">
 	                       <td>@{{cliente.nombre}} <small>@{{cliente.empresa}}</small></td>
 	                       <td>@{{cliente.nit}} </td>
 	                       <td>@{{cliente.direccion}}</td>

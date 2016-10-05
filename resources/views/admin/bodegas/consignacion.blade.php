@@ -36,7 +36,7 @@
                                   </div>
                                <div class="form-group">
                                  <div class="col-sm-6">
-                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">GUARDAR</button>
+                                     <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid || loading" button-spinner="loading" >GUARDAR</button>
                                   </div>
                                    <div class="col-sm-6">
                                      <a class="btn btn_cancelar" ng-click="btn_nuevo()">CANCELAR</a>
