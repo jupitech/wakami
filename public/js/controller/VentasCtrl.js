@@ -907,6 +907,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
    $scope.acti_rol=false;
     $scope.acti_cliente=false;
     $scope.acti_areapro=false;
+     $scope.loading = false;
 
      $scope.act_rol = function() {
           $scope.acti_rol = !$scope.acti_rol;
@@ -1171,6 +1172,11 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
       };
       $scope.factura={};
       $scope.btn_facturar=function(){
+         $scope.loading = true;
+          $timeout(function() { 
+              $scope.loading = false;
+            }, 3000);
+
             var datafact={
                 id_tpago: $scope.factura.tipo_pago,
                 referencia: $scope.factura.referencia,
