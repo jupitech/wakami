@@ -172,9 +172,25 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			//Consignaciones
             Route::get('/consignaciones', 'ConsignacionController@indexconsignacion');
             Route::get('/proconsignacion/{id}', 'ConsignacionController@indexproconsignacion');
+             Route::get('/proconsignacionas/{id}', 'ConsignacionController@indexproconsignacionas');
             Route::get('/consignacion/stockproducto/{id}', 'ConsignacionController@stockproducto');
 			Route::post('/consignacion/create', 'ConsignacionController@store');
 			Route::delete('/consignacion/destroy/{id}','ConsignacionController@destroy');
+			Route::post('/consignacion/nuevaventa/{idcliente}', 'ConsignacionController@nuevaventa');
+			Route::post('/consignacionproducto/create', 'ConsignacionController@storepro');
+			Route::post('/consignaciondes/create', 'ConsignacionController@storedes');
+			Route::put('/consignacionproventa/{id}', 'ConsignacionController@updatepro');
+			Route::delete('/consignacionproventa/destroy/{id}','ConsignacionController@destroyprofac');
+			Route::delete('/consignaciondescuento/destroy/{id}','ConsignacionController@destroydes');
+
+			Route::get('/consignacion/ventas/{id}', 'ConsignacionController@indexventas');
+			Route::post('/consignacion/factura/create', 'ConsignacionController@storefac');
+			Route::get('/consignacion/miventa/{id}', 'ConsignacionController@indexmiventa');
+			Route::get('/consignacion/miproducto/{id}', 'ConsignacionController@indexmiproducto');
+			Route::get('/consignacion/midescuento/{id}', 'ConsignacionController@indexmidescuento');
+			Route::get('/consignacion/misucursal/{id}', 'ConsignacionController@indexmisucursal');
+
+			Route::get('/consignacion/pdfventa/{id}', 'ConsignacionController@pdfventa');
 
 			Route::get('/enviosconsignaciones', 'ConsignacionController@indexenvios');
 			Route::post('/envioconsignacion/create', 'ConsignacionController@storeenvio');
