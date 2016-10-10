@@ -126,6 +126,7 @@
                                <span ng-switch-when="2" class="ico_td ico_ppos">POS</span>
                                <span ng-switch-when="3" class="ico_td ico_pcheque">Cheque</span>
                                <span ng-switch-when="4" class="ico_td ico_pcredito">Crédito</span>
+                                <span ng-switch-when="5" class="ico_td ico_pdeposito">Crédito</span>
                          </h2>
                       <h3>@{{diapago.cantidad}}</h3>
                       <p>@{{diapago.total| currency: 'Q'}}</p>
@@ -173,6 +174,7 @@
                                <span ng-switch-when="2" class="ico_td ico_ppos">POS</span>
                                <span ng-switch-when="3" class="ico_td ico_pcheque">Cheque</span>
                                <span ng-switch-when="4" class="ico_td ico_pcredito">Crédito</span>
+                               <span ng-switch-when="5" class="ico_td ico_pdeposito">Deposito</span>
                          </td>
                          <td ng-click="abrirventa(venta)">@{{venta.nombre_sucursal.nombre}}</td>
 	                       <td ng-click="abrirventa(venta)">@{{venta.info_clientes.nombre}} <small>@{{venta.info_clientes.empresa}}</small></td>
