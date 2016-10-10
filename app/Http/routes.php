@@ -191,6 +191,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::get('/consignacion/misucursal/{id}', 'ConsignacionController@indexmisucursal');
 
 			Route::get('/consignacion/pdfventa/{id}', 'ConsignacionController@pdfventa');
+			Route::get('/consignacion/pdfenvio/{id}', 'ConsignacionController@pdfenvio');
 
 			Route::get('/enviosconsignaciones', 'ConsignacionController@indexenvios');
 			Route::post('/envioconsignacion/create', 'ConsignacionController@storeenvio');

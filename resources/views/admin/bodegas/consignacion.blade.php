@@ -157,7 +157,7 @@
                                            <thead>
                                                <th>Producto</th>
                                                <th>Cant.</th>
-                                               <th>Costo</th>
+                                               <th>Distribuidor</th>
                                                <th>Subtotal</th>
                                                <th>Opciones</th>
                                            </thead>
@@ -165,7 +165,7 @@
                                                <tr ng-repeat="proenvio in proenvios">
                                                    <td><small class="label label-success">@{{ proenvio.nombre_producto.codigo }}</small> @{{proenvio.nombre_producto.nombre}}</td>
                                                    <td>@{{proenvio.cantidad}} </td>
-                                                   <td>@{{proenvio.precio_producto  | currency: 'Q'}}</td>
+                                                    <td>@{{proenvio.precio_producto  | currency: 'Q'}}</td>
                                                    <td ng-init="ProTotal = ProTotal+proenvio.subtotal">@{{proenvio.subtotal  | currency: 'Q'}}</td>
                                                    <td>
                                                        <div class="area_opciones">
@@ -211,7 +211,7 @@
                                            <thead>
                                                <th>Producto</th>
                                                <th>Cant.</th>
-                                               <th>Costo</th>
+                                               <th>Distribuidor</th>
                                                <th>Subtotal</th>
                                                <th>Estado</th>
                                            </thead>
@@ -657,6 +657,7 @@
                                            <thead>
                                                <th>Producto</th>
                                                <th>Costo</th>
+                                               <th>Distribuidor</th>
                                                <th>Precio Publico</th>
                                                <th>Stock</th>
                                                <th>Subtotal</th>
@@ -666,6 +667,7 @@
                                                    <td> <small class="label label-success">@{{ proconsignacion.nombre_producto.codigo }}</small>
                                                       @{{proconsignacion.nombre_producto.nombre}}</td>
                                                      <td>Q@{{proconsignacion.nombre_producto.costo | number:2 }}</td>
+                                                       <td>Q@{{(proconsignacion.nombre_producto.preciop-((exisConsignacion.info_cliente.porcentaje_cliente.porcentaje*proconsignacion.nombre_producto.preciop)/100)) | number:2}}</td>
                                                      <td>Q@{{proconsignacion.nombre_producto.preciop | number:2}}</td>
                                                    <td>@{{proconsignacion.stock}} </td>
                                                    <td>
@@ -775,18 +777,29 @@
                               <th></th>
                               <th>#Envio</th>
                                <th>Sucursal</th>
-                               <th>Total</th>
+                               <th>Distribuidor</th>
+                               <th>Público</th>
                                <th>Fecha de Entrega</th>
                                <th>Fecha de Movimiento</th>
+                               <th></th>
                            </thead>
                            <tbody>
                               <tr ng-repeat="envio in envios | filter: busfiltro | orderBy:'-id'" ng-class="{'trc_ama':envio.estado_orden==1}">
                               <td class="td_first"></td>
                               <td ng-click="abrirorden(envio)"><strong>@{{envio.id}}</strong></td>
                               <td ng-click="abrirorden(envio)">@{{envio.nombre_consignacion.info_cliente.nombre}}</td>
-                              <td ng-click="abrirorden(envio)">@{{envio.total_compra | currency: 'Q'}}</td>
+                              <td ng-click="abrirorden(envio)">@{{(envio.total_compra-((envio.nombre_consignacion.info_cliente.porcentaje_cliente.porcentaje*envio.total_compra)/100)) | currency: 'Q'}}</td>
+                               <td ng-click="abrirorden(envio)">@{{(envio.total_compra) | currency: 'Q'}}</td>
                               <td ng-click="abrirorden(envio)">@{{envio.fecha_entrega  | amDateFormat: 'DD/MM/YYYY HH:mm:ss'}}</td>
                               <td ng-click="abrirorden(envio)">@{{envio.updated_at  | amDateFormat: 'DD/MM/YYYY HH:mm:ss'}}</td>
+                               <td>
+                                     <div class="area_opciones" >
+                                         <ul>
+                                            
+                                              <li><a href="" class="ico_pdf" ng-if="envio.estado_orden==2" ng-click="btn_pdfenvio(envio.id)"></a></li>
+                                         </ul>
+                                     </div>
+                                 </td>
                               </tr>
                            </tbody>
                  </table>

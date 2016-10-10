@@ -31,6 +31,6 @@ class Consignacion extends Model
 
 
     public function InfoCliente(){
-        return $this->hasOne('App\Models\Clientes','id','id_cliente');
+        return $this->hasOne('App\Models\Clientes','id','id_cliente')->with("PorcentajeCliente");
     }
 }

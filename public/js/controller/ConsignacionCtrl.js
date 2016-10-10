@@ -185,9 +185,18 @@ wApp.controller('ConsignacionCtrl',function($scope, $http,ApiConsignacionNuevo, 
          $window.location.href = '/api/consignacion/pdfventa/'+ $scope.idventa;
       };   
 
+      
+
  
             
    };
+
+    //PDF Ventas
+      $scope.btn_pdfenvio = function(id){
+        $scope.idenvio= id;
+         console.log("Creando PDF para orden de envio")
+         $window.location.href = '/api/consignacion/pdfenvio/'+ $scope.idenvio;
+      };   
 
    //Factura para clientes en consignación
    $scope.miconsigna={};

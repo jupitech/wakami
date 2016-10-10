@@ -175,6 +175,18 @@ class ConsignacionController extends Controller
     }
 
 
+     //PDF para envios consignacion
+
+     public function pdfenvio($id)
+    {
+      //Trayendo ventas
+       $envios=OrdenConsignacion::with("NombreConsignacion")->where('id',$id)->first();
+       $pdf = PDF::loadView('pdf.invoiceenvio',['envios'=>$envios]);
+        return $pdf->download('Orden Envio #'.$envios->id.'.pdf');
+ 
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
