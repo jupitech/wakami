@@ -647,11 +647,15 @@
                       </div>
                 </div>
                  <div class="col-sm-12">
+                                   <div class="busqueda_texto col-sm-4 spd spi">
+                                  <input type="text" id="query" ng-model="query"  onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de productos.." />
+                                   </div>
                   <div class="btn_nuevo">
                         <a href="" ng-click="nuevafactura(exisConsignacion)">Nueva Factura</a>
                     </div>
                 </div>
                 {{-- Productos de stock en bodgea --}}
+
                       <div class="col-sm-12 conte table_height">
                                   <table class="table">
                                            <thead>
@@ -663,7 +667,7 @@
                                                <th>Subtotal</th>
                                            </thead>
                                              <tbody>
-                                               <tr ng-repeat="proconsignacion in proconsignaciones">
+                                               <tr ng-repeat="proconsignacion in proconsignaciones | filter: query">
                                                    <td> <small class="label label-success">@{{ proconsignacion.nombre_producto.codigo }}</small>
                                                       @{{proconsignacion.nombre_producto.nombre}}</td>
                                                      <td>Q@{{proconsignacion.nombre_producto.costo | number:2 }}</td>
