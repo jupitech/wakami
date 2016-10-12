@@ -439,6 +439,11 @@
                       </div>
                       
                         {{-- Productos de stock en sucursal --}}
+                         <div class="col-sm-12 mtop">
+                                   <div class="busqueda_texto col-sm-4 spd spi">
+                                  <input type="text" id="query" ng-model="query"  onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de productos.." />
+                                   </div>
+                        </div>
                       <div class="col-sm-12 conte table_height">
                             <div class="col-sm-12">
                                 <div class="alert alert-danger" role="alert" ng-if="alertaEliminadoPro"> <strong>Producto borrado</strong> No se podrá recuperar los datos.</div>  
@@ -453,7 +458,7 @@
                                                <th>Opciones</th>
                                            </thead>
                                              <tbody>
-                                               <tr ng-repeat="prosucursal in prosucursales">
+                                               <tr ng-repeat="prosucursal in prosucursales  | filter: query">
                                                    <td> <small class="label label-success">@{{ prosucursal.nombre_producto.codigo }}</small>
                                                       @{{prosucursal.nombre_producto.nombre}}</td>
                                                      <td>Q@{{prosucursal.nombre_producto.costo | number:2 }}</td>

@@ -38,7 +38,9 @@ body{
 
  }
 
-
+.mtop{
+	margin-top:15px;
+}
 .area_login 
 {
 			position: absolute;
@@ -908,13 +910,14 @@ body{
 	position: fixed;
 	background: #fff;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-	min-height: 100%;
+	height: 100%;
 	width: 60%;
 	right: 0;
 	top: 0;
 	z-index: 200;
 	padding-top: 70px;
 	animation: 0.2s baparecer;
+	overflow-y:auto;
      
      .sep{
      	margin-top: 15px;
@@ -1245,7 +1248,7 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 
 .table_height{
 	margin-top: 25px;
-	height: 400px;
+	height: 300px;
 	 overflow-y: scroll;
 }
 

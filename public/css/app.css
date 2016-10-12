@@ -5753,6 +5753,9 @@ body {
     height: 100%;
     position: relative; }
 
+.mtop {
+  margin-top: 15px; }
+
 .area_login {
   position: absolute;
   width: 35%;
@@ -6494,13 +6497,14 @@ body {
   position: fixed;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  min-height: 100%;
+  height: 100%;
   width: 60%;
   right: 0;
   top: 0;
   z-index: 200;
   padding-top: 70px;
-  animation: 0.2s baparecer; }
+  animation: 0.2s baparecer;
+  overflow-y: auto; }
   #area_mas .sep {
     margin-top: 15px; }
   #area_mas .conte_nuevo {
@@ -6797,7 +6801,7 @@ body {
 
 .table_height {
   margin-top: 25px;
-  height: 400px;
+  height: 300px;
   overflow-y: scroll; }
 
 .table_height::-webkit-scrollbar {
