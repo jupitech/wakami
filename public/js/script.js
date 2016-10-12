@@ -54,6 +54,18 @@ wApp.factory('ApiConsignacionNuevo', function($resource){
     };
   });
 
+ wApp.filter('SumaCanti', function () {
+    return function (data, key) {
+        if (angular.isUndefined(data) && angular.isUndefined(key))
+            return 0;
+        var sum = 0;
+        angular.forEach(data,function(value){
+            sum = sum + parseInt(value[key]);
+        });
+        return sum;
+    };
+  });
+
 wApp.directive("compareTo", function ()
 {
     return {

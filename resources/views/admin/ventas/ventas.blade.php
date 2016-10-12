@@ -49,7 +49,8 @@
                     <div class="col-sm-12">
                      <div class="info_cliente">
                      <h2>Poductos</h2>
-                        <table class="table">
+                     <div class="col-sm-12 conte table_height">
+                       <table class="table">
                           <thead>
                             <tr>
                               <th>Cod.</th>
@@ -63,17 +64,22 @@
                             <tr  ng-repeat="miproducto in misproductos">
                                 <td>@{{miproducto.nombre_producto.codigo}}</td>
                                 <td>@{{miproducto.nombre_producto.nombre}}</td>
-                                <td>@{{miproducto.nombre_producto.preciop | currency: 'Q'}}</td>
+                                <td ng-if="miproducto.venta.descuentos_ventas==null">@{{miproducto.nombre_producto.preciop | currency: 'Q'}}</td>
+                                <td ng-if="miproducto.venta.descuentos_ventas!=null">@{{(miproducto.nombre_producto.preciop-((miproducto.nombre_producto.preciop*miproducto.venta.descuentos_ventas.porcentaje)/100)) | currency: 'Q'}}</td>
                                 <td>X @{{miproducto.cantidad}}</td>
-                                 <td>@{{miproducto.nombre_producto.preciop*miproducto.cantidad | currency: 'Q' }}</td>
-                            </tr>
-                            <tr>
-                              <td colspan="3"></td>
-                              <th>Total</th>
-                              <th>@{{exisVenta.total | currency: 'Q' }}</th>
+                                 <td ng-if="miproducto.venta.descuentos_ventas==null">@{{miproducto.nombre_producto.preciop*miproducto.cantidad | currency: 'Q' }}</td>
+                                 <td ng-if="miproducto.venta.descuentos_ventas!=null">@{{(miproducto.nombre_producto.preciop-((miproducto.nombre_producto.preciop*miproducto.venta.descuentos_ventas.porcentaje)/100))*miproducto.cantidad | currency: 'Q' }}</td>
                             </tr>
                           </tbody>
                         </table>
+                     </div>
+                      <div class="col-sm-12 footer">
+                              <div class="col-sm-4">
+                                    <h3>Total</h3>
+                                    <h1>@{{exisVenta.total | currency: 'Q' }} <small>@{{misproductos | SumaCanti:'cantidad'}} uni.</small></h1>
+                              </div>
+                      </div>
+                        
 
                      </div>
                     </div>

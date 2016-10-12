@@ -306,7 +306,7 @@
                       <div class="col-sm-12 footer">
                         <div class="col-sm-4">
                         <h3>Total</h3>
-                          <h1>Q@{{procompras | SumaItem:'subtotal'}}</h1>
+                          <h1>Q@{{procompras | SumaItem:'subtotal'}} <small>@{{procompras | SumaCanti:'cantidad'}} uni.</small></h1>
                         </div>
                         <div class="col-sm-8" ng-if="exisCompra.estado_orden==1 && procompras.length > 0">
                                <form class="form-horizontal" name="frm" role="form" ng-submit="enviarCompra()" >

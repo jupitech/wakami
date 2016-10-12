@@ -238,7 +238,7 @@
                           <div class="col-sm-12 footer">
                               <div class="col-sm-4">
                                     <h3>Total</h3>
-                                    <h1>Q@{{proenvios | SumaItem:'subtotal'}}</h1>
+                                    <h1>Q@{{proenvios | SumaItem:'subtotal'}} <small>@{{proenvios | SumaCanti:'cantidad'}} uni.</small></h1>
                               </div>
                                <div class="col-sm-8" ng-if="exisEnvio.estado_orden==1 && proenvios.length > 0">
                                      <form class="form-horizontal" name="frm" role="form" ng-submit="enviarEnvio()" >
@@ -615,7 +615,7 @@
           <div class="header_nuevo">
 
                         <div class="col-sm-12">
-                              <h1>Cosignación para @{{exisConsignacion.info_cliente.nombre}} - @{{exisConsignacion.info_cliente.empresa}}</h1>
+                              <h1>Consignación para @{{exisConsignacion.info_cliente.nombre}} - @{{exisConsignacion.info_cliente.empresa}}</h1>
                               <a class="btn_cerrar" ng-click="btn_cerrarc()"></a>
                         </div>
           </div>
@@ -679,6 +679,12 @@
                                            </tbody>
                                        </table>
                       </div>
+                        <div class="col-sm-12 footer">
+                              <div class="col-sm-4">
+                                    <h3>Cantidad</h3>
+                                    <h1><small>@{{proconsignaciones | SumaCanti:'stock'}} unidades</small></h1>
+                              </div>
+                        </div>
             
           </div>
 
