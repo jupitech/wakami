@@ -168,6 +168,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::get('/ventamessucursal', 'VentasCentralController@ventamessucursal');
 			Route::get('/ventaaniosucursal', 'VentasCentralController@ventaaniosucursal');
 			Route::get('/ventadiapago', 'VentasCentralController@ventadiapago');
+			Route::get('/ventamespago', 'VentasCentralController@ventamespago');
+			Route::get('/ventaaniopago', 'VentasCentralController@ventaaniopago');
 
 			Route::get('/pdfventa/{id}', 'VentasCentralController@pdfventa');
 

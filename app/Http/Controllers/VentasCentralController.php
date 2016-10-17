@@ -180,7 +180,53 @@ class VentasCentralController extends Controller
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
           ->join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
           ->where('ventas.estado_ventas',2)
-          ->where('ventas.fecha_factura','!=',Carbon::today())
+          ->where('ventas.fecha_factura','>=',Carbon::today())
+          ->select(
+            'sucursales.codigo_esta',
+            'ventas.id_sucursal', 
+            'tpago_venta.tipo_pago', 
+            \DB::raw('count(ventas.id) as cantidad'),
+            \DB::raw('sum(ventas.total) as total')
+               )
+          ->groupBy('tpago_venta.tipo_pago','ventas.id_sucursal')
+          ->get();        
+
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+       public function ventamespago()
+    {
+
+          $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
+          ->join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
+          ->where('ventas.estado_ventas',2)
+          ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
+          ->select(
+            'sucursales.codigo_esta',
+            'ventas.id_sucursal', 
+            'tpago_venta.tipo_pago', 
+            \DB::raw('count(ventas.id) as cantidad'),
+            \DB::raw('sum(ventas.total) as total')
+               )
+          ->groupBy('tpago_venta.tipo_pago','ventas.id_sucursal')
+          ->get();        
+
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+   public function ventaaniopago()
+    {
+
+          $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
+          ->join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
+          ->where('ventas.estado_ventas',2)
+          ->where('ventas.fecha_factura','>=',Carbon::today()->startOfYear())
           ->select(
             'sucursales.codigo_esta',
             'ventas.id_sucursal', 

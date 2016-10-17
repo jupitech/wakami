@@ -311,7 +311,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                 });    
 
              //Ventas por sucursal de ayer
-            $http.get('/api/ventadiapago').success(
+            $http.get('/api/ventamespago').success(
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
@@ -343,7 +343,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                 });    
 
              //Ventas por sucursal de ayer
-            $http.get('/api/ventadiapago').success(
+            $http.get('/api/ventaaniopago').success(
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
