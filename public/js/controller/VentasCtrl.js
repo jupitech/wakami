@@ -217,10 +217,17 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
     $scope.busfiltropago='';
   }
 
-     $scope.mas_obj = false; //Nuevo proveedor
+  $scope.act_btn=1;
 
-         //Todos las ventas
-            $http.get('/api/ventas').success(
+     $scope.mas_obj = false; //Nuevo proveedor
+       $scope.urldia='/api/ventasdia';
+       $scope.urlmes='/api/ventasmes';
+       $scope.urlanio='/api/ventasanio';
+       
+        $scope.urlac= $scope.urldia;
+
+        //Todos las ventas
+            $http.get($scope.urlac).success(
 
                     function(ventas) {
                               $scope.ventas = ventas.datos;
@@ -238,13 +245,37 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                 });    
 
              //Ventas por sucursal de ayer
-            $http.get('/api/ventaayersucursal').success(
+            $http.get('/api/ventadiapago').success(
 
-                    function(ventaayersucursal) {
-                              $scope.ventaayersucursal = ventaayersucursal.datos;
+                      function(ventadiapago) {
+                                $scope.ventadiapago = ventadiapago.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    }); 
+
+                    
+      
+       $scope.btn_dia=function(){
+          $scope.act_btn=1;
+         $scope.urlac= $scope.urldia;
+     
+            //Todos las ventas
+            $http.get($scope.urlac).success(
+
+                    function(ventas) {
+                              $scope.ventas = ventas.datos;
                   }).error(function(error) {
                        $scope.error = error;
-                  });    
+                  });
+
+             //Ventas por sucursal del dia
+            $http.get('/api/ventadiasucursal').success(
+
+                  function(ventadiasucursal) {
+                            $scope.ventadiasucursal = ventadiasucursal.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });    
 
              //Ventas por sucursal de ayer
             $http.get('/api/ventadiapago').success(
@@ -253,7 +284,78 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                                 $scope.ventadiapago = ventadiapago.datos;
                     }).error(function(error) {
                          $scope.error = error;
-                    });               
+                    }); 
+       };
+
+
+        $scope.btn_mes=function(){
+          $scope.act_btn=2;
+         $scope.urlac= $scope.urlmes;
+     
+            //Todos las ventas
+            $http.get($scope.urlac).success(
+
+                    function(ventas) {
+                              $scope.ventas = ventas.datos;
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+             //Ventas por sucursal del dia
+            $http.get('/api/ventamessucursal').success(
+
+                  function(ventadiasucursal) {
+                            $scope.ventadiasucursal = ventadiasucursal.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });    
+
+             //Ventas por sucursal de ayer
+            $http.get('/api/ventadiapago').success(
+
+                      function(ventadiapago) {
+                                $scope.ventadiapago = ventadiapago.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    }); 
+       };
+
+         $scope.btn_anio=function(){
+            $scope.act_btn=3;
+         $scope.urlac= $scope.urlanio;
+     
+            //Todos las ventas
+            $http.get($scope.urlac).success(
+
+                    function(ventas) {
+                              $scope.ventas = ventas.datos;
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+             //Ventas por sucursal del dia
+            $http.get('/api/ventaaniosucursal').success(
+
+                  function(ventadiasucursal) {
+                            $scope.ventadiasucursal = ventadiasucursal.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });    
+
+             //Ventas por sucursal de ayer
+            $http.get('/api/ventadiapago').success(
+
+                      function(ventadiapago) {
+                                $scope.ventadiapago = ventadiapago.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    }); 
+       };
+
+
+
+
+
 
         $scope.tpagos=[
           {id:'1',pago:'Efectivo'},
@@ -272,7 +374,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
          $http.delete('api/venta/destroy/' +  $scope.idventa)
             .success(function (data, status, headers) {
                console.log('Venta '+$scope.idventa+' borrada correctamente.');
-                   $http.get('/api/ventas').success(
+                   $http.get($scope.urlac).success(
 
                         function(ventas) {
                         $scope.ventas = ventas.datos;
@@ -321,7 +423,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                               console.log("Nota de credito creada correctamente");
                               
                                       //Todos las ventas
-                                          $http.get('/api/ventas').success(
+                                          $http.get($scope.urlac).success(
 
                                                   function(ventas) {
                                                             $scope.ventas = ventas.datos;
@@ -337,15 +439,6 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                                                   }).error(function(error) {
                                                        $scope.error = error;
                                                   }); 
-
-                                          //Ventas por sucursal de ayer
-                                          $http.get('/api/ventaayersucursal').success(
-
-                                                  function(ventaayersucursal) {
-                                                            $scope.ventaayersucursal = ventaayersucursal.datos;
-                                                }).error(function(error) {
-                                                     $scope.error = error;
-                                                }); 
 
                                          //Ventas por sucursal de ayer
                                           $http.get('/api/ventadiapago').success(
@@ -374,7 +467,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                               console.log("Nota de debito creada correctamente");
                               
                                       //Todos las ventas
-                                          $http.get('/api/ventas').success(
+                                          $http.get($scope.urlac).success(
 
                                                   function(ventas) {
                                                             $scope.ventas = ventas.datos;
@@ -390,15 +483,6 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                                                   }).error(function(error) {
                                                        $scope.error = error;
                                                   }); 
-
-                                          //Ventas por sucursal de ayer
-                                          $http.get('/api/ventaayersucursal').success(
-
-                                                  function(ventaayersucursal) {
-                                                            $scope.ventaayersucursal = ventaayersucursal.datos;
-                                                }).error(function(error) {
-                                                     $scope.error = error;
-                                                }); 
 
                                          //Ventas por sucursal de ayer
                                           $http.get('/api/ventadiapago').success(

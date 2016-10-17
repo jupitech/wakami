@@ -97,10 +97,46 @@
                 </div>
      </div>
 	<div class="col-sm-12">
+      <div class="filtros col-sm-12 spd spi">
+            <a class="btn_filtro" ng-click="btn_dia()" ng-class="{'btn_active': act_btn==1}">Día</a>
+            <a class="btn_filtro" ng-click="btn_mes()" ng-class="{'btn_active': act_btn==2}">Mes</a>
+            <a class="btn_filtro" ng-click="btn_anio()"  ng-class="{'btn_active': act_btn==3}">Año</a>
+            
+      </div>
       <div class="ventasdia col-sm-12 spd spi">
+        <div class="col-sm-6  col-md-6 col-lg-5 spi">
+            <div class="caja_contenido">
+              <h1>Tipo de pago</h1>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Pago</th>
+                    <th>FILUM</th>
+                    <th>Oakland</th>
+                    <th>Miraflores</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr  ng-repeat="(key, value) in ventadiapago | groupBy: 'tipo_pago'">
+                    <td  ng-switch="key">
+                     <span ng-switch-when="1">Efectivo</span>
+                     <span ng-switch-when="2">Tarjeta/POS</span>
+                     <span ng-switch-when="3">Cheque</span>
+                     <span ng-switch-when="4">Al Crédito</span>
+                     <span ng-switch-when="5">Depósito</span>
+                    </td>
+                    <td ng-repeat="diapago in value | orderBy:'codigo_esta'" class="td_2col">
+                        <div class="col-sm-4 spd spi"><span>@{{diapago.cantidad}}</span> </div>
+                        <div class="col-sm-8  spd spi"> <p>@{{diapago.total| currency: 'Q'}}</p></div>
+                    </td>   
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
           <div class="col-sm-4 spi">
             <div class="caja_contenido">
-              <h1>Ventas por sucursal del dia</h1>
+              <h1>Ventas por sucursal</h1>
               <ul class="lisdia">
                   <li ng-repeat="sucursaldia in ventadiasucursal" class="col-sm-4">
                   <h2>@{{sucursaldia.nombre_sucursal.nombre}}</h2>
@@ -110,36 +146,13 @@
               </ul>
             </div>
           </div>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <div class="caja_contenido">
-              <h1>Ventas por sucursal ayer</h1>
-               <ul class="lisdia">
-                  <li ng-repeat="sucursalayer in ventaayersucursal" class="col-sm-4">
-                  <h2>@{{sucursalayer.nombre_sucursal.nombre}}</h2>
-                  <h3>@{{sucursalayer.cantidad}}</h3>
-                  <p>@{{sucursalayer.total| currency: 'Q'}}</p>
-                  </li>
-              </ul>
+              <h1>Facturas</h1>
+              
             </div>
           </div>
-          <div class="col-sm-4 spd">
-            <div class="caja_contenido">
-              <h1>Tipo de pago del dia </h1>
-                   <ul class="lisdia">
-                      <li ng-repeat="diapago in ventadiapago" class="col-sm-3">
-                       <h2 ng-switch="diapago.tipo_pago" class="icopago">
-                               <span ng-switch-when="1" class="ico_td ico_pefectivo">Efectivo</span>
-                               <span ng-switch-when="2" class="ico_td ico_ppos">POS</span>
-                               <span ng-switch-when="3" class="ico_td ico_pcheque">Cheque</span>
-                               <span ng-switch-when="4" class="ico_td ico_pcredito">Crédito</span>
-                                <span ng-switch-when="5" class="ico_td ico_pdeposito">Crédito</span>
-                         </h2>
-                      <h3>@{{diapago.cantidad}}</h3>
-                      <p>@{{diapago.total| currency: 'Q'}}</p>
-                      </li>
-                  </ul>
-            </div>
-          </div>
+
       </div>
 	    <div class="col-sm-12 spd spi">
                  <div class="busqueda_texto col-sm-4 spd spi">

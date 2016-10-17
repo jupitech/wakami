@@ -103,10 +103,15 @@ body{
 	color: #aaa;
 	 transition: all 0.05s ease;
 }
+
 .btn_blanco:hover{
 	background: #fff;
 	text-decoration: none !important;
 	color: #aaa;
+}
+.btn_active{
+	background: #fff !important;
+	font-weight: bold;
 }
 .btn_regis{
 	margin-top: 14px;
@@ -843,6 +848,32 @@ body{
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
 	}
 }
+
+.btn_filtro{
+		cursor: pointer;
+		float: left;
+		padding: 9px 25px;
+		margin-right: 5px;
+		border-radius: 5px;
+		background: $cgris;
+		background-size: 15px;
+		color: #333;
+		font-size: 14px;
+		text-align: center;
+		text-decoration: none;
+			  -webkit-transition: all 0.1s linear;
+		     -moz-transition: all 0.1s linear;
+		       -o-transition: all 0.1s linear;
+		          transition: all 0.1s linear;
+
+}
+.btn_filtro:hover{
+		text-decoration: none;
+		background: $cgris;
+		background-size: 15px;
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+}
+
 
 .btn_opcion2{
 	float: right;
@@ -2099,6 +2130,19 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 		border-bottom: 1px solid #eee;
 	}
 
+}
+.td_2col{
+	border-left: 1px solid #eee !important;
+	span{
+		float: left;
+		width: 100%;
+		text-align: center;
+	}
+	p{
+		float: right;
+		margin:0;
+		    color: #006DF0 !important;
+	}
 }
 .lisdia{
 	float: left;

@@ -5817,6 +5817,10 @@ body {
   text-decoration: none !important;
   color: #aaa; }
 
+.btn_active {
+  background: #fff !important;
+  font-weight: bold; }
+
 .btn_regis {
   margin-top: 14px;
   background: #3fb1b5;
@@ -6446,6 +6450,26 @@ body {
     background: #ddd url("img/ico_eliminados.svg") no-repeat center;
     background-size: 22px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15); }
+
+.btn_filtro {
+  cursor: pointer;
+  float: left;
+  padding: 9px 25px;
+  margin-right: 5px;
+  border-radius: 5px;
+  background: #ddd;
+  background-size: 15px;
+  color: #333;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.1s linear; }
+
+.btn_filtro:hover {
+  text-decoration: none;
+  background: #ddd;
+  background-size: 15px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15); }
 
 .btn_opcion2 {
   float: right; }
@@ -7502,6 +7526,17 @@ body {
     margin: 0;
     padding: 10px 15px;
     border-bottom: 1px solid #eee; }
+
+.td_2col {
+  border-left: 1px solid #eee !important; }
+  .td_2col span {
+    float: left;
+    width: 100%;
+    text-align: center; }
+  .td_2col p {
+    float: right;
+    margin: 0;
+    color: #006DF0 !important; }
 
 .lisdia {
   float: left;

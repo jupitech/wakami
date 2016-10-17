@@ -144,7 +144,9 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 
 
 			//Ventas Central
-			Route::get('/ventas', 'VentasCentralController@indexventas');
+			Route::get('/ventasdia', 'VentasCentralController@indexventasdia');
+			Route::get('/ventasmes', 'VentasCentralController@indexventasmes');
+			Route::get('/ventasanio', 'VentasCentralController@indexventasanio');
 			Route::post('/ventacentral/create', 'VentasCentralController@store');
 			Route::post('/ventacliente/create', 'VentasCentralController@storeclie');
 			Route::post('/ventaproducto/create', 'VentasCentralController@storepro');
@@ -163,7 +165,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::delete('/venta/destroy/{id}','VentasCentralController@destroy');
 
 			Route::get('/ventadiasucursal', 'VentasCentralController@ventadiasucursal');
-			Route::get('/ventaayersucursal', 'VentasCentralController@ventaayersucursal');
+			Route::get('/ventamessucursal', 'VentasCentralController@ventamessucursal');
+			Route::get('/ventaaniosucursal', 'VentasCentralController@ventaaniosucursal');
 			Route::get('/ventadiapago', 'VentasCentralController@ventadiapago');
 
 			Route::get('/pdfventa/{id}', 'VentasCentralController@pdfventa');

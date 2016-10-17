@@ -59,10 +59,29 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $ventas],200);
     }
 
-      public function indexventas()
+      public function indexventasdia()
     {
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal","DescuentosVentas")->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today())->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+    public function indexventasmes()
+    {
+           //Trayendo Producto
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today()->startOfMonth())->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+       public function indexventasanio()
+    {
+           //Trayendo Producto
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today()->startOfYear())->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
@@ -125,13 +144,27 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $ventas],200);
     }
 
-      public function ventaayersucursal()
+      public function ventamessucursal()
     {
            //Trayendo Producto
          $ventas=Ventas::with("NombreSucursal")
                   ->where('estado_ventas',2)
-                  ->where('fecha_factura','>=',Carbon::yesterday())
-                  ->where('fecha_factura','<',Carbon::today())
+                  ->where('fecha_factura','>=',Carbon::today()->startOfMonth())
+                  ->groupBy('id_sucursal')
+                  ->select('id_sucursal', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
+                  ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+     public function ventaaniosucursal()
+    {
+           //Trayendo Producto
+         $ventas=Ventas::with("NombreSucursal")
+                  ->where('estado_ventas',2)
+                  ->where('fecha_factura','>=',Carbon::today()->startOfYear())
                   ->groupBy('id_sucursal')
                   ->select('id_sucursal', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
                   ->get();
@@ -145,14 +178,17 @@ class VentasCentralController extends Controller
     {
 
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
+          ->join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
           ->where('ventas.estado_ventas',2)
-          ->where('ventas.fecha_factura','>=',Carbon::today())
+          ->where('ventas.fecha_factura','!=',Carbon::today())
           ->select(
+            'sucursales.codigo_esta',
+            'ventas.id_sucursal', 
             'tpago_venta.tipo_pago', 
             \DB::raw('count(ventas.id) as cantidad'),
             \DB::raw('sum(ventas.total) as total')
                )
-          ->groupBy('tpago_venta.tipo_pago')
+          ->groupBy('tpago_venta.tipo_pago','ventas.id_sucursal')
           ->get();        
 
          if(!$ventas){
