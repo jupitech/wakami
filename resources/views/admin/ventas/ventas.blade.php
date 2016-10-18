@@ -125,10 +125,19 @@
                      <span ng-switch-when="4">Al Crédito</span>
                      <span ng-switch-when="5">Depósito</span>
                     </td>
-                    <td ng-repeat="diapago in value | orderBy:'codigo_esta'" class="td_2col">
+                    <td ng-repeat="diapago in value | orderBy:'codigo_esta' | filter:{'codigo_esta':'1'}" class="td_2col">
                         <div class="col-sm-4 spd spi"><span>@{{diapago.cantidad}}</span> </div>
                         <div class="col-sm-8  spd spi"> <p>@{{diapago.total| currency: 'Q'}}</p></div>
-                    </td>   
+                    </td>  
+                       <td ng-repeat="diapago in value | orderBy:'codigo_esta' | filter:{'codigo_esta':'2'}" class="td_2col">
+                        <div class="col-sm-4 spd spi"><span>@{{diapago.cantidad}}</span> </div>
+                        <div class="col-sm-8  spd spi"> <p>@{{diapago.total| currency: 'Q'}}</p></div>
+                    </td>  
+                            <td ng-repeat="diapago in value | orderBy:'codigo_esta' | filter:{'codigo_esta':'3'}" class="td_2col">
+                        <div class="col-sm-4 spd spi"><span>@{{diapago.cantidad}}</span> </div>
+                        <div class="col-sm-8  spd spi"> <p>@{{diapago.total| currency: 'Q'}}</p></div>
+                    </td>  
+
                   </tr>
                 </tbody>
               </table>
