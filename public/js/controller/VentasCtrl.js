@@ -230,7 +230,10 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
             $http.get($scope.urlac).success(
 
                     function(ventas) {
-                              $scope.ventas = ventas.datos;
+                              $scope.ventas = ventas.datos.slice(0, 15);
+                              $scope.masventas = function () {
+                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                              }
                   }).error(function(error) {
                        $scope.error = error;
                   });
@@ -263,7 +266,10 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
             $http.get($scope.urlac).success(
 
                     function(ventas) {
-                              $scope.ventas = ventas.datos;
+                              $scope.ventas = ventas.datos.slice(0, 15);
+                              $scope.masventas = function () {
+                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                              }
                   }).error(function(error) {
                        $scope.error = error;
                   });
@@ -296,7 +302,10 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
             $http.get($scope.urlac).success(
 
                     function(ventas) {
-                              $scope.ventas = ventas.datos;
+                              $scope.ventas = ventas.datos.slice(0, 15);
+                              $scope.masventas = function () {
+                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                              }
                   }).error(function(error) {
                        $scope.error = error;
                   });
@@ -328,7 +337,10 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
             $http.get($scope.urlac).success(
 
                     function(ventas) {
-                              $scope.ventas = ventas.datos;
+                              $scope.ventas = ventas.datos.slice(0, 15);
+                              $scope.masventas = function () {
+                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                              }
                   }).error(function(error) {
                        $scope.error = error;
                   });
@@ -377,7 +389,10 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                    $http.get($scope.urlac).success(
 
                         function(ventas) {
-                        $scope.ventas = ventas.datos;
+                                  $scope.ventas = ventas.datos.slice(0, 15);
+                              $scope.masventas = function () {
+                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                              }
                             }).error(function(error) {
                                  $scope.error = error;
                             });
@@ -426,7 +441,10 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                                           $http.get($scope.urlac).success(
 
                                                   function(ventas) {
-                                                            $scope.ventas = ventas.datos;
+                                                              $scope.ventas = ventas.datos.slice(0, 15);
+                                                              $scope.masventas = function () {
+                                                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                                                              }
                                                 }).error(function(error) {
                                                      $scope.error = error;
                                                 });
@@ -470,7 +488,10 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                                           $http.get($scope.urlac).success(
 
                                                   function(ventas) {
-                                                            $scope.ventas = ventas.datos;
+                                                              $scope.ventas = ventas.datos.slice(0, 15);
+                                                              $scope.masventas = function () {
+                                                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                                                              }
                                                 }).error(function(error) {
                                                      $scope.error = error;
                                                 });

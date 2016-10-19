@@ -46,6 +46,7 @@
     <script src="/js/vendor.js"></script>
       <script src="/js/ngPrint.js"></script>
       <script src="/js/angular-button-spinner.min.js"></script>
+      <script src="/js/ng-infinite-scroll.min.js"></script>
        <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script>
     @stack('scripts')
   

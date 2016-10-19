@@ -27,9 +27,9 @@ elixir(function(mix) {
     mix.copy(npmDir + 'moment/moment.js',jsDir);
     mix.copy(npmDir + 'moment-timezone/moment-timezone.js',jsDir);
     mix.copy(npmDir + 'angular-moment/angular-moment.min.js',jsDir);
-     mix.copy(npmDir + 'nya-bootstrap-select/dist/js/nya-bs-select.min.js',jsDir);
-      mix.copy(npmDir + 'angular-lazy-img/release/angular-lazy-img.js',jsDir);
-        mix.copy(npmDir + 'angular-filter/dist/angular-filter.min.js',jsDir);
+    mix.copy(npmDir + 'nya-bootstrap-select/dist/js/nya-bs-select.min.js',jsDir);
+    mix.copy(npmDir + 'angular-lazy-img/release/angular-lazy-img.js',jsDir);
+    mix.copy(npmDir + 'angular-filter/dist/angular-filter.min.js',jsDir);
     mix.scripts([
     	'angular.min.js',
     	'angular-route.min.js',

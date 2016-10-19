@@ -183,7 +183,7 @@
                      <th>Fecha Factura</th>
 	                   <th>Opciones</th>
 	               </thead>
-	               <tbody>
+	               <tbody infinite-scroll="masventas()">
 	                   <tr ng-repeat="venta in ventas | filter: query | orderBy:'-id'" ng-class="{'trc_ama':venta.estado_ventas==1,'trc_ver':venta.estado_ventas==3,'trc_fca':venta.estado_ventas==4}">
 	                     <td class="td_first"></td>
                          <td ng-click="abrirventa(venta)"><small>@{{venta.dte}}</small></td>
