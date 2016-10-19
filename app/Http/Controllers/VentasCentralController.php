@@ -201,7 +201,7 @@ class VentasCentralController extends Controller
     {
 
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
-          ->leftJoin('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
+          ->leftJoin('sucursales', 'ventas.id_sucursal', '=', 'sucursales.id')
           ->where('ventas.estado_ventas',2)
           ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
           ->select(
@@ -211,7 +211,7 @@ class VentasCentralController extends Controller
             \DB::raw('count(ventas.id) as cantidad'),
             \DB::raw('sum(ventas.total) as total')
                )
-          ->groupBy('tpago_venta.tipo_pago','ventas.id_sucursal')
+          ->groupBy('tpago_venta.tipo_pago','sucursales.id')
           ->get();        
 
          if(!$ventas){

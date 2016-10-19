@@ -911,7 +911,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
           $scope.loading = true;
           $timeout(function() { 
             $scope.loading = false;
-          }, 3000);
+          }, 10000);
             var datafact={
                 id_tpago: $scope.factura.tipo_pago,
                 referencia: $scope.factura.referencia,
@@ -1259,7 +1259,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
          $scope.loading = true;
           $timeout(function() { 
               $scope.loading = false;
-            }, 3000);
+            }, 10000);
 
             var datafact={
                 id_tpago: $scope.factura.tipo_pago,
