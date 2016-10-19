@@ -62,7 +62,7 @@ class VentasCentralController extends Controller
       public function indexventasdia()
     {
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today())->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today())->orderBy('id', 'desc')->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
@@ -72,7 +72,7 @@ class VentasCentralController extends Controller
     public function indexventasmes()
     {
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today()->startOfMonth())->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today()->startOfMonth())->orderBy('id', 'desc')->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
@@ -81,7 +81,7 @@ class VentasCentralController extends Controller
        public function indexventasanio()
     {
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today()->startOfYear())->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","FacVenta","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today()->startOfYear())->orderBy('id', 'desc')->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
