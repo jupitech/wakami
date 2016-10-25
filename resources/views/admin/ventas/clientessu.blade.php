@@ -161,6 +161,7 @@
                                         
                                     </div>
                                </div>
+
                                 <div class="form-group">
                                     <div class="col-md-12">
                                         <label for="name">Dirección</label>
@@ -229,21 +230,17 @@
                 </div>
      </div>
 	<div class="col-sm-12">
-        <div class="filtros col-sm-12 spd spi">
-            <a class="btn_filtro" ng-click="cliecentral()" ng-class="{'btn_active': act_btn==1}">Central</a>
-            <a class="btn_filtro" ng-click="cliesucu()" ng-class="{'btn_active': act_btn==2}">En Sucursales</a>
-            
-      </div>
+
        <div class="col-sm-12 spd spi">
                      <div class="busqueda_texto col-sm-4">
                     <input type="text" id="query" ng-model="query" onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de clientes.." />
                      </div>
                 </div>
-      <div class="col-sm-12 spd spi">
-	       <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Cliente nuevo</strong> guardado correctamente, creado por administradores.</div>
-         <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Cliente borrado</strong> No se podrá recuperar los datos.</div>	
-	      <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Cliente editado</strong> Puedes ver en el listado de cliente las modificaciones realizadas.</div>
-     </div>
+
+	   <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Cliente nuevo</strong> guardado correctamente, creado por administradores.</div>
+        <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Cliente borrado</strong> No se podrá recuperar los datos.</div>	
+	 <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Cliente editado</strong> Puedes ver en el listado de cliente las modificaciones realizadas.</div>
+  
 	  <div class="caja_contenido">
 	           <table class="table">
 	               <thead>
@@ -251,92 +248,17 @@
 	                   <th>NIT</th>
 	                   <th>Dirección</th>
 	                   <th>Teléfono / Celular</th>
-	                   <th>Contacto</th>
-                     <th>Tipo Cliente</th>
+	                   <th>Email</th>
                       <th>%</th>
 	                   <th class="td_opciones">Opciones</th>
 	               </thead>
-	               <tbody ng-if="activecentral">
-	                   <tr ng-repeat="cliente in clientes| filter: query | filter:{tipo_cliente:'!1'}  | orderBy:'-id'">
-	                       <td>@{{cliente.nombre}} <small>@{{cliente.empresa}}</small></td>
-	                       <td>@{{cliente.nit}} </td>
-	                       <td>@{{cliente.direccion}}</td>
-	                       <td>@{{cliente.telefono}} / @{{cliente.celular}}</td>
-	                       <td>@{{cliente.contacto}}<small>-@{{cliente.email}}</small></td>
-                         <td ng-switch="cliente.tipo_cliente">
-                            <span ng-switch-when="1">Individual</span>
-                           <span ng-switch-when="2">Consignación</span>
-                           <span ng-switch-when="3">Contado</span>
-                           <span ng-switch-when="4">Crédito</span>
-                           <span ng-switch-when="5">Independiente</span>
-                         </td>
-                         <td><span ng-if="cliente.porcentaje_cliente.porcentaje" class="por_ac">@{{cliente.porcentaje_cliente.porcentaje}}%</span></td>
-	                       <td class="td_opciones">
-	                           <div class="area_opciones">
-	                               <ul>
-                                     @role('admin|operativo') 
-                                     <li class="op_drop"  uib-dropdown >
-                                           <a href="" class="ico_porcentaje" id="simple-dropdown" uib-dropdown-toggle ng-click="btn_porcen(cliente)"></a>
-                                           <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown" ng-if="!cliente.porcentaje_cliente.porcentaje"  > 
-                                          <form class="form-horizontal" name="frmed" role="form" ng-submit="nuevo_porcen()" >
-                                                 <div class="col-sm-8 adap_op">
-                                                     <input id="name" type="number" class="form-control" name="nombre" ng-model="porcen.cantidad" min="1" required>
-                                                 </div>
-                                                 <div class="col-sm-4 spd spi">
-                                                  <input type="hidden" ng-model="cliente.id"/>
-                                                  <input type="hidden" ng-model="cliente.tipo_cliente"/>
-                                                  <button type="submit" class="btn_g btn_nuevog" ng-disabled="frmed.$invalid"></button>
-                                                 </div>
-                                          </form>
-                                          </div>
-
-                                          <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown" ng-if="cliente.porcentaje_cliente.porcentaje"  > 
-                                          <form class="form-horizontal" name="frmed" role="form" ng-submit="editar_porcen(exisPor)" >
-                                                 <div class="col-sm-8 adap_op">
-                                                     <input id="name" type="number" class="form-control" name="nombre" ng-model="exisPor.cantidad" ng-init="exisPor.cantidad=cliente.porcentaje_cliente.porcentaje" min="1" required>
-                                                 </div>
-                                                 <div class="col-sm-4 spd spi">
-                                                  <input type="hidden" ng-model="cliente.id"/>
-                                                  <input type="hidden" ng-model="cliente.tipo_cliente"/>
-                                                  <button type="submit" class="btn_g btn_editarg" ng-disabled="frmed.$invalid"></button>
-                                                 </div>
-                                          </form>
-                                          </div>
-                                     </li>
-                                      @endrole
-	                                   <li><a href="" class="ico_editar" ng-click="btn_editar(cliente)"></a></li>
-                                      @role('admin|operativo') 
-	                                   <li class="op_drop"  uib-dropdown >
-	                                         <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle ></a>
-	                                         <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-	                                             <div class="col-sm-8 spd">
-	                                               <p>Eliminar <strong>@{{cliente.nombre}}</strong></p>
-	                                             </div>
-	                                             <div class="col-sm-4 spd spi">
-	                                               <a href="" ng-click="btn_eliminar(cliente.id)" class=" btn_g ico_eliminarg"></a>
-	                                             </div>
-	                                          </div>
-	                                   </li>
-                                      @endrole
-	                               </ul>
-	                           </div>
-	                       </td>
-	                   </tr>
-	                  
-	               </tbody>
-                    <tbody ng-if="activesucursal">
-                     <tr ng-repeat="cliente in clientes| filter: query | filter:{tipo_cliente:1}  | orderBy:'-id'">
+                    <tbody>
+                     <tr ng-repeat="cliente in clientes| filter: query | filter:{tipo_cliente:'1'}  | orderBy:'-id'">
                          <td>@{{cliente.nombre}} <small>@{{cliente.empresa}}</small></td>
                          <td>@{{cliente.nit}} </td>
                          <td>@{{cliente.direccion}}</td>
                          <td>@{{cliente.telefono}} / @{{cliente.celular}}</td>
-                           <td>@{{cliente.contacto}}<small>-@{{cliente.email}}</small></td>
-                         <td ng-switch="cliente.tipo_cliente">
-                           <span ng-switch-when="2">Consignación</span>
-                           <span ng-switch-when="3">Contado</span>
-                           <span ng-switch-when="4">Crédito</span>
-                           <span ng-switch-when="5">Independiente</span>
-                         </td>
+                         <td>@{{cliente.email}}</td>
                          <td><span ng-if="cliente.porcentaje_cliente.porcentaje" class="por_ac">@{{cliente.porcentaje_cliente.porcentaje}}%</span></td>
                          <td class="td_opciones">
                              <div class="area_opciones">

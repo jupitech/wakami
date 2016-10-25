@@ -484,12 +484,7 @@ class VentasCentralController extends Controller
              }else{
                 $nitComprador=str_replace("-", "", $exisnit);
 
-                 if($exisempre!=''){
-
-                    $nombreComercialComprador=$micliente->empresa;
-                 }else{
-                    $nombreComercialComprador=$micliente->nombre;
-                 }
+                $nombreComercialComprador=$micliente->nombre;
 
              }
 
@@ -744,12 +739,7 @@ class VentasCentralController extends Controller
              }else{
                 $nitComprador=str_replace("-", "", $exisnit);
 
-                 if($exisempre!=''){
-
-                    $nombreComercialComprador=$micliente->empresa;
-                 }else{
-                    $nombreComercialComprador=$micliente->nombre;
-                 }
+                $nombreComercialComprador=$micliente->nombre;
 
              }
 
@@ -989,12 +979,8 @@ class VentasCentralController extends Controller
              }else{
                 $nitComprador=str_replace("-", "", $exisnit);
 
-                 if($exisempre!=''){
-
-                    $nombreComercialComprador=$micliente->empresa;
-                 }else{
-                    $nombreComercialComprador=$micliente->nombre;
-                 }
+                 $nombreComercialComprador=$micliente->nombre;
+                
 
              }
 

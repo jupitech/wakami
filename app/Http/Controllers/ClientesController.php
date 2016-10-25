@@ -24,6 +24,11 @@ class ClientesController extends Controller
           return view('admin.ventas.clientes');
     }
 
+    public function indexsu()
+    {
+          return view('admin.ventas.clientessu');
+    }
+
      public function indexclientes()
     {
            //Trayendo Proveedores
@@ -44,23 +49,37 @@ class ClientesController extends Controller
     {
         $nit= $request['nit'];
         $celular= $request['celular'];
+        $empresa= $request['empresa'];
+        $email= $request['email'];
+        $contacto= $request['contacto'];
 
-        if($celular=''){
-            $micel='';
-        }else{
-            $micel= $celular;
+        if($celular=''){  $micel='';
+        }else{ $micel= $celular;
+        }
+
+        if($empresa=''){$miempresa='';
+        }else{ $miempresa= $empresa;
+        }
+
+        if($email=''){$miemail='';
+        }else{ $miemail= $email;
+        }
+
+        if($contacto=''){$micontacto='';
+        }else{ $micontacto= $contacto;
         }
 
         if($nit=='cf' || $nit=='CF' || $nit=='c/f' || $nit=='C/F'){
 
              $clientes=Clientes::create([
-                  'empresa' => $request['empresa'],
+                  'empresa' => $miempresa,
                   'nombre' => $request['nombre'],
                   'direccion' => $request['direccion'],
                   'telefono' => $request['telefono'],
                   'celular' => $micel,
-                  'email' => $request['email'],
+                  'email' => $miemail,
                   'tipo_cliente' => $request['tipo_cliente'],
+                  'contacto' => $micontacto,
                         ]);
               $clientes->save();
 
@@ -74,14 +93,15 @@ class ClientesController extends Controller
 
         }else{
              $clientes=Clientes::create([
-                  'empresa' => $request['empresa'],
+                  'empresa' => $miempresa,
                   'nombre' => $request['nombre'],
                   'nit' => $request['nit'],
                   'direccion' => $request['direccion'],
                   'telefono' => $request['telefono'],
                   'celular' => $micel,
-                  'email' => $request['email'],
+                  'email' => $miemail,
                   'tipo_cliente' => $request['tipo_cliente'],
+                  'contacto' => $micontacto,
                         ]);
               $clientes->save();
 
@@ -128,6 +148,7 @@ class ClientesController extends Controller
                                   'celular' => $request['celular'],
                                   'email' => $request['email'],
                                   'tipo_cliente' => $request['tipo_cliente'],
+                                  'contacto' => $request['contacto'],
                             ]);
                         $clientes->save();
             }else{
@@ -141,6 +162,7 @@ class ClientesController extends Controller
                                   'celular' => $request['celular'],
                                   'email' => $request['email'],
                                   'tipo_cliente' => $request['tipo_cliente'],
+                                  'contacto' => $request['contacto'],
                             ]);
                         $clientes->save();
             }

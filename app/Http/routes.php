@@ -25,6 +25,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|vendedor']], functio
 {
 	   //Clientes
 	   Route::get('/clientes', 'ClientesController@index');
+	    Route::get('/clientessu', 'ClientesController@indexsu');
 	     //Productos
 	   Route::get('/productos', 'ProductosController@index');
 

@@ -23,17 +23,34 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
    $scope.alertaExiste = false; // Alerta si el proveedor ya esta en existencia
    $scope.alertaEliminado = false; // Alerta de proveedor eliminado
    $scope.alertaEditado = false; // Alerta de proveedor editado
+   $scope.activecentral=true;
+   $scope.activesucursal=false;
+    $scope.act_btn=1;
 
    $scope.btn_nuevo = function() {
         $scope.nuevo_obj = !$scope.nuevo_obj;
        $scope.cliente={};
      };
 
+     $scope.cliecentral = function() {
+        $scope.activecentral=true;
+        $scope.activesucursal=false;
+       $scope.act_btn=1;
+     };
+
+     $scope.cliesucu = function() {
+        $scope.activesucursal=true;
+        $scope.activecentral=false;
+       $scope.act_btn=2;
+     };
+  
+
    $scope.tipos=[
         {id:'1',cliente:'Individual'},
         {id:'2',cliente:'Consignación'},
         {id:'3',cliente:'Contado'},
         {id:'4',cliente:'Crédito'},
+        {id:'5',cliente:'Independiente'},
         ];
 
 
@@ -61,7 +78,8 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
               telefono: $scope.cliente.telefono,
               celular: $scope.cliente.celular,
               email: $scope.cliente.email,
-              tipo_cliente: $scope.cliente.tipo_cliente
+              tipo_cliente: $scope.cliente.tipo_cliente,
+              contacto: $scope.cliente.contacto,
             };
 
         $http.post('/api/cliente/create', datacliente)
@@ -125,6 +143,7 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
                   telefono: $scope.existeCliente.telefono,
                   celular: $scope.existeCliente.celular,
                   email: $scope.existeCliente.email,
+                  contacto: $scope.existeCliente.contacto,
                   tipo_cliente: $scope.existeCliente.tipo_cliente
                 };
                 // console.log(data);

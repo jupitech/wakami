@@ -19,7 +19,7 @@ class Clientes extends Model
      *
      * @var array
      */
-    protected $fillable = ['empresa','nombre','nit','direccion','telefono','celular','email','tipo_cliente'];
+    protected $fillable = ['empresa','nombre','nit','direccion','telefono','celular','email','tipo_cliente','contacto'];
 
     /**
      * The attributes excluded from the model's JSON form.
