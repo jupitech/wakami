@@ -169,7 +169,7 @@
                          <td>@{{traslado.cantidad}}</td>
                          <td>@{{traslado.fecha_entrega}}</td>
                          <td>@{{traslado.d_usuario.nombre}} @{{traslado.d_usuario.apellido}}</td>
-                         <td>
+                         <td ng-if="traslado.estado_traslado==1">
                              <div class="area_opciones">
                                  <ul>
                                      <li class="op_drop"  uib-dropdown>
@@ -186,8 +186,11 @@
                                  </ul>
                              </div>
                          </td>
+
+                      <td ng-if="traslado.estado_traslado==2">
+                          <small class="label label-info">Enviado</small>
+                          </td>
                      </tr>
-                    
                  </tbody>
              </table>
         
