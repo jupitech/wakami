@@ -7459,6 +7459,13 @@ body {
   height: 20px;
   float: left; }
 
+.ico_esta {
+  float: left;
+  width: 100%;
+  padding-left: 35px;
+  height: 22px;
+  background-position: left center !important; }
+
 .ico_pefectivo {
   background: url("img/pago-efectivo.svg") no-repeat center;
   background-size: 20px; }
@@ -7477,6 +7484,18 @@ body {
 
 .ico_pdeposito {
   background: url("img/ico_banco.svg") no-repeat center;
+  background-size: 20px; }
+
+.ico_cancelada {
+  background: url("img/fac-cancelada.svg") no-repeat center;
+  background-size: 20px; }
+
+.ico_completada {
+  background: url("img/fac-completada.svg") no-repeat center;
+  background-size: 20px; }
+
+.ico_borrador {
+  background: url("img/fac-borrador.svg") no-repeat center;
   background-size: 20px; }
 
 .tot_venta {
