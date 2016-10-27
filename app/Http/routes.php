@@ -247,7 +247,9 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 
 
 		//Ventas
-		Route::get('/ventas/{id}', 'VentasController@indexventas');
+		Route::get('/ventasdia/{id}', 'VentasController@indexventasdia');
+		Route::get('/ventasmes/{id}', 'VentasController@indexventasmes');
+		Route::get('/ventasanio/{id}', 'VentasController@indexventasanio');
 		Route::post('/venta/create', 'VentasController@store');
 		Route::post('/ventacliente/create/{id}', 'VentasController@storeclie');
 		Route::post('/ventaproducto/create', 'VentasController@storepro');
@@ -261,8 +263,14 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		Route::delete('/venta/destroy/{id}','VentasController@destroy');
 
 		Route::get('/ventadiasucursal/{id}', 'VentasController@ventadiasucursal');
-		Route::get('/ventaayersucursal/{id}', 'VentasController@ventaayersucursal');
+		Route::get('/ventamessucursal/{id}', 'VentasController@ventamessucursal');
+		Route::get('/ventaaniosucursal/{id}', 'VentasController@ventaaniosucursal');
 		Route::get('/ventadiapago/{id}', 'VentasController@ventadiapago');
+		Route::get('/ventamespago/{id}', 'VentasController@ventamespago');
+		Route::get('/ventaaniopago/{id}', 'VentasController@ventaaniopago');
+		Route::get('/ventadiafac/{id}', 'VentasController@ventadiafac');
+		Route::get('/ventamesfac/{id}', 'VentasController@ventamesfac');
+		Route::get('/ventaaniofac/{id}', 'VentasController@ventaaniofac');
 
 		Route::get('/pdfventa/{id}', 'VentasController@pdfventa');
 

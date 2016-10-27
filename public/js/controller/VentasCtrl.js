@@ -1390,7 +1390,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
 wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal, $location,$window){
 
      $scope.mas_obj = false; //Nuevo proveedor
-
+  $scope.act_btn=1;
    //MiUsuario
       $http.get('api/mi/miusuario').success(
 
@@ -1414,17 +1414,28 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
       //Id Sucursal
           $scope.misucu=idsucu;            
 
-   //Todos las ventas
-      $http.get('/api/mi/ventas/'+ $scope.misucu).success(
 
-              function(ventas) {
-                        $scope.ventas = ventas.datos;
-            }).error(function(error) {
-                 $scope.error = error;
-            });
 
-         //Ventas por sucursal del dia
-            $http.get('/api/mi/ventadiasucursal/'+ $scope.misucu).success(
+      $scope.urldia='/api/mi/ventasdia/'+$scope.misucu;
+       $scope.urlmes='/api/mi/ventasmes/'+$scope.misucu;
+       $scope.urlanio='/api/mi/ventasanio/'+$scope.misucu;
+       
+        $scope.urlac= $scope.urldia;
+
+        //Todos las ventas
+            $http.get($scope.urlac).success(
+
+                    function(ventas) {
+                              $scope.ventas = ventas.datos.slice(0, 15);
+                              $scope.masventas = function () {
+                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                              }
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+             //Ventas por sucursal del dia
+            $http.get('/api/mi/ventadiasucursal/'+$scope.misucu).success(
 
                   function(ventadiasucursal) {
                             $scope.ventadiasucursal = ventadiasucursal.datos;
@@ -1433,22 +1444,165 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
                 });    
 
              //Ventas por sucursal de ayer
-            $http.get('/api/mi/ventaayersucursal/'+ $scope.misucu).success(
-
-                    function(ventaayersucursal) {
-                              $scope.ventaayersucursal = ventaayersucursal.datos;
-                  }).error(function(error) {
-                       $scope.error = error;
-                  });    
-
-             //Ventas por sucursal de ayer
-            $http.get('/api/mi/ventadiapago/'+ $scope.misucu).success(
+            $http.get('/api/mi/ventadiapago/'+$scope.misucu).success(
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
                     }).error(function(error) {
                          $scope.error = error;
-                    });                     
+                    }); 
+
+            
+               //Ventas por sucursal del dia
+            $http.get('/api/mi/ventadiafac/'+$scope.misucu).success(
+
+                  function(ventadiafac) {
+                            $scope.ventadiafac = ventadiafac.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                }); 
+
+
+        $scope.btn_dia=function(){
+          $scope.act_btn=1;
+         $scope.urlac= $scope.urldia;
+     
+            //Todos las ventas
+            $http.get($scope.urlac).success(
+
+                    function(ventas) {
+                              $scope.ventas = ventas.datos.slice(0, 15);
+                              $scope.masventas = function () {
+                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                              }
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+             //Ventas por sucursal del dia
+            $http.get('/api/mi/ventadiasucursal/'+$scope.misucu).success(
+
+                  function(ventadiasucursal) {
+                            $scope.ventadiasucursal = ventadiasucursal.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });    
+
+             //Ventas por sucursal de ayer
+            $http.get('/api/mi/ventadiapago/'+$scope.misucu).success(
+
+                      function(ventadiapago) {
+                                $scope.ventadiapago = ventadiapago.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    }); 
+
+                //Ventas por sucursal del dia
+            $http.get('/api/mi/ventadiafac/'+$scope.misucu).success(
+
+                  function(ventadiafac) {
+                            $scope.ventadiafac = ventadiafac.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });   
+
+       };
+
+
+        $scope.btn_mes=function(){
+          $scope.act_btn=2;
+         $scope.urlac= $scope.urlmes;
+     
+            //Todos las ventas
+            $http.get($scope.urlac).success(
+
+                    function(ventas) {
+                              $scope.ventas = ventas.datos.slice(0, 15);
+                              $scope.masventas = function () {
+                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                              }
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+             //Ventas por sucursal del dia
+            $http.get('/api/mi/ventamessucursal/'+$scope.misucu).success(
+
+                  function(ventadiasucursal) {
+                            $scope.ventadiasucursal = ventadiasucursal.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });    
+
+             //Ventas por sucursal de ayer
+            $http.get('/api/mi/ventamespago/'+$scope.misucu).success(
+
+                      function(ventadiapago) {
+                                $scope.ventadiapago = ventadiapago.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    }); 
+
+            //Ventas por estado de factura
+            $http.get('/api/mi/ventamesfac/'+$scope.misucu).success(
+
+                  function(ventadiafac) {
+                            $scope.ventadiafac = ventadiafac.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });           
+       };
+
+         $scope.btn_anio=function(){
+            $scope.act_btn=3;
+         $scope.urlac= $scope.urlanio;
+     
+            //Todos las ventas
+            $http.get($scope.urlac).success(
+
+                    function(ventas) {
+                              $scope.ventas = ventas.datos.slice(0, 15);
+                              $scope.masventas = function () {
+                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                              }
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+             //Ventas por sucursal del dia
+            $http.get('/api/mi/ventaaniosucursal/'+$scope.misucu).success(
+
+                  function(ventadiasucursal) {
+                            $scope.ventadiasucursal = ventadiasucursal.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });    
+
+             //Ventas por sucursal de ayer
+            $http.get('/api/mi/ventaaniopago/'+$scope.misucu).success(
+
+                      function(ventadiapago) {
+                                $scope.ventadiapago = ventadiapago.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    }); 
+
+                //Ventas por estado de factura
+            $http.get('/api/mi/ventaaniofac/'+$scope.misucu).success(
+
+                  function(ventadiafac) {
+                            $scope.ventadiafac = ventadiafac.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });          
+       };
+
+
+    
+
+
+
+
 
        //Eliminar venta 
       $scope.btn_eliminar = function(id){
