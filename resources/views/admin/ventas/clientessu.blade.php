@@ -248,7 +248,7 @@
 	                   <th>NIT</th>
 	                   <th>Dirección</th>
 	                   <th>Teléfono / Celular</th>
-	                   <th>Email</th>
+	                   <th>Contacto</th>
                       <th>%</th>
 	                   <th class="td_opciones">Opciones</th>
 	               </thead>

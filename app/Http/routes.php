@@ -171,6 +171,9 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::get('/ventadiapago', 'VentasCentralController@ventadiapago');
 			Route::get('/ventamespago', 'VentasCentralController@ventamespago');
 			Route::get('/ventaaniopago', 'VentasCentralController@ventaaniopago');
+			Route::get('/ventadiafac', 'VentasCentralController@ventadiafac');
+			Route::get('/ventamesfac', 'VentasCentralController@ventamesfac');
+			Route::get('/ventaaniofac', 'VentasCentralController@ventaaniofac');
 
 			Route::get('/pdfventa/{id}', 'VentasCentralController@pdfventa');
 
@@ -223,6 +226,9 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 	   //Productos
 	    Route::get('/misproductos', 'MiProductoController@index');
 
+	    //Traslados
+	      Route::get('/traslados', 'TrasladosController@index');
+
 
 
 	 Route::group(['middleware' => 'cors','prefix' => 'api/mi'], function()
@@ -263,6 +269,12 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		//Productos
 		Route::get('/productos/{id}', 'MiProductoController@indexproductos');
 		Route::get('/productosas/{id}', 'MiProductoController@indexproductosstock');
+
+		//Traslados
+	    Route::get('/traslados/sucursales/{id}', 'TrasladosController@indexsucursales');
+	    Route::post('/traslados/create', 'TrasladosController@store');
+	    Route::get('/trasladosen/{id}', 'TrasladosController@indextrasladosen');
+	    Route::get('/trasladosre/{id}', 'TrasladosController@indextrasladosre');
 
 	});	
 

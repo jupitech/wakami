@@ -275,6 +275,16 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                          $scope.error = error;
                     }); 
 
+            
+               //Ventas por sucursal del dia
+            $http.get('/api/ventadiafac').success(
+
+                  function(ventadiafac) {
+                            $scope.ventadiafac = ventadiafac.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });    
+
                     
       
        $scope.btn_dia=function(){
@@ -310,6 +320,16 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                     }).error(function(error) {
                          $scope.error = error;
                     }); 
+
+                //Ventas por sucursal del dia
+            $http.get('/api/ventadiafac').success(
+
+                  function(ventadiafac) {
+                            $scope.ventadiafac = ventadiafac.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });   
+
        };
 
 
@@ -346,6 +366,15 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                     }).error(function(error) {
                          $scope.error = error;
                     }); 
+
+            //Ventas por estado de factura
+            $http.get('/api/ventamesfac').success(
+
+                  function(ventadiafac) {
+                            $scope.ventadiafac = ventadiafac.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });           
        };
 
          $scope.btn_anio=function(){
@@ -381,6 +410,15 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                     }).error(function(error) {
                          $scope.error = error;
                     }); 
+
+                //Ventas por estado de factura
+            $http.get('/api/ventaaniofac').success(
+
+                  function(ventadiafac) {
+                            $scope.ventadiafac = ventadiafac.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });          
        };
 
 

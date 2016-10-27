@@ -135,7 +135,7 @@
               </table>
             </div>
           </div>
-          <div class="col-sm-4 spi">
+          <div class="col-sm-6  col-md-6 col-lg-4 spi">
             <div class="caja_contenido">
               <h1>Ventas por sucursal</h1>
               <ul class="lisdia">
@@ -147,10 +147,23 @@
               </ul>
             </div>
           </div>
-          <div class="col-sm-3">
+          <div class="mtop9 col-sm-6  col-md-6 col-lg-3">
             <div class="caja_contenido">
               <h1>Facturas</h1>
-              
+                <table class="table">
+                  <tbody>
+                    <tr ng-repeat="estado in ventadiafac">
+                      <td ng-switch="estado.estado_ventas">
+                        <span ng-switch-when="1">Borrador</span>
+                        <span ng-switch-when="2">Completadas</span>
+                        <span ng-switch-when="3">Al Crédito</span>
+                        <span ng-switch-when="4">Canceladas</span>
+                      </td>
+                      <td>@{{estado.cantidad}}</td>
+                      <td>@{{estado.total| currency: 'Q'}}</td>
+                    </tr>
+                  </tbody>
+                </table>
             </div>
           </div>
 

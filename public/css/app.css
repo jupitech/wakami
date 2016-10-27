@@ -6872,6 +6872,11 @@ body {
   .table > thead > tr > th {
     font-size: 12px !important; } }
 
+@media (max-width: 1200px) {
+  .mtop9 {
+    margin-top: 15px;
+    padding-left: 0 !important; } }
+
 @media (min-width: 768px) {
   .caja_productos li {
     width: 33.33333333%; }

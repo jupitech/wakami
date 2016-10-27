@@ -243,6 +243,46 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $ventas],200);
     }
 
+       public function ventadiafac()
+    {
+           //Trayendo Producto
+         $ventas=Ventas::where('fecha_factura','>=',Carbon::today())
+                  ->groupBy('estado_ventas')
+                  ->select('estado_ventas', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
+                  ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+    public function ventamesfac()
+    {
+           //Trayendo Producto
+         $ventas=Ventas::where('fecha_factura','>=',Carbon::today()->startOfMonth())
+                  ->groupBy('estado_ventas')
+                  ->select('estado_ventas', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
+                  ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+    
+     public function ventaaniofac()
+    {
+           //Trayendo Producto
+         $ventas=Ventas::where('fecha_factura','>=',Carbon::today()->startOfYear())
+                  ->groupBy('estado_ventas')
+                  ->select('estado_ventas', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
+                  ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
 
     
     /**
