@@ -302,6 +302,7 @@ class VentasController extends Controller
          $ventas=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
                   ->where('ventas.fecha_factura','>=',Carbon::today())
                   ->where('ventas.id_sucursal',$id)
+                  ->where('ventas.estado_ventas',2)
                   ->groupBy('ventas.id_user')
                   ->select('user_profile.nombre','user_profile.apellido','ventas.id_user', \DB::raw('count(ventas.id) as cantidad'),\DB::raw('sum(ventas.total) as total'))
                   ->get();
@@ -317,6 +318,7 @@ class VentasController extends Controller
          $ventas=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
                   ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
                   ->where('ventas.id_sucursal',$id)
+                  ->where('ventas.estado_ventas',2)
                   ->groupBy('ventas.id_user')
                    ->select('user_profile.nombre','user_profile.apellido','ventas.id_user', \DB::raw('count(ventas.id) as cantidad'),\DB::raw('sum(ventas.total) as total'))
                   ->get();
@@ -333,6 +335,7 @@ class VentasController extends Controller
          $ventas=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
                   ->where('ventas.fecha_factura','>=',Carbon::today()->startOfYear())
                   ->where('ventas.id_sucursal',$id)
+                   ->where('ventas.estado_ventas',2)
                   ->groupBy('ventas.id_user')
                    ->select('user_profile.nombre','user_profile.apellido','ventas.id_user', \DB::raw('count(ventas.id) as cantidad'),\DB::raw('sum(ventas.total) as total'))
                  ->get();
