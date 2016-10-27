@@ -275,6 +275,8 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 	    Route::post('/traslados/create', 'TrasladosController@store');
 	    Route::get('/trasladosen/{id}', 'TrasladosController@indextrasladosen');
 	    Route::get('/trasladosre/{id}', 'TrasladosController@indextrasladosre');
+	    Route::delete('/traslados/destroy/{id}','TrasladosController@destroy');
+	    Route::put('/traslados/ok/{id}', 'TrasladosController@update');
 
 	});	
 

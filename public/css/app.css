@@ -6318,6 +6318,15 @@ body {
   background: #006DF0 url("img/ico_facturas_b.svg") no-repeat center;
   background-size: 15px; }
 
+.ico_traslado {
+  background: url("img/check_traslado.svg") no-repeat center;
+  background-size: 18px; }
+
+.ico_traslado:hover {
+  border-radius: 50%;
+  background: #91DC5A url("img/check_traslado_b.svg") no-repeat center;
+  background-size: 15px; }
+
 .nya-bs-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
   width: 100% !important; }
 
@@ -6382,6 +6391,16 @@ body {
   background-size: 20px; }
 
 .btn_ndebitog:hover {
+  background-size: 20px;
+  opacity: 1; }
+
+.btn_traslado {
+  border: none !important;
+  border-radius: 3px !important;
+  background: #91DC5A url("img/check_traslado_b.svg") no-repeat center;
+  background-size: 20px; }
+
+.btn_traslado:hover {
   background-size: 20px;
   opacity: 1; }
 

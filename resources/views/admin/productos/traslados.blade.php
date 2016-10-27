@@ -54,7 +54,7 @@
                                <div class="form-group">
                                     <div class="col-md-12">
                                         <label for="name">Cantidad</label>
-                                         <input id="name" type="number" class="form-control" name="direccion" ng-model="traslado.cantidad">
+                                         <input id="name" type="number" class="form-control" name="cantidad" ng-model="traslado.cantidad">
                                     </div>
                                </div>
                                
@@ -84,45 +84,62 @@
     <div class="col-sm-12">
      <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Traslado nuevo</strong> guardado correctamente.</div>
         <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Traslado borrado</strong> No se podrá recuperar los datos.</div> 
-   <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Traslado editado</strong> Puedes ver en el listado de traslados las modificaciones realizadas.</div>
+   <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Traslado enviado</strong> Puedes ver en el listado de traslados realizadas.</div>
     <div class="col-sm-12 spd spi">
           <h4 class="h4_tit">Traslados recibidos</h4>
     </div>
     <div class="caja_contenido">
              <table class="table">
                  <thead>
+                     <th>#</th>
                      <th>De Sucursal</th>
                      <th>Producto</th>
                      <th>Cantidad</th>
                      <th>Fecha Entrega</th>
+                     <th>Enviado por</th>
                      <th>Recibido por</th>
                      <th>Opciones</th>
                  </thead>
                  <tbody>
-                     <tr ng-repeat="traslado in trasladosre">
+                     <tr ng-repeat="traslado in trasladosre  | orderBy:'-id'" ng-class="{'trc_ver':traslado.estado_traslado==1}">
+                        <td>@{{traslado.id}}</td>
                           <td>@{{traslado.ha_sucursal.nombre}}</td>
                          <td>@{{traslado.nombre_producto.nombre}} </td>
                          <td>@{{traslado.cantidad}}</td>
                          <td>@{{traslado.fecha_entrega}}</td>
-                         <td>@{{traslado.d_usuario.nombre}} @{{traslado.d_usuario.apellido}}</td>
-                         <td>
+                          <td>@{{traslado.d_usuario.nombre}} @{{traslado.d_usuario.apellido}}</td>
+                         <td>@{{traslado.ha_usuario.nombre}} @{{traslado.ha_usuario.apellido}}</td>
+                         <td ng-if="traslado.estado_traslado==1">
                              <div class="area_opciones">
                                  <ul>
-                                     <li><a href="" class="ico_editar" ng-click="btn_editar(proveedor)"></a></li>
-                                     <li class="op_drop"  uib-dropdown>
+                                       <li class="ed_drop"  uib-dropdown>
+                                           <a href="" class="ico_traslado" id="simple-dropdown" uib-dropdown-toggle></a>
+                                           <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                               <div class="col-sm-8 spd">
+                                                 <p>Traslado de <strong>@{{traslado.nombre_producto.nombre}}</strong></p>
+                                               </div>
+                                               <div class="col-sm-4 spd spi">
+                                                 <a href="" ng-click="btn_trasladar(traslado.id)" class=" btn_g btn_traslado"></a>
+                                               </div>
+                                            </div>
+                                     </li>
+                                      <li class="op_drop"  uib-dropdown>
                                            <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
                                            <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
                                                <div class="col-sm-8 spd">
-                                                 <p>Eliminar <strong>@{{proveedor.empresa}}</strong></p>
+                                                 <p>Eliminar Traslado de <strong>@{{traslado.nombre_producto.nombre}}</strong></p>
                                                </div>
                                                <div class="col-sm-4 spd spi">
-                                                 <a href="" ng-click="btn_eliminar(proveedor.id)" class=" btn_g ico_eliminarg"></a>
+                                                 <a href="" ng-click="btn_eliminar(traslado.id)" class=" btn_g ico_eliminarg"></a>
                                                </div>
                                             </div>
                                      </li>
                                  </ul>
                              </div>
                          </td>
+                          <td ng-if="traslado.estado_traslado==2">
+                          <small class="label label-success">Realizado</small>
+                          </td>
                      </tr>
                     
                  </tbody>
@@ -136,6 +153,7 @@
      <div class="caja_contenido">
              <table class="table">
                  <thead>
+                 <th>#</th>
                      <th>A Sucursal</th>
                      <th>Producto</th>
                      <th>Cantidad</th>
@@ -144,7 +162,8 @@
                      <th>Opciones</th>
                  </thead>
                  <tbody>
-                     <tr ng-repeat="traslado in trasladosen">
+                     <tr ng-repeat="traslado in trasladosen | orderBy:'-id'" ng-class="{'trc_ver':traslado.estado_traslado==1}">
+                         <td><strong>@{{traslado.id}}</strong></td>
                          <td>@{{traslado.ha_sucursal.nombre}}</td>
                          <td>@{{traslado.nombre_producto.nombre}} </td>
                          <td>@{{traslado.cantidad}}</td>
@@ -153,15 +172,14 @@
                          <td>
                              <div class="area_opciones">
                                  <ul>
-                                     <li><a href="" class="ico_editar" ng-click="btn_editar(proveedor)"></a></li>
                                      <li class="op_drop"  uib-dropdown>
                                            <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
                                            <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
                                                <div class="col-sm-8 spd">
-                                                 <p>Eliminar <strong>@{{proveedor.empresa}}</strong></p>
+                                                 <p>Eliminar Traslado de <strong>@{{traslado.nombre_producto.nombre}}</strong></p>
                                                </div>
                                                <div class="col-sm-4 spd spi">
-                                                 <a href="" ng-click="btn_eliminar(proveedor.id)" class=" btn_g ico_eliminarg"></a>
+                                                 <a href="" ng-click="btn_eliminar(traslado.id)" class=" btn_g ico_eliminarg"></a>
                                                </div>
                                             </div>
                                      </li>

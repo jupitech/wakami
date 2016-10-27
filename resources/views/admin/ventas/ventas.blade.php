@@ -192,7 +192,7 @@
 	                   <th>Nombre</th>
 	                   <th>NIT</th>
                      <th>Dirección</th>
-                     <th>Tipo Cliente</th>
+                     <th>Vendido por</th>
                      <th>Fecha Factura</th>
 	                   <th>Opciones</th>
 	               </thead>
@@ -213,10 +213,7 @@
 	                       <td ng-click="abrirventa(venta)">@{{venta.info_clientes.nombre}} <small>@{{venta.info_clientes.empresa}}</small></td>
 	                       <td ng-click="abrirventa(venta)">@{{venta.info_clientes.nit}} </td>
 	                       <td ng-click="abrirventa(venta)">@{{venta.info_clientes.direccion}} - @{{venta.info_clientes.telefono}}</td>
-                         <td ng-switch="venta.info_clientes.tipo_cliente">
-                           <span ng-switch-when="1">Individual</span>
-                           <span ng-switch-when="2">Empresa</span>
-                         </td>
+                            <td>@{{venta.perfil_usuario.nombre}} @{{venta.perfil_usuario.apellido}}</td>
                           <td>@{{venta.fecha_factura  | amDateFormat: 'DD/MM/YYYY HH:mm:ss'}}</td>
 
                           

@@ -119,13 +119,24 @@ wApp.controller('TrasladosCtrl',function($scope, $http, $timeout, $log,$uibModal
           .success(function (data, status, headers) {
            console.log("Traslado Guardado correctamente");
            $scope.nuevo_obj = false;
-           $http.get('/api/mi/traslados').success(
+             //Traslados enviados
+          $http.get('/api/mi/trasladosen/'+ $scope.misucu).success(
 
-              function(traslados) {
-                        $scope.traslados = traslados.datos;
+              function(trasladosen) {
+                        $scope.trasladosen = trasladosen.datos;
             }).error(function(error) {
                  $scope.error = error;
             });
+
+              //Traslados recibidos
+          $http.get('/api/mi/trasladosre/'+ $scope.misucu).success(
+
+              function(trasladosre) {
+                        $scope.trasladosre = trasladosre.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });   
+  
             $timeout(function () { $scope.alertaNuevo = true; }, 1000);
             $timeout(function () { $scope.alertaNuevo = false; }, 5000);
            })
@@ -137,6 +148,74 @@ wApp.controller('TrasladosCtrl',function($scope, $http, $timeout, $log,$uibModal
 
         };  
 
+           //Eliminar Proveedor
+      $scope.btn_eliminar = function(id){
+        $scope.idtraslado= id;
+        console.log($scope.idtraslado);
+
+         $http.delete('api/mi/traslados/destroy/' +  $scope.idtraslado)
+            .success(function (data, status, headers) {
+               console.log('Traslado '+$scope.idtraslado+' borrado correctamente.');
+                    //Traslados enviados
+                      $http.get('/api/mi/trasladosen/'+ $scope.misucu).success(
+
+                          function(trasladosen) {
+                                    $scope.trasladosen = trasladosen.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });
+
+                          //Traslados recibidos
+                      $http.get('/api/mi/trasladosre/'+ $scope.misucu).success(
+
+                          function(trasladosre) {
+                                    $scope.trasladosre = trasladosre.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });   
+              
+                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);
+                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar el traslado.');
+            });
+      };  
+
+
+           //Realizar Traslado
+      $scope.btn_trasladar = function(id){
+        $scope.idtraslado= id;
+        console.log($scope.idtraslado);
+
+         $http.put('api/mi/traslados/ok/' +  $scope.idtraslado)
+            .success(function (data, status, headers) {
+               console.log('Traslado #'+$scope.idtraslado+' realizado correctamente.');
+                    //Traslados enviados
+                      $http.get('/api/mi/trasladosen/'+ $scope.misucu).success(
+
+                          function(trasladosen) {
+                                    $scope.trasladosen = trasladosen.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });
+
+                          //Traslados recibidos
+                      $http.get('/api/mi/trasladosre/'+ $scope.misucu).success(
+
+                          function(trasladosre) {
+                                    $scope.trasladosre = trasladosre.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });   
+              
+                      $timeout(function () { $scope.alertaEditado = true; }, 1000);
+                        $timeout(function () { $scope.alertaEditado = false; }, 5000);
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar el traslado.');
+            });
+      };  
 
 
    };
