@@ -2237,6 +2237,32 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 	}
 }
 
+.porusuario{
+	float: left;
+	width: 100%;
+	background: #fff;
+	border-radius: 2px;
+	padding: 12px 10px;
+		h3{
+			font-size: 13px;
+			float: left;
+			margin: 0;
+			font-weight: bold;
+		}
+		p{
+			float: left;
+			padding: 0 10px;
+		    margin: 0;
+		}
+		span{
+			float: left;
+			margin-left: 15px;
+			color: $btn_azul;
+				margin: 0; 
+				border-right: 1px solid #ccc;
+				padding-right: 10px;	
+		}
+}
 
 
 @media print {

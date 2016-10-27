@@ -1461,6 +1461,15 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
                 }).error(function(error) {
                      $scope.error = error;
                 }); 
+              
+               //Ventas por usuario del dia
+            $http.get('/api/mi/ventadiauser/'+$scope.misucu).success(
+
+                  function(ventadiauser) {
+                            $scope.ventadiauser = ventadiauser.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                }); 
 
 
         $scope.btn_dia=function(){
@@ -1504,7 +1513,17 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
                             $scope.ventadiafac = ventadiafac.datos;
                 }).error(function(error) {
                      $scope.error = error;
-                });   
+                });  
+
+
+               //Ventas por usuario del dia
+            $http.get('/api/mi/ventadiauser/'+$scope.misucu).success(
+
+                  function(ventadiauser) {
+                            $scope.ventadiauser = ventadiauser.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });  
 
        };
 
@@ -1525,7 +1544,7 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
                        $scope.error = error;
                   });
 
-             //Ventas por sucursal del dia
+             //Ventas por sucursal del mes
             $http.get('/api/mi/ventamessucursal/'+$scope.misucu).success(
 
                   function(ventadiasucursal) {
@@ -1534,7 +1553,7 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
                      $scope.error = error;
                 });    
 
-             //Ventas por sucursal de ayer
+             //Ventas por sucursal del mes
             $http.get('/api/mi/ventamespago/'+$scope.misucu).success(
 
                       function(ventadiapago) {
@@ -1550,7 +1569,17 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
                             $scope.ventadiafac = ventadiafac.datos;
                 }).error(function(error) {
                      $scope.error = error;
-                });           
+                });
+
+
+               //Ventas por usuario del mes
+            $http.get('/api/mi/ventamesuser/'+$scope.misucu).success(
+
+                  function(ventadiauser) {
+                            $scope.ventadiauser = ventadiauser.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });                
        };
 
          $scope.btn_anio=function(){
@@ -1594,7 +1623,17 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
                             $scope.ventadiafac = ventadiafac.datos;
                 }).error(function(error) {
                      $scope.error = error;
-                });          
+                });   
+
+
+               //Ventas por usuario del año
+            $http.get('/api/mi/ventaaniouser/'+$scope.misucu).success(
+
+                  function(ventadiauser) {
+                            $scope.ventadiauser = ventadiauser.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });             
        };
 
 

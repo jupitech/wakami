@@ -90,13 +90,23 @@
      </div>
 	<div class="col-sm-12">
 
-      <div class="filtros col-sm-12 spd spi">
+      <div class="filtros col-sm-6 spi">
             <a class="btn_filtro" ng-click="btn_dia()" ng-class="{'btn_active': act_btn==1}">Día</a>
             <a class="btn_filtro" ng-click="btn_mes()" ng-class="{'btn_active': act_btn==2}">Mes</a>
             <a class="btn_filtro" ng-click="btn_anio()"  ng-class="{'btn_active': act_btn==3}">Año</a>
             
       </div>
-         <div class="ventasdia col-sm-12 spd spi">
+      <div class="col-sm-6 spd">  
+            <div class="porusuario">
+               <div class="col-sm-6" ng-repeat="elusuario in ventadiauser">
+                 <h3>@{{elusuario.nombre}} @{{elusuario.apellido}}</h3>
+                 <p>@{{elusuario.cantidad}}</p>
+                 <span>@{{elusuario.total | currency: 'Q'}}</span>
+               </div>
+            </div>
+      </div>
+
+    <div class="ventasdia col-sm-12 spd spi">
         <div class="col-sm-5  col-md-5 col-lg-6 spi">
             <div class="caja_contenido">
               <h1>Tipo de pago</h1>
@@ -138,7 +148,7 @@
               </ul>
             </div>
           </div>
-          <div class="col-sm-4  col-md-4 col-lg-4">
+          <div class="col-sm-4  col-md-4 col-lg-4 spd">
             <div class="caja_contenido">
               <h1>Facturas</h1>
                 <table class="table">
@@ -191,10 +201,11 @@
                            <td ng-click="abrirventa(venta)"><small>@{{venta.dte}}</small></td>
                          <td class="tot_venta" ng-click="abrirventa(venta)">@{{venta.total | currency: 'Q'}}</td>
                           <td ng-switch="venta.pago_venta.tipo_pago" ng-click="abrirventa(venta)">
-                               <span ng-switch-when="1" class="ico_td ico_pefectivo">Efectivo</span>
+                                <span ng-switch-when="1" class="ico_td ico_pefectivo">Efectivo</span>
                                <span ng-switch-when="2" class="ico_td ico_ppos">POS</span>
                                <span ng-switch-when="3" class="ico_td ico_pcheque">Cheque</span>
                                <span ng-switch-when="4" class="ico_td ico_pcredito">Crédito</span>
+                               <span ng-switch-when="5" class="ico_td ico_pdeposito">Deposito</span>
                          </td>
 	                       <td ng-click="abrirventa(venta)">@{{venta.info_clientes.nombre}}</td>
 	                       <td ng-click="abrirventa(venta)">@{{venta.info_clientes.nit}} </td>

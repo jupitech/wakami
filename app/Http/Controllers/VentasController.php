@@ -296,6 +296,53 @@ class VentasController extends Controller
          return response()->json(['datos' =>  $ventas],200);
     }
 
+     public function ventadiauser($id)
+    {
+           //Trayendo Producto
+         $ventas=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
+                  ->where('ventas.fecha_factura','>=',Carbon::today())
+                  ->where('ventas.id_sucursal',$id)
+                  ->groupBy('ventas.id_user')
+                  ->select('user_profile.nombre','user_profile.apellido','ventas.id_user', \DB::raw('count(ventas.id) as cantidad'),\DB::raw('sum(ventas.total) as total'))
+                  ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+    public function ventamesuser($id)
+    {
+           //Trayendo Producto
+         $ventas=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
+                  ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
+                  ->where('ventas.id_sucursal',$id)
+                  ->groupBy('ventas.id_user')
+                   ->select('user_profile.nombre','user_profile.apellido','ventas.id_user', \DB::raw('count(ventas.id) as cantidad'),\DB::raw('sum(ventas.total) as total'))
+                  ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+    
+     public function ventaaniouser($id)
+    {
+           //Trayendo Producto
+         $ventas=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
+                  ->where('ventas.fecha_factura','>=',Carbon::today()->startOfYear())
+                  ->where('ventas.id_sucursal',$id)
+                  ->groupBy('ventas.id_user')
+                   ->select('user_profile.nombre','user_profile.apellido','ventas.id_user', \DB::raw('count(ventas.id) as cantidad'),\DB::raw('sum(ventas.total) as total'))
+                 ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+
 
     
 

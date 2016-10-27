@@ -7614,6 +7614,29 @@ body {
       background-position: center;
       background-size: 30px; }
 
+.porusuario {
+  float: left;
+  width: 100%;
+  background: #fff;
+  border-radius: 2px;
+  padding: 12px 10px; }
+  .porusuario h3 {
+    font-size: 13px;
+    float: left;
+    margin: 0;
+    font-weight: bold; }
+  .porusuario p {
+    float: left;
+    padding: 0 10px;
+    margin: 0; }
+  .porusuario span {
+    float: left;
+    margin-left: 15px;
+    color: #006DF0;
+    margin: 0;
+    border-right: 1px solid #ccc;
+    padding-right: 10px; }
+
 @media print {
   /*#areaimpresion{
    	width: 400px;
