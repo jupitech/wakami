@@ -19,7 +19,7 @@ class OrdenCompra extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_proveedor','id_user','fecha_entrega','total_compra','estado_orden','created_at'];
+    protected $fillable = ['id_proveedor','id_user','fecha_entrega','total_compra','estado_orden','nfactura','fecha_factura','created_at'];
 
     /**
      * The attributes excluded from the model's JSON form.

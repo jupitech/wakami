@@ -22,7 +22,7 @@
                                 <div class="form-group">
                                     <div class="col-md-12">
                                         <label for="name">Proveedor</label>
-                                         <ol class="nya-bs-select" ng-model="compra.id_proveedor" title="Selecciona un proveedor...">
+                                         <ol class="nya-bs-select" ng-model="compra.id_proveedor" title="Selecciona un proveedor..." required>
                                             <li nya-bs-option="proveedor in proveedores" data-value="proveedor.id">
                                               <a>
                                                 @{{ proveedor.empresa }}
@@ -36,14 +36,30 @@
                                <div class="form-group">
                                   <div class="col-md-12">
                                        <label for="nombre">Hoy @{{Fecha | amDateFormat: 'DD/MM/YYYY'}} @{{ clock | date:'HH:mm:ss'}} para entregar en:</label>
-                                      <ol class="nya-bs-select" ng-model="compra.fecha_entrega" title="Selecciona los dias...">
-                                            <li nya-bs-option="estimada in estimadas" data-value="estimada.id">
-                                              <a>
-                                                @{{ estimada.nombre }}
-                                                <span class="glyphicon glyphicon-ok check-mark"></span>
-                                              </a>
-                                            </li>
-                                          </ol>
+                                       <div class="col-sm-12 spi">
+                                                      <input type="date" class="form-control" name="inicio" ng-model="mifecha.compra" required>
+                                                </div>
+                                    
+                                  </div>
+                                  
+                               </div>
+                               <div class="form-group">
+                                  <div class="col-md-12">
+                                       <label for="nombre">No.Factura</label>
+                                       <div class="col-sm-12 spi">
+                                                      <input type="text" class="form-control" name="inicio" ng-model="compra.nfactura">
+                                                </div>
+                                    
+                                  </div>
+                                  
+                               </div>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                       <label for="nombre">Fecha de factura</label>
+                                       <div class="col-sm-12 spi">
+                                                      <input type="date" class="form-control" name="inicio" ng-model="compra.fecha_factura">
+                                                </div>
+                                    
                                   </div>
                                   
                                </div>
@@ -250,8 +266,8 @@
                                     <td>
                                   
                                        <div class="op_elim">
-                                            <a href="" class="btn_delitem" id="simple-dropdown"><span class="ico_del" ng-click="btn_proeliminar2(procompra.id)"></span></a>
-                                       </div>
+                                            <a href="" class="btn_delitem" id="simple-dropdown"><span class="ico_del" ng-click="btn_proeliminar(procompra.id)"></span></a>
+                                       </div
                                         <div class="op_elim">
                                             <a href="" class="btn_additem" id="simple-dropdown" ng-disabled="frm.$invalid"  ng-click="agregarProBodega(procompra)"><span class="ico_check"></span></a>
                                        </div>
@@ -388,15 +404,31 @@
                                </div>
                                <div class="form-group">
                                   <div class="col-md-12">
-                                       <label for="nombre">Fecha Entrega @{{existeCompra.fecha_entrega | amDateFormat: 'DD/MM/YYYY'}} cambiar por:</label>
-                                      <ol class="nya-bs-select" ng-model="existeCompra.fecha_entrega2" title="Selecciona los dias...">
-                                            <li nya-bs-option="estimada in estimadas" data-value="estimada.id">
-                                              <a>
-                                                @{{ estimada.nombre }}
-                                                <span class="glyphicon glyphicon-ok check-mark"></span>
-                                              </a>
-                                            </li>
-                                          </ol>
+                                       <label for="nombre">Hoy @{{Fecha | amDateFormat: 'DD/MM/YYYY'}} @{{ clock | date:'HH:mm:ss'}} para entregar en:</label>
+                                       <div class="col-sm-12 spi">
+                                                      <input type="date" data-date-format="dd/mm/yyyy"  class="form-control" name="inicio" ng-model="existeCompra.fentre" ng-init="existeCompra.fentre=Mdate(existeCompra.fecha_entrega)" required>
+                                                </div>
+                                    
+                                  </div>
+                                  
+                               </div>
+                               <div class="form-group">
+                                  <div class="col-md-12">
+                                       <label for="nombre">No.Factura</label>
+                                       <div class="col-sm-12 spi">
+                                                      <input type="text" class="form-control" name="inicio" ng-model="existeCompra.nfactura">
+                                                </div>
+                                    
+                                  </div>
+                                  
+                               </div>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                       <label for="nombre">Fecha de factura</label>
+                                       <div class="col-sm-12 spi">
+                                                      <input type="date" class="form-control" name="ffac" ng-model="existeCompra.ffac" ng-init="existeCompra.ffac=Fdate(existeCompra.fecha_factura)">
+                                                </div>
+                                    
                                   </div>
                                   
                                </div>
@@ -406,7 +438,7 @@
                                      <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">CREAR</button>
                                   </div>
                                    <div class="col-sm-6">
-                                     <a class="btn btn_cancelar" ng-click="btn_nuevo()">CANCELAR</a>
+                                     <a class="btn btn_cancelar" ng-click="btn_editar()">CANCELAR</a>
                                   </div>
                                </div>
                               
@@ -449,6 +481,8 @@
 	                   <th class="td_no">No #</th>
 	                   <th>Proveedor</th>
 	                   <th>Fecha Entrega</th>
+                     <th># Factura</th>
+                      <th>Fecha Factura</th>
 	                   <th>Total Compra</th>
 	                   <th class="td_opciones">Opciones</th>
 	               </thead>
@@ -458,6 +492,8 @@
                          <td class="td_no" ng-click="abrircompra(compra,1)"><strong>@{{compra.id}}</strong></td>
                          <td ng-click="abrircompra(compra,1)">@{{compra.nombre_proveedor.empresa}} </td>
                          <td ng-click="abrircompra(compra,1)">@{{compra.fecha_entrega | amDateFormat: 'DD/MM/YYYY'}}</td>
+                         <td ng-click="abrircompra(compra,1)">@{{compra.nfactura}} </td>
+                          <td ng-click="abrircompra(compra,1)">@{{compra.fecha_factura | amDateFormat: 'DD/MM/YYYY'}}</td>
                          <td>Q @{{compra.total_compra | number:2}}</td>
                          <td class="td_opciones">
                              <div class="area_opciones">

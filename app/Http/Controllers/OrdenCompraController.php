@@ -104,12 +104,44 @@ class OrdenCompraController extends Controller
           $user = Auth::User();     
           $userId = $user->id; 
           $diasentrega= $request['fecha_entrega'];
+          $nfactura= $request['nfactura'];
+          $fecha_factura= $request['fecha_factura'];
 
+          if($fecha_factura){
+
+          $dt2 =new \DateTime($fecha_factura);
+          $carbon2 = Carbon::instance($dt2); 
+          $a_dt2=$carbon2->year;
+          $m_dt2=$carbon2->month;
+          $d_dt2=$carbon2->day;
+
+            $mifecha_factura=Carbon::create($a_dt2, $m_dt2, $d_dt2, 0);
+          }else{
+            $mifecha_factura='';
+          }
+
+          if($nfactura){
+            $minfactura=$nfactura;
+          }else{
+            $minfactura='';
+          }
+
+          $dt =new \DateTime($diasentrega);
+          $carbon = Carbon::instance($dt); 
+          $a_dt=$carbon->year;
+          $m_dt=$carbon->month;
+          $d_dt=$carbon->day;
+
+
+          
+          $dia=Carbon::create($a_dt, $m_dt, $d_dt, 0);
 
                    $ordencompra=OrdenCompra::create([
                   'id_proveedor' => $request['id_proveedor'],
                   'id_user' => $userId,
-                  'fecha_entrega' => Carbon::today()->addDays($diasentrega),
+                  'fecha_entrega' => $dia,
+                  'nfactura' => $minfactura,
+                  'fecha_factura' => $mifecha_factura,
                   'estado_orden' => 1,
                         ]);
           $ordencompra->save();
@@ -455,12 +487,37 @@ class OrdenCompraController extends Controller
      public function update(Request $request, $id)
     {
         $ordencompra=OrdenCompra::find($id);
-          $diasentrega= $request['fecha_entrega'];
-          $fechacreacion= $ordencompra->created_at;
-          $miCarbon= Carbon::parse($fechacreacion);
+        
+               $diasentrega= $request['fecha_entrega'];
+          $nfactura= $request['nfactura'];
+          $fecha_factura= $request['fecha_factura'];
+
+
+          $dt2 =new \DateTime($fecha_factura);
+          $carbon2 = Carbon::instance($dt2); 
+          $a_dt2=$carbon2->year;
+          $m_dt2=$carbon2->month;
+          $d_dt2=$carbon2->day;
+
+          $mifecha_factura=Carbon::create($a_dt2, $m_dt2, $d_dt2, 0);
+    
+
+          $dt =new \DateTime($diasentrega);
+          $carbon = Carbon::instance($dt); 
+          $a_dt=$carbon->year;
+          $m_dt=$carbon->month;
+          $d_dt=$carbon->day;
+
+
+          
+          $dia=Carbon::create($a_dt, $m_dt, $d_dt, 0);
+
+
         $ordencompra->fill([
                   'id_proveedor' => $request['id_proveedor'],
-                  'fecha_entrega' => $miCarbon->addDays($diasentrega),
+                  'fecha_entrega' => $dia,
+                  'nfactura' => $nfactura,
+                  'fecha_factura' => $mifecha_factura,
             ]);
         $ordencompra->save();
     }

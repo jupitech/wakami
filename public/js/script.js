@@ -1,6 +1,8 @@
 /*AngularJS*/
 var wApp= angular.module('wApp', ['ngRoute', 'ngCookies','ngAnimate','ngResource', 'ngSanitize','ui.bootstrap','angularMoment','nya.bootstrap.select','angularLazyImg','ngPrint','angular-button-spinner','angular.filter','infinite-scroll']);
-
+/*wApp.run(function(amMoment) {
+    amMoment.changeLocale('es');
+});*/
 wApp.config(['lazyImgConfigProvider', function(lazyImgConfigProvider){
     var scrollable = document.querySelector('#scrollable');
     lazyImgConfigProvider.setOptions({

@@ -553,6 +553,12 @@
                                   </div>
                               </div>
                         </div>
+                              {{-- Busqueda de productos de envio --}}
+                            <div class="col-sm-12 mtop">
+                                   <div class="busqueda_texto col-sm-4 spd spi">
+                                  <input type="text" id="query" ng-model="query"  onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de productos.." />
+                                   </div>
+                                </div>    
                         {{-- Agregando productos de la orden de envio --}}
                          <div class="col-sm-12 middle" ng-if="exisEnvio.estado_orden==1">
                            <form class="form-horizontal" name="frm" role="form" ng-submit="guardarProEnvio()" >
@@ -619,7 +625,7 @@
                                                <th>Opciones</th>
                                            </thead>
                                              <tbody>
-                                               <tr ng-repeat="proenvio in proenvios">
+                                               <tr ng-repeat="proenvio in proenvios | filter:query">
                                                    <td><small class="label label-success">@{{ proenvio.nombre_producto.codigo }}</small> @{{proenvio.nombre_producto.nombre}}</td>
                                                    <td>@{{proenvio.cantidad}} </td>
                                                    <td>@{{proenvio.precio_producto  | currency: 'Q'}}</td>
@@ -674,7 +680,7 @@
                                                <th>Estado</th>
                                            </thead>
                                              <tbody>
-                                               <tr ng-repeat="proenvio in proenvios">
+                                               <tr ng-repeat="proenvio in proenvios | filter:query">
                                                    <td><small class="label label-success">@{{ proenvio.nombre_producto.codigo }}</small> @{{proenvio.nombre_producto.nombre}}</td>
                                                    <td>@{{proenvio.cantidad}} <span class="label label-default" >@{{proenvio.pendiente_producto.cantidad}}</span> </td>
                                                    <td>@{{proenvio.precio_producto  | currency: 'Q'}}</td>
@@ -708,7 +714,7 @@
                                                <th>Estado</th>
                                            </thead>
                                              <tbody>
-                                               <tr ng-repeat="proenvio in proenvios">
+                                               <tr ng-repeat="proenvio in proenvios | filter:query">
                                                    <td><small class="label label-success">@{{ proenvio.nombre_producto.codigo }}</small> @{{proenvio.nombre_producto.nombre}}</td>
                                                    <td>@{{proenvio.cantidad}} <span class="label label-default" >@{{proenvio.pendiente_producto.cantidad}}</span> </td>
                                                    <td>@{{proenvio.precio_producto  | currency: 'Q'}}</td>

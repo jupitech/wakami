@@ -64,7 +64,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle ico_reportes" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
               <ul class="dropdown-menu">
-                <li><a href="#">Reporte de ventas</a></li>
+                <li><a href="{{ URL::to('/reporteventas') }}">Reporte de ventas</a></li>
                 <li><a href="#">Reporte de compras</a></li>
                   <li role="separator" class="divider"></li>
                 <li><a href="#">Movimientos</a></li>

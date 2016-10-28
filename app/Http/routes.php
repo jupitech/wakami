@@ -74,6 +74,9 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 	    //Consignacion
 	   Route::get('/consignacion', 'ConsignacionController@index');
 
+	    //Reportes ventas
+	   Route::get('/reporteventas', 'ReporteVentasController@index');
+
 
 		Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
 		Route::post('/producto/imagen/create',['as' => 'producto.imagen.create', 'uses' =>  'ProductosController@storeimagen']);

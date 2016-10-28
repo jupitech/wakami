@@ -72,7 +72,7 @@
 	           				<h1>Reportes</h1>
 	           				<ul>
                      @role('admin|operativo') 
-	           					<li><a href="">Reporte de ventas</a></li>
+	           					<li><a href="{{ URL::to('/reporteventas') }}">Reporte de ventas</a></li>
 	           					<li><a href="">Reporte de compras</a></li>
 	           					<li><a href="">Movimientos</a></li>
                        @endrole

@@ -1,10 +1,12 @@
 
 //************************************Compras**********************************************//
-wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $log,$uibModal){
+wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $log,$uibModal,moment){
 
    $scope.status = {
     isopen: false
   };
+
+  $scope.mifecha={};
 
 
   $scope.toggleDropdown = function($event) {
@@ -26,6 +28,7 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
                   $timeout(tick, $scope.tickInterval);
 
   $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
+
 
 
    $scope.nuevo_obj = false; //Nuevo proveedor
@@ -71,6 +74,13 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
       //Nueva Compra
 
       $scope.compra={};
+
+      $scope.hoy = moment();
+      $scope.mes = moment();
+      $scope.hmes = $scope.mes.subtract(30, 'days');
+       //Fecha Hoy
+       $scope.mifecha.compra=$scope.hoy._d;
+
       $scope.guardarCompra = function(){
            $scope.nuevo_obj = false;
 
@@ -78,10 +88,14 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
 
            var datacompra = {
               id_proveedor: $scope.compra.id_proveedor,
-              fecha_entrega: $scope.compra.fecha_entrega
+              fecha_entrega: $scope.mifecha.compra,
+              nfactura: $scope.compra.nfactura,
+              fecha_factura: $scope.compra.fecha_factura
             };
 
-           $http.post('/api/compra/create', datacompra)
+            console.log(datacompra);
+
+         $http.post('/api/compra/create', datacompra)
             .success(function (data, status, headers) {
                   $scope.midata=data.id_user;
                    console.log($scope.midata);
@@ -395,18 +409,31 @@ wApp.controller('ComprasCtrl',function($scope, $http,ApiCompraNuevo, $timeout, $
 
 
        //Editar Compra
+        $scope.existeCompra={};
         $scope.btn_editar = function(compra) {
           $scope.editar_obj = !$scope.editar_obj;
           $scope.existeCompra= compra;
+         /* console.log($scope.existeCompra);*/
+
+
+          $scope.Mdate = function ($fecha) {
+            return new Date($fecha);
+          };
+          $scope.Fdate = function ($fecha) {
+            return new Date($fecha);
+          };
+
        };
 
-
       $scope.editarCompra = function(){
+
                 var data = {
                   id_proveedor: $scope.existeCompra.id_proveedor,
-                  fecha_entrega: $scope.existeCompra.fecha_entrega2
+                  fecha_entrega: $scope.existeCompra.fentre,
+                  nfactura: $scope.existeCompra.nfactura,
+                  fecha_factura: $scope.existeCompra.ffac
                 };
-                // console.log(data);
+              //   console.log(data);
                 $http.put('api/compra/' +  $scope.existeCompra.id, data)
                 .success(function (data, status, headers) {
                    console.log('Compra #'+$scope.existeCompra.id+' modificado correctamente.');
