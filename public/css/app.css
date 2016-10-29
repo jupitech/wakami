@@ -7637,6 +7637,36 @@ body {
     border-right: 1px solid #ccc;
     padding-right: 10px; }
 
+.area_fecha {
+  float: left;
+  width: 100%; }
+  .area_fecha label {
+    font-weight: normal;
+    color: #aaa; }
+  .area_fecha .form-control {
+    border: none !important;
+    border-radius: 2px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
+  .area_fecha .label {
+    float: left;
+    margin-top: 5px; }
+  .area_fecha .top_btn {
+    margin-top: 23px; }
+  .area_fecha .btn-primary {
+    float: left;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+    font-size: 13px; }
+
+.raphael-group-59-creditgroup {
+  display: none !important; }
+
+tspan, textPath {
+  font-family: "Ubuntu", sans-serif !important;
+  font-size: 12px !important; }
+
 @media print {
   /*#areaimpresion{
    	width: 400px;

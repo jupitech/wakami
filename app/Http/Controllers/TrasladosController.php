@@ -105,7 +105,7 @@ class TrasladosController extends Controller
           $stockasucursal=StockSucursal::where('id_sucursal',$asucursal)->where('id_producto',$idproducto)->first();
           
 
-          if($stockactuald>$cantidad){
+          if($stockactuald>=$cantidad){
 
             //Restar stock desde sucursal
                     $restarstockd=$stockactuald-$cantidad;

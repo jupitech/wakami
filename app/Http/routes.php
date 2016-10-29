@@ -213,6 +213,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::delete('/proenvioconsignacion/destroy/{id}','ConsignacionController@destroypro');
 			Route::post('/envioconsignacion/p1/{id}', 'ConsignacionController@updatep1');
 
+			//Reportes
+			Route::get('/reportes/ventasmes', 'ReporteVentasController@indexventasmes');
 
 		});
 });

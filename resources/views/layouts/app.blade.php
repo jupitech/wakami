@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/dropzone.css') }}">
      <link rel="stylesheet" type="text/css" href="{{ asset('css/ngPrint.min.css') }}">
      <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.css') }}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('css/nv.d3.min.css') }}">
     <!-- Styles -->
    {{--
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -47,6 +48,8 @@
       <script src="/js/ngPrint.js"></script>
       <script src="/js/angular-button-spinner.min.js"></script>
       <script src="/js/ng-infinite-scroll.min.js"></script>
+      <script src="/assets/bower/fusioncharts/fusioncharts.js"></script>
+      <script src="/js/angular-fusioncharts.min.js"></script>
        <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script>
     @stack('scripts')
   

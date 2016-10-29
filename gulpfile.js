@@ -30,6 +30,9 @@ elixir(function(mix) {
     mix.copy(npmDir + 'nya-bootstrap-select/dist/js/nya-bs-select.min.js',jsDir);
     mix.copy(npmDir + 'angular-lazy-img/release/angular-lazy-img.js',jsDir);
     mix.copy(npmDir + 'angular-filter/dist/angular-filter.min.js',jsDir);
+    mix.copy(npmDir + 'angular-nvd3/node_modules/d3/d3.js',jsDir);
+    mix.copy(npmDir + 'angular-nvd3/node_modules/nvd3/build/nv.d3.js',jsDir);
+    mix.copy(npmDir + 'angular-nvd3/dist/angular-nvd3.min.js',jsDir);
     mix.scripts([
     	'angular.min.js',
     	'angular-route.min.js',
@@ -44,5 +47,8 @@ elixir(function(mix) {
         'nya-bs-select.min.js',
         'angular-lazy-img.js',
         'angular-filter.min.js',
+        'd3.js',
+        'nv.d3.js',
+        'angular-nvd3.min.js',
     ], 'public/js/vendor.js');	
 });
