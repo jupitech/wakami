@@ -1,5 +1,5 @@
 /*AngularJS*/
-var wApp= angular.module('wApp', ['ngRoute', 'ngCookies','ngAnimate','ngResource', 'ngSanitize','ui.bootstrap','angularMoment','nya.bootstrap.select','angularLazyImg','ngPrint','angular-button-spinner','angular.filter','infinite-scroll','nvd3']);
+var wApp= angular.module('wApp', ['ngRoute', 'ngCookies','ngAnimate','ngResource', 'ngSanitize','ui.bootstrap','angularMoment','nya.bootstrap.select','angularLazyImg','ngPrint','angular-button-spinner','angular.filter','infinite-scroll','highcharts-ng']);
 /*wApp.run(function(amMoment) {
     amMoment.changeLocale('es');
 });*/
@@ -88,6 +88,27 @@ wApp.directive("compareTo", function ()
             });
         }
     };
+});
+
+wApp.directive('highcharts', function () {
+return {
+    restrict: 'E',
+    template: '<div></div>',
+    replace: true,
+
+    link: function (scope, element, attrs) {
+
+        scope.$watch(function () { return attrs.chart; }, function () {
+
+            if (!attrs.chart) return;
+
+            var charts = JSON.parse(attrs.chart);
+
+            $(element[0]).highcharts(charts);
+
+        });
+    }
+};
 });
 
 

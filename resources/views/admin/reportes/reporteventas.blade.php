@@ -55,7 +55,8 @@
                     </div>
                      <div class="col-sm-12 spd spi">
                      <div class="col-sm-12 col-md-12 col-lg-7 spd">
-                      <nvd3 options="options" data="ventas"></nvd3>
+                     
+                      <highcharts chart='@{{renderChart}}'></highcharts>
                      </div>
                      <div class=" col-sm-12 col-md-12 col-lg-5 spd">
                        

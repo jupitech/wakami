@@ -7667,6 +7667,9 @@ tspan, textPath {
   font-family: "Ubuntu", sans-serif !important;
   font-size: 12px !important; }
 
+.highcharts-credits {
+  display: none !important; }
+
 @media print {
   /*#areaimpresion{
    	width: 400px;

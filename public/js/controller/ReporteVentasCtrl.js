@@ -19,33 +19,52 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
         
      
 
-
+		 //Total de ventas
+		 	//Pie de Totales
 		 $http.get('/api/reportes/ventasmes').success(
 
                     function(ventas) {
                               $scope.ventas = ventas.data;
-                                  $scope.options = {
-								            chart: {
-								                type: 'pieChart',
-								                height: 350,
-								                donut: true,
-								                x: function(d){return d.key;},
-								                y: function(d){return d.y;},
-								                showLabels: true,
-								                duration: 500,
-								                labelThreshold: 0.01,
-								                labelSunbeamLayout: true,
-								                legend: {
-								                    margin: {
-								                        top: 5,
-								                        right: 35,
-								                        bottom: 5,
-								                        left: 0
-								                    }
-								                }
-								            }
-								        };
+                                  var score = [];
+							    for (var i = 0; i <  $scope.ventas.length; i++) {
+							        score.push( $scope.ventas[i].data);   
+							    }
 
+							    var name = [];
+							    for (var i = 0; i <  $scope.ventas.length; i++) {
+							        name.push( $scope.ventas[i].name);
+							    }
+
+							    $scope.renderChart = {
+							        chart: {
+						                plotBackgroundColor: null,
+						                plotBorderWidth: null,
+						                plotShadow: false,
+						                type: 'pie'
+						            },
+					                title: {
+							            text: ''
+							        },
+							         tooltip: {
+							                pointFormat: '{series.name}: <b>Q{point.y:.2f}</b>'
+							            },
+						             plotOptions: {
+								                pie: {
+								                    allowPointSelect: true,
+								                    cursor: 'pointer',
+								                    dataLabels: {
+								                        enabled: false
+								                    },
+								                    showInLegend: true
+								                }
+								            },
+							        series: [{
+							        	name: 'Total',
+							            data:  $scope.ventas
+							        }]
+							    };
+                           
+							    
                   }).error(function(error) {
                        $scope.error = error;
                   });

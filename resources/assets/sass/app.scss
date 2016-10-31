@@ -2301,7 +2301,9 @@ tspan, textPath{
 	font-family: $fontp !important;
 	font-size: 12px !important;
 }
-
+.highcharts-credits{
+	display: none !important;
+}
 
 @media print {
    /*#areaimpresion{
