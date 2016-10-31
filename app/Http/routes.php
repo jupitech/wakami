@@ -215,7 +215,9 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 
 			//Reportes
 			Route::get('/reportes/ventasmes', 'ReporteVentasController@indexventasmes');
-			Route::get('/reportes/totalventas', 'ReporteVentasController@total');	
+			Route::get('/reportes/totalventas', 'ReporteVentasController@total');
+			Route::get('/reportes/totalneto', 'ReporteVentasController@totalneto');
+			Route::get('/reportes/descuentosventas', 'ReporteVentasController@descuentos');		
 		});
 });
 

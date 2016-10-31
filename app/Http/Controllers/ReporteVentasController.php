@@ -58,17 +58,14 @@ class ReporteVentasController extends Controller
     }
 
 
-     public function totalventas()
+     public function totalneto()
     {
          $ventas = Ventas::leftjoin('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
          ->leftjoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
-          ->leftjoin('descuentos_ventas', 'descuentos_ventas.id_ventas', '=', 'ventas.id')
          ->where('ventas.estado_ventas',2)
            ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
          ->select(
-            \DB::raw('sum(ventas.total) as mitotal'),
              \DB::raw('sum(producto.preciop * producto_venta.cantidad) as totalp'),
-               \DB::raw('sum(descuentos_ventas.descuento) as descuentos'),
                  \DB::raw('sum(producto.costo * producto_venta.cantidad) as costo')
                )
          ->first();  
@@ -86,6 +83,23 @@ class ReporteVentasController extends Controller
            ->where('fecha_factura','>=',Carbon::today()->startOfMonth())
          ->select(
             \DB::raw('sum(total) as mitotal')
+               )
+         ->first();  
+
+          if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+
+         return response()->json(['data' =>  $ventas],200);
+    }
+
+      public function descuentos()
+    {
+         $ventas = Ventas::leftjoin('descuentos_ventas', 'descuentos_ventas.id_ventas', '=', 'ventas.id')
+         ->where('ventas.estado_ventas',2)
+           ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
+         ->select(
+               \DB::raw('sum(descuentos_ventas.descuento) as descuentos')
                )
          ->first();  
 

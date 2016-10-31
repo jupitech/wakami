@@ -78,6 +78,24 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                     	 }).error(function(error) {
                        $scope.error = error;
                   });
+
+                    	    //Total Neto
+                   $http.get('/api/reportes/totalneto').success(
+                    function(totalneto) {
+                    	  $scope.totalneto = totalneto.data;
+
+                    	 }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+                   //Descuentos ventas
+                   $http.get('/api/reportes/descuentosventas').success(
+                    function(descuentosventas) {
+                    	  $scope.descuentosventas = descuentosventas.data;
+
+                    	 }).error(function(error) {
+                       $scope.error = error;
+                  });
  	
 
 });

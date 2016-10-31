@@ -64,11 +64,11 @@
                            <tbody>
                              <tr>
                                <td>Total Neto</td>
-                               <td>@{{totalventas.totalp | currency: 'Q'}}</td>
+                               <td>@{{totalneto.totalp | currency: 'Q'}}</td>
                              </tr>
                               <tr>
                                <td> - Descuentos</td>
-                               <td>@{{totalventas.descuentos | currency: 'Q'}}</td>
+                               <td>@{{descuentosventas.descuentos | currency: 'Q'}}</td>
                              </tr>
                               <tr>
                                <td>Total real</td>
@@ -76,11 +76,11 @@
                              </tr>
                               <tr>
                                <td> - Costos</td>
-                               <td>@{{totalventas.costo | currency: 'Q'}}</td>
+                               <td>@{{totalneto.costo | currency: 'Q'}}</td>
                              </tr>
                               <tr>
                                <td>Utilidad</td>
-                               <td>@{{totalventas.total - totalventas.costo | currency: 'Q'}}</td>
+                               <td>@{{totalventas.mitotal - totalneto.costo | currency: 'Q'}}</td>
                              </tr>
                            </tbody>
                          </table>
