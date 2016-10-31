@@ -59,7 +59,32 @@
                       <highcharts chart='@{{renderChart}}'></highcharts>
                      </div>
                      <div class=" col-sm-12 col-md-12 col-lg-5 spd">
-                       
+                       <div class="total_datos">
+                         <table class="table">
+                           <tbody>
+                             <tr>
+                               <td>Total Neto</td>
+                               <td>@{{totalventas.totalp | currency: 'Q'}}</td>
+                             </tr>
+                              <tr>
+                               <td> - Descuentos</td>
+                               <td>@{{totalventas.descuentos | currency: 'Q'}}</td>
+                             </tr>
+                              <tr>
+                               <td>Total real</td>
+                               <td>@{{totalventas.total | currency: 'Q'}}</td>
+                             </tr>
+                              <tr>
+                               <td> - Costos</td>
+                               <td>@{{totalventas.costo | currency: 'Q'}}</td>
+                             </tr>
+                              <tr>
+                               <td>Utilidad</td>
+                               <td>@{{totalventas.total - totalventas.costo | currency: 'Q'}}</td>
+                             </tr>
+                           </tbody>
+                         </table>
+                       </div>
                      </div>
                      </div>
                    

@@ -25,7 +25,7 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 
                     function(ventas) {
                               $scope.ventas = ventas.data;
-                                  var score = [];
+                             /*   var score = [];
 							    for (var i = 0; i <  $scope.ventas.length; i++) {
 							        score.push( $scope.ventas[i].data);   
 							    }
@@ -33,7 +33,7 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 							    var name = [];
 							    for (var i = 0; i <  $scope.ventas.length; i++) {
 							        name.push( $scope.ventas[i].name);
-							    }
+							    }*/
 
 							    $scope.renderChart = {
 							        chart: {
@@ -46,7 +46,7 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 							            text: ''
 							        },
 							         tooltip: {
-							                pointFormat: '{series.name}: <b>Q{point.y:.2f}</b>'
+							                pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
 							            },
 						             plotOptions: {
 								                pie: {
@@ -70,6 +70,14 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                   });
 
 
+                  //Total Ventas
+                   $http.get('/api/reportes/totalventas').success(
+                    function(totalventas) {
+                    	  $scope.totalventas = totalventas.data;
+
+                    	 }).error(function(error) {
+                       $scope.error = error;
+                  });
  	
 
 });
