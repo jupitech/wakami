@@ -54,11 +54,11 @@
                        <h1>Total de ventas</h1>
                     </div>
                      <div class="col-sm-12 spd spi">
-                     <div class="col-sm-12 col-md-12 col-lg-7 spd">
+                     <div class="col-sm-12 col-md-12 col-lg-6 spd">
                      
                       <highcharts chart='@{{renderChart}}'></highcharts>
                      </div>
-                     <div class=" col-sm-12 col-md-12 col-lg-5 spd">
+                     <div class=" col-sm-12 col-md-12 col-lg-6 spd">
                        <div class="total_datos">
                          <table class="table">
                            <tbody>
@@ -70,17 +70,21 @@
                                <td> - Descuentos</td>
                                <td>@{{descuentosventas.descuentos | currency: 'Q'}}</td>
                              </tr>
-                              <tr>
-                               <td>Total real</td>
+                              <tr class="t_real">
+                               <th>Total real</th>
                                <td>@{{totalventas.mitotal | currency: 'Q'}}</td>
                              </tr>
                               <tr>
                                <td> - Costos</td>
                                <td>@{{totalneto.costo | currency: 'Q'}}</td>
                              </tr>
-                              <tr>
+                              <tr class="t_utilidad">
                                <td>Utilidad</td>
                                <td>@{{totalventas.mitotal - totalneto.costo | currency: 'Q'}}</td>
+                             </tr>
+                              <tr class="t_faltantes">
+                               <td>Faltantes</td>
+                               <td>@{{totalventas.mitotal - (totalneto.totalp-descuentosventas.descuentos) | currency: 'Q'}}</td>
                              </tr>
                            </tbody>
                          </table>

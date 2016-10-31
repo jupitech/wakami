@@ -1358,10 +1358,15 @@ box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
 		width: 0px !important;
 	}
 	.table > tbody > tr > td{
-		font-size: 12px !important;
+		font-size: 12px;
 	}
 	.table > thead > tr > th{
 		font-size: 12px !important;
+	}
+	.t_real{
+		td{
+			font-size: 20px !important;
+		}
 	}
 }
 
@@ -2303,6 +2308,42 @@ tspan, textPath{
 }
 .highcharts-credits{
 	display: none !important;
+}
+.t_real{
+	th{
+		color: #aaa;
+		font-size: 16px;
+		border-bottom: 1px solid #eee;
+		padding-top: 15px !important;
+		font-weight: normal;
+	}
+	td{
+		font-size: 20px !important;
+		color: $btn_azul !important;
+	}
+}
+.t_utilidad{
+		th{
+		border-top: 2px solid #ccc;
+		color: #aaa;
+		font-size: 16px;
+		border-bottom: 1px solid #eee;
+		padding-top: 15px !important;
+	}
+	td{
+		border-top: 2px solid #ccc;
+		font-size: 20px !important;
+		color: $btn_verde !important;
+	}
+}
+.t_faltantes{
+		th{
+		color: $btn_rojo;
+		border-bottom: 1px solid #eee;
+	}
+	td{
+		color: $btn_rojo !important;
+	}
 }
 
 @media print {
