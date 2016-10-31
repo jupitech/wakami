@@ -66,7 +66,7 @@ class ReporteVentasController extends Controller
          ->where('ventas.estado_ventas',2)
            ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
          ->select(
-            \DB::raw('sum(ventas.total) as total'),
+            \DB::raw('sum(ventas.total) as mitotal'),
              \DB::raw('sum(producto.preciop * producto_venta.cantidad) as totalp'),
                \DB::raw('sum(descuentos_ventas.descuento) as descuentos'),
                  \DB::raw('sum(producto.costo * producto_venta.cantidad) as costo')

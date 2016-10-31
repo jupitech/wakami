@@ -72,7 +72,7 @@
                              </tr>
                               <tr>
                                <td>Total real</td>
-                               <td>@{{totalventas.total | currency: 'Q'}}</td>
+                               <td>@{{totalventas.mitotal | currency: 'Q'}}</td>
                              </tr>
                               <tr>
                                <td> - Costos</td>
