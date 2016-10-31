@@ -50,7 +50,7 @@
       <script src="/js/ng-infinite-scroll.min.js"></script>
       <script src="/assets/bower/fusioncharts/fusioncharts.js"></script>
       <script src="/js/angular-fusioncharts.min.js"></script>
-      <script src="http://code.highcharts.com/highcharts.src.js"></script>
+      <script src="https://code.highcharts.com/highcharts.src.js"></script>
        <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script>
     @stack('scripts')
   
