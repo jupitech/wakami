@@ -80,6 +80,22 @@ class ReporteVentasController extends Controller
          return response()->json(['data' =>  $ventas],200);
     }
 
+     public function total()
+    {
+         $ventas = Ventas::where('estado_ventas',2)
+           ->where('fecha_factura','>=',Carbon::today()->startOfMonth())
+         ->select(
+            \DB::raw('sum(total) as mitotal')
+               )
+         ->first();  
+
+          if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+
+         return response()->json(['data' =>  $ventas],200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
