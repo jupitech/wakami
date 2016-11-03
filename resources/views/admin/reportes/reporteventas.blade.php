@@ -111,7 +111,7 @@
               </div>
 
             {{-- Ordenes por dia --}}
-            <div class="col-sm-12 col-md-6 col-lg-12 spd spi mtop">
+            <div class="col-sm-12 col-md-12 col-lg-12 spd spi mtop">
               <div class="caja_contenido">
               <div class="col-sm-12 spd spi">
                        <h1>Ordenes por dia</h1>

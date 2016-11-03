@@ -105,10 +105,10 @@ class ReporteVentasController extends Controller
            $ordendia = Ventas::where('estado_ventas',2)
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
-            \DB::raw('DATE_FORMAT(fecha_factura, "%d") as name'),
+            \DB::raw('DATE_FORMAT(fecha_factura, "%d/%m") as name'),
             \DB::raw('count(id) as y')
                )
-         ->groupBy(\DB::raw('day(fecha_factura)'))
+         ->groupBy(\DB::raw('DATE_FORMAT(fecha_factura, "%d%m")'))
          ->get(); 
 
 
