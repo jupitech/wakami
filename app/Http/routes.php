@@ -214,10 +214,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::post('/envioconsignacion/p1/{id}', 'ConsignacionController@updatep1');
 
 			//Reportes
-			Route::get('/reportes/ventasmes', 'ReporteVentasController@indexventasmes');
-			Route::get('/reportes/totalventas', 'ReporteVentasController@total');
-			Route::get('/reportes/totalneto', 'ReporteVentasController@totalneto');
-			Route::get('/reportes/descuentosventas', 'ReporteVentasController@descuentos');		
+			Route::get('/reportes/ventasmes', 'ReporteVentasController@indexventasmes');	
 		});
 });
 

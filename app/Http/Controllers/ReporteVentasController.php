@@ -37,74 +37,87 @@ class ReporteVentasController extends Controller
         return view('admin.reportes.reporteventas');
     }
 
-      public function indexventasmes()
+      public function indexventasmes(Request $request)
     {
 
+         $fechainicio= $request['fecha_inicio'];
+         $fechafin= $request['fecha_fin'];
+
+          $fi =new \DateTime($fechainicio);
+          $carbon = Carbon::instance($fi); 
+          $a_fi=$carbon->year;
+          $m_fi=$carbon->month;
+          $d_fi=$carbon->day;
+
+          $ff =new \DateTime($fechafin);
+          $carbon2 = Carbon::instance($ff); 
+          $a_ff=$carbon2->year;
+          $m_ff=$carbon2->month;
+          $d_ff=$carbon2->day;
+
+
+          $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+          $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
+
+          //Total por sucursal
           $ventas = Ventas::join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
           ->where('ventas.estado_ventas',2)
-          ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
+          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
           ->select(
             'sucursales.nombre as name',
             \DB::raw('sum(ventas.total) as y')
                )
           ->groupBy('sucursales.id')
-          ->get();        
-
-         if(!$ventas){
-             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
-        }
-
-         return response()->json(['data' =>  $ventas],200);
-    }
+          ->get();   
 
 
-     public function totalneto()
-    {
-         $ventas = Ventas::leftjoin('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
+          //Total neto
+           $totalneto = Ventas::leftjoin('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
          ->leftjoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
          ->where('ventas.estado_ventas',2)
-           ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
+         ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
              \DB::raw('sum(producto.preciop * producto_venta.cantidad) as totalp'),
                  \DB::raw('sum(producto.costo * producto_venta.cantidad) as costo')
                )
          ->first();  
 
-          if(!$ventas){
-             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
-        }
 
-         return response()->json(['data' =>  $ventas],200);
-    }
-
-
-
-     public function total()
-    {
-         $ventas = Ventas::where('estado_ventas',2)
-           ->where('fecha_factura','>=',Carbon::today()->startOfMonth())
+         //Total Real
+           $totalreal = Ventas::where('estado_ventas',2)
+          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
             \DB::raw('sum(total) as mitotal')
                )
-         ->first();  
+         ->first(); 
 
-          if(!$ventas){
-             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
-        }
-
-         return response()->json(['data' =>  $ventas],200);
-    }
-
-
-      public function descuentos()
-    {
-         $ventas = Ventas::leftjoin('descuentos_ventas', 'descuentos_ventas.id_ventas', '=', 'ventas.id')
+         //Descuentos
+           $descuentos = Ventas::leftjoin('descuentos_ventas', 'descuentos_ventas.id_ventas', '=', 'ventas.id')
          ->where('ventas.estado_ventas',2)
-           ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
+         ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
                \DB::raw('sum(descuentos_ventas.descuento) as descuentos')
                )
          ->first();  
+
+
+
+             if(!$ventas){
+                 return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+            }
+
+           return response()->json(['data' =>  $ventas,'tneto' =>  $totalneto,'treal' =>  $totalreal,'des' =>  $descuentos],200);
+
+
+
+
+    }
+
+
+
+      public function descuentos()
+    {
+       
 
           if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);

@@ -20,20 +20,18 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
      
 
 		 //Total de ventas
-		 	//Pie de Totales
-		 $http.get('/api/reportes/ventasmes').success(
+		 $http.get('/api/reportes/ventasmes', {
+				      params: {
+				          fecha_inicio:$scope.mifecha.inicio,
+				          fecha_fin: $scope.mifecha.fin
+				      }
+				   }).success(
 
                     function(ventas) {
                               $scope.ventas = ventas.data;
-                             /*   var score = [];
-							    for (var i = 0; i <  $scope.ventas.length; i++) {
-							        score.push( $scope.ventas[i].data);   
-							    }
-
-							    var name = [];
-							    for (var i = 0; i <  $scope.ventas.length; i++) {
-							        name.push( $scope.ventas[i].name);
-							    }*/
+                          	  $scope.totalneto = ventas.tneto;
+                          	  $scope.totalventas = ventas.treal;
+                          	  $scope.descuentosventas = ventas.des;
 
 							    $scope.renderChart = {
 							        chart: {
@@ -69,33 +67,62 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                        $scope.error = error;
                   });
 
+                  
+ 	   $scope.buscarreporte= function(){
+ 	   			 var datafecha={
+                        fecha_inicio: $scope.mifecha.inicio,
+                        fecha_fin: $scope.mifecha.fin
+                   };
+                 console.log(datafecha);
 
-                  //Total Ventas
-                   $http.get('/api/reportes/totalventas').success(
-                    function(totalventas) {
-                    	  $scope.totalventas = totalventas.data;
+                 	 //Total de ventas
+		 $http.get('/api/reportes/ventasmes', {
+				      params: {
+				          fecha_inicio:$scope.mifecha.inicio,
+				          fecha_fin: $scope.mifecha.fin
+				      }
+				   }).success(
 
-                    	 }).error(function(error) {
+                    function(ventas) {
+                              $scope.ventas = ventas.data;
+                          	  $scope.totalneto = ventas.tneto;
+                          	  $scope.totalventas = ventas.treal;
+                          	  $scope.descuentosventas = ventas.des;
+
+							    $scope.renderChart = {
+							        chart: {
+						                plotBackgroundColor: null,
+						                plotBorderWidth: null,
+						                plotShadow: false,
+						                type: 'pie'
+						            },
+					                title: {
+							            text: ''
+							        },
+							         tooltip: {
+							                pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
+							            },
+						             plotOptions: {
+								                pie: {
+								                    allowPointSelect: true,
+								                    cursor: 'pointer',
+								                    dataLabels: {
+								                        enabled: false
+								                    },
+								                    showInLegend: true
+								                }
+								            },
+							        series: [{
+							        	name: 'Total',
+							            data:  $scope.ventas
+							        }]
+							    };
+                           
+							    
+                  }).error(function(error) {
                        $scope.error = error;
                   });
 
-                    	    //Total Neto
-                   $http.get('/api/reportes/totalneto').success(
-                    function(totalneto) {
-                    	  $scope.totalneto = totalneto.data;
-
-                    	 }).error(function(error) {
-                       $scope.error = error;
-                  });
-
-                   //Descuentos ventas
-                   $http.get('/api/reportes/descuentosventas').success(
-                    function(descuentosventas) {
-                    	  $scope.descuentosventas = descuentosventas.data;
-
-                    	 }).error(function(error) {
-                       $scope.error = error;
-                  });
- 	
+ 	   };// Fin busqueda reportes por fecha
 
 });

@@ -13,7 +13,7 @@
        {{-- Busqueda por fecha especifica --}}
      	<div class="col-sm-8 col-md-7 col-lg-6 spi">
      		        <div class="area_fecha">
-                          <form class="form_fecha" name="forma" ng-submit="buscarOrden()">
+                          <form class="form_fecha" name="forma" ng-submit="buscarreporte()">
                             <div class="form-group">
                                   <div class="col-sm-5 spi spd">
                                         <label for="nombreU" class="col-sm-12 spi">Fecha Inicio</label>
