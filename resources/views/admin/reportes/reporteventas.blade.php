@@ -48,7 +48,7 @@
       {{-- Analisis de total de ventas --}}
       <div class="ventasdia col-sm-12 spd spi">
             {{-- Por sucursal --}}
-            <div class="col-sm-6  col-md-6 col-lg-5 spi">
+            <div class="col-sm-6  col-md-6 col-lg-6 spi">
                   <div class="caja_contenido">
                     <div class="col-sm-12 spd spi">
                        <h1>Total de ventas</h1>
@@ -96,7 +96,7 @@
                   </div>
               </div>
               {{-- Por tipo de pago --}}
-              <div class="col-sm-6  col-md-6 col-lg-4 spi">
+              <div class="col-sm-6  col-md-6 col-lg-6 spi">
                    <div class="caja_contenido">
                       <div class="col-sm-12 spd spi">
                        <h1>Tipo de pago</h1>
@@ -109,6 +109,19 @@
                      </div>
                    </div>
               </div>
+
+            {{-- Ordenes por dia --}}
+            <div class="col-sm-12 col-md-6 col-lg-12 spd spi mtop">
+              <div class="caja_contenido">
+              <div class="col-sm-12 spd spi">
+                       <h1>Ordenes por dia</h1>
+                    </div>
+                      <div class="col-sm-12 col-md-12 col-lg-12 spd">
+                             
+                              <highcharts chart='@{{renderOdia}}'></highcharts>
+                             </div>
+              </div>
+            </div>
       </div>
      </div>
     </div>

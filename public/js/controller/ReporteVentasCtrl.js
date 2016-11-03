@@ -27,11 +27,13 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 				      }
 				   }).success(
 
+				   //Pie de Ventas por sucursal
                     function(ventas) {
                               $scope.ventas = ventas.data;
                           	  $scope.totalneto = ventas.tneto;
                           	  $scope.totalventas = ventas.treal;
                           	  $scope.descuentosventas = ventas.des;
+                          	  $scope.ordenesdia = ventas.odia;
 
 							    $scope.renderChart = {
 							        chart: {
@@ -61,6 +63,62 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 							            data:  $scope.ventas
 							        }]
 							    };
+
+
+
+					//Linear por ordenes del dia
+
+					   var yorden = [];
+								    for (var i = 0; i <  $scope.ordenesdia.length; i++) {
+								        yorden.push( $scope.ordenesdia[i].y);   
+								    }
+					   var xorden = [];
+						    for (var i = 0; i <  $scope.ordenesdia.length; i++) {
+						        xorden.push( $scope.ordenesdia[i].name);   
+						    }		    
+
+							 $scope.renderOdia = {
+							        chart: {
+						                plotBackgroundColor: null,
+						                plotBorderWidth: null,
+						                plotShadow: false,
+						                type: 'area'
+						            },
+					                title: {
+							            text: ''
+							        },
+							       xAxis: {
+							       	 title: {
+							                text: 'Dias'
+							            },
+								           categories:xorden
+								        },
+							        yAxis: {
+							        	  title: {
+							                text: 'Ordenes'
+							            },
+							            categories:yorden
+							        },
+						             plotOptions: {
+							            area: {
+							                marker: {
+							                	pointStart: 02,
+							                    enabled: false,
+							                    symbol: 'circle',
+							                    radius: 2,
+							                    states: {
+							                        hover: {
+							                            enabled: true
+							                        }
+							                    }
+							                }
+							            }
+							        },
+							        series: [{
+							        	name: '# Ordenes',
+							            data:  yorden
+							        }]
+							    };    
                            
 							    
                   }).error(function(error) {
@@ -168,6 +226,7 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                           	  $scope.totalneto = ventas.tneto;
                           	  $scope.totalventas = ventas.treal;
                           	  $scope.descuentosventas = ventas.des;
+                          	  $scope.ordenesdia = ventas.odia;
 
 							    $scope.renderChart = {
 							        chart: {
@@ -282,7 +341,7 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                        $scope.error = error;
                   });
 
-                  
+
 
  	   };// Fin busqueda reportes por fecha
 
