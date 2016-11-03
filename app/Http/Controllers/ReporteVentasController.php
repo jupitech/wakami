@@ -116,11 +116,11 @@ class ReporteVentasController extends Controller
            $ordenhora = Ventas::where('estado_ventas',2)
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
-            \DB::raw('DATE_FORMAT(fecha_factura, "%hh") as name'),
+            \DB::raw('DATE_FORMAT(fecha_factura, "%H") as name'),
             \DB::raw('count(id) as y')
                )
-         ->groupBy(\DB::raw('DATE_FORMAT(fecha_factura, "%hh")'))
-         ->orderBy(\DB::raw('DATE_FORMAT(fecha_factura, "%hh")'), 'desc')
+         ->groupBy(\DB::raw('DATE_FORMAT(fecha_factura, "%H")'))
+         ->orderBy(\DB::raw('DATE_FORMAT(fecha_factura, "%H")'), 'asc')
          ->get(); 
 
 
