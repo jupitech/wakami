@@ -69,7 +69,7 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 
 
            
-           	 //Total de ventas
+           	 //Total de ventas por pago
 		 $http.get('/api/reportes/ventaspago', {
 				      params: {
 				          fecha_inicio:$scope.mifecha.inicio,
@@ -202,6 +202,87 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                   }).error(function(error) {
                        $scope.error = error;
                   });
+
+
+
+           	 //Total de ventas por pago
+		 $http.get('/api/reportes/ventaspago', {
+				      params: {
+				          fecha_inicio:$scope.mifecha.inicio,
+				          fecha_fin: $scope.mifecha.fin
+				      }
+				   }).success(
+
+                    function(ventasp) {
+                              $scope.ventasp = ventasp.data;
+
+                                var ydata = [];
+								    for (var i = 0; i <  $scope.ventasp.length; i++) {
+								        ydata.push( $scope.ventasp[i].y);   
+								    }
+
+                               var categoria = [];
+								    for (var i = 0; i <  $scope.ventasp.length; i++) {
+								    	if($scope.ventasp[i].name==1){
+								    	    categoria.push( 'Efectivo');
+								    	} else if ($scope.ventasp[i].name==2){
+								    		 categoria.push( 'POS/Tarjeta');
+								    	} else if ($scope.ventasp[i].name==3){
+								    		 categoria.push( 'Cheque');
+								    	} else if ($scope.ventasp[i].name==4){
+								    		 categoria.push( 'Crédito');
+								    	} else if ($scope.ventasp[i].name==5){
+								    		 categoria.push( 'Depósito');
+								    	}
+								    }
+							    $scope.renderPago = {
+							        chart: {
+						                plotBackgroundColor: null,
+						                plotBorderWidth: null,
+						                plotShadow: false,
+						                type: 'bar'
+						            },
+					                title: {
+							            text: ''
+							        },
+							         xAxis: {
+							            categories:categoria,
+							            title: {
+							                text: null
+							            }
+							        },
+							        yAxis: {
+							            min: 0,
+							            title: {
+							                text: null,
+							                align: 'high'
+							            },
+							            labels: {
+							                overflow: 'justify'
+							            }
+							        },
+							         tooltip: {
+							                pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
+							            },
+						              plotOptions: {
+											            bar: {
+											                dataLabels: {
+											                    enabled: true
+											                }
+											            }
+											        },
+							        series: [{
+							        	name: 'Totales',
+							            data:  ydata
+							        }]
+							    };
+                           
+							    
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+                  
 
  	   };// Fin busqueda reportes por fecha
 

@@ -114,13 +114,32 @@ class ReporteVentasController extends Controller
     }
 
    
-      public function ventaspago()
+      public function ventaspago(Request $request)
     {
+
+          $fechainicio= $request['fecha_inicio'];
+         $fechafin= $request['fecha_fin'];
+
+          $fi =new \DateTime($fechainicio);
+          $carbon = Carbon::instance($fi); 
+          $a_fi=$carbon->year;
+          $m_fi=$carbon->month;
+          $d_fi=$carbon->day;
+
+          $ff =new \DateTime($fechafin);
+          $carbon2 = Carbon::instance($ff); 
+          $a_ff=$carbon2->year;
+          $m_ff=$carbon2->month;
+          $d_ff=$carbon2->day;
+
+
+          $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+          $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
 
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
           ->leftJoin('sucursales', 'ventas.id_sucursal', '=', 'sucursales.id')
           ->where('ventas.estado_ventas',2)
-          ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
+          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
           ->select(
             'tpago_venta.tipo_pago as name', 
             \DB::raw('sum(ventas.total) as y')
