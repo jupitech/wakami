@@ -108,7 +108,7 @@ class ReporteVentasController extends Controller
             \DB::raw('DATE_FORMAT(fecha_factura, "%d/%m") as name'),
             \DB::raw('count(id) as y')
                )
-         ->groupBy(\DB::raw('DATE_FORMAT(fecha_factura, "%d%m")'))
+         ->groupBy(\DB::raw('DATE(fecha_factura)'))
          ->get(); 
 
 
