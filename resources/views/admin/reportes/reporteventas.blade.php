@@ -187,6 +187,18 @@
                              </div>
               </div>
             </div>
+             {{-- Ordenes por hora --}}
+            <div class="col-sm-12 col-md-12 col-lg-12 spd spi mtop">
+              <div class="caja_contenido">
+              <div class="col-sm-12 spd spi">
+                       <h1>Ordenes por hora</h1>
+                    </div>
+                      <div class="col-sm-12 col-md-12 col-lg-12 spd">
+                             
+                              <highcharts chart='@{{renderOhora}}'></highcharts>
+                             </div>
+              </div>
+            </div>
       </div>
      </div>
     </div>

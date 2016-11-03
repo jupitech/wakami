@@ -112,13 +112,25 @@ class ReporteVentasController extends Controller
          ->get(); 
 
 
+            //Ordenes por hora
+           $ordenhora = Ventas::where('estado_ventas',2)
+          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+         ->select(
+            \DB::raw('DATE_FORMAT(fecha_factura, "%hh") as name'),
+            \DB::raw('count(id) as y')
+               )
+         ->groupBy(\DB::raw('DATE_FORMAT(fecha_factura, "%hh")'))
+         ->orderBy(\DB::raw('DATE_FORMAT(fecha_factura, "%hh")'), 'desc')
+         ->get(); 
+
+
              if(!$ventas){
                  return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
             }
 
-           return response()->json(['data' =>  $ventas,'tneto' =>  $totalneto,'treal' =>  $totalreal,'des' =>  $descuentos,'odia' =>  $ordendia],200);
+           return response()->json(['data' =>  $ventas,'tneto' =>  $totalneto,'treal' =>  $totalreal,'des' =>  $descuentos,'odia' =>  $ordendia,'ohora' =>  $ordenhora],200);
 
-
+     
 
 
     }

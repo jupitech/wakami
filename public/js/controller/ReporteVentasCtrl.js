@@ -34,7 +34,7 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                           	  $scope.totalventas = ventas.treal;
                           	  $scope.descuentosventas = ventas.des;
                           	  $scope.ordenesdia = ventas.odia;
-
+                          	   $scope.ordeneshora = ventas.ohora;
 							    $scope.renderChart = {
 							        chart: {
 						                plotBackgroundColor: null,
@@ -117,6 +117,60 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 							        series: [{
 							        	name: '# Ordenes',
 							            data:  yorden
+							        }]
+							    };    
+
+							    //Linear por ordenes por hora
+
+					   var yordenh = [];
+								    for (var i = 0; i <  $scope.ordeneshora.length; i++) {
+								        yordenh.push( $scope.ordeneshora[i].y);   
+								    }
+					   var xordenh = [];
+						    for (var i = 0; i <  $scope.ordeneshora.length; i++) {
+						        xordenh.push( $scope.ordeneshora[i].name);   
+						    }		    
+
+							 $scope.renderOhora = {
+							        chart: {
+						                plotBackgroundColor: null,
+						                plotBorderWidth: null,
+						                plotShadow: false,
+						                type: 'area'
+						            },
+					                title: {
+							            text: ''
+							        },
+							       xAxis: {
+							       	 title: {
+							                text: 'Hora'
+							            },
+								           categories:xordenh
+								        },
+							        yAxis: {
+							        	  title: {
+							                text: 'Ordenes'
+							            },
+							            categories:yordenh
+							        },
+						             plotOptions: {
+							            area: {
+							                marker: {
+							                	pointStart: 02,
+							                    enabled: false,
+							                    symbol: 'circle',
+							                    radius: 2,
+							                    states: {
+							                        hover: {
+							                            enabled: true
+							                        }
+							                    }
+							                }
+							            }
+							        },
+							        series: [{
+							        	name: '# Ordenes',
+							            data:  yordenh
 							        }]
 							    };    
                            
@@ -258,7 +312,7 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                           	  $scope.totalventas = ventas.treal;
                           	  $scope.descuentosventas = ventas.des;
                           	  $scope.ordenesdia = ventas.odia;
-
+                          	  $scope.ordeneshora = ventas.ohora;	
 
                           	  //Por ventas y sucursales
 							    $scope.renderChart = {
@@ -341,6 +395,61 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 							        series: [{
 							        	name: '# Ordenes',
 							            data:  yorden
+							        }]
+							    };    
+
+
+							       //Linear por ordenes por hora
+
+					   var yordenh = [];
+								    for (var i = 0; i <  $scope.ordeneshora.length; i++) {
+								        yordenh.push( $scope.ordeneshora[i].y);   
+								    }
+					   var xordenh = [];
+						    for (var i = 0; i <  $scope.ordeneshora.length; i++) {
+						        xordenh.push( $scope.ordeneshora[i].name);   
+						    }		    
+
+							 $scope.renderOhora = {
+							        chart: {
+						                plotBackgroundColor: null,
+						                plotBorderWidth: null,
+						                plotShadow: false,
+						                type: 'area'
+						            },
+					                title: {
+							            text: ''
+							        },
+							       xAxis: {
+							       	 title: {
+							                text: 'Hora'
+							            },
+								           categories:xordenh
+								        },
+							        yAxis: {
+							        	  title: {
+							                text: 'Ordenes'
+							            },
+							            categories:yordenh
+							        },
+						             plotOptions: {
+							            area: {
+							                marker: {
+							                	pointStart: 02,
+							                    enabled: false,
+							                    symbol: 'circle',
+							                    radius: 2,
+							                    states: {
+							                        hover: {
+							                            enabled: true
+							                        }
+							                    }
+							                }
+							            }
+							        },
+							        series: [{
+							        	name: '# Ordenes',
+							            data:  yordenh
 							        }]
 							    };    
 							    
@@ -443,7 +552,7 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                        $scope.error = error;
                   });
 
-          
+
 		 //Total de ventas por linea
 		 $http.get('/api/reportes/ventaslinea', {
 				      params: {
