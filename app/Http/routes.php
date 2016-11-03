@@ -214,7 +214,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::post('/envioconsignacion/p1/{id}', 'ConsignacionController@updatep1');
 
 			//Reportes
-			Route::get('/reportes/ventasmes', 'ReporteVentasController@indexventasmes');	
+			Route::get('/reportes/ventasmes', 'ReporteVentasController@indexventas');	
+			Route::get('/reportes/ventaspago', 'ReporteVentasController@ventaspago');	
 		});
 });
 

@@ -37,7 +37,7 @@ class ReporteVentasController extends Controller
         return view('admin.reportes.reporteventas');
     }
 
-      public function indexventasmes(Request $request)
+      public function indexventas(Request $request)
     {
 
          $fechainicio= $request['fecha_inicio'];
@@ -113,18 +113,27 @@ class ReporteVentasController extends Controller
 
     }
 
-
-
-      public function descuentos()
+   
+      public function ventaspago()
     {
-       
 
-          if(!$ventas){
+          $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
+          ->leftJoin('sucursales', 'ventas.id_sucursal', '=', 'sucursales.id')
+          ->where('ventas.estado_ventas',2)
+          ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
+          ->select(
+            'tpago_venta.tipo_pago as name', 
+            \DB::raw('sum(ventas.total) as y')
+               )
+          ->groupBy('tpago_venta.tipo_pago')
+          ->get();        
+
+         if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
-
          return response()->json(['data' =>  $ventas],200);
     }
+
 
 
 
