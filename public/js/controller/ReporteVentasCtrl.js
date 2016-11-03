@@ -141,6 +141,22 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                        $scope.error = error;
                   });
 
+
+		 //Total de ventas por linea
+		 $http.get('/api/reportes/ventaslinea', {
+				      params: {
+				          fecha_inicio:$scope.mifecha.inicio,
+				          fecha_fin: $scope.mifecha.fin
+				      }
+				   }).success(
+                    function(vlinea) {
+
+                    	   $scope.vlinea = vlinea.datos;
+
+                    	 }).error(function(error) {
+                       $scope.error = error;
+                  });
+
            
            	 //Total de ventas por pago
 		 $http.get('/api/reportes/ventaspago', {
@@ -426,6 +442,22 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                     	 }).error(function(error) {
                        $scope.error = error;
                   });
+
+          
+		 //Total de ventas por linea
+		 $http.get('/api/reportes/ventaslinea', {
+				      params: {
+				          fecha_inicio:$scope.mifecha.inicio,
+				          fecha_fin: $scope.mifecha.fin
+				      }
+				   }).success(
+                    function(vlinea) {
+
+                    	   $scope.vlinea = vlinea.datos;
+
+                    	 }).error(function(error) {
+                       $scope.error = error;
+                  });          	 
 
 
  	   };// Fin busqueda reportes por fecha

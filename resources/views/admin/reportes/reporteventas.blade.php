@@ -143,6 +143,36 @@
                          </div>
                        </div>
                   </div>
+                     {{-- Ventas por producto --}}
+                   <div class="col-sm-6  col-md-6 col-lg-6 spi mtop">
+                       <div class="caja_contenido">
+                          <div class="col-sm-12 spd spi">
+                           <h1>Ventas por linea</h1>
+                        </div>
+                         <div class="col-sm-12 spd spi">
+                               <div class="col-sm-12 col-md-12 col-lg-12 table_height">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th>Linea de producto</th>
+                                          <th>Cantidad</th>
+                                          <th>Total</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr ng-repeat="linea in vlinea">
+                                          <td>@{{linea.nombre}}</td>
+                                          <td>@{{linea.cantidad}}</td>
+                                          <td class="tot_venta">@{{linea.total  | currency: 'Q'}}</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                    
+                                 </div>
+                         </div>
+                       </div>
+                  </div>
+
              </div>
 
             {{-- Ordenes por dia --}}
