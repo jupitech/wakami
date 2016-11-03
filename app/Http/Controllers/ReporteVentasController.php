@@ -189,7 +189,7 @@ class ReporteVentasController extends Controller
           $ventas = Ventas::join('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
           ->leftJoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
           ->where('ventas.estado_ventas',2)
-        //  ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
           ->select(
             'producto.codigo as codigo', 
              'producto.nombre as nombre', 

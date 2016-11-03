@@ -411,6 +411,21 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                        $scope.error = error;
                   });
 
+          
+		 //Total de ventas por producto
+		 $http.get('/api/reportes/ventasproducto', {
+				      params: {
+				          fecha_inicio:$scope.mifecha.inicio,
+				          fecha_fin: $scope.mifecha.fin
+				      }
+				   }).success(
+                    function(vproducto) {
+
+                    	   $scope.vproducto = vproducto.datos;
+
+                    	 }).error(function(error) {
+                       $scope.error = error;
+                  });
 
 
  	   };// Fin busqueda reportes por fecha
