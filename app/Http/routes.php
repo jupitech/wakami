@@ -215,7 +215,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 
 			//Reportes
 			Route::get('/reportes/ventasmes', 'ReporteVentasController@indexventas');	
-			Route::get('/reportes/ventaspago', 'ReporteVentasController@ventaspago');	
+			Route::get('/reportes/ventaspago', 'ReporteVentasController@ventaspago');
+			Route::get('/reportes/ventasproducto', 'ReporteVentasController@ventasproducto');	
 		});
 });
 

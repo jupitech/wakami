@@ -164,6 +164,53 @@ class ReporteVentasController extends Controller
     }
 
 
+     public function ventasproducto(Request $request)
+    {
+
+         $fechainicio= $request['fecha_inicio'];
+         $fechafin= $request['fecha_fin'];
+
+          $fi =new \DateTime($fechainicio);
+          $carbon = Carbon::instance($fi); 
+          $a_fi=$carbon->year;
+          $m_fi=$carbon->month;
+          $d_fi=$carbon->day;
+
+          $ff =new \DateTime($fechafin);
+          $carbon2 = Carbon::instance($ff); 
+          $a_ff=$carbon2->year;
+          $m_ff=$carbon2->month;
+          $d_ff=$carbon2->day;
+
+
+          $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+          $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
+
+          $ventas = Ventas::join('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
+          ->leftJoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
+          ->where('ventas.estado_ventas',2)
+        //  ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+          ->select(
+            'producto.codigo as codigo', 
+             'producto.nombre as nombre', 
+              'producto.preciop as preciop', 
+              'producto.costo as precioi', 
+            \DB::raw('sum(producto_venta.cantidad) as cantidad'),
+            \DB::raw('sum(producto_venta.cantidad*producto.preciop) as total'),
+             \DB::raw('sum(producto_venta.cantidad*producto.costo) as costo')
+               )
+          ->groupBy('producto.id')
+          ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto.preciop)'), 'desc')
+          ->get();        
+
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+
+
 
 
 }

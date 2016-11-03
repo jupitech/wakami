@@ -96,7 +96,7 @@
                   </div>
               </div>
               {{-- Por tipo de pago --}}
-              <div class="col-sm-6  col-md-6 col-lg-6 spi">
+              <div class="col-sm-6  col-md-6 col-lg-6 spi spd">
                    <div class="caja_contenido">
                       <div class="col-sm-12 spd spi">
                        <h1>Tipo de pago</h1>
@@ -109,6 +109,41 @@
                      </div>
                    </div>
               </div>
+             <div class="col-sm-12 spd spi">
+             {{-- Ventas por producto --}}
+                   <div class="col-sm-6  col-md-6 col-lg-6 spi mtop">
+                       <div class="caja_contenido">
+                          <div class="col-sm-12 spd spi">
+                           <h1>Ventas por producto</h1>
+                        </div>
+                         <div class="col-sm-12 spd spi">
+                               <div class="col-sm-12 col-md-12 col-lg-12 table_height">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th>Producto</th>
+                                          <th>Cantidad</th>
+                                          <th>Total</th>
+                                          <th>Costo</th>
+                                          <th>Utilidad</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr ng-repeat="producto in vproducto">
+                                          <td><span class="label label-success">@{{producto.codigo}}</span> <small>@{{producto.nombre}}</small></td>
+                                          <td>@{{producto.cantidad}}</td>
+                                          <td class="tot_venta">@{{producto.total  | currency: 'Q'}}</td>
+                                           <td>@{{producto.costo  | currency: 'Q'}}</td>
+                                           <td>@{{producto.total-producto.costo  | currency: 'Q'}}</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                    
+                                 </div>
+                         </div>
+                       </div>
+                  </div>
+             </div>
 
             {{-- Ordenes por dia --}}
             <div class="col-sm-12 col-md-12 col-lg-12 spd spi mtop">
