@@ -648,7 +648,7 @@ class ConsignacionController extends Controller
 
                               foreach ($productoventas as $productoventa) {
                                 //Reduciendo stock desde los productos vendidos
-                                   $stockproducto=StockConsignacion::where('id_producto',$productoventa->id_producto)->first();
+                                   $stockproducto=StockConsignacion::where('id_producto',$productoventa->id_producto)->where('id_consignacion',$consignacion->id)->first();
 
                                       if(!is_null($stockproducto) ){
                                         $stockactual=$stockproducto->stock;
