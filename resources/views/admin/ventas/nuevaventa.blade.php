@@ -421,7 +421,7 @@
                                       <span>De Fecha: 21-SEP-16 Serie: FOAK Del 1 Al 1000000 </span>
                                       <span>GFACE: INFILE,S.A. NIT: 1252133-7 </span>
                                       <h4>SUJETO A PAGOS TRIMESTRALES</h4>
-                                      <h5>No se aceptan cambios ni devoluciones, exceptuando por defectos de producción 2 meses después de la compra presentando esta factura.</h5>
+                                      <h5>No se aceptan cambios ni devoluciones, exceptuando por defectos de producción 30 dias después de la compra presentando esta factura.</h5>
                                    </div>
                               </div>
                              
