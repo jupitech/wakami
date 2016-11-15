@@ -43,6 +43,11 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
         $scope.activecentral=false;
        $scope.act_btn=2;
      };
+
+       $scope.deselecli=function(){
+          $scope.buslinea='';
+          $scope.busprove='';
+       }
   
 
    $scope.tipos=[
@@ -52,6 +57,13 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
         {id:'4',cliente:'Crédito'},
         {id:'5',cliente:'Independiente'},
         ];
+
+       $scope.tipos2=[
+        {id:'2',cliente:'Consignación'},
+        {id:'3',cliente:'Contado'},
+        {id:'4',cliente:'Crédito'},
+        {id:'5',cliente:'Independiente'},
+        ];    
 
 
      //Todos los clientes

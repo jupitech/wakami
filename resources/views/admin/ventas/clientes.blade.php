@@ -235,6 +235,21 @@
             
       </div>
        <div class="col-sm-12 spd spi">
+                     <div class="busqueda_linea col-sm-3 spi">
+                                
+                                    <ol class="nya-bs-select" ng-model="buslinea" title="Buscar por tipo" name="id_linea" data-size="10" onfocus="pxtrack.emit('counter', '1')" >
+                                    <li ng-click="deselecli()"><a>
+                                    Todos
+                                       <span class="glyphicon glyphicon-ok check-mark"></span>
+                                    </a></li>
+                                    <li nya-bs-option="tipo in tipos2" data-value="tipo.id">
+                                      <a>
+                                        @{{ tipo.cliente }}
+                                        <span class="glyphicon glyphicon-ok check-mark"></span>
+                                      </a>
+                                    </li>
+                                  </ol>
+                     </div> 
                      <div class="busqueda_texto col-sm-4">
                     <input type="text" id="query" ng-model="query" onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de clientes.." />
                      </div>
@@ -257,7 +272,7 @@
 	                   <th class="td_opciones">Opciones</th>
 	               </thead>
 	               <tbody ng-if="activecentral">
-	                   <tr ng-repeat="cliente in clientes| filter: query | filter:{tipo_cliente:'!1'}  | orderBy:'-id'">
+	                   <tr ng-repeat="cliente in clientes| filter: query |  filter:{tipo_cliente:'!1'} | filter: {tipo_cliente:buslinea} | orderBy:'-id'">
 	                       <td>@{{cliente.nombre}} <small>@{{cliente.empresa}}</small></td>
 	                       <td>@{{cliente.nit}} </td>
 	                       <td>@{{cliente.direccion}}</td>
