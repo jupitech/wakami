@@ -221,6 +221,15 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::get('/reportes/ventaspago', 'ReporteVentasController@ventaspago');
 			Route::get('/reportes/ventasproducto', 'ReporteVentasController@ventasproducto');	
 			Route::get('/reportes/ventaslinea', 'ReporteVentasController@ventaslinea');	
+
+			//Devoluciones
+			Route::get('/devoluciones', 'DevolucionesController@indexdevoluciones');
+			Route::post('/devolucion/create', 'DevolucionesController@store');
+			Route::post('/prodevolucion/create', 'DevolucionesController@storeprodevolucion');
+			 Route::get('/prodevolucion/{id}', 'DevolucionesController@indexprodevoluciones');
+			 Route::put('/prodevolucion/{id}', 'DevolucionesController@updatepro');
+			Route::delete('/devolucion/destroy/{id}','DevolucionesController@destroy');
+			Route::delete('/prodevolucion/destroy/{id}','DevolucionesController@destroypro');
 		});
 });
 

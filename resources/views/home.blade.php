@@ -33,12 +33,13 @@
                   @role('admin|operativo') 
            					<li><a href="{{ URL::to('/productos') }}">Listado de productos</a></li>
            					<li><a href="">Top Productos</a></li>
+                    <li><a href="{{ URL::to('/devoluciones') }}">Devoluciones</a></li>
                   @endrole
                     @role('vendedor')
                       <li><a href="{{ URL::to('/misproductos') }}">Listado de productos</a></li>
                        <li><a href="{{ URL::to('/misucursal') }}">Mi Sucursal</a></li>
                          <li><a href="{{ URL::to('/traslados') }}">Traslados</a></li>
-                        <li><a href="">Productos de devolución</a></li>
+                        <li><a href="">Devoluciones</a></li>
                     @endrole
            				</ul>
            			</div>

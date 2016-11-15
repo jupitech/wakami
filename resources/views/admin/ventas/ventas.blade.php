@@ -220,6 +220,7 @@
 	                       <td>
 	                           <div class="area_opciones">
                                  <ul>
+                                 
                                  <li class="ed_drop"  uib-dropdown  ng-if="venta.estado_ventas==2">
                                            <a href="" class="ico_ncredito" id="simple-dropdown" uib-dropdown-toggle></a>
                                            <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">

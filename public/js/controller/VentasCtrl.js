@@ -445,6 +445,13 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
           {id:'4',pago:'Crédito'},
           {id:'5',pago:'Depósito'},
          ];
+
+          $scope.tpagado=[
+          {id:'1',pago:'Efectivo'},
+          {id:'2',pago:'POS'},
+          {id:'3',pago:'Cheque'},
+          {id:'5',pago:'Depósito'},
+         ];
       
 
        //Eliminar Venta borrador

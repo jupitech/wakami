@@ -33,16 +33,26 @@ class DevolucionesController extends Controller
     {
           return view('admin.productos.devoluciones');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+  public function indexdevoluciones()
     {
-        //
+        //Trayendo traslados
+         $devoluciones=Devolucion::with("DSucursal","DUsuario")->get();
+         if(!$devoluciones){
+             return response()->json(['mensaje' =>  'No se encuentran devoluciones actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $devoluciones],200);
     }
+
+       public function indexprodevoluciones($id)
+    {
+           //Trayendo Producto
+         $prodevoluciones=ProductoDevolucion::with("NombreProducto")->where('id_devolucion',$id)->get();
+         if(!$prodevoluciones){
+             return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $prodevoluciones],200);
+    }
+   
 
     /**
      * Store a newly created resource in storage.
@@ -69,27 +79,117 @@ class DevolucionesController extends Controller
              
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+     public function storeprodevolucion(Request $request)
     {
-        //
+        $idproducto=$request['id_producto'];
+        $iddevolucion=$request['id_devolucion'];
+        $producto=Producto::where('id',$idproducto)->first();
+       // $subtotal=$request['cantidad']*$producto->costo;
+
+         $existepro=ProductoDevolucion::where('id_devolucion',$iddevolucion)->where('id_producto',$idproducto)->first();
+           if($existepro === null){
+                   $productodevolucion=ProductoDevolucion::create([
+                  'id_devolucion' =>   $iddevolucion,
+                   'id_producto' => $idproducto,
+                   'cantidad' => $request['cantidad'],
+                   'estado_producto' => 1,
+                        ]);
+                  $productodevolucion->save();
+
+                 
+
+                   return response()->json(['id_prodevolucion' => $productodevolucion->id],200);
+            }else{
+                return response()->json(['mensaje' =>  'Producto ya ingresado a la compra','codigo'=>404],404);
+            }       
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+
+
+       public function updatepro(Request $request, $id)
     {
-        //
+         $idproducto=$request['id_producto'];
+        $producto=Producto::where('id',$idproducto)->first();
+
+        $productodevolucion=ProductoDevolucion::find($id);
+        $iddevolucion=$productodevolucion->id_devolucion;
+
+    
+        $productodevolucion->fill([
+                  'cantidad' => $request['cantidad']
+            ]);
+        $productodevolucion->save();
+
+       
     }
+
+     public function updatep1(Request $request, $id)
+    {
+      //Cambiando orden a estado de Compra Enviada
+       $devolucion=Devolucion::find($id);
+        $devolucion->fill([
+                  'estado_devolucion' => 2,
+            ]);
+        $devolucion->save();
+        $desucursal=$devolucion->desde_sucursal;
+        $bodega=$devolucion->hacia;
+        
+          //Buscando productos en devolucion agregados
+         $productodevolucion=ProductoDevolucion::with("NombreProducto")->where('id_devolucion',$id)->get();
+
+          foreach ($productodevolucion as $productodevo) {
+            //Reduciendo stock desde los productos vendidos
+                        if($bodega==5){
+
+                            //Sumar a bodega
+                            $stockdefectuoso=StockDefectuoso::where('id_producto',$productodevo->id_producto)->first();
+
+                                  if(!is_null($stockdefectuoso) ){
+                                    $stockactual=$stockdefectuoso->stock;
+                                    $sumastock=$stockactual+$productodevo->cantidad;
+                                      $stockdefectuoso->fill([
+                                                        'stock' =>  $sumastock,
+                                                        'fecha_entrega' =>  Carbon::now(),
+                                                    ]);
+                                      $stockdefectuoso->save();
+
+                                  } else{
+                                        StockDefectuoso::create([
+                                                     'id_producto' =>  $productodevo->id_producto,
+                                                     'stock' =>  $productodevo->cantidad,
+                                                     'fecha_entrega' =>  Carbon::now(),
+                                                     'estado_producto' =>  1,
+                                            ]);
+                                  }
+                            
+
+                            //Restar de bodega
+                             $stockproducto=StockProducto::where('id_producto',$productodevo->id_producto)->first();
+
+                                  if(!is_null($stockproducto) ){
+                                    $stockactual=$stockdefectuoso->stock;
+                                    $restartock=$stockactual-$productodevo->cantidad;
+                                      $stockproducto->fill([
+                                                        'stock' =>  $restartock,
+                                                    ]);
+                                      $stockproducto->save();
+
+                                  }
+                            
+
+
+                        }
+               
+
+          }
+
+
+    }
+
+
+    
+
 
     /**
      * Update the specified resource in storage.
@@ -111,6 +211,12 @@ class DevolucionesController extends Controller
      */
     public function destroy($id)
     {
-        //
+           Devolucion::destroy($id);
+    }
+
+
+     public function destroypro($id)
+    {
+         ProductoDevolucion::destroy($id);
     }
 }

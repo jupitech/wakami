@@ -680,7 +680,7 @@
                                                        <td>Q@{{(proconsignacion.nombre_producto.preciop-((exisConsignacion.info_cliente.porcentaje_cliente.porcentaje*proconsignacion.nombre_producto.preciop)/100)) | number:2}}</td>
                                                      <td>Q@{{proconsignacion.nombre_producto.preciop | number:2}}</td>
                                                    <td>@{{proconsignacion.stock}} </td>
-                                                   <td>
+                                                   <td ng-init="$parent.totalcosto = $parent.totalcosto + (proconsignacion.nombre_producto.costo * proconsignacion.stock); $parent.totalprecio = $parent.totalprecio + (proconsignacion.nombre_producto.preciop * proconsignacion.stock) ">
                                                    <small class="label label-info">Q@{{(proconsignacion.nombre_producto.costo*proconsignacion.stock) | number:2}}</small>
                                                      Q@{{(proconsignacion.nombre_producto.preciop*proconsignacion.stock) | number:2}}
                                                    </td>
@@ -690,6 +690,14 @@
                                        </table>
                       </div>
                         <div class="col-sm-12 footer">
+                              <div class="col-sm-4">
+                                    <h3>Total Consignación</h3>
+                                    <h1><small>Q@{{totalprecio  | number:2}}</small></h1>
+                              </div>
+                              <div class="col-sm-4">
+                                    <h3>Total Costo</h3>
+                                    <h1><small>Q@{{totalcosto  | number:2}}</small></h1>
+                              </div>
                               <div class="col-sm-4">
                                     <h3>Cantidad</h3>
                                     <h1><small>@{{proconsignaciones | SumaCanti:'stock'}} unidades</small></h1>

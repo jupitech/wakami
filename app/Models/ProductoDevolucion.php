@@ -12,7 +12,7 @@ class ProductoDevolucion extends Model
      *
      * @var string
      */
-    protected $table = 'producto_envioco';
+    protected $table = 'producto_devolucion';
 
     /**
      * The attributes that are mass assignable.
