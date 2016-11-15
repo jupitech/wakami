@@ -33,7 +33,7 @@ class ProductosController extends Controller
     public function indexproductos()
     {
            //Trayendo Producto
-         $productos=Producto::with("NombreLinea","NombreImagen","StockProducto")->get();
+         $productos=Producto::with("NombreLinea","NombreImagen","StockProducto","NombreProveedor")->get();
          if(!$productos){
              return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
         }

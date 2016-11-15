@@ -39,6 +39,7 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
 
        $scope.deselecli=function(){
           $scope.buslinea='';
+          $scope.busprove='';
        }
 
        //Lineas de productos

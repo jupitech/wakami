@@ -244,7 +244,7 @@
                                   </div>
                                </div> 
 
-                               
+
                                 <div class="form-group">
                                      <div class="col-md-12">
                                          <label for="rol">Proveedor</label>
@@ -315,13 +315,28 @@
                                     </li>
                                   </ol>
                      </div> 
+                     <div class="busqueda_linea col-sm-3 spi">
+                                
+                                    <ol class="nya-bs-select" ng-model="busprove" title="Buscar por proveedor" name="id_prove" data-size="10" onfocus="pxtrack.emit('counter', '1')" >
+                                    <li ng-click="deselecli()"><a>
+                                    Todos
+                                       <span class="glyphicon glyphicon-ok check-mark"></span>
+                                    </a></li>
+                                    <li nya-bs-option="proveedor in proveedores" data-value="proveedor.empresa">
+                                      <a>
+                                        @{{ proveedor.empresa }}
+                                        <span class="glyphicon glyphicon-ok check-mark"></span>
+                                      </a>
+                                    </li>
+                                  </ol>
+                     </div> 
                      <div class="busqueda_texto col-sm-4">
                     <input type="text" id="query" ng-model="query" onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de productos.." />
                      </div>
                 </div>
                
                       <ul>
-                        <li ng-repeat="producto in productos | filter: query | filter: buslinea | orderBy:'-id'">
+                        <li ng-repeat="producto in productos | filter: query | filter: buslinea | filter: busprove | orderBy:'-id'">
                           <div class="box_pro">
                                 <div class="box_header">
 
@@ -337,6 +352,7 @@
                                 <div class="box_middle">
                                    <h1>@{{producto.nombre}}</h1>
                                    <h2>@{{producto.nombre_linea.nombre}}</h2>
+                                    <h2>@{{producto.nombre_proveedor.empresa}}</h2>
                                    <p>@{{producto.codigo}}</p>
                                    <h3>@{{producto.codigo_barra}}</h3>
                                 </div>
@@ -386,6 +402,21 @@
                                     <li nya-bs-option="linea in lineas" data-value="linea.nombre">
                                       <a>
                                         @{{ linea.nombre }}
+                                        <span class="glyphicon glyphicon-ok check-mark"></span>
+                                      </a>
+                                    </li>
+                                  </ol>
+                     </div> 
+                     <div class="busqueda_linea col-sm-3 spi">
+                                
+                                    <ol class="nya-bs-select" ng-model="busprove" title="Buscar por proveedor" name="id_prove" data-size="10" onfocus="pxtrack.emit('counter', '1')" >
+                                    <li ng-click="deselecli()"><a>
+                                    Todos
+                                       <span class="glyphicon glyphicon-ok check-mark"></span>
+                                    </a></li>
+                                    <li nya-bs-option="proveedor in proveedores" data-value="proveedor.empresa">
+                                      <a>
+                                        @{{ proveedor.empresa }}
                                         <span class="glyphicon glyphicon-ok check-mark"></span>
                                       </a>
                                     </li>

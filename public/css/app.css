@@ -6954,7 +6954,8 @@ body {
       padding: 5px 10px 5px;
       margin: 0;
       letter-spacing: 0em;
-      color: #bbb; }
+      color: #bbb;
+      clear: left; }
     .box_pro .box_middle p {
       float: right;
       font-size: 12px;
