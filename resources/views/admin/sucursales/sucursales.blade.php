@@ -415,27 +415,9 @@
                               <h3>Dirección</h3>
                               <h2> @{{exisSucursal.ubicacion}}</h2>
                           </div>
-                           <div class="col-sm-4 sep">
-                              <h3>Información de factura</h3>
-                              <h2><strong>Serie: </strong>@{{exisSucursal.serie}}</h2>
-                              <h2><strong>Resolución: </strong>@{{exisSucursal.resolucion}}</h2>
-                              <h2><strong>Código SAT: </strong>@{{exisSucursal.codigo_sat}}</h2>
-                              <h2><strong>Fecha de Resolución: </strong>@{{exisSucursal.fresolucion}}</h2>
-                          </div>
-                           <div class="col-sm-4 sep">
-                              <h3>Información de Nota de Crédito</h3>
-                              <h2><strong>Serie: </strong>@{{exisSucursal.serie_nce}}</h2>
-                              <h2><strong>Resolución: </strong>@{{exisSucursal.resolucion_nce}}</h2>
-                              <h2><strong>Código SAT: </strong>@{{exisSucursal.codigo_satnce}}</h2>
-                              <h2><strong>Fecha de Resolución: </strong>@{{exisSucursal.fresolucion_nce}}</h2>
-                          </div>
-                            <div class="col-sm-4 sep">
-                              <h3>Información de Nota de Débito</h3>
-                              <h2><strong>Serie: </strong>@{{exisSucursal.serie_nde}}</h2>
-                              <h2><strong>Resolución: </strong>@{{exisSucursal.resolucion_nde}}</h2>
-                              <h2><strong>Código SAT: </strong>@{{exisSucursal.codigo_satnde}}</h2>
-                              <h2><strong>Fecha de Resolución: </strong>@{{exisSucursal.fresolucion_nde}}</h2>
-                          </div>
+                          
+                         
+                          
                       </div>
                       
                         {{-- Productos de stock en sucursal --}}
@@ -461,11 +443,11 @@
                                                <tr ng-repeat="prosucursal in prosucursales  | filter: query">
                                                    <td> <small class="label label-success">@{{ prosucursal.nombre_producto.codigo }}</small>
                                                       @{{prosucursal.nombre_producto.nombre}}</td>
-                                                     <td>Q@{{prosucursal.nombre_producto.costo | number:2 }}</td>
+                                                     <td >Q@{{prosucursal.nombre_producto.costo | number:2 }}</td>
                                                      <td>Q@{{prosucursal.nombre_producto.preciop | number:2}}</td>
                                                    <td>@{{prosucursal.stock}} </td>
                                                    <td>
-                                                   <small class="label label-info">Q@{{(prosucursal.nombre_producto.costo*prosucursal.stock) | number:2}}</small>
+                                                   <small class="label label-info" ng-init="$parent.totalcosto = $parent.totalcosto + (prosucursal.nombre_producto.costo * prosucursal.stock); $parent.totalprecio = $parent.totalprecio + (prosucursal.nombre_producto.preciop * prosucursal.stock) ">Q@{{(prosucursal.nombre_producto.costo*prosucursal.stock) | number:2}}</small>
                                                      Q@{{(prosucursal.nombre_producto.preciop*prosucursal.stock) | number:2}}
                                                    </td>
                                                    <td>
@@ -479,6 +461,14 @@
                                        </table>
                       </div>
                       <div class="col-sm-12 footer">
+                              <div class="col-sm-4">
+                                    <h3>Total Público</h3>
+                                    <h1><small>Q@{{totalprecio  | number:2}}</small></h1>
+                              </div>
+                              <div class="col-sm-4">
+                                    <h3>Total Costo</h3>
+                                    <h1><small>Q@{{totalcosto  | number:2}}</small></h1>
+                              </div>
                               <div class="col-sm-4">
                                     <h3>Cantidad</h3>
                                     <h1><small>@{{prosucursales | SumaCanti:'stock'}} unidades</small></h1>

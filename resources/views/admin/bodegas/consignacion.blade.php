@@ -791,8 +791,8 @@
                  <table class="table">
                   <thead>
                               <th></th>
-                              <th>#Envio</th>
-                               <th>Sucursal</th>
+                             
+                               <th>Consignación</th>
                                <th>Distribuidor</th>
                                <th>Público</th>
                                <th>Fecha de Entrega</th>
@@ -802,7 +802,6 @@
                            <tbody>
                               <tr ng-repeat="envio in envios | filter: busfiltro | orderBy:'-id'" ng-class="{'trc_ama':envio.estado_orden==1}">
                               <td class="td_first"></td>
-                              <td ng-click="abrirorden(envio)"><strong>@{{envio.id}}</strong></td>
                               <td ng-click="abrirorden(envio)">@{{envio.nombre_consignacion.info_cliente.nombre}}</td>
                               <td ng-click="abrirorden(envio)">@{{(envio.total_compra-((envio.nombre_consignacion.info_cliente.porcentaje_cliente.porcentaje*envio.total_compra)/100)) | currency: 'Q'}}</td>
                                <td ng-click="abrirorden(envio)">@{{(envio.total_compra) | currency: 'Q'}}</td>

@@ -50,6 +50,15 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
                  $scope.error = error;
             });
 
+              //Lineas de productos
+       $http.get('/api/proveedores').success(
+
+              function(proveedores) {
+                        $scope.proveedores = proveedores.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });     
+
 
 
 
@@ -194,7 +203,8 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
                   codigo_barra: $scope.existeProducto.codigo_barra,
                   linea: $scope.existeProducto.linea,
                   costo: $scope.existeProducto.costo,
-                  preciop: $scope.existeProducto.preciop
+                  preciop: $scope.existeProducto.preciop,
+                  id_proveedor: $scope.existeProducto.id_proveedor
                 };
                  //console.log(data);
                 $http.put('api/producto/' +  $scope.existeProducto.id, data)

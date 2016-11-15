@@ -29,6 +29,9 @@ Route::group(['middleware' => ['auth','role:admin|operativo|vendedor']], functio
 	     //Productos
 	   Route::get('/productos', 'ProductosController@index');
 
+	     //Devoluciones
+	   Route::get('/devoluciones', 'DevolucionesController@index');
+
 	Route::group(['middleware' => 'cors','prefix' => 'api'], function()
 	{ 
 

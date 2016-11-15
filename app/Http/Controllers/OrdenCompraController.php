@@ -158,6 +158,8 @@ class OrdenCompraController extends Controller
         $idorden=$request['id_orden'];
         $cantidad=$request['cantidad'];
         $producto=Producto::where('id',$idproducto)->first();
+        $ordencompra=OrdenCompra::where('id',$idorden)->first();
+        $idproveedor=$ordencompra->id_proveedor;
 
         //Producto compra cambia a estado 2
         $productocompra=ProductoCompra::find($idprocompra);
@@ -226,6 +228,13 @@ class OrdenCompraController extends Controller
                   ]);
                  $stockproducto->save();
           }
+
+            $producto->fill([
+                      'id_proveedor' => $idproveedor,
+                  ]);
+            $producto->save();
+
+        
 
       
         return response()->json(['id_procompra' => $productocompra->id],200);
@@ -360,13 +369,13 @@ class OrdenCompraController extends Controller
 
         $exceladj=public_path().'/exports/ordenes/'.$nombrearchivo.'.xlsx';
 
-        Mail::send('emails.ordenes', ['orden' => $id,'encargado' => $encargado], function ($message) use ($id, $exceladj, $emailprove) {
+        /*Mail::send('emails.ordenes', ['orden' => $id,'encargado' => $encargado], function ($message) use ($id, $exceladj, $emailprove) {
               $message->from('carlos.ruano@creationgt.com', 'Wakami Guatemala');
 
               $message->to($emailprove);
               $message->subject(' Nueva Orden de Compra-No '.$id);
               $message->attach($exceladj);
-          });
+          });*/
 
 
 
@@ -432,13 +441,13 @@ class OrdenCompraController extends Controller
 
         $exceladj=public_path().'/exports/ordenes/'.$nombrearchivo.'.xlsx';
 
-        Mail::send('emails.pendientes', ['orden' => $id,'encargado' => $encargado], function ($message) use ($id, $exceladj, $emailprove) {
+       /* Mail::send('emails.pendientes', ['orden' => $id,'encargado' => $encargado], function ($message) use ($id, $exceladj, $emailprove) {
               $message->from('carlos.ruano@creationgt.com', 'Wakami Guatemala');
 
               $message->to($emailprove);
               $message->subject('Productos pendientes de Compra-No '.$id);
               $message->attach($exceladj);
-          });
+          });*/
 
 
 

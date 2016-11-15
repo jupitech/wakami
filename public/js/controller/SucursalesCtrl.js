@@ -27,7 +27,7 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
    $scope.alertaEliminado = false;
    $scope.alertaEliminadopro = false;
    $scope.alertaEditado = false;
-
+   $scope.Total = 0;
    $scope.btn_nuevo = function() {
         $scope.nuevo_obj = !$scope.nuevo_obj;
        $scope.sucursal={};

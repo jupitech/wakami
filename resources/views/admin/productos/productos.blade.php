@@ -147,6 +147,20 @@
                                          </div>
                                   </div>
                                </div> 
+
+                                <div class="form-group">
+                                     <div class="col-md-12">
+                                         <label for="rol">Proveedor</label>
+                                       <ol class="nya-bs-select" ng-model="producto.id_proveedor" data-live-search="true"  title="Selecciona un proveedor..." data-size="10">
+                                            <li nya-bs-option="proveedor in proveedores" data-value="proveedor.id">
+                                              <a>
+                                                @{{ proveedor.empresa }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>
+                                  </div>
+                               </div>
                               
                                <div class="form-group">
                                  <div class="col-sm-6">
@@ -229,6 +243,21 @@
                                          </div>
                                   </div>
                                </div> 
+
+                               
+                                <div class="form-group">
+                                     <div class="col-md-12">
+                                         <label for="rol">Proveedor</label>
+                                       <ol class="nya-bs-select" ng-model="existeProducto.id_proveedor" data-live-search="true"  title="Selecciona un proveedor..." data-size="10">
+                                            <li nya-bs-option="proveedor in proveedores" data-value="proveedor.id">
+                                              <a>
+                                                @{{ proveedor.empresa }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>
+                                  </div>
+                               </div>
                                
 
                               

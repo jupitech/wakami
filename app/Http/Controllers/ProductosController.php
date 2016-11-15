@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use App\Http\Requests;
 use App\Models\Producto;
+use App\Models\Proveedores;
 use App\Models\LineaProducto;
 use App\Models\GaleriaImagen;
 use App\Models\StockProducto;
@@ -39,6 +40,7 @@ class ProductosController extends Controller
          return response()->json(['datos' =>  $productos],200);
     }
 
+   
 
     public function productosconstock()
     {
@@ -140,11 +142,18 @@ class ProductosController extends Controller
 
       
     $codigobarra= $request['codigo_barra'];
+    $idproveedor= $request['id_proveedor'];
 
-     if($codigobarra=''){
+     if($codigobarra==''){
           $mibarra='';
       }else{
           $mibarra= $codigobarra;
+      }
+
+        if($idproveedor==''){
+          $miprove='';
+      }else{
+          $miprove= $idproveedor;
       }
 
            $productos=Producto::create([
@@ -154,6 +163,7 @@ class ProductosController extends Controller
                   'nombre' => $request['nombre'],
                   'costo' => $request['costo'],
                   'preciop' => $request['preciop'],
+                  'id_proveedor' => $miprove,
                         ]);
           $productos->save();
     }
@@ -229,6 +239,7 @@ class ProductosController extends Controller
                   'nombre' => $request['nombre'],
                   'costo' => $request['costo'],
                   'preciop' => $request['preciop'],
+                  'id_proveedor' => $request['id_proveedor'],
             ]);
         $productos->save();
     }
