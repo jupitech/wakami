@@ -143,7 +143,7 @@
                                            </thead>
                                              <tbody>
                                                <tr ng-repeat="procompra in procompras">
-                                                   <td>@{{procompra.nombre_producto.nombre}}</td>
+                                                   <td><small class="label label-success">@{{ procompra.nombre_producto.codigo }}</small> @{{procompra.nombre_producto.nombre}}</td>
                                                    <td>@{{procompra.cantidad}} </td>
                                                    <td>Q@{{procompra.precio_producto}}</td>
                                                    <td ng-init="ProTotal = ProTotal+procompra.subtotal">Q@{{procompra.subtotal}}</td>
