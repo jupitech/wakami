@@ -68,7 +68,9 @@ class ProductosController extends Controller
                 //Query de los productos comprados del numero de orden
                 $productos = LineaProducto::leftJoin('producto', 'linea_producto.id', '=', 'producto.linea')
                           ->leftJoin('stock_producto', 'stock_producto.id_producto', '=', 'producto.id')
+                          ->leftJoin('proveedores', 'proveedores.id', '=', 'producto.id_proveedor')
                           ->select(
+                            'proveedores.empresa',
                             'producto.codigo', 
                             'linea_producto.nombre as linea', 
                             'producto.nombre as nombre', 
@@ -81,7 +83,7 @@ class ProductosController extends Controller
                 $nombrearchivo='Stock Central Hoy';
 
                 $proArray = []; 
-                $proArray[] = ['Codigo','Linea','Producto','Stock','Costo','Precio P'];
+                $proArray[] = ['Proveedor','Codigo','Linea','Producto','Stock','Costo','Precio P'];
 
                  foreach ($productos as $pro) {
                     $proArray[] = $pro->toArray();
