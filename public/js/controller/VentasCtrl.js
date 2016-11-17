@@ -121,7 +121,7 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
         $scope.idcliente= id;
         console.log($scope.idcliente);
 
-         $http.delete('api/cliente/destroy/' +  $scope.idcliente)
+         $http.delete('/api/cliente/destroy/' +  $scope.idcliente)
             .success(function (data, status, headers) {
                console.log('Cliente '+$scope.idcliente+' borrado correctamente.');
                    $http.get('/api/clientes').success(
@@ -159,7 +159,7 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
                   tipo_cliente: $scope.existeCliente.tipo_cliente
                 };
                 // console.log(data);
-                $http.put('api/cliente/' +  $scope.existeCliente.id, data)
+                $http.put('/api/cliente/' +  $scope.existeCliente.id, data)
                 .success(function (data, status, headers) {
                    console.log('Cliente '+$scope.existeCliente.nombre+' modificado correctamente.');
                        $http.get('/api/clientes').success(
@@ -193,7 +193,7 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
 
                     console.log(datapor);
 
-                     $http.post('api/cliente/porcentaje', datapor)
+                     $http.post('/api/cliente/porcentaje', datapor)
                     .success(function (data, status, headers) {
                        console.log('Cliente #'+$scope.micliente.id+' agregado porcentaje correctamente.');
                            $http.get('/api/clientes').success(
@@ -217,7 +217,7 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
 
                     console.log(edipor);
 
-                     $http.put('api/cliente/porcentaje/'+$scope.micliente.id, edipor)
+                     $http.put('/api/cliente/porcentaje/'+$scope.micliente.id, edipor)
                     .success(function (data, status, headers) {
                        console.log('Cliente #'+$scope.micliente.id+' editado porcentaje correctamente.');
                            $http.get('/api/clientes').success(
@@ -459,7 +459,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
         $scope.idventa= id;
         console.log($scope.idventa);
 
-         $http.delete('api/venta/destroy/' +  $scope.idventa)
+         $http.delete('/api/venta/destroy/' +  $scope.idventa)
             .success(function (data, status, headers) {
                console.log('Venta '+$scope.idventa+' borrada correctamente.');
                    $http.get($scope.urlac).success(
@@ -606,6 +606,12 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
          $window.location.href = '/api/pdfventa/'+ $scope.idventa;
       };   
+
+      //Editar venta
+        $scope.editarventa=function(id){
+          $scope.idmiv=id;
+            $window.location.href = '/editarventa/'+ $scope.idmiv;
+      }
 
 
 
@@ -918,7 +924,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                   cantidad: $scope.existePro.cantidad
                 };
                 //console.log(data);
-                $http.put('api/proventa/' +  $scope.existePro.id,data)
+                $http.put('/api/proventa/' +  $scope.existePro.id,data)
                     .success(function (data, status, headers) {
                        console.log('Producto '+$scope.existePro.nombre_producto.codigo+' editado correctamente.');
 
@@ -964,7 +970,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                 $scope.idproventa= id;
                 //console.log($scope.idproventa);
 
-                 $http.delete('api/proventa/destroy/' +  $scope.idproventa)
+                 $http.delete('/api/proventa/destroy/' +  $scope.idproventa)
                     .success(function (data, status, headers) {
                        console.log('Producto '+$scope.idproventa+' borrado correctamente.');
                            $http.get('/api/miproducto/'+$scope.idventa).success(
@@ -1123,7 +1129,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
             });
 
    //MiUsuario
-      $http.get('api/mi/miusuario').success(
+      $http.get('/api/mi/miusuario').success(
 
               function(miusuario) {
                         $scope.miusuario = miusuario.datos;
@@ -1289,7 +1295,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                   cantidad: $scope.existePro.cantidad
                 };
                 console.log(data);
-                $http.put('api/mi/proventa/' +  $scope.existePro.id,data)
+                $http.put('/api/mi/proventa/' +  $scope.existePro.id,data)
                     .success(function (data, status, headers) {
                        console.log('Producto '+$scope.existePro.nombre_producto.codigo+' editado correctamente.');
 
@@ -1324,7 +1330,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                 $scope.idproventa= id;
                 console.log($scope.idproventa);
 
-                 $http.delete('api/mi/proventa/destroy/' +  $scope.idproventa)
+                 $http.delete('/api/mi/proventa/destroy/' +  $scope.idproventa)
                     .success(function (data, status, headers) {
                        console.log('Producto '+$scope.idproventa+' borrado correctamente.');
                            $http.get('/api/mi/miproducto/'+$scope.idventa).success(
@@ -1411,7 +1417,7 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
      $scope.mas_obj = false; //Nuevo proveedor
   $scope.act_btn=1;
    //MiUsuario
-      $http.get('api/mi/miusuario').success(
+      $http.get('/api/mi/miusuario').success(
 
               function(miusuario) {
                         $scope.miusuario = miusuario.datos;
@@ -1667,7 +1673,7 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
         $scope.idventa= id;
         console.log($scope.idventa);
 
-         $http.delete('api/mi/venta/destroy/' +  $scope.idventa)
+         $http.delete('/api/mi/venta/destroy/' +  $scope.idventa)
             .success(function (data, status, headers) {
                console.log('Venta '+$scope.idventa+' borrada correctamente.');
                    $http.get('/api/mi/ventas/'+ $scope.misucu).success(
@@ -1720,5 +1726,406 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
   };        
 
 });
+
+//************************************Editar Venta**********************************************//
+
+
+wApp.controller('VentaECtrl',function($scope, $http, $timeout, $log,$uibModal, $location,$window){
+   $scope.status = {
+    isopen: false
+  };
+
+  $scope.toggleDropdown = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.status.isopen = !$scope.status.isopen;
+  };
+
+  $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
+
+
+   $scope.nuevo_obj = false; //Nuevo objeto
+   $scope.editar_obj = false; // Editar objeto
+   $scope.ver_eli = false; // Ver proveedores eliminados
+   $scope.alertaNuevo = false; // Alerta de nuevo proveedor registrado
+   $scope.alertaExiste = false; // Alerta si el proveedor ya esta en existencia
+   $scope.alertaExistePro = false; // Alerta si el proveedor ya esta en existencia
+   $scope.alertaEliminado = false; // Alerta de proveedor eliminado
+   $scope.alertaEditado = false; // Alerta de proveedor editado
+   $scope.acti_venta=true;
+   $scope.termi_venta=false;
+   $scope.acti_rol=false;
+   $scope.acti_cliente=false;
+   $scope.acti_areapro=true;
+    $scope.loading = false;
+
+
+     $scope.act_rol = function() {
+          $scope.acti_rol = !$scope.acti_rol;
+           $scope.acti_cliente=false;
+       };
+
+      $scope.act_cliente = function() {
+          $scope.acti_cliente =true;
+       };
+
+
+
+
+   $scope.tpagos=[
+        {id:'1',pago:'Efectivo'},
+        {id:'2',pago:'POS/Tarjeta'},
+        {id:'3',pago:'Cheque'},
+        {id:'4',pago:'Crédito'},
+        {id:'5',pago:'Depósito'},
+  ];
+
+     $scope.diascre=[
+        {dias:'15',nombre:'15 dias'},
+        {dias:'30',nombre:'30 dias'},
+   ];
+
+
+
+   
+
+
+       //Productos
+          $http.get('/api/productosas').success(
+
+              function(productos) {
+                        $scope.productos = productos.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+
+      $scope.elstock=function(id){
+            $scope.idpro=id;
+                 $http.get('/api/ventas/stockproducto/'+$scope.idpro).success(
+
+                  function(stock) {
+                            $scope.stock = stock.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });
+        };
+
+         //Sucursal
+          $http.get('/api/misucursal/'+ 3).success(
+
+              function(misucursal) {
+                        $scope.misucursal = misucursal.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });    
+
+
+
+        $scope.miurl = $location.absUrl();
+
+        //console.log('URL',$scope.url);
+       
+        $scope.idventa= $scope.miurl.split('/')[4];
+        console.log('ID Venta: ',$scope.idventa);
+
+               //Mi Venta
+                $http.get('/api/miventa/'+$scope.idventa).success(
+
+                        function(miventa) {
+                                  $scope.miventa = miventa.datos;
+                      }).error(function(error) {
+                           $scope.error = error;
+                      });
+
+                 //Mi Descuento
+                $http.get('/api/midescuento/'+$scope.idventa).success(
+
+                        function(mides) {
+                                  $scope.mides = mides.datos;
+                      }).error(function(error) {
+                           $scope.error = error;
+                      }); 
+
+                      //Mis productos
+
+                  $http.get('/api/miproducto/'+$scope.idventa).success(
+
+                                  function(misproductos) {
+                                            $scope.misproductos = misproductos.datos;
+                                }).error(function(error) {
+                                     $scope.error = error;
+                                });           
+
+              //Aplicar descuento           
+              $scope.aplides= function(id_cliente){
+                  var datapor={
+                           id_ventas:$scope.idventa,
+                           id_cliente: id_cliente
+                      };
+                      // console.log(datapor);
+                  $http.post('/api/ventades/create', datapor)
+                        .success(function (data, status, headers) {
+                              console.log("Descuento agregado correctamente");
+                                  //Mi Venta
+                                  $http.get('/api/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+                                    //Mi Descuento
+                                  $http.get('/api/midescuento/'+$scope.idventa).success(
+
+                                          function(mides) {
+                                                    $scope.mides = mides.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+                                          //Mis Productos
+                                  $http.get('/api/miproducto/'+$scope.idventa).success(
+
+                                      function(misproductos) {
+                                      $scope.misproductos = misproductos.datos;
+                                          }).error(function(error) {
+                                               $scope.error = error;
+                                          });
+              
+                           });    
+              };
+
+              //Eliminar descuento           
+              $scope.deldes= function(){
+                      // console.log(datapor);
+                  $http.delete('/api/descuento/destroy/'+$scope.idventa)
+                        .success(function (data, status, headers) {
+                              console.log("Descuento eliminado correctamente");
+                                  //Mi Venta
+                                  $http.get('/api/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+                                    //Mi Descuento
+                                  $http.get('/api/midescuento/'+$scope.idventa).success(
+
+                                          function(mides) {
+                                                    $scope.mides = mides.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+                                         //Mis Productos
+                                  $http.get('/api/miproducto/'+$scope.idventa).success(
+
+                                      function(misproductos) {
+                                      $scope.misproductos = misproductos.datos;
+                                          }).error(function(error) {
+                                               $scope.error = error;
+                                          });        
+                           });    
+              };
+
+              $scope.proventa={};
+              $scope.guardarProVenta=function(){
+                      var datapro={
+                           id_ventas:  $scope.idventa,
+                           id_producto: $scope.proventa.id_producto,
+                           cantidad:1,
+                      };
+                     // console.log(datapro);
+
+                       $http.post('/api/ventaproducto/create', datapro)
+                        .success(function (data, status, headers) {
+                              console.log("Producto agregado correctamente");
+
+                                $http.get('/api/miproducto/'+$scope.idventa).success(
+
+                                        function(misproductos) {
+                                                  $scope.misproductos = misproductos.datos;
+                                      }).error(function(error) {
+                                           $scope.error = error;
+                                      });
+                                  $scope.proventa={};
+
+                                  //Mi Venta
+                                  $http.get('/api/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+
+                                    //Mi Descuento
+                                  $http.get('/api/midescuento/'+$scope.idventa).success(
+
+                                          function(mides) {
+                                                    $scope.mides = mides.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });        
+
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que hay error al guardar el producto");
+                            $timeout(function () { $scope.alertaExistePro = true; }, 100);
+                            $timeout(function () { $scope.alertaExistePro = false; }, 5000);
+                        });
+
+
+              };
+
+              //Editar Producto Venta
+             $scope.btn_editarl = function(mipro) {
+                $scope.existePro= mipro;
+             };
+              $scope.btn_proeditar = function(id){
+                 var data = {
+                  cantidad: $scope.existePro.cantidad
+                };
+                //console.log(data);
+                $http.put('/api/proventa/' +  $scope.existePro.id,data)
+                    .success(function (data, status, headers) {
+                       console.log('Producto '+$scope.existePro.nombre_producto.codigo+' editado correctamente.');
+
+                            $http.get('/api/miproducto/'+$scope.idventa).success(
+
+                                function(misproductos) {
+                                $scope.misproductos = misproductos.datos;
+                                    }).error(function(error) {
+                                         $scope.error = error;
+                                    });
+
+
+      
+                                  //Mi Venta
+                                  $http.get('/api/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+
+                                   //Mi Descuento
+                                  $http.get('/api/midescuento/'+$scope.idventa).success(
+
+                                          function(mides) {
+                                                    $scope.mides = mides.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });       
+
+                               $timeout(function () { $scope.alertaEditadol = true; }, 1000);
+                               $timeout(function () { $scope.alertaEditadol = false; }, 5000);
+                    })
+                    .error(function (data, status, header, config) {
+                        console.log('Parece que existe un error al borrar el producto.');
+                    });
+              };
+
+
+               //Eliminar Producto Venta
+              $scope.btn_proeliminar = function(id){
+                $scope.idproventa= id;
+                //console.log($scope.idproventa);
+
+                 $http.delete('/api/proventa/destroy/' +  $scope.idproventa)
+                    .success(function (data, status, headers) {
+                       console.log('Producto '+$scope.idproventa+' borrado correctamente.');
+                           $http.get('/api/miproducto/'+$scope.idventa).success(
+
+                                function(misproductos) {
+                                $scope.misproductos = misproductos.datos;
+                                    }).error(function(error) {
+                                         $scope.error = error;
+                                    });
+                            $timeout(function () { $scope.alertaEliminadopro = true; }, 1000);
+                            $timeout(function () { $scope.alertaEliminadopro = false; }, 5000);
+
+                              //Mi Venta
+                                  $http.get('/api/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+                            //Mi Descuento
+                              $http.get('/api/midescuento/'+$scope.idventa).success(
+
+                                      function(mides) {
+                                                $scope.mides = mides.datos;
+                                    }).error(function(error) {
+                                         $scope.error = error;
+                                    });              
+                    })
+                    .error(function (data, status, header, config) {
+                        console.log('Parece que existe un error al borrar el producto.');
+                    });
+              };
+    
+
+
+
+      $scope.factura={};
+      $scope.btn_facturar=function(){
+
+          $scope.loading = true;
+          $timeout(function() { 
+            $scope.loading = false;
+          }, 10000);
+            var datafact={
+                id_tpago: $scope.factura.tipo_pago,
+                referencia: $scope.factura.referencia,
+                id_ventas: $scope.idventa,
+                dias_credito: $scope.factura.dias_credito,
+            };
+            //console.log(datafact);
+
+              $http.post('/api/factura/create', datafact)
+                        .success(function (data, status, headers) {
+                              console.log("Factura creada correctamente");
+                               $scope.acti_venta=false;
+                               $scope.termi_venta=true;
+                               //  $window.location.href = '/ventas';
+
+                                      //Mi Venta
+                                  $http.get('/api/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+                            //Mi Descuento
+                              $http.get('/api/midescuento/'+$scope.idventa).success(
+
+                                      function(mides) {
+                                                $scope.mides = mides.datos;
+                                    }).error(function(error) {
+                                         $scope.error = error;
+                                    });     
+                           })
+                        .error(function (data, status, header, config) {
+                            console.log("Parece que hay error al enviar la factura");
+                            $timeout(function () { $scope.alertaExistePro = true; }, 100);
+                            $timeout(function () { $scope.alertaExistePro = false; }, 5000);
+                        });
+      };
+
+
+      $scope.iraventas=function(){
+            $window.location.href = '/ventas';
+      }
+
+
+
+
+
+});
+
 
 

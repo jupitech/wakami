@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 	   //Ventas
 	   Route::get('/ventas', 'VentasCentralController@index');
 	   Route::get('/nuevaventa', 'VentasCentralController@indexnueva');
+	   Route::get('/editarventa/{id}', 'VentasCentralController@indexeditar');
 
 	   //Proveedores
 	   Route::get('/proveedores', 'ProveedoresController@index');

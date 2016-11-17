@@ -15,6 +15,8 @@ wApp.config(['lazyImgConfigProvider', function(lazyImgConfigProvider){
     });
 }]);
 
+
+
 wApp.factory('ApiUsuarioNuevo', function($resource){
   return $resource("/api/usuario/create");
 });

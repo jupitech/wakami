@@ -127,7 +127,7 @@ class DevolucionesController extends Controller
      public function updatep1(Request $request, $id)
     {
       //Cambiando orden a estado de Compra Enviada
-       $devolucion=Devolucion::find($id);
+        $devolucion=Devolucion::find($id);
         $devolucion->fill([
                   'estado_devolucion' => 2,
             ]);

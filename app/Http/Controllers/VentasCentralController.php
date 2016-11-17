@@ -49,6 +49,11 @@ class VentasCentralController extends Controller
         return view('admin.ventas.nuevaventa');
     }
 
+      public function indexeditar($id)
+    {
+        return view('admin.ventas.editarventa');
+    }
+
      public function indexmiventa($id)
     {
            //Trayendo Producto
