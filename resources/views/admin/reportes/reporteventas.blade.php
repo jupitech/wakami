@@ -27,10 +27,7 @@
                                   <div class="col-sm-5 spd">
                                         <label for="nombreU" class="col-sm-12 spi">Fecha Fin</label>
                                         <div class="col-sm-12 spi spd">
-                                              <input type="date" class="form-control" name="fin" ng-model="mifecha.fin" max="hoy" ng-max="hoy" required>
-                                        </div>
-                                        <div class="col-sm-12 spi spd">
-                                            <span class="label label-danger" ng-show="forma.fin.$error.max">Fecha máxima hoy: @{{hoy | amDateFormat:'DD/MM/YYYY'}}</span>
+                                              <input type="date" class="form-control" name="fin" ng-model="mifecha.fin" required>
                                         </div>
                                   </div>
                                   <div class="col-sm-2 spd top_btn">

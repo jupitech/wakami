@@ -37,6 +37,7 @@
                 <li><a href="{{ URL::to('/clientes') }}">Clientes</a></li>
                 <li><a href="{{ URL::to('/ventas') }}">Listado de ventas</a></li>
                 <li role="separator" class="divider"></li>
+                <li><a href="{{ URL::to('/promociones') }}">Promociones</a></li>
                 <li><a href="#">Movimientos de ventas</a></li>
               </ul>
             </li>

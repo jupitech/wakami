@@ -18,6 +18,8 @@ use App\Models\CreditosVentas;
 use App\Models\DescuentosVentas;
 use App\Models\NotaCredito;
 use App\Models\NotaDebito;
+use App\Models\Promociones;
+use App\Models\PromocionesVentas;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -195,6 +197,8 @@ class VentasCentralController extends Controller
                )
           ->groupBy('tpago_venta.tipo_pago','ventas.id_sucursal')
           ->get();        
+         
+
 
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
@@ -205,8 +209,8 @@ class VentasCentralController extends Controller
        public function ventamespago()
     {
 
-          $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
-          ->leftJoin('sucursales', 'ventas.id_sucursal', '=', 'sucursales.id')
+          $ventas = Ventas::join('tpago_venta', 'ventas.id', '=', 'tpago_venta.id_ventas')
+          ->leftJoin('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
           ->where('ventas.estado_ventas',2)
           ->where('ventas.fecha_factura','>=',Carbon::today()->startOfMonth())
           ->select(

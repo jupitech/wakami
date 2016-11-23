@@ -45,6 +45,10 @@ wApp.factory('ApiConsignacionNuevo', function($resource){
   return $resource("/api/consignacion/create");
 });
 
+wApp.factory('ApiPromocionNuevo', function($resource){
+  return $resource("/api/promocion/create");
+});
+
 
  wApp.filter('SumaItem', function () {
     return function (data, key) {

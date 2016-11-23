@@ -243,7 +243,7 @@ wApp.controller('ClientesCtrl',function($scope, $http, $timeout, $log,$uibModal)
 
 
 //************************************Venta**********************************************//
-wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$location,$window){
+wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$location,$window,moment){
     $scope.deselecpago=function(){
     $scope.busfiltropago='';
   }
@@ -295,12 +295,54 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                             $scope.ventadiafac = ventadiafac.datos;
                 }).error(function(error) {
                      $scope.error = error;
-                });    
+                });  
 
-                    
+
+
+          $scope.ca_dias=true;
+         $scope.ca_meses=false;
+         $scope.ca_anios=false;
+
+          $scope.act_dbtn=moment().format("DD"); //Dia Actual
+          $scope.act_mbtn=moment().format("MM"); //Mes Actual
+          $scope.act_abtn=moment().format("YYYY"); //Año Actual
+
+          $scope.dias=[
+          {id:'01'},{id:'02'},{id:'03'},{id:'04'},{id:'05'},{id:'06'},{id:'07'},{id:'08'},{id:'09'},{id:'10'},
+          {id:'11'},{id:'12'},{id:'13'},{id:'14'},{id:'15'},{id:'16'},{id:'17'},{id:'18'},{id:'19'},{id:'20'},
+          {id:'21'},{id:'22'},{id:'23'},{id:'24'},{id:'25'},{id:'26'},{id:'27'},{id:'28'},{id:'29'},{id:'30'},{id:'31'},
+         ];
+
+        $scope.meses=[
+          {id:'01',mes:'Enero'},{id:'02',mes:'Febrero'},{id:'03',mes:'Marzo'},{id:'04',mes:'Abril'},{id:'05',mes:'Mayo'},{id:'06',mes:'Junio'},
+          {id:'07',mes:'Julio'},{id:'08',mes:'Agosto'},{id:'09',mes:'Septiembre'},{id:'10',mes:'Octubre'},{id:'11',mes:'Noviembre'},{id:'12',mes:'Diciembre'},
+         ];
+
+        $scope.anios=[
+         {id:'2016'},{id:'2017'},{id:'2018'},{id:'2019'},{id:'2020'},{id:'2021'},{id:'2022'},{id:'2023'},{id:'2024'},{id:'2025'},
+         ];
+           
+        
+      
+       $scope.btn_edia=function(e){
+           $scope.act_dbtn=e;
+          
+          }              
       
        $scope.btn_dia=function(){
           $scope.act_btn=1;
+
+         $scope.ca_dias=true;
+         $scope.ca_meses=false;
+         $scope.ca_anios=false;
+
+           $scope.btn_edia=function(e){
+           $scope.act_dbtn=e;
+          
+          }
+
+
+
          $scope.urlac= $scope.urldia;
      
             //Todos las ventas
@@ -347,6 +389,19 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
         $scope.btn_mes=function(){
           $scope.act_btn=2;
+
+
+         $scope.ca_dias=false;
+         $scope.ca_meses=true;
+         $scope.ca_anios=false;
+
+         
+
+          $scope.btn_emes=function(e){
+           $scope.act_mbtn=e;
+          
+          }    
+
          $scope.urlac= $scope.urlmes;
      
             //Todos las ventas
@@ -391,6 +446,18 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
          $scope.btn_anio=function(){
             $scope.act_btn=3;
+
+
+         $scope.ca_dias=false;
+         $scope.ca_meses=false;
+         $scope.ca_anios=true;
+
+         
+          $scope.btn_eanio=function(e){
+           $scope.act_abtn=e;
+          
+          }   
+
          $scope.urlac= $scope.urlanio;
      
             //Todos las ventas
@@ -436,7 +503,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
 
 
-
+     
 
         $scope.tpagos=[
           {id:'1',pago:'Efectivo'},
@@ -452,6 +519,9 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
           {id:'3',pago:'Cheque'},
           {id:'5',pago:'Depósito'},
          ];
+
+
+        
       
 
        //Eliminar Venta borrador

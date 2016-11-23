@@ -6510,6 +6510,27 @@ body {
   background-size: 15px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15); }
 
+.btn_efiltro {
+  cursor: pointer;
+  float: left;
+  padding: 9px 10px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
+  background: #ddd;
+  background-size: 15px;
+  color: #333;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.1s linear; }
+
+.btn_efiltro:hover {
+  text-decoration: none;
+  background: #ddd;
+  background-size: 15px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15); }
+
 .btn_opcion2 {
   float: right; }
   .btn_opcion2 a {

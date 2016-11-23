@@ -15,6 +15,7 @@
            					<li><a href="{{ URL::to('/nuevaventa') }}">Nueva Venta</a></li>
            					<li><a href="{{ URL::to('/clientes') }}">Clientes</a></li>
            					<li><a href="{{ URL::to('/ventas') }}">Listado de ventas</a></li>
+                    <li><a href="{{ URL::to('/promociones') }}">Promociones</a></li>
            					<li><a href="">Movimiento de ventas</a></li>
                     @endrole
                     @role('vendedor') 

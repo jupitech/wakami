@@ -81,6 +81,9 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 	    //Reportes ventas
 	   Route::get('/reporteventas', 'ReporteVentasController@index');
 
+	    //Promociones
+	   Route::get('/promociones', 'PromocionesController@index');
+
 
 		Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
 		Route::post('/producto/imagen/create',['as' => 'producto.imagen.create', 'uses' =>  'ProductosController@storeimagen']);
@@ -231,6 +234,14 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			 Route::put('/prodevolucion/{id}', 'DevolucionesController@updatepro');
 			Route::delete('/devolucion/destroy/{id}','DevolucionesController@destroy');
 			Route::delete('/prodevolucion/destroy/{id}','DevolucionesController@destroypro');
+
+
+            //Promociones
+            Route::get('/promociones', 'PromocionesController@indexpromociones');
+			Route::post('/promocion/create', 'PromocionesController@store');
+			Route::delete('/promocion/destroy/{id}','PromocionesController@destroy');
+			Route::put('/promocion/{id}', 'PromocionesController@update');
+
 		});
 });
 

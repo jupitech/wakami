@@ -103,6 +103,17 @@
             <a class="btn_filtro" ng-click="btn_anio()"  ng-class="{'btn_active': act_btn==3}">Año</a>
             
       </div>
+      
+      <div class="filtros col-sm-12 spd spi" ng-if="ca_dias">
+            <a class="btn_efiltro" ng-repeat="dia in dias" ng-click="btn_edia(dia.id)" ng-class="{'btn_active': act_dbtn==dia.id}">@{{dia.id}}</a> 
+      </div>
+      <div class="filtros col-sm-12 spd spi" ng-if="ca_meses">
+            <a class="btn_efiltro" ng-repeat="mes in meses" ng-click="btn_emes(mes.id)" ng-class="{'btn_active': act_mbtn==mes.id}">@{{mes.mes}}</a> 
+      </div>
+      <div class="filtros col-sm-12 spd spi" ng-if="ca_anios">
+            <a class="btn_efiltro" ng-repeat="anio in anios" ng-click="btn_eanio(anio.id)" ng-class="{'btn_active': act_abtn==anio.id}">@{{anio.id}}</a> 
+      </div>
+
       <div class="ventasdia col-sm-12 spd spi">
         <div class="col-sm-6  col-md-6 col-lg-5 spi">
             <div class="caja_contenido">
