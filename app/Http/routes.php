@@ -168,6 +168,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::get('/miventa/{id}', 'VentasCentralController@indexmiventa');
 			Route::get('/miproducto/{id}', 'VentasCentralController@indexmiproducto');
 			Route::get('/midescuento/{id}', 'VentasCentralController@indexmidescuento');
+			Route::get('/mipromocion', 'VentasCentralController@indexmipromocion');
 			Route::get('/misucursal/{id}', 'VentasCentralController@indexmisucursal');
 			Route::get('/ventas/stockproducto/{id}', 'VentasCentralController@stockproducto');
 			Route::delete('/proventa/destroy/{id}','VentasCentralController@destroypro');
@@ -230,8 +231,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::get('/devoluciones', 'DevolucionesController@indexdevoluciones');
 			Route::post('/devolucion/create', 'DevolucionesController@store');
 			Route::post('/prodevolucion/create', 'DevolucionesController@storeprodevolucion');
-			 Route::get('/prodevolucion/{id}', 'DevolucionesController@indexprodevoluciones');
-			 Route::put('/prodevolucion/{id}', 'DevolucionesController@updatepro');
+			Route::get('/prodevolucion/{id}', 'DevolucionesController@indexprodevoluciones');
+			Route::put('/prodevolucion/{id}', 'DevolucionesController@updatepro');
 			Route::delete('/devolucion/destroy/{id}','DevolucionesController@destroy');
 			Route::delete('/prodevolucion/destroy/{id}','DevolucionesController@destroypro');
 

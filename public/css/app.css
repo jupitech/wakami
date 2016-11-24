@@ -7751,6 +7751,27 @@ tspan, textPath {
 .t_faltantes td {
   color: #D80027 !important; }
 
+.area_promo {
+  float: left;
+  width: 100%;
+  margin: 15px 0;
+  border-radius: 5px;
+  background: #f7e874;
+  padding: 15px; }
+  .area_promo h1 {
+    float: left;
+    width: 100%;
+    margin: 5px 0;
+    text-align: center;
+    color: #333; }
+    .area_promo h1 strong {
+      font-size: 25px;
+      font-weight: bolder;
+      margin-right: 5px; }
+    .area_promo h1 span {
+      font-size: 20px;
+      font-weight: 300; }
+
 @media print {
   /*#areaimpresion{
    	width: 400px;

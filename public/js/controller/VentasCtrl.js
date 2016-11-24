@@ -758,6 +758,16 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                  $scope.error = error;
             });
 
+        //Promocion
+      $http.get('/api/mipromocion').success(
+
+              function(promocion) {
+                        $scope.promocion = promocion.datos;
+                        $scope.existepromo = promocion.codigo;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+
 
       //Nuevo Cliente
 

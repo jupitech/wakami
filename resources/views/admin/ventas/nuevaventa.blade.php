@@ -12,6 +12,14 @@
 	 <div class="header_conte">
               <h1>Nueva Venta</h1>
      </div>
+     {{-- Anuncio de promocion --}}
+     <div class="col-sm-12">
+       <div class="area_promo" ng-if="existepromo==200">
+         <h1>
+           <strong>@{{promocion.nombre}}!</strong> <span class="promo_fechas">Del @{{promocion.fecha_inicio  | amDateFormat:'DD/MM/YYYY'}} al  @{{promocion.fecha_fin  | amDateFormat:'DD/MM/YYYY'}}</span> <span ng-if="promocion.tipo_promocion==1">Compra  @{{promocion.por_cantidad - 1}} y lleva @{{promocion.por_cantidad}}</span>
+         </h1>
+       </div>
+     </div>
 	<div class="col-sm-12" ng-if="acti_venta">
    {{-- Venta Activada --}}
         	      <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Cliente nuevo</strong> guardado correctamente, creado por administradores.</div>
@@ -283,6 +291,19 @@
                 </div>
                 {{-- Area total --}}
                 <div class="area_total" ng-if="acti_areapro && misproductos.length > 0" >
+                <div class="col-sm-12 spd spi" ng-if="existepromo==200 && (misproductos | SumaCanti:'cantidad')==3">
+                  <div class="col-sm-6 col-md-5 spi">
+                        <div class="descuento_venta">
+                            <div class="col-sm-10 spi">
+                               <p><strong>Promocion @{{promocion.nombre}} </strong></p>
+                               
+                             </div>
+                             <div class="col-sm-2 spd spi">
+                                    <a ng-click="aplides(miventa.id_cliente)" class="btn btn-primary btn_porcen"><span class="ico_porcenbtn"></span></a>
+                             </div>
+                        </div>
+                  </div>
+                </div>
                  <div class="col-sm-6 col-md-5 spi">
                    <div class="descuento_venta" ng-if="mides==''">
                              <div class="col-sm-10 spi">

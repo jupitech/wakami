@@ -115,6 +115,24 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $descuentos],200);
     }
 
+
+      public function indexmipromocion()
+    {
+
+        $hoy = Carbon::now(); 
+
+          $a_fi=$hoy->year;
+          $m_fi=$hoy->month;
+          $d_fi=$hoy->day;
+           //Trayendo promocion
+         $promociones=Promociones::where('fecha_inicio','<',$hoy)->where('fecha_fin','>',$hoy)->first();
+         if(!$promociones){
+             return response()->json(['mensaje' =>  'No se encuentran promociones actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $promociones,'codigo'=>200],200);
+    }
+
+
     
       public function indexmisucursal($id)
     {
