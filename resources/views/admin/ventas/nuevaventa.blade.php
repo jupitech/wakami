@@ -295,11 +295,11 @@
                   <div class="col-sm-6 col-md-5 spi">
                         <div class="descuento_venta">
                             <div class="col-sm-10 spi">
-                               <p><strong>Promocion @{{promocion.nombre}} </strong></p>
+                               <p><strong>Promocion @{{promocion.nombre}} </strong> @{{productomin.codigo}} - @{{productomin.nombre}} <strong>Q@{{productomin.preciop | number:2}}</strong></p>
                                
                              </div>
                              <div class="col-sm-2 spd spi">
-                                    <a ng-click="aplides(miventa.id_cliente)" class="btn btn-primary btn_porcen"><span class="ico_porcenbtn"></span></a>
+                                    <a ng-click="aplipromo(productomin.id,productomin.id_ventas)" class="btn btn-primary btn_porcen"><span class="ico_porcenbtn"></span></a>
                              </div>
                         </div>
                   </div>

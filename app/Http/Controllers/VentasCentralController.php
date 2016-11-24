@@ -105,6 +105,20 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $productos],200);
     }
 
+     public function indexmiproductomin($id)
+    {
+        //Trayendo Producto
+       $productos = ProductoVenta::leftjoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
+          ->where('producto_venta.id_ventas',$id)
+          ->orderBy('producto.preciop', 'asc')
+          ->limit(1)
+          ->first();  
+         if(!$productos){
+             return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $productos],200);
+    }
+
       public function indexmidescuento($id)
     {
            //Trayendo Producto

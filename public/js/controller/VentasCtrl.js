@@ -758,7 +758,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                  $scope.error = error;
             });
 
-        //Promocion
+      //Promocion
       $http.get('/api/mipromocion').success(
 
               function(promocion) {
@@ -872,7 +872,18 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                   $scope.mides = mides.datos;
                       }).error(function(error) {
                            $scope.error = error;
-                      });      
+                      }); 
+
+                       //Mi Promocion
+                                          $http.get('/api/productomin/'+$scope.idventa).success(
+
+                                                  function(productomin) {
+                                                            $scope.productomin = productomin.datos;
+                                                }).error(function(error) {
+                                                     $scope.error = error;
+                                                });   
+
+                       
 
               //Aplicar descuento           
               $scope.aplides= function(id_cliente){
@@ -911,6 +922,47 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
               
                            });    
               };
+
+
+              //Aplicar descuento           
+              $scope.aplipromo= function(producto,venta){
+                  var datapromo={
+                           id_producto:producto,
+                           id_ventas: venta
+                      };
+                    console.log(datapromo);
+                  /*$http.post('/api/ventades/create', datapromo)
+                        .success(function (data, status, headers) {
+                              console.log("Descuento agregado correctamente");
+                                  //Mi Venta
+                                  $http.get('/api/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+                                    //Mi Descuento
+                                  $http.get('/api/midescuento/'+$scope.idventa).success(
+
+                                          function(mides) {
+                                                    $scope.mides = mides.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+                                          //Mis Productos
+                                  $http.get('/api/miproducto/'+$scope.idventa).success(
+
+                                      function(misproductos) {
+                                      $scope.misproductos = misproductos.datos;
+                                          }).error(function(error) {
+                                               $scope.error = error;
+                                          });
+              
+                           });    */
+              };
+
+
 
               //Eliminar descuento           
               $scope.deldes= function(){
@@ -983,7 +1035,16 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                                     $scope.mides = mides.datos;
                                         }).error(function(error) {
                                              $scope.error = error;
-                                        });        
+                                        });
+
+                                        //Mi Promocion
+                                          $http.get('/api/productomin/'+$scope.idventa).success(
+
+                                                  function(productomin) {
+                                                            $scope.productomin = productomin.datos;
+                                                }).error(function(error) {
+                                                     $scope.error = error;
+                                                });             
 
                            })
                         .error(function (data, status, header, config) {
@@ -1078,7 +1139,15 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                                 $scope.mides = mides.datos;
                                     }).error(function(error) {
                                          $scope.error = error;
-                                    });              
+                                    });
+                              //Mi Promocion
+                                          $http.get('/api/productomin/'+$scope.idventa).success(
+
+                                                  function(productomin) {
+                                                            $scope.productomin = productomin.datos;
+                                                }).error(function(error) {
+                                                     $scope.error = error;
+                                                });                        
                     })
                     .error(function (data, status, header, config) {
                         console.log('Parece que existe un error al borrar el producto.');
