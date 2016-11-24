@@ -291,7 +291,7 @@
                 </div>
                 {{-- Area total --}}
                 <div class="area_total" ng-if="acti_areapro && misproductos.length > 0" >
-                <div class="col-sm-12 spd spi" ng-if="existepromo==200 && (misproductos | SumaCanti:'cantidad')==3">
+                <div class="col-sm-12 spd spi" ng-if="promocion.tipo_promocion==1 && existepromo==200 && (misproductos | SumaCanti:'cantidad')==promocion.por_cantidad">
                   <div class="col-sm-6 col-md-5 spi">
                         <div class="descuento_venta">
                             <div class="col-sm-10 spi">
