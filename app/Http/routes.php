@@ -165,15 +165,18 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::post('/notacredito/{id}', 'VentasCentralController@notacredito');
 			Route::post('/notadebito/{id}', 'VentasCentralController@notadebito');
 			Route::post('/ventades/create', 'VentasCentralController@storedes');
+			Route::post('/ventapromo/create', 'VentasCentralController@storepromo');
 			Route::get('/miventa/{id}', 'VentasCentralController@indexmiventa');
 			Route::get('/miproducto/{id}', 'VentasCentralController@indexmiproducto');
 			Route::get('/midescuento/{id}', 'VentasCentralController@indexmidescuento');
+			Route::get('/mipromocion/{id}', 'VentasCentralController@indexmipromoventa');
 			Route::get('/mipromocion', 'VentasCentralController@indexmipromocion');
 			Route::get('/productomin/{id}', 'VentasCentralController@indexmiproductomin');
 			Route::get('/misucursal/{id}', 'VentasCentralController@indexmisucursal');
 			Route::get('/ventas/stockproducto/{id}', 'VentasCentralController@stockproducto');
 			Route::delete('/proventa/destroy/{id}','VentasCentralController@destroypro');
 			Route::delete('/descuento/destroy/{id}','VentasCentralController@destroydes');
+			Route::delete('/promocion/destroy/{id}','VentasCentralController@destroypromo');
 			Route::put('/proventa/{id}', 'VentasCentralController@updatepro');
 			Route::delete('/venta/destroy/{id}','VentasCentralController@destroy');
 
@@ -286,14 +289,19 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		Route::post('/venta/create', 'VentasController@store');
 		Route::post('/ventacliente/create/{id}', 'VentasController@storeclie');
 		Route::post('/ventaproducto/create', 'VentasController@storepro');
+			Route::post('/ventapromo/create', 'VentasController@storepromo');
 		Route::post('/factura/create', 'VentasController@storefac');
 		Route::get('/miventa/{id}', 'VentasController@indexmiventa');
 		Route::get('/miproducto/{id}', 'VentasController@indexmiproducto');
 		Route::get('/misucursal/{id}', 'VentasController@indexmisucursal');
+			Route::get('/mipromocion/{id}', 'VentasController@indexmipromoventa');
+			Route::get('/mipromocion', 'VentasController@indexmipromocion');
+			Route::get('/productomin/{id}', 'VentasController@indexmiproductomin');
 		Route::get('/ventas/stockproducto/{sucursal}/{id}', 'VentasController@stockproducto');
 		Route::delete('/proventa/destroy/{id}','VentasController@destroypro');
 		Route::put('/proventa/{id}', 'VentasController@updatepro');
 		Route::delete('/venta/destroy/{id}','VentasController@destroy');
+			Route::delete('/promocion/destroy/{id}','VentasCentralController@destroypromo');
 
 		Route::get('/ventadiasucursal/{id}', 'VentasController@ventadiasucursal');
 		Route::get('/ventamessucursal/{id}', 'VentasController@ventamessucursal');

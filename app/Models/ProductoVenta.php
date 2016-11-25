@@ -32,6 +32,6 @@ class ProductoVenta extends Model
         return $this->hasOne('\App\Models\Producto','id','id_producto');
     }
     public function Venta(){
-        return $this->hasOne('\App\Models\Ventas','id','id_ventas')->with("DescuentosVentas");
+        return $this->hasOne('\App\Models\Ventas','id','id_ventas')->with("DescuentosVentas","PromocionesVentas");
     }
 }

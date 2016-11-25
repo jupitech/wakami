@@ -22,6 +22,16 @@
           
      </div>
 	 <div class="col-sm-12" ng-if="(miusuario.sucursal_usuario.id || miusuario.sucursal_usuario2.id) && acti_venta">
+
+     {{-- Anuncio de promocion --}}
+     <div class="col-sm-12">
+       <div class="area_promo" ng-if="existepromo==200">
+         <h1>
+           <strong>@{{promocion.nombre}}!</strong> <span class="promo_fechas">Del @{{promocion.fecha_inicio  | amDateFormat:'DD/MM/YYYY'}} al  @{{promocion.fecha_fin  | amDateFormat:'DD/MM/YYYY'}}</span> <span ng-if="promocion.tipo_promocion==1">Compra  @{{promocion.por_cantidad - 1}} y lleva @{{promocion.por_cantidad}}</span>
+         </h1>
+       </div>
+     </div>
+
           	   <div class="alert alert-success" role="alert" ng-if="alertaNuevo"> <strong>Cliente nuevo</strong> guardado correctamente, creado por administradores.</div>
                   <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Cliente borrado</strong> No se podrá recuperar los datos.</div>	
           	 <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Cliente editado</strong> Puedes ver en el listado de cliente las modificaciones realizadas.</div>
@@ -220,10 +230,14 @@
              </thead>
              <tbody>
                 <tr ng-repeat="mipro in misproductos">
-                <td>@{{mipro.nombre_producto.codigo}} - @{{mipro.nombre_producto.nombre}}</td>
+                <td>@{{mipro.nombre_producto.codigo}} - @{{mipro.nombre_producto.nombre}} <small class="label label-warning" ng-if="mipromo!='' && mipro.id_producto==mipro.venta.promociones_ventas.id_producto"> - @{{promocion.nombre}} <strong>- Q@{{productomin.preciop | number:2}}</strong></small></td>
                 <td>Q@{{mipro.nombre_producto.preciop | number:2}}</td>
                  <td>@{{mipro.cantidad}}</td>
-                 <td>Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</td>
+                 <td>
+                 <span ng-if="mipromo==''">Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</span>
+                 <span ng-if="mipromo!='' && mipro.id_producto!=productomin.id_producto">Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</span>
+                 <span ng-if="mipromo!='' && mipro.id_producto==productomin.id_producto">Q@{{(mipro.nombre_producto.preciop*mipro.cantidad)-(productomin.preciop)+0.01 | number:2}}</span> 
+                 </td>
                  <td>
                          <div class="area_opciones">
                                              <ul>
@@ -258,9 +272,33 @@
              </tbody>
          </table>
         </div>
-        <div class="area_total">
-         <p>Q@{{miventa.total | number:2}}</p>
+        <div class="area_total"  ng-if="acti_areapro && misproductos.length > 0" >
+        <div class="col-sm-6" ng-if="promocion.tipo_promocion==1 && existepromo==200 && (misproductos | SumaCanti:'cantidad')==promocion.por_cantidad">
+           <div class="col-sm-6 col-md-5 spi">
+                        <div class="descuento_venta" ng-if="mipromo==''">
+                            <div class="col-sm-10 spi">
+                               <p><strong>Promocion @{{promocion.nombre}} </strong> @{{productomin.codigo}} - @{{productomin.nombre}} <strong>Q@{{productomin.preciop | number:2}}</strong></p>
+                               
+                             </div>
+                             <div class="col-sm-2 spd spi">
+                                    <a ng-click="aplipromo(promocion.id,productomin.id,productomin.id_ventas)" class="btn btn-primary btn_porcen"><span class="ico_porcenbtn"></span></a>
+                             </div>
+                        </div>
+                         <div class="descuento_venta" ng-if="mipromo!=''">
+                            <div class="col-sm-10 spi">
+                               <p><strong>@{{promocion.nombre}} aplicada a</strong> @{{productomin.codigo}} - @{{productomin.nombre}} <strong>Q@{{productomin.preciop | number:2}}</strong></p>
+                               
+                             </div>
+                              
+                        </div>
+                  </div>
+
+        </div>
+        <div class="col-sm-6">
+           <p>Q@{{miventa.total | number:2}}</p>
          <h3>Total</h3>
+        </div>
+        
        </div>
      </div>
       
@@ -330,8 +368,15 @@
                               </div>
                               <div class="col-sm-12 spd spi">
                                        <div class="col-sm-12 spd spi" ng-repeat="mipro in misproductos">
-                                            <p><strong>@{{mipro.nombre_producto.codigo}}</strong> @{{mipro.nombre_producto.nombre}}-Q@{{mipro.nombre_producto.preciop | number:2}} X  @{{mipro.cantidad}}- <strong>Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</strong></p>
+                                            <p><strong>@{{mipro.nombre_producto.codigo}}</strong> @{{mipro.nombre_producto.nombre}}-Q@{{mipro.nombre_producto.preciop | number:2}} X  @{{mipro.cantidad}}- 
+                                            <strong ng-if="mipromo==''">Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</strong>
+                                            <strong ng-if="mipromo!='' && mipro.id_producto!=productomin.id_producto">Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</strong>
+                                            <strong ng-if="mipromo!='' && mipro.id_producto==productomin.id_producto">Q@{{(mipro.nombre_producto.preciop*mipro.cantidad)-(productomin.preciop)+0.01 | number:2}}</strong>
+                                            </p>
                                         </div>  
+                                        <div class="col-sm-12 spd spi" ng-if="mipromo!=''">
+                                             <p><strong>Promoción @{{promocion.nombre}} </strong> @{{productomin.codigo}} | @{{productomin.nombre}} <strong> (- Q@{{productomin.preciop | number:2}})</strong></p>
+                                        </div>
                               </div>
                                    
                                  

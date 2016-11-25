@@ -875,13 +875,21 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                       }); 
 
                        //Mi Promocion
-                                          $http.get('/api/productomin/'+$scope.idventa).success(
+                      $http.get('/api/productomin/'+$scope.idventa).success(
 
-                                                  function(productomin) {
-                                                            $scope.productomin = productomin.datos;
-                                                }).error(function(error) {
-                                                     $scope.error = error;
-                                                });   
+                              function(productomin) {
+                                        $scope.productomin = productomin.datos;
+                            }).error(function(error) {
+                                 $scope.error = error;
+                            }); 
+
+                     $http.get('/api/mipromocion/'+$scope.idventa).success(
+
+                      function(mipromo) {
+                                $scope.mipromo = mipromo.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    });       
 
                        
 
@@ -919,21 +927,24 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                           }).error(function(error) {
                                                $scope.error = error;
                                           });
+
+
               
                            });    
               };
 
 
-              //Aplicar descuento           
-              $scope.aplipromo= function(producto,venta){
+              //Aplicar promocion           
+              $scope.aplipromo= function(promocion,producto,venta){
                   var datapromo={
+                           id_promociones:promocion,
                            id_producto:producto,
                            id_ventas: venta
                       };
                     console.log(datapromo);
-                  /*$http.post('/api/ventades/create', datapromo)
+                  $http.post('/api/ventapromo/create', datapromo)
                         .success(function (data, status, headers) {
-                              console.log("Descuento agregado correctamente");
+                              console.log("Promoción agregada correctamente");
                                   //Mi Venta
                                   $http.get('/api/miventa/'+$scope.idventa).success(
 
@@ -958,8 +969,25 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                           }).error(function(error) {
                                                $scope.error = error;
                                           });
+
+                                //Mi Promocion
+                                    $http.get('/api/productomin/'+$scope.idventa).success(
+
+                                            function(productomin) {
+                                                      $scope.productomin = productomin.datos;
+                                          }).error(function(error) {
+                                               $scope.error = error;
+                                          });  
+
+                                  $http.get('/api/mipromocion/'+$scope.idventa).success(
+
+                                          function(mipromo) {
+                                                    $scope.mipromo = mipromo.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });                   
               
-                           });    */
+                           });    
               };
 
 
@@ -993,7 +1021,66 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                       $scope.misproductos = misproductos.datos;
                                           }).error(function(error) {
                                                $scope.error = error;
-                                          });        
+                                          });  
+
+                                        $http.get('/api/mipromocion/'+$scope.idventa).success(
+
+                                          function(mipromo) {
+                                                    $scope.mipromo = mipromo.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });               
+                           });    
+              };
+
+
+               //Eliminar promoción           
+              $scope.delpromo= function(){
+                      // console.log(datapor);
+                  $http.delete('/api/promocion/destroy/'+$scope.idventa)
+                        .success(function (data, status, headers) {
+                              console.log("Promocion eliminado correctamente");
+                                  //Mi Venta
+                                  $http.get('/api/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+                                    //Mi Descuento
+                                  $http.get('/api/midescuento/'+$scope.idventa).success(
+
+                                          function(mides) {
+                                                    $scope.mides = mides.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+                                         //Mis Productos
+                                  $http.get('/api/miproducto/'+$scope.idventa).success(
+
+                                      function(misproductos) {
+                                      $scope.misproductos = misproductos.datos;
+                                          }).error(function(error) {
+                                               $scope.error = error;
+                                          });  
+
+                                   //Mi Promocion
+                                    $http.get('/api/productomin/'+$scope.idventa).success(
+
+                                            function(productomin) {
+                                                      $scope.productomin = productomin.datos;
+                                          }).error(function(error) {
+                                               $scope.error = error;
+                                          });   
+
+                                             $http.get('/api/mipromocion/'+$scope.idventa).success(
+
+                                          function(mipromo) {
+                                                    $scope.mipromo = mipromo.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });                    
                            });    
               };
 
@@ -1044,7 +1131,15 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                                             $scope.productomin = productomin.datos;
                                                 }).error(function(error) {
                                                      $scope.error = error;
-                                                });             
+                                                }); 
+
+                                         $http.get('/api/mipromocion/'+$scope.idventa).success(
+
+                                          function(mipromo) {
+                                                    $scope.mipromo = mipromo.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });                
 
                            })
                         .error(function (data, status, header, config) {
@@ -1095,7 +1190,24 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                                     $scope.mides = mides.datos;
                                         }).error(function(error) {
                                              $scope.error = error;
-                                        });       
+                                        });  
+
+                                      //Mi Promocion
+                                          $http.get('/api/productomin/'+$scope.idventa).success(
+
+                                                  function(productomin) {
+                                                            $scope.productomin = productomin.datos;
+                                                }).error(function(error) {
+                                                     $scope.error = error;
+                                                });     
+
+                                      $http.get('/api/mipromocion/'+$scope.idventa).success(
+
+                                          function(mipromo) {
+                                                    $scope.mipromo = mipromo.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });              
 
                                $timeout(function () { $scope.alertaEditadol = true; }, 1000);
                                $timeout(function () { $scope.alertaEditadol = false; }, 5000);
@@ -1147,7 +1259,16 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                                             $scope.productomin = productomin.datos;
                                                 }).error(function(error) {
                                                      $scope.error = error;
-                                                });                        
+                                                });  
+
+
+                                      $http.get('/api/mipromocion/'+$scope.idventa).success(
+
+                                          function(mipromo) {
+                                                    $scope.mipromo = mipromo.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });                         
                     })
                     .error(function (data, status, header, config) {
                         console.log('Parece que existe un error al borrar el producto.');
@@ -1194,7 +1315,25 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                                 $scope.mides = mides.datos;
                                     }).error(function(error) {
                                          $scope.error = error;
-                                    });     
+                                    }); 
+
+                                      //Mi Promocion
+                                          $http.get('/api/productomin/'+$scope.idventa).success(
+
+                                                  function(productomin) {
+                                                            $scope.productomin = productomin.datos;
+                                                }).error(function(error) {
+                                                     $scope.error = error;
+                                                });  
+
+                                                
+                                      $http.get('/api/mipromocion/'+$scope.idventa).success(
+
+                                          function(mipromo) {
+                                                    $scope.mipromo = mipromo.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });       
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al enviar la factura");
@@ -1276,6 +1415,18 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
             }).error(function(error) {
                  $scope.error = error;
             });
+
+
+     //Promocion
+      $http.get('/api/mi/mipromocion').success(
+
+              function(promocion) {
+                        $scope.promocion = promocion.datos;
+                        $scope.existepromo = promocion.codigo;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+      
 
    //MiUsuario
       $http.get('/api/mi/miusuario').success(
@@ -1359,6 +1510,7 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
         };
 
 
+
         //Nueva Venta
 
       $scope.venta={};
@@ -1394,6 +1546,118 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                       }).error(function(error) {
                            $scope.error = error;
                       });
+
+                  //Mi Promocion
+                      $http.get('/api/mi/productomin/'+$scope.idventa).success(
+
+                              function(productomin) {
+                                        $scope.productomin = productomin.datos;
+                            }).error(function(error) {
+                                 $scope.error = error;
+                            }); 
+
+                    /* $http.get('/api/mi/mipromocion/'+$scope.idventa).success(
+
+                      function(mipromo) {
+                                $scope.mipromo = mipromo.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    });    */     
+
+
+              
+                 //Aplicar promocion           
+              $scope.aplipromo= function(promocion,producto,venta){
+                  var datapromo={
+                           id_promociones:promocion,
+                           id_producto:producto,
+                           id_ventas: venta
+                      };
+                    console.log(datapromo);
+                  $http.post('/api/mi/ventapromo/create', datapromo)
+                        .success(function (data, status, headers) {
+                              console.log("Promoción agregada correctamente");
+                                //Mi Venta
+                                  $http.get('/api/mi/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+
+                                    $http.get('/api/mi/miproducto/'+$scope.idventa).success(
+
+                                        function(misproductos) {
+                                                  $scope.misproductos = misproductos.datos;
+                                      }).error(function(error) {
+                                           $scope.error = error;
+                                      });
+      
+
+                                     //Mi Promocion
+                                        $http.get('/api/mi/productomin/'+$scope.idventa).success(
+
+                                                function(productomin) {
+                                                          $scope.productomin = productomin.datos;
+                                              }).error(function(error) {
+                                                   $scope.error = error;
+                                              }); 
+
+                                       $http.get('/api/mi/mipromocion/'+$scope.idventa).success(
+
+                                        function(mipromo) {
+                                                  $scope.mipromo = mipromo.datos;
+                                      }).error(function(error) {
+                                           $scope.error = error;
+                                      });                
+              
+                           });    
+              }; 
+
+
+               //Eliminar promoción           
+              $scope.delpromo= function(){
+                      // console.log(datapor);
+                  $http.delete('/api/mi/promocion/destroy/'+$scope.idventa)
+                        .success(function (data, status, headers) {
+                              console.log("Promocion eliminado correctamente");
+                                //Mi Venta
+                                  $http.get('/api/mi/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+
+                                  $http.get('/api/mi/miproducto/'+$scope.idventa).success(
+
+                                        function(misproductos) {
+                                                  $scope.misproductos = misproductos.datos;
+                                      }).error(function(error) {
+                                           $scope.error = error;
+                                      });
+
+                                     //Mi Promocion
+                                        $http.get('/api/mi/productomin/'+$scope.idventa).success(
+
+                                                function(productomin) {
+                                                          $scope.productomin = productomin.datos;
+                                              }).error(function(error) {
+                                                   $scope.error = error;
+                                              }); 
+
+                                       $http.get('/api/mi/mipromocion/'+$scope.idventa).success(
+
+                                        function(mipromo) {
+                                                  $scope.mipromo = mipromo.datos;
+                                      }).error(function(error) {
+                                           $scope.error = error;
+                                      });                               
+                           });    
+              };    
+
               $scope.proventa={};
               $scope.guardarProVenta=function(){
                       var datapro={
@@ -1424,6 +1688,24 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                                         }).error(function(error) {
                                              $scope.error = error;
                                         });
+
+                                     //Mi Promocion
+                                        $http.get('/api/mi/productomin/'+$scope.idventa).success(
+
+                                                function(productomin) {
+                                                          $scope.productomin = productomin.datos;
+                                              }).error(function(error) {
+                                                   $scope.error = error;
+                                              }); 
+
+                                       $http.get('/api/mi/mipromocion/'+$scope.idventa).success(
+
+                                        function(mipromo) {
+                                                  $scope.mipromo = mipromo.datos;
+                                      }).error(function(error) {
+                                           $scope.error = error;
+                                      });       
+       
 
                            })
                         .error(function (data, status, header, config) {
@@ -1465,6 +1747,23 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                                              $scope.error = error;
                                         });
 
+                                           //Mi Promocion
+                                        $http.get('/api/mi/productomin/'+$scope.idventa).success(
+
+                                                function(productomin) {
+                                                          $scope.productomin = productomin.datos;
+                                              }).error(function(error) {
+                                                   $scope.error = error;
+                                              }); 
+
+                                       $http.get('/api/mi/mipromocion/'+$scope.idventa).success(
+
+                                        function(mipromo) {
+                                                  $scope.mipromo = mipromo.datos;
+                                      }).error(function(error) {
+                                           $scope.error = error;
+                                      });   
+
                                $timeout(function () { $scope.alertaEditadol = true; }, 1000);
                                $timeout(function () { $scope.alertaEditadol = false; }, 5000);
                     })
@@ -1500,6 +1799,22 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                                         }).error(function(error) {
                                              $scope.error = error;
                                         });
+                                 //Mi Promocion
+                                        $http.get('/api/mi/productomin/'+$scope.idventa).success(
+
+                                                function(productomin) {
+                                                          $scope.productomin = productomin.datos;
+                                              }).error(function(error) {
+                                                   $scope.error = error;
+                                              }); 
+
+                                       $http.get('/api/mi/mipromocion/'+$scope.idventa).success(
+
+                                        function(mipromo) {
+                                                  $scope.mipromo = mipromo.datos;
+                                      }).error(function(error) {
+                                           $scope.error = error;
+                                      });             
                     })
                     .error(function (data, status, header, config) {
                         console.log('Parece que existe un error al borrar el producto.');
@@ -1540,13 +1855,77 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                                                     $scope.miventa = miventa.datos;
                                         }).error(function(error) {
                                              $scope.error = error;
-                                        });  
+                                        });
+
+                               $http.get('/api/mi/miproducto/'+$scope.idventa).success(
+
+                                      function(misproductos) {
+                                      $scope.misproductos = misproductos.datos;
+                                          }).error(function(error) {
+                                               $scope.error = error;
+                                          });
+    
+
+                                     //Mi Promocion
+                                        $http.get('/api/mi/productomin/'+$scope.idventa).success(
+
+                                                function(productomin) {
+                                                          $scope.productomin = productomin.datos;
+                                              }).error(function(error) {
+                                                   $scope.error = error;
+                                              }); 
+
+                                       $http.get('/api/mi/mipromocion/'+$scope.idventa).success(
+
+                                        function(mipromo) {
+                                                  $scope.mipromo = mipromo.datos;
+                                      }).error(function(error) {
+                                           $scope.error = error;
+                                      });           
                            })
                         .error(function (data, status, header, config) {
                             console.log("Parece que hay error al enviar la factura");
                             $timeout(function () { $scope.alertaExistePro = true; }, 100);
                             $timeout(function () { $scope.alertaExistePro = false; }, 5000);
                         });
+
+                            
+                              /*  $scope.acti_venta=false;
+                                 $scope.termi_venta=true;
+                           //Mi Venta
+                                  $http.get('/api/mi/miventa/'+$scope.idventa).success(
+
+                                          function(miventa) {
+                                                    $scope.miventa = miventa.datos;
+                                        }).error(function(error) {
+                                             $scope.error = error;
+                                        });
+
+                               $http.get('/api/mi/miproducto/'+$scope.idventa).success(
+
+                                      function(misproductos) {
+                                      $scope.misproductos = misproductos.datos;
+                                          }).error(function(error) {
+                                               $scope.error = error;
+                                          });
+    
+
+                                     //Mi Promocion
+                                        $http.get('/api/mi/productomin/'+$scope.idventa).success(
+
+                                                function(productomin) {
+                                                          $scope.productomin = productomin.datos;
+                                              }).error(function(error) {
+                                                   $scope.error = error;
+                                              }); 
+
+                                       $http.get('/api/mi/mipromocion/'+$scope.idventa).success(
+
+                                        function(mipromo) {
+                                                  $scope.mipromo = mipromo.datos;
+                                      }).error(function(error) {
+                                           $scope.error = error;
+                                      });     */      
       };
 
 

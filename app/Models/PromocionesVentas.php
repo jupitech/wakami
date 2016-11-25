@@ -19,7 +19,7 @@ class PromocionesVentas extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_ventas','id_producto','id_linea','promocion','id_promocion','created_at','estado_promocion'];
+    protected $fillable = ['id_ventas','id_producto','id_linea','promocion','id_promociones','created_at','estado_promocion'];
 
     /**
      * The attributes excluded from the model's JSON form.

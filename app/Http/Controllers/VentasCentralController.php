@@ -59,7 +59,7 @@ class VentasCentralController extends Controller
      public function indexmiventa($id)
     {
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","DescuentosVentas")->where('id',$id)->first();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","DescuentosVentas","PromocionesVentas")->where('id',$id)->first();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
@@ -127,6 +127,16 @@ class VentasCentralController extends Controller
              return response()->json(['mensaje' =>  'No se encuentran descuentos actualmente','codigo'=>404],404);
         }
          return response()->json(['datos' =>  $descuentos],200);
+    }
+
+      public function indexmipromoventa($id)
+    {
+           //Trayendo Producto
+         $promociones=PromocionesVentas::where('id_ventas',$id)->get();
+         if(!$promociones){
+             return response()->json(['mensaje' =>  'No se encuentran promociones actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $promociones],200);
     }
 
 
@@ -1297,6 +1307,42 @@ class VentasCentralController extends Controller
     }
 
 
+
+     public function storepromo(Request $request)
+    {
+      $idventas= $request['id_ventas'];
+      $idproducto= $request['id_producto'];
+      $idpromocion= $request['id_promociones'];
+
+      $promociones=Promociones::where('id',$idpromocion)->first();
+      $ventas=Ventas::where('id',$idventas)->first();
+      $producto=Producto::where('id',$idproducto)->first();
+     
+  
+
+      $mitotal=$ventas->total;
+      $aplipromo=$producto->preciop;
+      //Total Actual
+      $totalactual=$mitotal-$aplipromo;
+
+
+      $ventas->fill([
+          'total' => $totalactual,
+        ]);
+        $ventas->save();
+
+      $promocionesventas=PromocionesVentas::create([
+                  'id_promociones' => $idpromocion,
+                  'id_ventas' => $idventas,
+                  'id_producto' => $idproducto,
+                  'promocion' => $producto->preciop,
+                        ]);
+      $promocionesventas->save();
+
+           return response()->json(['id_venta' => $ventas->id],200);
+    }
+
+
     /**
      * Update the specified resource in storage.
      *
@@ -1443,4 +1489,25 @@ class VentasCentralController extends Controller
 
         DescuentosVentas::destroy($iddes);
     }
+
+    public function destroypromo($id)
+    {
+        $promoventas=PromocionesVentas::where('id_ventas',$id)->first();
+        $promocion=$promoventas->promocion;
+        $idpromo=$promoventas->id;
+
+             $ventas=Ventas::where('id',$id)->first();
+
+             $total=$ventas->total;
+
+             $nuevototal=$total+$promocion;
+
+              $ventas->fill([
+                    'total' => $nuevototal,
+                  ]);
+              $ventas->save();
+
+        PromocionesVentas::destroy($idpromo);
+    }
+
 }

@@ -293,14 +293,21 @@
                 <div class="area_total" ng-if="acti_areapro && misproductos.length > 0" >
                 <div class="col-sm-12 spd spi" ng-if="promocion.tipo_promocion==1 && existepromo==200 && (misproductos | SumaCanti:'cantidad')==promocion.por_cantidad">
                   <div class="col-sm-6 col-md-5 spi">
-                        <div class="descuento_venta">
+                        <div class="descuento_venta" ng-if="mipromo==''">
                             <div class="col-sm-10 spi">
                                <p><strong>Promocion @{{promocion.nombre}} </strong> @{{productomin.codigo}} - @{{productomin.nombre}} <strong>Q@{{productomin.preciop | number:2}}</strong></p>
                                
                              </div>
                              <div class="col-sm-2 spd spi">
-                                    <a ng-click="aplipromo(productomin.id,productomin.id_ventas)" class="btn btn-primary btn_porcen"><span class="ico_porcenbtn"></span></a>
+                                    <a ng-click="aplipromo(promocion.id,productomin.id,productomin.id_ventas)" class="btn btn-primary btn_porcen"><span class="ico_porcenbtn"></span></a>
                              </div>
+                        </div>
+                         <div class="descuento_venta" ng-if="mipromo!=''">
+                            <div class="col-sm-10 spi">
+                               <p><strong>@{{promocion.nombre}} aplicada a</strong> @{{productomin.codigo}} - @{{productomin.nombre}} <strong>Q@{{productomin.preciop | number:2}}</strong></p>
+                               
+                             </div>
+                              
                         </div>
                   </div>
                 </div>
