@@ -902,7 +902,7 @@ class VentasController extends Controller
                Ventas::destroy($id);
 
                  $promo=PromocionesVentas::where('id_ventas',$id)->first();
-                 if($promo){
+                 if($promo!=null){
                   $promoid=$promo->id;
                   PromocionesVentas::destroy($promoid);
                  }
