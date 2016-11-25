@@ -890,6 +890,7 @@ class VentasController extends Controller
     {
         $ventas=Ventas::find($id);
 
+
         if($ventas->estado_ventas==1){
              $productoventas=ProductoVenta::where('id_ventas',$id)->get();
 
@@ -899,6 +900,12 @@ class VentasController extends Controller
               }
 
                Ventas::destroy($id);
+
+                 $promo=PromocionesVentas::where('id_ventas',$id);
+                 if($promo){
+                  $promoid=$promo->id;
+                  PromocionesVentas::destroy($promoid);
+                 }
         }
 
     }
