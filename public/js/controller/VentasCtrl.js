@@ -534,6 +534,8 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
          $scope.btn_anio=function(){
             $scope.act_btn=3;
 
+              $scope.mifecha.anio=moment().format("YYYY"); //Mes Actual
+
 
          $scope.ca_dias=false;
          $scope.ca_meses=false;
@@ -544,6 +546,11 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
            $scope.act_abtn=e;
           
           }   
+
+
+                  var dataanio={
+                      anio:$scope.mifecha.anio
+                  }; 
 
          $scope.urlac= $scope.urlanio;
      
@@ -560,7 +567,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                   });
 
              //Ventas por sucursal del dia
-            $http.get('/api/ventaaniosucursal').success(
+            $http.post('/api/ventaaniosucursal',dataanio).success(
 
                   function(ventadiasucursal) {
                             $scope.ventadiasucursal = ventadiasucursal.datos;
@@ -569,7 +576,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                 });    
 
              //Ventas por sucursal de ayer
-            $http.get('/api/ventaaniopago').success(
+            $http.post('/api/ventaaniopago',dataanio).success(
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
@@ -578,13 +585,48 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                     }); 
 
                 //Ventas por estado de factura
-            $http.get('/api/ventaaniofac').success(
+            $http.post('/api/ventaaniofac',dataanio).success(
 
                   function(ventadiafac) {
                             $scope.ventadiafac = ventadiafac.datos;
                 }).error(function(error) {
                      $scope.error = error;
-                });          
+                });  
+
+            $scope.filtrarAnio=function(){
+
+
+                                  var dataanio={
+                                anio:$scope.mifecha.anio
+                            }; 
+
+                               //Ventas por sucursal del dia
+                      $http.post('/api/ventaaniosucursal',dataanio).success(
+
+                            function(ventadiasucursal) {
+                                      $scope.ventadiasucursal = ventadiasucursal.datos;
+                          }).error(function(error) {
+                               $scope.error = error;
+                          });    
+
+                       //Ventas por sucursal de ayer
+                      $http.post('/api/ventaaniopago',dataanio).success(
+
+                                function(ventadiapago) {
+                                          $scope.ventadiapago = ventadiapago.datos;
+                              }).error(function(error) {
+                                   $scope.error = error;
+                              }); 
+
+                          //Ventas por estado de factura
+                      $http.post('/api/ventaaniofac',dataanio).success(
+
+                            function(ventadiafac) {
+                                      $scope.ventadiafac = ventadiafac.datos;
+                          }).error(function(error) {
+                               $scope.error = error;
+                          }); 
+            };        
        };
 
 

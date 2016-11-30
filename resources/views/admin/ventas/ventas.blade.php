@@ -140,7 +140,25 @@
               </div>
       </div>
       <div class="filtros col-sm-12 spd spi" ng-if="ca_anios">
-            <a class="btn_efiltro" ng-repeat="anio in anios" ng-click="btn_eanio(anio.id)" ng-class="{'btn_active': act_abtn==anio.id}">@{{anio.id}}</a> 
+             <div class="col-sm-4">
+                <form class="form-horizontal" name="frm" role="form" ng-submit="filtrarAnio()" >
+                       <div class="form-group">
+                               <div class="col-sm-8 spi">
+                                        <ol class="nya-bs-select ol_peq" ng-model="mifecha.anio" title="Selecciona un anio..." required>
+                                            <li nya-bs-option="anio in anios" data-value="anio.id">
+                                              <a>
+                                                @{{ anio.id }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>
+                               </div>
+                               <div class="col-sm-4 spd spi">
+                                  <button type="submit" class="btn btn-primary btn_peq btn_regis" ng-disabled="frm.$invalid">FILTRAR</button>
+                               </div>
+                       </div>
+                </form>
+              </div>
       </div>
 
       <div class="ventasdia col-sm-12 spd spi">

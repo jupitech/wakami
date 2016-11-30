@@ -230,12 +230,23 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $ventas],200);
     }
 
-     public function ventaaniosucursal()
+     public function ventaaniosucursal(Request $request)
     {
+
+       $anio= $request['anio'];
+        $hoy=Carbon::today();
+         
+           $a_fi=$hoy->year;
+           $m_fi=$hoy->month;
+           $d_fi=$hoy->day;
+
+           $fini=Carbon::create($anio, $m_fi, $d_fi, 0,0,0)->startOfYear();
+           $ffin=Carbon::create($anio, $m_fi, $d_fi, 23,59,59)->endOfYear();
            //Trayendo Producto
          $ventas=Ventas::with("NombreSucursal")
                   ->where('estado_ventas',2)
-                  ->where('fecha_factura','>=',Carbon::today()->startOfYear())
+                  ->where('fecha_factura','>=',$fini)
+                  ->where('fecha_factura','<=',$ffin)
                   ->groupBy('id_sucursal')
                   ->select('id_sucursal', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
                   ->get();
@@ -315,13 +326,25 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $ventas],200);
     }
 
-   public function ventaaniopago()
+   public function ventaaniopago(Request $request)
     {
+
+
+           $anio= $request['anio'];
+           $hoy=Carbon::today();
+         
+           $a_fi=$hoy->year;
+           $m_fi=$hoy->month;
+           $d_fi=$hoy->day;
+
+           $fini=Carbon::create($anio, $m_fi, $d_fi, 0,0,0)->startOfYear();
+           $ffin=Carbon::create($anio, $m_fi, $d_fi, 23,59,59)->endOfYear();
 
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
           ->join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
           ->where('ventas.estado_ventas',2)
-          ->where('ventas.fecha_factura','>=',Carbon::today()->startOfYear())
+          ->where('ventas.fecha_factura','>=',$fini)
+          ->where('ventas.fecha_factura','<=',$ffin)
           ->select(
             'sucursales.codigo_esta',
             'ventas.id_sucursal', 
@@ -389,10 +412,21 @@ class VentasCentralController extends Controller
     }
 
     
-     public function ventaaniofac()
+     public function ventaaniofac(Request $request)
     {
+
+         $anio= $request['anio'];
+           $hoy=Carbon::today();
+         
+           $a_fi=$hoy->year;
+           $m_fi=$hoy->month;
+           $d_fi=$hoy->day;
+
+           $fini=Carbon::create($anio, $m_fi, $d_fi)->startOfYear();
+           $ffin=Carbon::create($anio, $m_fi, $d_fi)->endOfYear();
            //Trayendo Producto
-         $ventas=Ventas::where('fecha_factura','>=',Carbon::today()->startOfYear())
+         $ventas=Ventas::where('fecha_factura','>=',$fini)
+                  ->where('fecha_factura','<=',$ffin)
                   ->groupBy('estado_ventas')
                   ->select('estado_ventas', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
                   ->get();

@@ -182,13 +182,13 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 
 			Route::post('/ventadiasucursal', 'VentasCentralController@ventadiasucursal');
 			Route::post('/ventamessucursal', 'VentasCentralController@ventamessucursal');
-			Route::get('/ventaaniosucursal', 'VentasCentralController@ventaaniosucursal');
+			Route::post('/ventaaniosucursal', 'VentasCentralController@ventaaniosucursal');
 			Route::post('/ventadiapago', 'VentasCentralController@ventadiapago');
 			Route::post('/ventamespago', 'VentasCentralController@ventamespago');
-			Route::get('/ventaaniopago', 'VentasCentralController@ventaaniopago');
+			Route::post('/ventaaniopago', 'VentasCentralController@ventaaniopago');
 			Route::post('/ventadiafac', 'VentasCentralController@ventadiafac');
 			Route::post('/ventamesfac', 'VentasCentralController@ventamesfac');
-			Route::get('/ventaaniofac', 'VentasCentralController@ventaaniofac');
+			Route::post('/ventaaniofac', 'VentasCentralController@ventaaniofac');
 
 			Route::get('/pdfventa/{id}', 'VentasCentralController@pdfventa');
 
