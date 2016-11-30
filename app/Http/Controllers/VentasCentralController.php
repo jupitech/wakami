@@ -178,12 +178,23 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $stockproducto],200);
     }
 
-        public function ventadiasucursal()
+        public function ventadiasucursal(Request $request)
     {
+
+           $fechainicio= $request['fecha'];
+           $fi =new \DateTime($fechainicio);
+           $carbon = Carbon::instance($fi); 
+           $a_fi=$carbon->year;
+           $m_fi=$carbon->month;
+           $d_fi=$carbon->day;
+
+           $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59);
+
            //Trayendo Producto
          $ventas=Ventas::with("NombreSucursal")
                   ->where('estado_ventas',2)
-                  ->where('fecha_factura','>=',Carbon::today())
+                  ->whereBetween('fecha_factura', [$fini, $ffin])
                   ->groupBy('id_sucursal')
                   ->select('id_sucursal', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
                   ->get();
@@ -223,13 +234,23 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $ventas],200);
     }
 
-      public function ventadiapago()
+      public function ventadiapago(Request $request)
     {
+
+           $fechainicio= $request['fecha'];
+           $fi =new \DateTime($fechainicio);
+           $carbon = Carbon::instance($fi); 
+           $a_fi=$carbon->year;
+           $m_fi=$carbon->month;
+           $d_fi=$carbon->day;
+
+           $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59);
 
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
           ->join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal', 'left outer')
           ->where('ventas.estado_ventas',2)
-          ->where('ventas.fecha_factura','>=',Carbon::today())
+          ->whereBetween('fecha_factura', [$fini, $ffin])
           ->select(
              \DB::raw('ifnull(sucursales.codigo_esta,0) as codigo_esta'),
             'ventas.id_sucursal', 
@@ -294,10 +315,22 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $ventas],200);
     }
 
-       public function ventadiafac()
+       public function ventadiafac(Request $request)
     {
+
+         $fechainicio= $request['fecha'];
+           $fi =new \DateTime($fechainicio);
+           $carbon = Carbon::instance($fi); 
+           $a_fi=$carbon->year;
+           $m_fi=$carbon->month;
+           $d_fi=$carbon->day;
+
+           $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59);
+
+
            //Trayendo Producto
-         $ventas=Ventas::where('fecha_factura','>=',Carbon::today())
+         $ventas=Ventas::whereBetween('fecha_factura', [$fini, $ffin])
                   ->groupBy('estado_ventas')
                   ->select('estado_ventas', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
                   ->get();
@@ -728,6 +761,50 @@ class VentasCentralController extends Controller
      } catch (SoapFault $E) { 
           $objResponse->addAlert($E->faultstring);
       }
+
+
+      //Sin factura electronica
+        //guardando tipo de pago
+               /*           $pagoventa=TpagoVenta::create([
+                              'id_ventas' => $idventas,
+                              'tipo_pago' => $tipopago,
+                              'referencia' => $mirefe,
+                                    ]);
+                         $pagoventa->save();
+
+
+
+                              foreach ($productoventas as $productoventa) {
+                                //Reduciendo stock desde los productos vendidos
+                                   $stockproducto=StockProducto::where('id_producto',$productoventa->id_producto)->first();
+
+                                      if(!is_null($stockproducto) ){
+                                        $stockactual=$stockproducto->stock;
+                                        $restastock=$stockactual-$productoventa->cantidad;
+                                          $stockproducto->fill([
+                                                            'stock' =>  $restastock,
+                                                        ]);
+                                          $stockproducto->save();
+
+                                      }
+
+                              }
+
+                              //Recibiendo DTE y CAE para factura
+                              $midte=$resultado->return->numeroDte;
+                              $micae=$resultado->return->cae;
+                              
+                              $ventas->fill([
+                                              'estado_ventas' => 2,
+                                              'dte' => $midte,
+                                              'cae' => $micae,
+                                          ]);
+                              $ventas->save();*/
+
+
+
+
+
 
  }
 

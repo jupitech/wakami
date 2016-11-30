@@ -701,7 +701,7 @@ class VentasController extends Controller
 
 
 
-  try{
+ try{
 
              $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
 
@@ -757,6 +757,44 @@ class VentasController extends Controller
           $objResponse->addAlert($E->faultstring);
       }
       
+
+      //Sin factura electronica
+            //guardando tipo de pago
+                  /*        $pagoventa=TpagoVenta::create([
+                              'id_ventas' => $idventas,
+                              'tipo_pago' => $tipopago,
+                              'referencia' => $mirefe,
+                                    ]);
+                         $pagoventa->save();
+
+
+
+                                 foreach ($productoventas as $productoventa) {
+                                      //Reduciendo stock desde los productos vendidos
+                                         $stocksucursal=StockSucursal::where('id_sucursal',$idsucursal)->where('id_producto',$productoventa->id_producto)->first();
+
+                                            if(!is_null($stocksucursal) ){
+                                              $stockactual=$stocksucursal->stock;
+                                              $restastock=$stockactual-$productoventa->cantidad;
+                                                $stocksucursal->fill([
+                                                                  'stock' =>  $restastock,
+                                                              ]);
+                                                $stocksucursal->save();
+
+                                            }
+
+                                    }
+
+                              //Recibiendo DTE y CAE para factura
+                              $midte=$resultado->return->numeroDte;
+                              $micae=$resultado->return->cae;
+                              
+                              $ventas->fill([
+                                              'estado_ventas' => 2,
+                                              'dte' => $midte,
+                                              'cae' => $micae,
+                                          ]);
+                              $ventas->save();*/
 
 }
 

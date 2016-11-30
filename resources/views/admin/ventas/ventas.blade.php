@@ -105,7 +105,18 @@
       </div>
       
       <div class="filtros col-sm-12 spd spi" ng-if="ca_dias">
-            <a class="btn_efiltro" ng-repeat="dia in dias" ng-click="btn_edia(dia.id)" ng-class="{'btn_active': act_dbtn==dia.id}">@{{dia.id}}</a> 
+              <div class="col-sm-4">
+                <form class="form-horizontal" name="frm" role="form" ng-submit="filtrarDia()" >
+                       <div class="form-group">
+                               <div class="col-sm-8 spi">
+                                        <input type="date" class="form-control" name="dia" ng-model="mifecha.dia" required>
+                               </div>
+                               <div class="col-sm-4 spd spi">
+                                  <button type="submit" class="btn btn-primary btn_peq btn_regis" ng-disabled="frm.$invalid">FILTRAR</button>
+                               </div>
+                       </div>
+                </form>
+              </div>
       </div>
       <div class="filtros col-sm-12 spd spi" ng-if="ca_meses">
             <a class="btn_efiltro" ng-repeat="mes in meses" ng-click="btn_emes(mes.id)" ng-class="{'btn_active': act_mbtn==mes.id}">@{{mes.mes}}</a> 

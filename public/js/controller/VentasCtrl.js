@@ -249,15 +249,27 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
   }
 
   $scope.act_btn=1;
+        $scope.hoy=moment();
 
-     $scope.mas_obj = false; //Nuevo proveedor
+        $scope.mifecha={};
+        $scope.mifecha.dia=$scope.hoy._d;
+
+
+       $scope.mas_obj = false; //Nuevo proveedor
        $scope.urldia='/api/ventasdia';
        $scope.urlmes='/api/ventasmes';
        $scope.urlanio='/api/ventasanio';
        
         $scope.urlac= $scope.urldia;
+        
+
+        var datafecha={
+              fecha: $scope.mifecha.dia
+        };
+
 
         //Todos las ventas
+
             $http.get($scope.urlac).success(
 
                     function(ventas) {
@@ -270,7 +282,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                   });
 
              //Ventas por sucursal del dia
-            $http.get('/api/ventadiasucursal').success(
+            $http.post('/api/ventadiasucursal',datafecha).success(
 
                   function(ventadiasucursal) {
                             $scope.ventadiasucursal = ventadiasucursal.datos;
@@ -279,7 +291,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                 });    
 
              //Ventas por sucursal de ayer
-            $http.get('/api/ventadiapago').success(
+            $http.post('/api/ventadiapago',datafecha).success(
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
@@ -289,14 +301,49 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
             
                //Ventas por sucursal del dia
-            $http.get('/api/ventadiafac').success(
+            $http.post('/api/ventadiafac',datafecha).success(
 
                   function(ventadiafac) {
                             $scope.ventadiafac = ventadiafac.datos;
                 }).error(function(error) {
                      $scope.error = error;
+                }); 
+
+       //Filtrar los dias
+        $scope.filtrarDia=function(){
+                var datafecha={
+                      fecha: $scope.mifecha.dia
+                };
+
+                //Ventas por sucursal del dia
+            $http.post('/api/ventadiasucursal',datafecha).success(
+
+                  function(ventadiasucursal) {
+                            $scope.ventadiasucursal = ventadiasucursal.datos;
+                }).error(function(error) {
+                     $scope.error = error;
                 });  
 
+                  //Ventas por sucursal de ayer
+            $http.post('/api/ventadiapago',datafecha).success(
+
+                      function(ventadiapago) {
+                                $scope.ventadiapago = ventadiapago.datos;
+                    }).error(function(error) {
+                         $scope.error = error;
+                    });  
+
+                 //Ventas por sucursal del dia
+            $http.post('/api/ventadiafac',datafecha).success(
+
+                  function(ventadiafac) {
+                            $scope.ventadiafac = ventadiafac.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                }); 
+
+            
+        };
 
 
           $scope.ca_dias=true;
@@ -307,11 +354,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
           $scope.act_mbtn=moment().format("MM"); //Mes Actual
           $scope.act_abtn=moment().format("YYYY"); //Año Actual
 
-          $scope.dias=[
-          {id:'01'},{id:'02'},{id:'03'},{id:'04'},{id:'05'},{id:'06'},{id:'07'},{id:'08'},{id:'09'},{id:'10'},
-          {id:'11'},{id:'12'},{id:'13'},{id:'14'},{id:'15'},{id:'16'},{id:'17'},{id:'18'},{id:'19'},{id:'20'},
-          {id:'21'},{id:'22'},{id:'23'},{id:'24'},{id:'25'},{id:'26'},{id:'27'},{id:'28'},{id:'29'},{id:'30'},{id:'31'},
-         ];
+
 
         $scope.meses=[
           {id:'01',mes:'Enero'},{id:'02',mes:'Febrero'},{id:'03',mes:'Marzo'},{id:'04',mes:'Abril'},{id:'05',mes:'Mayo'},{id:'06',mes:'Junio'},
@@ -338,7 +381,6 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
            $scope.btn_edia=function(e){
            $scope.act_dbtn=e;
-          
           }
 
 
