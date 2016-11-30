@@ -2440,6 +2440,13 @@ tspan, textPath{
 		}
 
 }
+.ol_peq{
+	margin: 0 !important;
+
+	.btn{
+		padding:6px 10px !important;
+	}
+}
 @media print {
    /*#areaimpresion{
    	width: 400px;

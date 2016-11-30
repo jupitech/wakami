@@ -181,13 +181,13 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::delete('/venta/destroy/{id}','VentasCentralController@destroy');
 
 			Route::post('/ventadiasucursal', 'VentasCentralController@ventadiasucursal');
-			Route::get('/ventamessucursal', 'VentasCentralController@ventamessucursal');
+			Route::post('/ventamessucursal', 'VentasCentralController@ventamessucursal');
 			Route::get('/ventaaniosucursal', 'VentasCentralController@ventaaniosucursal');
 			Route::post('/ventadiapago', 'VentasCentralController@ventadiapago');
-			Route::get('/ventamespago', 'VentasCentralController@ventamespago');
+			Route::post('/ventamespago', 'VentasCentralController@ventamespago');
 			Route::get('/ventaaniopago', 'VentasCentralController@ventaaniopago');
 			Route::post('/ventadiafac', 'VentasCentralController@ventadiafac');
-			Route::get('/ventamesfac', 'VentasCentralController@ventamesfac');
+			Route::post('/ventamesfac', 'VentasCentralController@ventamesfac');
 			Route::get('/ventaaniofac', 'VentasCentralController@ventaaniofac');
 
 			Route::get('/pdfventa/{id}', 'VentasCentralController@pdfventa');

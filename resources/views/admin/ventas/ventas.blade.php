@@ -119,7 +119,25 @@
               </div>
       </div>
       <div class="filtros col-sm-12 spd spi" ng-if="ca_meses">
-            <a class="btn_efiltro" ng-repeat="mes in meses" ng-click="btn_emes(mes.id)" ng-class="{'btn_active': act_mbtn==mes.id}">@{{mes.mes}}</a> 
+            <div class="col-sm-4">
+                <form class="form-horizontal" name="frm" role="form" ng-submit="filtrarMes()" >
+                       <div class="form-group">
+                               <div class="col-sm-8 spi">
+                                        <ol class="nya-bs-select ol_peq" ng-model="mifecha.mes" title="Selecciona un mes..." required>
+                                            <li nya-bs-option="mes in meses" data-value="mes.id">
+                                              <a>
+                                                @{{ mes.mes }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                              </a>
+                                            </li>
+                                          </ol>
+                               </div>
+                               <div class="col-sm-4 spd spi">
+                                  <button type="submit" class="btn btn-primary btn_peq btn_regis" ng-disabled="frm.$invalid">FILTRAR</button>
+                               </div>
+                       </div>
+                </form>
+              </div>
       </div>
       <div class="filtros col-sm-12 spd spi" ng-if="ca_anios">
             <a class="btn_efiltro" ng-repeat="anio in anios" ng-click="btn_eanio(anio.id)" ng-class="{'btn_active': act_abtn==anio.id}">@{{anio.id}}</a> 

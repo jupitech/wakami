@@ -7780,6 +7780,11 @@ tspan, textPath {
       font-size: 20px;
       font-weight: 300; }
 
+.ol_peq {
+  margin: 0 !important; }
+  .ol_peq .btn {
+    padding: 6px 10px !important; }
+
 @media print {
   /*#areaimpresion{
    	width: 400px;

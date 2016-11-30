@@ -383,6 +383,10 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
            $scope.act_dbtn=e;
           }
 
+           var datafecha={
+              fecha: $scope.mifecha.dia
+           };
+
 
 
          $scope.urlac= $scope.urldia;
@@ -400,7 +404,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                   });
 
              //Ventas por sucursal del dia
-            $http.get('/api/ventadiasucursal').success(
+            $http.post('/api/ventadiasucursal',datafecha).success(
 
                   function(ventadiasucursal) {
                             $scope.ventadiasucursal = ventadiasucursal.datos;
@@ -409,7 +413,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                 });    
 
              //Ventas por sucursal de ayer
-            $http.get('/api/ventadiapago').success(
+            $http.post('/api/ventadiapago',datafecha).success(
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
@@ -418,7 +422,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                     }); 
 
                 //Ventas por sucursal del dia
-            $http.get('/api/ventadiafac').success(
+            $http.post('/api/ventadiafac',datafecha).success(
 
                   function(ventadiafac) {
                             $scope.ventadiafac = ventadiafac.datos;
@@ -437,12 +441,17 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
          $scope.ca_meses=true;
          $scope.ca_anios=false;
 
+         $scope.mifecha.mes=moment().format("MM"); //Mes Actual
          
 
           $scope.btn_emes=function(e){
            $scope.act_mbtn=e;
           
-          }    
+          }   
+
+          var datames={
+              mes:$scope.mifecha.mes
+          }; 
 
          $scope.urlac= $scope.urlmes;
      
@@ -459,7 +468,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                   });
 
              //Ventas por sucursal del dia
-            $http.get('/api/ventamessucursal').success(
+            $http.post('/api/ventamessucursal',datames).success(
 
                   function(ventadiasucursal) {
                             $scope.ventadiasucursal = ventadiasucursal.datos;
@@ -468,7 +477,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                 });    
 
              //Ventas por sucursal de ayer
-            $http.get('/api/ventamespago').success(
+            $http.post('/api/ventamespago',datames).success(
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
@@ -477,13 +486,49 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                     }); 
 
             //Ventas por estado de factura
-            $http.get('/api/ventamesfac').success(
+            $http.post('/api/ventamesfac',datames).success(
 
                   function(ventadiafac) {
                             $scope.ventadiafac = ventadiafac.datos;
                 }).error(function(error) {
                      $scope.error = error;
-                });           
+                });  
+
+            $scope.filtrarMes=function(){
+
+                  var datames={
+                      mes:$scope.mifecha.mes
+                  }; 
+
+                          //Ventas por sucursal del dia
+                    $http.post('/api/ventamessucursal',datames).success(
+
+                          function(ventadiasucursal) {
+                                    $scope.ventadiasucursal = ventadiasucursal.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        }); 
+
+                           //Ventas por sucursal de ayer
+                    $http.post('/api/ventamespago',datames).success(
+
+                              function(ventadiapago) {
+                                        $scope.ventadiapago = ventadiapago.datos;
+                            }).error(function(error) {
+                                 $scope.error = error;
+                            }); 
+
+                    //Ventas por estado de factura
+                    $http.post('/api/ventamesfac',datames).success(
+
+                          function(ventadiafac) {
+                                    $scope.ventadiafac = ventadiafac.datos;
+                        }).error(function(error) {
+                             $scope.error = error;
+                        });  
+ 
+
+            };            
        };
 
          $scope.btn_anio=function(){
