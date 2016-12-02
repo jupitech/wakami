@@ -48,6 +48,8 @@
       <script src="/js/ngPrint.js"></script>
       <script src="/js/angular-button-spinner.min.js"></script>
       <script src="/js/ng-infinite-scroll.min.js"></script>
+      <script src="/js/FileSaver.min.js"></script>
+      <script src="/js/json-export-excel.min.js"></script>
       <script src="/assets/bower/fusioncharts/fusioncharts.js"></script>
       <script src="/js/angular-fusioncharts.min.js"></script>
       <script src="https://code.highcharts.com/highcharts.src.js"></script>

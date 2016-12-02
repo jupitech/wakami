@@ -1,5 +1,5 @@
 /*AngularJS*/
-var wApp= angular.module('wApp', ['ngRoute', 'ngCookies','ngAnimate','ngResource', 'ngSanitize','ui.bootstrap','angularMoment','nya.bootstrap.select','angularLazyImg','ngPrint','angular-button-spinner','angular.filter','infinite-scroll','highcharts-ng']);
+var wApp= angular.module('wApp', ['ngRoute', 'ngCookies','ngAnimate','ngResource', 'ngSanitize','ui.bootstrap','angularMoment','nya.bootstrap.select','angularLazyImg','ngPrint','angular-button-spinner','angular.filter','infinite-scroll','highcharts-ng','ngJsonExportExcel']);
 /*wApp.run(function(amMoment) {
     amMoment.changeLocale('es');
 });*/

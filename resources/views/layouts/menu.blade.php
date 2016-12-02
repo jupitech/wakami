@@ -68,6 +68,7 @@
               <ul class="dropdown-menu">
                 <li><a href="{{ URL::to('/reporteventas') }}">Reporte de ventas</a></li>
                 <li><a href="#">Reporte de compras</a></li>
+                  <li><a href="{{ URL::to('/libroventas') }}">Libro de Ventas</a></li>
                   <li role="separator" class="divider"></li>
                 <li><a href="#">Movimientos</a></li>
               </ul>

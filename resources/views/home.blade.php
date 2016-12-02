@@ -76,6 +76,7 @@
                      @role('admin|operativo') 
 	           					<li><a href="{{ URL::to('/reporteventas') }}">Reporte de ventas</a></li>
 	           					<li><a href="">Reporte de compras</a></li>
+                       <li><a href="{{ URL::to('/libroventas') }}">Libro de Ventas</a></li>
 	           					<li><a href="">Movimientos</a></li>
                        @endrole
                        @role('vendedor')

@@ -37,6 +37,11 @@ class ReporteVentasController extends Controller
         return view('admin.reportes.reporteventas');
     }
 
+      public function indexlibro()
+    {
+        return view('admin.reportes.libroventas');
+    }
+
       public function indexventas(Request $request)
     {
 
@@ -257,6 +262,41 @@ class ReporteVentasController extends Controller
           ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto.preciop)'), 'desc')
           ->get();        
 
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+     public function indexlventas(Request $request)
+    {
+
+          $fechainicio= $request['fecha_inicio'];
+          $fechafin= $request['fecha_fin'];
+          $sucursal= $request['sucursal'];
+
+          $fi =new \DateTime($fechainicio);
+          $carbon = Carbon::instance($fi); 
+          $a_fi=$carbon->year;
+          $m_fi=$carbon->month;
+          $d_fi=$carbon->day;
+
+          $ff =new \DateTime($fechafin);
+          $carbon2 = Carbon::instance($ff); 
+          $a_ff=$carbon2->year;
+          $m_ff=$carbon2->month;
+          $d_ff=$carbon2->day;
+
+
+          $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+          $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
+           //Trayendo Producto
+         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
+         ->where('ventas.estado_ventas',2)
+         ->where('ventas.id_sucursal',$sucursal)
+         ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+         ->orderBy('id', 'desc')
+         ->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }

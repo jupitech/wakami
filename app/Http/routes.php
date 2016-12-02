@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 
 	    //Reportes ventas
 	   Route::get('/reporteventas', 'ReporteVentasController@index');
+	    Route::get('/libroventas', 'ReporteVentasController@indexlibro');
 
 	    //Promociones
 	   Route::get('/promociones', 'PromocionesController@index');
@@ -230,6 +231,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::get('/reportes/ventaspago', 'ReporteVentasController@ventaspago');
 			Route::get('/reportes/ventasproducto', 'ReporteVentasController@ventasproducto');	
 			Route::get('/reportes/ventaslinea', 'ReporteVentasController@ventaslinea');	
+			Route::get('/reportes/ventasl', 'ReporteVentasController@indexlventas');	
 
 			//Devoluciones
 			Route::get('/devoluciones', 'DevolucionesController@indexdevoluciones');
