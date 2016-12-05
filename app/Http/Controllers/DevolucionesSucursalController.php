@@ -22,7 +22,7 @@ use SoapClient;
 use Excel;
 use PDF;
 
-class DevolucionesController extends Controller
+class DevolucionesSucursalController extends Controller
 {
     /**
      * Display a listing of the resource.

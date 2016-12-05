@@ -13,7 +13,7 @@ class StockDefectuoso extends Model
      *
      * @var string
      */
-    protected $table = 'stock_consignacion';
+    protected $table = 'stock_defectuoso';
 
     /**
      * The attributes that are mass assignable.

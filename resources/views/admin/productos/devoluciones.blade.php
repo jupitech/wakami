@@ -18,7 +18,7 @@
                     <div class="conte_nuevo">
                       <div class="col-sm-12">
                       <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Devolución existente!</strong> Intenta de nuevo con la devolución.</div>
-                         <form class="form-horizontal" name="frm" role="form" ng-submit="enviarDevolucion()" >
+                         <form class="form-horizontal" name="frm" role="form" ng-submit="crearDevolucion()" >
                                 <div class="form-group">
                                     <div class="col-md-12">
                                     <label for="name">Hacia:</label>
@@ -76,7 +76,7 @@
                               <h3>Hacia Bodega</h3>
                               <h2  ng-switch="exisDevolucion.hacia">
                                   <span ng-switch-when="3">Central</span>
-                               <span ng-switch-when="5">Defectuoso</span>
+                               <span ng-switch-when="105">Defectuoso</span>
                               </h2>
                           </div>
                       </div>
@@ -164,6 +164,28 @@
                                        </table>
                       </div>
 
+
+                         {{-- Productos agregados a devolución --}}
+                      <div class="col-sm-12 conte table_height" ng-if="exisDevolucion.estado_devolucion==2">
+                                  <table class="table">
+                                           <thead>
+                                               <th>Producto</th>
+                                               <th>Cant.</th>
+                                               <th class="td_opciones">Opciones</th>
+                                           </thead>
+                                             <tbody>
+                                               <tr ng-repeat="prodevo in prodevolucion">
+                                                   <td><small class="label label-success">@{{ prodevo.nombre_producto.codigo }}</small> @{{prodevo.nombre_producto.nombre}}</td>
+                                                   <td>@{{prodevo.cantidad}} </td>
+                                                   <td class="td_opciones">
+                                                       <small class="label label-success">Enviado</small>
+                                                   </td>
+                                               </tr>
+                                              
+                                           </tbody>
+                                       </table>
+                      </div>
+
                        {{-- Totales y Acciones --}}
                       <div class="col-sm-12 footer">
                        
@@ -233,7 +255,7 @@
                          <td  ng-click="abrirdevolucion(devolucion)">@{{devolucion.fecha_entrega}}</td>
                           <td  ng-switch="devolucion.hacia">
                               <span ng-switch-when="3">Central</span>
-                           <span ng-switch-when="5">Defectuoso</span>
+                           <span ng-switch-when="105">Defectuoso</span>
                           </td>
                          <td ng-if="devolucion.estado_devolucion==1">
                              <div class="area_opciones">

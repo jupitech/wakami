@@ -31,8 +31,7 @@ wApp.controller('DevolucionesCtrl',function($scope, $http, $timeout, $log,$uibMo
     //Bodegas
     
      $scope.bodegas=[
-                    {id:'3',nombre:'Central'},
-                    {id:'5',nombre:'Defectuoso'},
+            {id:'105',nombre:'Defectuoso'},
      ]; 
 
       //Devoluciones
@@ -47,7 +46,7 @@ wApp.controller('DevolucionesCtrl',function($scope, $http, $timeout, $log,$uibMo
 
     //Nueva devolucion
       $scope.devolucion={};
-      $scope.enviarDevolucion = function(){
+      $scope.crearDevolucion = function(){
           var datadevolucion = {
               hacia: $scope.devolucion.hacia,
               descripcion: $scope.devolucion.descripcion,
@@ -214,7 +213,7 @@ wApp.controller('DevolucionesCtrl',function($scope, $http, $timeout, $log,$uibMo
 
                //Enviar Paso 1
               $scope.enviarDevolucion=function(){
-                     $http.post('api/devolucion/p1/' + $scope.midevolucion)
+                     $http.put('api/devolucion/p1/' + $scope.midevolucion)
                         .success(function (data, status, headers) {
                            console.log('Devolución No.'+$scope.midevolucion+' modificada correctamente en el paso 1.');
                                $http.get('/api/devoluciones').success(
