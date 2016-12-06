@@ -242,6 +242,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::put('/devolucion/p1/{id}', 'DevolucionesController@updatep1');
 			Route::delete('/devolucion/destroy/{id}','DevolucionesController@destroy');
 			Route::delete('/prodevolucion/destroy/{id}','DevolucionesController@destroypro');
+			Route::get('/devoluciones/consignacion/{id}', 'DevolucionesController@indexproconsignacionas');
 
 
             //Promociones

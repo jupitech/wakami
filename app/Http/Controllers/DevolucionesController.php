@@ -13,7 +13,8 @@ use App\Models\StockSucursal;
 use App\Models\Devolucion;
 use App\Models\ProductoDevolucion;
 use App\Models\StockDefectuoso;
-
+use App\Models\Consignacion;
+use App\Models\StockConsignacion;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -36,7 +37,7 @@ class DevolucionesController extends Controller
   public function indexdevoluciones()
     {
         //Trayendo traslados
-         $devoluciones=Devolucion::with("DSucursal","DUsuario")->get();
+         $devoluciones=Devolucion::with("DSucursal","DUsuario","DConsignacion")->get();
          if(!$devoluciones){
              return response()->json(['mensaje' =>  'No se encuentran devoluciones actualmente','codigo'=>404],404);
         }
@@ -52,6 +53,17 @@ class DevolucionesController extends Controller
         }
          return response()->json(['datos' =>  $prodevoluciones],200);
     }
+
+      public function indexproconsignacionas($id)
+    {
+           //Trayendo Productos de Sucursales
+         $stockconsignacion=StockConsignacion::with("NombreProducto")->where('id_consignacion',$id)->where('stock','>',0)->get();
+         if(!$stockconsignacion){
+             return response()->json(['mensaje' =>  'No se encuentran productos actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $stockconsignacion],200);
+    }
+
    
 
     /**
@@ -65,14 +77,23 @@ class DevolucionesController extends Controller
           $user = Auth::User();     
           $userId = $user->id; 
 
+          $consignacion=$request['consignacion'];
+
+          if($consignacion==''){
+            $miconsig='';
+          } else{
+               $miconsig=$consignacion;
+          }
+
           $misucursal=Sucursales::where('codigo_esta',1)->first();
  
             $devolucion=Devolucion::create([
-                  'desde_sucursal' =>  $misucursal->id,
+                  'desde_sucursal' =>$request['desde'],
                   'desde_user' => $userId,
                   'estado_devolucion' => 1,
                   'descripcion' => $request['descripcion'],
                   'hacia' => $request['hacia'],
+                  'desde_consignacion' =>  $miconsig,
                         ]);
             $devolucion->save();
            
@@ -110,7 +131,7 @@ class DevolucionesController extends Controller
        public function updatepro(Request $request, $id)
     {
          $idproducto=$request['id_producto'];
-        $producto=Producto::where('id',$idproducto)->first();
+
 
         $productodevolucion=ProductoDevolucion::find($id);
         $iddevolucion=$productodevolucion->id_devolucion;
@@ -140,6 +161,42 @@ class DevolucionesController extends Controller
 
           foreach ($productodevolucion as $productodevo) {
             //Reduciendo stock desde los productos vendidos
+
+                             //Restar de bodega
+                             if($desucursal!=104){
+                                 $stockproducto=StockProducto::where('id_producto',$productodevo->id_producto)->first();
+
+                                  if(!is_null($stockproducto) ){
+                                    $stockactual=$stockproducto->stock;
+                                    $restartock=$stockactual-$productodevo->cantidad;
+                                      $stockproducto->fill([
+                                                        'stock' =>  $restartock,
+                                                    ]);
+                                      $stockproducto->save();
+
+                                  }
+
+                             } else{
+
+                              $dconsig=$devolucion->desde_consignacion;
+
+                                 $stockconsig=StockConsignacion::where('id_consignacion',$dconsig)->where('id_producto',$productodevo->id_producto)->first();
+
+                                  if(!is_null($stockconsig) ){
+                                    $stockactual=$stockconsig->stock;
+                                    $restartock=$stockactual-$productodevo->cantidad;
+                                      $stockconsig->fill([
+                                                        'stock' =>  $restartock,
+                                                    ]);
+                                      $stockconsig->save();
+
+                                  }
+
+                             }   
+
+
+
+
                         if($bodega==105){
 
                             //Sumar a bodega
@@ -164,27 +221,21 @@ class DevolucionesController extends Controller
                                   }
                             
 
-                            //Restar de bodega
-                             $stockproducto=StockProducto::where('id_producto',$productodevo->id_producto)->first();
+                        } else{
+
+                                    $stockproducto=StockProducto::where('id_producto',$productodevo->id_producto)->first();
 
                                   if(!is_null($stockproducto) ){
                                     $stockactual=$stockproducto->stock;
-                                    $restartock=$stockactual-$productodevo->cantidad;
+                                    $sumartock=$stockactual+$productodevo->cantidad;
                                       $stockproducto->fill([
-                                                        'stock' =>  $restartock,
+                                                        'stock' =>  $sumartock,
                                                     ]);
                                       $stockproducto->save();
+                                       }
+                           }
 
-                                  }
-                            
-
-
-                        }
-               
-
-          }
-
-
+             }
     }
 
 

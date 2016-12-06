@@ -19,6 +19,38 @@
                       <div class="col-sm-12">
                       <div class="alert alert-warning" role="alert" ng-if="alertaExiste"> <strong>Devolución existente!</strong> Intenta de nuevo con la devolución.</div>
                          <form class="form-horizontal" name="frm" role="form" ng-submit="crearDevolucion()" >
+                                 <div class="form-group">
+                                    <div class="col-md-12">
+                                    <label for="name">Desde:</label>
+                                       <ol class="nya-bs-select" ng-model="devolucion.desde" data-live-search="true"  title="Selecciona desde bodega..." required>
+                                                          <li nya-bs-option="bodega in desde" data-value="bodega.id">
+                                                            <a>
+                                                             <span>
+                                                                  @{{ bodega.nombre }}
+                                                                </span>
+                                                              <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                            </a>
+                                                          </li>
+                                          </ol>
+                                        
+                                    </div>
+                               </div>
+                                <div class="form-group" ng-if="devolucion.desde==104">
+                                    <div class="col-md-12">
+                                    <label for="name">Consignaciones</label>
+                                       <ol class="nya-bs-select" ng-model="devolucion.consignacion" data-live-search="true"  title="Selecciona una bodega..." required>
+                                                          <li nya-bs-option="consignacion in consignaciones" data-value="consignacion.id">
+                                                            <a>
+                                                             <span>
+                                                                  @{{ consignacion.info_cliente.nombre }}
+                                                                </span>
+                                                              <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                            </a>
+                                                          </li>
+                                          </ol>
+                                        
+                                    </div>
+                               </div>
                                 <div class="form-group">
                                     <div class="col-md-12">
                                     <label for="name">Hacia:</label>
@@ -70,7 +102,14 @@
                           <div class="col-sm-12">
                           <div class="col-sm-6 spi">
                               <h3>De sucursal</h3>
-                              <h2> @{{exisDevolucion.d_sucursal.nombre}}</h2>
+                              <h2>
+                                 <span ng-if="exisDevolucion.desde_sucursal!=104">
+                                  @{{exisDevolucion.d_sucursal.nombre}}
+                                </span>
+                                 <span ng-if="exisDevolucion.desde_sucursal==104">
+                                  <strong>Con:</strong> @{{exisDevolucion.d_consignacion.info_cliente.nombre}}
+                                </span>
+                              </h2>
                           </div>
                           <div class="col-sm-6 spd">
                               <h3>Hacia Bodega</h3>
@@ -94,12 +133,28 @@
                                                 </div>
                                                 <div class="col-sm-8 col-md-8 col-lg-9">
                                                     <label for="name">Producto</label>
-                                                     <ol class="nya-bs-select" ng-model="prodevolucion.id_producto" data-live-search="true"  title="Selecciona un producto..." required  data-size="10">
+                                                     <ol class="nya-bs-select" ng-model="prodevolucion.id_producto" data-live-search="true"  title="Selecciona un producto..." required  data-size="10" ng-if="exisDevolucion.desde_sucursal!=104">
                                                           <li nya-bs-option="producto in productos" data-value="producto.id">
                                                             <a>
                                                              <span>
                                                               <small class="label label-success">@{{ producto.codigo }}</small>
                                                                   @{{ producto.nombre }}-<strong> Q@{{ producto.costo }} </strong>
+                                                                   <small class="label label-info">@{{ producto.stock_producto.stock }}</small>
+                                                                </span>
+                                                              <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                            </a>
+                                                          </li>
+                                                           
+                                                        </ol>
+
+                                                        <ol class="nya-bs-select" ng-model="prodevolucion.id_producto" data-live-search="true"  title="Selecciona un producto..." required  data-size="10"  ng-if="exisDevolucion.desde_sucursal==104">
+                                                         
+                                                           <li nya-bs-option="producto in productos" data-value="producto.id_producto">
+                                                            <a>
+                                                             <span>
+                                                              <small class="label label-success">@{{ producto.nombre_producto.codigo }}</small>
+                                                                  @{{ producto.nombre_producto.nombre }}-<strong> Q@{{ producto.nombre_producto.costo }} </strong>
+                                                                   <small class="label label-info">@{{ producto.stock }}</small>
                                                                 </span>
                                                               <span class="glyphicon glyphicon-ok check-mark"></span>
                                                             </a>
@@ -250,7 +305,15 @@
                  <tbody>
                      <tr ng-repeat="devolucion in devoluciones  | orderBy:'-id'" ng-class="{'trc_ver':devolucion.estado_devolucion==1}">
                         <td ng-click="abrirdevolucion(devolucion)">@{{devolucion.id}}</td>
-                          <td  ng-click="abrirdevolucion(devolucion)">@{{devolucion.d_sucursal.nombre}}</td>
+                          <td  ng-click="abrirdevolucion(devolucion)">
+                          <span ng-if="devolucion.desde_sucursal!=104">
+                            @{{devolucion.d_sucursal.nombre}}
+                          </span>
+                           <span ng-if="devolucion.desde_sucursal==104">
+                            <strong>Con:</strong> @{{devolucion.d_consignacion.info_cliente.nombre}}
+                          </span>
+                          
+                          </td>
                           <td  ng-click="abrirdevolucion(devolucion)">@{{devolucion.d_usuario.nombre}} @{{devolucion.d_usuario.apellido}}</td>
                          <td  ng-click="abrirdevolucion(devolucion)">@{{devolucion.fecha_entrega}}</td>
                           <td  ng-switch="devolucion.hacia">

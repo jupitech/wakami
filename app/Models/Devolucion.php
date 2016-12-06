@@ -19,7 +19,7 @@ class Devolucion extends Model
      *
      * @var array
      */
-    protected $fillable = ['desde_sucursal','desde_user','hacia','fecha_entrega','descripcion','estado_devolucion'];
+    protected $fillable = ['desde_sucursal','desde_user','hacia','fecha_entrega','descripcion','estado_devolucion','desde_consignacion'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -31,6 +31,10 @@ class Devolucion extends Model
 
     public function DSucursal(){
         return $this->hasOne('App\Models\Sucursales','id','desde_sucursal');
+    }
+
+     public function DConsignacion(){
+        return $this->hasOne('App\Models\Consignacion','id','desde_consignacion')->with("InfoCliente");
     }
 
       public function DUsuario(){

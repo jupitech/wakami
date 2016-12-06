@@ -27,10 +27,27 @@ wApp.controller('DevolucionesCtrl',function($scope, $http, $timeout, $log,$uibMo
         $scope.nuevo_obj = !$scope.nuevo_obj;
        $scope.devolucion={};
      };
+
+     //Desde
+    
+     $scope.desde=[
+            {id:'3',nombre:'Central'},
+            {id:'104',nombre:'Consignación'},
+     ];
+
+      //Todos las consignaciones
+      $http.get('/api/consignaciones').success(
+
+              function(consignaciones) {
+                        $scope.consignaciones = consignaciones.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
  
     //Bodegas
     
      $scope.bodegas=[
+           {id:'3',nombre:'Central'},
             {id:'105',nombre:'Defectuoso'},
      ]; 
 
@@ -47,10 +64,21 @@ wApp.controller('DevolucionesCtrl',function($scope, $http, $timeout, $log,$uibMo
     //Nueva devolucion
       $scope.devolucion={};
       $scope.crearDevolucion = function(){
+
+        if($scope.devolucion.desde==104){
           var datadevolucion = {
+              desde: $scope.devolucion.desde,
+              hacia: $scope.devolucion.hacia,
+              descripcion: $scope.devolucion.descripcion,
+              consignacion: $scope.devolucion.consignacion
+            };
+        }else{
+            var datadevolucion = {
+              desde: $scope.devolucion.desde,
               hacia: $scope.devolucion.hacia,
               descripcion: $scope.devolucion.descripcion,
             };
+        }
 
         $http.post('/api/devolucion/create', datadevolucion)
           .success(function (data, status, headers) {
@@ -107,21 +135,37 @@ wApp.controller('DevolucionesCtrl',function($scope, $http, $timeout, $log,$uibMo
           
             $scope.exisDevolucion=com;
              $scope.midevolucion=com.id;
+             $scope.desdesucu=com.desde_sucursal;
+              $scope.desdecon=com.desde_consignacion;
 
             $scope.btn_cerrarc=function(){
              $scope.mas_obj = false;
            };
 
+           if($scope.desdesucu!=104){
 
-            //Productos
-          $http.get('/api/productos').success(
+                  //Productos
+              $http.get('/api/productos').success(
 
-              function(productos) {
-                        $scope.productos = productos.datos;
-            }).error(function(error) {
-                 $scope.error = error;
-            });
+                  function(productos) {
+                            $scope.productos = productos.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });
 
+
+           } else{
+                       //Productos
+              $http.get('/api/devoluciones/consignacion/'+$scope.desdecon).success(
+
+                  function(productos) {
+                            $scope.productos = productos.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });
+
+           }
+            
             //Productos en devoluciones
               $http.get('/api/prodevolucion/'+$scope.midevolucion).success(
                                     function(prodevolucion) {
