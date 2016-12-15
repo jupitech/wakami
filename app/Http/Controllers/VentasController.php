@@ -629,8 +629,13 @@ class VentasController extends Controller
             $createfecha=Carbon::create($fanio, $fmes, $fdia);
 
             $fechaDocumento=$createfecha->toDateString();
-
-            $fechaResolucion='2016-09-21';
+            
+            if($misucursal->codigo_esta==4){
+                 $fechaResolucion='2016-12-08';
+            } else{
+               $fechaResolucion='2016-09-21';
+            }
+           
 
              //Información de factura 
              $dte=array(
