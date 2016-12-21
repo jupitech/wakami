@@ -553,7 +553,7 @@ class VentasCentralController extends Controller
 
         $ahora=Carbon::now();
    
-        if($referencia=''){
+        if($referencia==''){
             $mirefe='';
         } else{
              $mirefe=$referencia;

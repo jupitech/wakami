@@ -844,6 +844,7 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
    $scope.termi_venta=false;
    $scope.acti_rol=false;
    $scope.acti_cliente=false;
+      $scope.no_encon =false;
    $scope.acti_areapro=false;
     $scope.loading = false;
 
@@ -853,11 +854,34 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
            $scope.acti_cliente=false;
        };
 
-      $scope.act_cliente = function() {
-          $scope.acti_cliente =true;
+      $scope.act_cliente = function(nit) {
+        var datanit={
+          nit:nit,
+        }
+          $http.post('/api/bclientes/',datanit)
+              .success(function(clientes) {
+                  $scope.venta.cliente = clientes.datos;
+                  $scope.venta.bnit = '';
+                   $scope.acti_cliente =true;
+                    $scope.no_encon =false;
+              })
+              .error(function (data, status, header, config) {
+                  console.log("Nit incorrecto o inexistente");
+                  $scope.no_encon =true;
+                  $scope.acti_cliente =false;
+                  $timeout(function () { $scope.alertaExiste = true; }, 100);
+                  $timeout(function () { $scope.alertaExiste = false; }, 5000);
+              });
+
+
+         
        };
-
-
+  
+  $scope.apcf=function(){
+      $scope.venta.bnit='C/F';
+       $scope.no_encon =false;
+       $scope.act_cliente( $scope.venta.bnit);
+  }
 
    $scope.tipos=[
         {id:'1',cliente:'Individual'},
@@ -1512,15 +1536,42 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
     $scope.acti_cliente=false;
     $scope.acti_areapro=false;
      $scope.loading = false;
+      $scope.no_encon =false;
 
      $scope.act_rol = function() {
           $scope.acti_rol = !$scope.acti_rol;
            $scope.acti_cliente=false;
        };
 
-      $scope.act_cliente = function() {
-          $scope.acti_cliente =true;
+  $scope.act_cliente = function(nit) {
+        var datanit={
+          nit:nit,
+        }
+          $http.post('/api/bclientes/',datanit)
+              .success(function(clientes) {
+                  $scope.venta.cliente = clientes.datos;
+                  $scope.venta.bnit = '';
+                   $scope.acti_cliente =true;
+                    $scope.no_encon =false;
+              })
+              .error(function (data, status, header, config) {
+                  console.log("Nit incorrecto o inexistente");
+                  $scope.no_encon =true;
+                  $scope.acti_cliente =false;
+                  $timeout(function () { $scope.alertaExiste = true; }, 100);
+                  $timeout(function () { $scope.alertaExiste = false; }, 5000);
+              });
+
+
+         
        };
+  
+  $scope.apcf=function(){
+      $scope.venta.bnit='C/F';
+       $scope.no_encon =false;
+       $scope.act_cliente( $scope.venta.bnit);
+  }
+
 
 
    $scope.tipos=[

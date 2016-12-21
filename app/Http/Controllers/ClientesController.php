@@ -39,6 +39,21 @@ class ClientesController extends Controller
          return response()->json(['datos' =>  $clientes],200);
     }
 
+
+        public function indexclientenit(Request $request)
+    {
+
+      $nit= $request['nit'];
+        //Trayendo Clientes por nit
+        $clientes=Clientes::with("PorcentajeCliente")->where('nit',$nit)->first();
+        if(!$clientes){
+            return response()->json(['mensaje' =>  'No se encuentran clientes actualmente','codigo'=>404],404);
+        }
+        return response()->json(['datos' =>  $clientes],200);
+    }
+
+
+
     /**
      * Store a newly created resource in storage.
      *

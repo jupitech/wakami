@@ -7788,6 +7788,23 @@ tspan, textPath {
 .parafil {
   margin-top: 0; }
 
+.no_encon p {
+  float: left;
+  width: 100%;
+  padding: 10px 15px;
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 0; }
+
+.no_encon span {
+  float: right;
+  padding: 10px 15px;
+  border-radius: 5px;
+  background: #eee;
+  font-size: 13px;
+  margin-top: 10px;
+  cursor: pointer; }
+
 @media print {
   /*#areaimpresion{
    	width: 400px;

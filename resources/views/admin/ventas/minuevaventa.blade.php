@@ -62,18 +62,30 @@
          <form class="form-horizontal" name="frm" role="form" ng-submit="nuevaVenta()" >
                <div class="form-group">
                      <div class="col-sm-8 topinput">
-                       <ol class="nya-bs-select" ng-model="venta.cliente" title="Seleccionar Cliente.." data-live-search="true">
-                            <li nya-bs-option="cliente in clientes | orderBy:'nombre'" data-value="cliente" ng-click="act_cliente()">
-                              <a>
-                                <span>
-                                <small class="label label-success">@{{ cliente.nit }}</small><strong> @{{ cliente.nombre }} </strong>
-                                     <small>Direccion: @{{ cliente.direccion }}</small> 
-                                  </span>
-                                <span class="glyphicon glyphicon-ok check-mark"></span>
-                              </a>
-                            </li>
-                        </ol> 
+                            <div class="col-sm-11" style="padding: 0;">
+                                        <input type="text" class="form-control" ng-model="venta.bnit" placeholder="Ingresa NIT o C/F">
+                                    </div>
+                                    <div class="col-sm-1" style="padding: 0;">
+                                        <button class="btn btn-primary" type="button" ng-click="act_cliente(venta.bnit)">Buscar</button>
+                                    </div>   
+
+                      <!--  <ol class="nya-bs-select" ng-model="venta.cliente" title="Seleccionar Cliente.." data-live-search="true">
+                           <li nya-bs-option="cliente in clientes | orderBy:'nombre'" data-value="cliente" ng-click="act_cliente()">
+                             <a>
+                               <span>
+                               <small class="label label-success">@{{ cliente.nit }}</small><strong> @{{ cliente.nombre }} </strong>
+                                    <small>Direccion: @{{ cliente.direccion }}</small> 
+                                 </span>
+                               <span class="glyphicon glyphicon-ok check-mark"></span>
+                             </a>
+                           </li>
+                       </ol>  -->
                      </div>
+                  {{-- Mensaje de Nit no encontrado --}}
+                        <div class="col-sm-4 no_encon" ng-if="no_encon">
+                             <p>Cliente no encontrado intenta de nuevo o agrega un cliente nuevo</p>
+                             <span ng-click="apcf()">Aplicar Consumidor final</span>
+                        </div>
                      <div class="col-sm-4" ng-if="acti_cliente">
                         <label for="nit">NIT</label>
                          <input id="nit" type="text" class="form-control" name="nit" ng-model="venta.cliente.nit" required disabled>

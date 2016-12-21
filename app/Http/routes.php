@@ -40,6 +40,9 @@ Route::group(['middleware' => ['auth','role:admin|operativo|vendedor']], functio
 		Route::post('/cliente/create', 'ClientesController@store');
 		Route::post('/cliente/porcentaje', 'ClientesController@storepor');
 		Route::put('/cliente/{id}', 'ClientesController@update');
+        //OBTENER CLIENTE POR NIT
+        Route::post('/bclientes/', 'ClientesController@indexclientenit');
+
 		Route::put('/cliente/porcentaje/{id}', 'ClientesController@updatepor');
 		Route::delete('/cliente/destroy/{id}','ClientesController@destroy');
 

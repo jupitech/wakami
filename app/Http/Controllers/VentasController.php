@@ -427,19 +427,19 @@ class VentasController extends Controller
       $telefono= $request['telefono'];
       $email= $request['email'];
 
-      if($celular=''){
+      if($celular==''){
           $micel='';
       }else{
           $micel= $celular;
       }
 
-      if($telefono=''){
+      if($telefono==''){
           $mitelefono='';
       }else{
           $mitelefono= $telefono;
       }
 
-      if($email=''){
+      if($email==''){
           $miemail='';
       }else{
           $miemail= $email;
