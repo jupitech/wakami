@@ -189,7 +189,7 @@ class VentasCentralController extends Controller
            $d_fi=$carbon->day;
 
            $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
-           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,0,0);
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59);
 
            //Trayendo Producto
          $ventas=Ventas::with("NombreSucursal")
