@@ -789,6 +789,7 @@ class VentasCentralController extends Controller
                               'id_ventas' => $idventas,
                               'tipo_pago' => $tipopago,
                               'referencia' => $mirefe,
+                               'monto' => $ventas->total,
                                     ]);
                          $pagoventa->save();
 
