@@ -189,7 +189,7 @@ class VentasCentralController extends Controller
            $d_fi=$carbon->day;
 
            $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
-           $ffin=$fini->addDay();
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,0,0);
 
            //Trayendo Producto
          $ventas=Ventas::with("NombreSucursal")
@@ -267,7 +267,7 @@ class VentasCentralController extends Controller
            $d_fi=$carbon->day;
 
            $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
-           $ffin=$fini->addDay();
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59);
 
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
           ->join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal', 'left outer')
@@ -372,7 +372,7 @@ class VentasCentralController extends Controller
            $d_fi=$carbon->day;
 
            $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
-           $ffin=$fini->addDay();
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59);
 
 
            //Trayendo Producto
