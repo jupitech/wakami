@@ -1,5 +1,5 @@
 //************************************Devoluciones**********************************************//
-wApp.controller('DevolucionesCtrl',function($scope, $http, $timeout, $log,$uibModal){
+wApp.controller('DevolucionesCtrl',function($scope, $http, $timeout, $log,$uibModal,$location,$window){
 
  $scope.status = {
     isopen: false
@@ -128,6 +128,15 @@ wApp.controller('DevolucionesCtrl',function($scope, $http, $timeout, $log,$uibMo
                 console.log('Parece que existe un error al borrar la devolución.');
             });
       };
+
+
+        //PDF Ventas
+      $scope.btn_pdfenvio = function(id){
+        $scope.idenvio= id;
+         console.log("Creando PDF para orden de envio")
+         $window.location.href = '/api/devolucion/pdfenvio/'+ $scope.idenvio;
+      };   
+
 
  //Area de devolución
   $scope.abrirdevolucion= function(com){

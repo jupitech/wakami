@@ -64,6 +64,19 @@ class DevolucionesController extends Controller
          return response()->json(['datos' =>  $stockconsignacion],200);
     }
 
+
+
+     //PDF para envios consignacion
+
+     public function pdfenvio($id)
+    {
+      //Trayendo ventas
+       $devolucion=Devolucion::with("DSucursal","DConsignacion","DUsuario")->where('id',$id)->first();
+       $pdf = PDF::loadView('pdf.invoicedevolucion',['devolucion'=>$devolucion]);
+        return $pdf->download('Orden Devolucion #'.$devolucion->id.'.pdf');
+ 
+    }
+
    
 
     /**

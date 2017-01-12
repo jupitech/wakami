@@ -258,17 +258,13 @@
                         </div>
                        
                         {{-- Estado de Orden 2 --}}
-                             <div class="col-sm-8" ng-if="exisDevolucion.estado_devolucion>1 && exisDevolucion.estado_devolucion<4" >
-                                   <form class="form-horizontal" name="frm" role="form" ng-submit="finalizarDevolucion()" >
+                             <div class="col-sm-8" ng-if="exisDevolucion.estado_devolucion>1 && exisDevolucion.estado_devolucion<3" >
+                                
                                               <div class="form-group">
                                                   <div class="col-sm-7">
-                                                    <p class="info_paso"><strong>PASO 2</strong> Todos los productos han sido agregados a la bodega</p>
-                                                  </div>
-                                                  <div class="col-sm-5">
-                                                        <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">Finalizar Devolución</button>
+                                                    <p class="info_paso"><strong>HAS TERMINADO!</strong> Todos los productos han sido reducidos de la bodega</p>
                                                   </div>
                                                </div>
-                                         </form>
                             </div>
                            
 
@@ -323,6 +319,7 @@
                          <td ng-if="devolucion.estado_devolucion==1">
                              <div class="area_opciones">
                                  <ul>
+
                                       <li class="op_drop"  uib-dropdown>
                                            <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
                                            <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
@@ -338,6 +335,12 @@
                              </div>
                          </td>
                           <td ng-if="devolucion.estado_devolucion==2">
+                           <div class="area_opciones" >
+                                         <ul>
+                                            
+                                              <li><a href="" class="ico_pdf" ng-click="btn_pdfenvio(devolucion.id)"></a></li>
+                                         </ul>
+                                     </div>
                           <small class="label label-success">Realizado</small>
                           </td>
                      </tr>
