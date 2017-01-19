@@ -162,7 +162,7 @@
       </div>
 
       <div class="ventasdia col-sm-12 spd spi">
-        <div class="col-sm-7  col-md-7 col-lg-6 spi">
+        <div class="col-sm-12  col-md-12 col-lg-8 spi">
             <div class="caja_contenido">
               <h1>Tipo de pago</h1>
               <table class="table tablepago">
@@ -216,20 +216,21 @@
               </table>
             </div>
           </div>
-          <div class="col-sm-5  col-md-5 col-lg-3 spi">
-            <div class="caja_contenido">
-              <h1>Ventas por sucursal</h1>
-              <ul class="lisdia">
-                  <li ng-repeat="sucursaldia in ventadiasucursal" class="col-sm-4">
-                  <h2>@{{sucursaldia.nombre_sucursal.nombre}}</h2>
-                  <h3>@{{sucursaldia.cantidad}}</h3>
-                  <p>@{{sucursaldia.total| currency: 'Q'}}</p>
-                  </li>
-              </ul>
-            </div>
+          <div class="col-sm-12 col-md-12 col-lg-4 spd">
+           <div class="mtop9 col-sm-6  col-md-6 col-lg-12 spi">
+                  <div class="caja_contenido">
+                    <h1>Ventas por sucursal</h1>
+                    <ul class="lisdia">
+                        <li ng-repeat="sucursaldia in ventadiasucursal" class="col-sm-4">
+                        <h2>@{{sucursaldia.nombre_sucursal.nombre}}</h2>
+                        <h3>@{{sucursaldia.cantidad}}</h3>
+                        <p>@{{sucursaldia.total| currency: 'Q'}}</p>
+                        </li>
+                    </ul>
+                  </div>
           </div>
-          <div class="mtop9 col-sm-6  col-md-6 col-lg-3">
-            <div class="caja_contenido">
+          <div class="mtop9 col-sm-6  col-md-6 col-lg-12 spi">
+            <div class="caja_fil">
               <h1>Facturas</h1>
                 <table class="table">
                   <tbody>
@@ -247,6 +248,8 @@
                 </table>
             </div>
           </div>
+          </div> 
+         
 
           {{-- Por vendedor --}}
           <div class="col-sm-12 spi">
