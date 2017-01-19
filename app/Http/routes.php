@@ -261,6 +261,17 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::delete('/promocion/destroy/{id}','PromocionesController@destroy');
 			Route::put('/promocion/{id}', 'PromocionesController@update');
 
+			//Gastos
+		        Route::get('/gastos', 'GastosController@indexgastos');
+		        Route::post('/gasto/create', 'GastosController@store');
+		        Route::put('/gasto/{id}', 'GastosController@update');
+		        Route::delete('/gasto/destroy/{id}','GastosController@destroy');
+
+		        Route::get('/categoriagastos', 'GastosController@indexcategoria');
+		        Route::post('/categoriagastos/create', 'GastosController@storecategoria');
+		        Route::put('/categoriagastos/{id}', 'GastosController@updatecategoria');
+		        Route::delete('/categoriagastos/destroy/{id}','GastosController@destroycategoria');
+
 		});
 });
 
