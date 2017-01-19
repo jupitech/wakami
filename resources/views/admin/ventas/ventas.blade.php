@@ -182,7 +182,7 @@
                      <span ng-switch-when="4">Al Crédito</span>
                      <span ng-switch-when="5">Depósito</span>
                     </td>
-                    <td ng-repeat="sucursal in ventadiasucu | orderBy:'codigo_esta'" class="td_2col" >
+                    <td ng-repeat="sucursal in ventadiasucu | orderBy:'codigo_esta'" class="td_2col" ng-click="selecventa(key,sucursal.id)">
                          <div ng-repeat="diapago in value | orderBy:'codigo_esta'" ng-if=" sucursal.codigo_esta==diapago.codigo_esta">
                            <div class="col-sm-4 spd spi"><span>@{{diapago.cantidad}}</span> </div>
                             <div class="col-sm-8  spd spi"> <p>@{{diapago.total| currency: 'Q'}}</p></div>
@@ -249,12 +249,12 @@
           </div>
 
       </div>
-	    <div class="col-sm-12 spd spi">
+	    <div class="col-sm-12 spd spi" ng-if="actlis">
                  <div class="busqueda_texto col-sm-4 spd spi">
                 <input type="text" id="query" ng-model="query"  onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de ventas.." />
                  </div>
       </div>
-	   <div class="info_colores">
+	   <div class="info_colores" ng-if="actlis">
 		      <ul>
 		        <li><span class="color_ncom"></span> <p>Venta no completada</p></li>
              <li><span class="color_encom"></span> <p>Venta al crédito</p></li>
@@ -262,7 +262,7 @@
             <li><span class="color_cancom"></span> <p>Facturas Canceladas</p></li>
 		      </ul>
     </div>
-	  <div class="caja_contenido">
+	  <div class="caja_contenido" ng-if="actlis">
 	           <table class="table">
 	               <thead>
 	               <th></th>

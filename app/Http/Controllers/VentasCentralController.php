@@ -66,34 +66,154 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $ventas],200);
     }
 
-      public function indexventasdia()
+      public function indexventasdia($pago,$sucursal)
     {
+
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today())->orderBy('id', 'desc')->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
+         ->where('fecha_factura','>=',Carbon::today())
+         ->orderBy('id', 'desc')
+         ->where('id_sucursal',$sucursal)
+         ->whereHas('PagoVenta', function ($query) use($pago) {
+                  $query->where('tipo_pago',$pago);
+              })
+         ->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
          return response()->json(['datos' =>  $ventas],200);
     }
 
-    public function indexventasmes()
+     public function indexventasdiaf($pago,$sucursal, Request $request)
     {
+
+        $fechainicio= $request['fecha'];
+           $fi =new \DateTime($fechainicio);
+           $carbon = Carbon::instance($fi); 
+           $a_fi=$carbon->year;
+           $m_fi=$carbon->month;
+           $d_fi=$carbon->day;
+
+           $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59);
+
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today()->startOfMonth())->orderBy('id', 'desc')->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
+         ->whereBetween('fecha_factura', [$fini, $ffin])
+         ->orderBy('id', 'desc')
+         ->where('id_sucursal',$sucursal)
+         ->whereHas('PagoVenta', function ($query) use($pago) {
+                  $query->where('tipo_pago',$pago);
+              })
+         ->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
          return response()->json(['datos' =>  $ventas],200);
     }
-       public function indexventasanio()
+
+
+     public function indexventasmes($pago,$sucursal)
     {
+
            //Trayendo Producto
-         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")->where('fecha_factura','>=',Carbon::today()->startOfYear())->orderBy('id', 'desc')->get();
+         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
+         ->where('fecha_factura','>=',Carbon::today()->startOfMonth())
+         ->orderBy('id', 'desc')
+         ->where('id_sucursal',$sucursal)
+         ->whereHas('PagoVenta', function ($query) use($pago) {
+                  $query->where('tipo_pago',$pago);
+              })
+         ->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
          return response()->json(['datos' =>  $ventas],200);
     }
+
+     public function indexventasmesf($pago,$sucursal, Request $request)
+    {
+
+        $fechainicio= $request['fecha'];
+           $fi =new \DateTime($fechainicio);
+           $carbon = Carbon::instance($fi); 
+           $a_fi=$carbon->year;
+           $m_fi=$carbon->month;
+           $d_fi=$carbon->day;
+
+            $fini=Carbon::create($a_fi, $mes, $d_fi, 0,0,0)->startOfMonth();
+           $ffin=Carbon::create($a_fi, $mes, $d_fi, 23,59,59)->endOfMonth();
+
+           //Trayendo Producto
+         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
+         ->where('fecha_factura','>=',$fini)
+         ->where('fecha_factura','<=',$ffin)
+         ->orderBy('id', 'desc')
+         ->where('id_sucursal',$sucursal)
+         ->whereHas('PagoVenta', function ($query) use($pago) {
+                  $query->where('tipo_pago',$pago);
+              })
+         ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+
+
+
+    public function indexventasanio($pago,$sucursal)
+    {
+
+           //Trayendo Producto
+         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
+        ->where('fecha_factura','>=',Carbon::today()->startOfYear())
+         ->orderBy('id', 'desc')
+         ->where('id_sucursal',$sucursal)
+         ->whereHas('PagoVenta', function ($query) use($pago) {
+                  $query->where('tipo_pago',$pago);
+              })
+         ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+     public function indexventasaniof($pago,$sucursal, Request $request)
+    {
+
+        $anio= $request['anio'];
+           $fi =new \DateTime($anio);
+           $carbon = Carbon::instance($fi); 
+           $a_fi=$carbon->year;
+           $m_fi=$carbon->month;
+           $d_fi=$carbon->day;
+
+           $fini=Carbon::create($anio, $m_fi, $d_fi, 0,0,0)->startOfYear();
+           $ffin=Carbon::create($anio, $m_fi, $d_fi, 23,59,59)->endOfYear();
+
+           //Trayendo Producto
+         $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
+         ->where('fecha_factura','>=',$fini)
+         ->where('fecha_factura','<=',$ffin)
+         ->orderBy('id', 'desc')
+         ->where('id_sucursal',$sucursal)
+         ->whereHas('PagoVenta', function ($query) use($pago) {
+                  $query->where('tipo_pago',$pago);
+              })
+         ->get();
+         if(!$ventas){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $ventas],200);
+    }
+
+
+
+
+
 
       public function indexmiproducto($id)
     {
