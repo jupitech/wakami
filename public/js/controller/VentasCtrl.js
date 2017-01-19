@@ -267,6 +267,8 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
               fecha: $scope.mifecha.dia
         };
 
+        $scope.cod1=1;
+
 
         //Todos las ventas
 
@@ -282,7 +284,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                   });
 
              //Ventas por sucursal del dia
-            $http.post('/api/ventadiasucursal',datafecha).success(
+            $http.get('/api/ventaahorasucursal').success(
 
                   function(ventadiasucursal) {
                             $scope.ventadiasucursal = ventadiasucursal.datos;
@@ -291,17 +293,19 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                 });    
 
              //Ventas por sucursal de ayer
-            $http.post('/api/ventadiapago',datafecha).success(
+            $http.get('/api/ventaahorapago').success(
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
+                                $scope.ventadiasucu = ventadiapago.sucursales;
+                                console.log('Sucursales: ',$scope.ventadiasucu);
                     }).error(function(error) {
                          $scope.error = error;
                     }); 
 
             
                //Ventas por sucursal del dia
-            $http.post('/api/ventadiafac',datafecha).success(
+            $http.get('/api/ventaahorafac').success(
 
                   function(ventadiafac) {
                             $scope.ventadiafac = ventadiafac.datos;
@@ -329,6 +333,8 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
+                                    $scope.ventadiasucu = ventadiapago.sucursales;
+                                console.log('Sucursales: ',$scope.ventadiasucu);
                     }).error(function(error) {
                          $scope.error = error;
                     });  
@@ -417,6 +423,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
+                                  $scope.ventadiasucu = ventadiapago.sucursales;
                     }).error(function(error) {
                          $scope.error = error;
                     }); 
@@ -481,6 +488,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
+                                  $scope.ventadiasucu = ventadiapago.sucursales;
                     }).error(function(error) {
                          $scope.error = error;
                     }); 
@@ -514,6 +522,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
                               function(ventadiapago) {
                                         $scope.ventadiapago = ventadiapago.datos;
+                                           $scope.ventadiasucu = ventadiapago.sucursales;
                             }).error(function(error) {
                                  $scope.error = error;
                             }); 
@@ -580,6 +589,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
+                                  $scope.ventadiasucu = ventadiapago.sucursales;
                     }).error(function(error) {
                          $scope.error = error;
                     }); 
@@ -614,6 +624,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
                                 function(ventadiapago) {
                                           $scope.ventadiapago = ventadiapago.datos;
+                                            $scope.ventadiasucu = ventadiapago.sucursales;
                               }).error(function(error) {
                                    $scope.error = error;
                               }); 

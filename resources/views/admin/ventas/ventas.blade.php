@@ -162,16 +162,15 @@
       </div>
 
       <div class="ventasdia col-sm-12 spd spi">
-        <div class="col-sm-6  col-md-6 col-lg-5 spi">
+        <div class="col-sm-7  col-md-7 col-lg-6 spi">
             <div class="caja_contenido">
               <h1>Tipo de pago</h1>
-              <table class="table">
+              <table class="table tablepago">
                 <thead>
                   <tr>
                     <th>Pago</th>
-                    <th>FILUM</th>
-                    <th>Oakland</th>
-                    <th>Miraflores</th>
+                    <th ng-repeat="sucursal in ventadiasucu  | orderBy:'codigo_esta'">@{{sucursal.nombre}}</th>
+                    <th> Subtotal</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -183,17 +182,41 @@
                      <span ng-switch-when="4">Al Crédito</span>
                      <span ng-switch-when="5">Depósito</span>
                     </td>
-                    <td ng-repeat="diapago in value | orderBy:'codigo_esta'" class="td_2col">
-                        <div class="col-sm-4 spd spi"><span>@{{diapago.cantidad}}</span> </div>
-                        <div class="col-sm-8  spd spi"> <p>@{{diapago.total| currency: 'Q'}}</p></div>
-                    </td>  
+                    <td ng-repeat="sucursal in ventadiasucu | orderBy:'codigo_esta'" class="td_2col" >
+                         <div ng-repeat="diapago in value | orderBy:'codigo_esta'" ng-if=" sucursal.codigo_esta==diapago.codigo_esta">
+                           <div class="col-sm-4 spd spi"><span>@{{diapago.cantidad}}</span> </div>
+                            <div class="col-sm-8  spd spi"> <p>@{{diapago.total| currency: 'Q'}}</p></div>
+                        </div>
+                       
+
+                    </td>
+                    {{-- Subtotales --}}
+                    <td  class="td_2col" >
+                            <div class="col-sm-4 spd spi"><span>@{{value | SumaCanti:'cantidad'}}</span> </div>
+                            <div class="col-sm-8  spd spi"> <p>@{{value | SumaItem:'total' | currency: 'Q'}}</p></div>
+                     </td>
+                   
 
                   </tr>
                 </tbody>
+                 {{-- Totales --}}
+                  <tfoot>
+                    <tr>
+                        <td>Totales</td>
+                          <td ng-repeat="sucursal in ventadiasucu | orderBy:'codigo_esta'"  class="td_2col" >
+                            <div class="col-sm-4 spd spi"><span>@{{sucursal.cantidad}}</span> </div>
+                                <div class="col-sm-8  spd spi"> <p>@{{sucursal.total| currency: 'Q'}}</p></div>
+                          </td>
+                          <td class="td_2col" >
+                            <div class="col-sm-4 spd spi"><span>@{{ventadiasucu | SumaCanti:'cantidad'}}</span> </div>
+                            <div class="col-sm-8  spd spi"> <strong><p>@{{ventadiasucu | SumaItem:'total' | currency: 'Q'}}</p></strong></div>
+                          </td>
+                  </tr>
+                  </tfoot>
               </table>
             </div>
           </div>
-          <div class="col-sm-6  col-md-6 col-lg-4 spi">
+          <div class="col-sm-5  col-md-5 col-lg-3 spi">
             <div class="caja_contenido">
               <h1>Ventas por sucursal</h1>
               <ul class="lisdia">
