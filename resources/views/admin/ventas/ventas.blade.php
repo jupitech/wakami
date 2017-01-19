@@ -248,6 +248,15 @@
             </div>
           </div>
 
+          {{-- Por vendedor --}}
+          <div class="col-sm-12 spi">
+             <div class="caja_fil">
+             <h1>Por Vendedor</h1>
+                   <div class="graf_vendedor">
+                        <highcharts chart='@{{renderVende}}' class="altu_graf"></highcharts>
+                   </div>
+             </div>
+          </div>
       </div>
 	    <div class="col-sm-12 spd spi" ng-if="actlis">
                  <div class="busqueda_texto col-sm-4 spd spi">

@@ -322,6 +322,77 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                      $scope.error = error;
                 }); 
 
+                        //Reporte por vendedor
+       
+     $http.get('/api/reportevendedor').success(
+
+                    function(vendedor) {
+                              $scope.vendedor = vendedor.datos;
+
+                                var ydata = [];
+                    for (var i = 0; i <  $scope.vendedor.length; i++) {
+                        ydata.push( $scope.vendedor[i].y);   
+                    }
+
+                               var categoria = [];
+
+                        for (var e = 0; e <  $scope.vendedor.length; e++) {
+                        categoria.push( $scope.vendedor[e].name);   
+                    }
+
+                     
+                  $scope.renderVende = {
+                      chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'column'
+                        },
+                          title: {
+                          text: ''
+                      },
+                       xAxis: {
+                          categories:categoria,
+                          title: {
+                              text: null
+                          }
+                      },
+                      yAxis: {
+                          min: 0,
+                          title: {
+                              text: null,
+                              align: 'high'
+                          },
+                          labels: {
+                              overflow: 'justify'
+                          }
+                      },
+                       tooltip: {
+                              pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
+                          },
+                          plotOptions: {
+                                  bar: {
+                                      dataLabels: {
+                                          enabled: true
+                                      }
+                                  }
+                              },
+                      series: [{
+                        name: 'Total en Ventas',
+                          data:  ydata
+                      }]
+                  };
+                           
+                  
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });   
+
+
+
+
+
+
        //Filtrar los dias
         $scope.filtrarDia=function(){
                 var datafecha={
@@ -379,8 +450,84 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                      $scope.error = error;
                 }); 
 
+
+
+
+            //Reporte por vendedor
+       
+     $http.post('/api/reportevendedordia',datafecha).success(
+
+                    function(vendedor) {
+                              $scope.vendedor = vendedor.datos;
+
+                                var ydata = [];
+                    for (var i = 0; i <  $scope.vendedor.length; i++) {
+                        ydata.push( $scope.vendedor[i].y);   
+                    }
+
+                               var categoria = [];
+
+                        for (var e = 0; e <  $scope.vendedor.length; e++) {
+                        categoria.push( $scope.vendedor[e].name);   
+                    }
+
+                     
+                  $scope.renderVende = {
+                      chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'column'
+                        },
+                          title: {
+                          text: ''
+                      },
+                       xAxis: {
+                          categories:categoria,
+                          title: {
+                              text: null
+                          }
+                      },
+                      yAxis: {
+                          min: 0,
+                          title: {
+                              text: null,
+                              align: 'high'
+                          },
+                          labels: {
+                              overflow: 'justify'
+                          }
+                      },
+                       tooltip: {
+                              pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
+                          },
+                          plotOptions: {
+                                  bar: {
+                                      dataLabels: {
+                                          enabled: true
+                                      }
+                                  }
+                              },
+                      series: [{
+                        name: 'Total en Ventas',
+                          data:  ydata
+                      }]
+                  };
+                           
+                  
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });        
+
+      
+
             
         };
+
+
+
+
+
 
 
           $scope.ca_dias=true;
@@ -477,7 +624,77 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                             $scope.ventadiafac = ventadiafac.datos;
                 }).error(function(error) {
                      $scope.error = error;
-                });   
+                });  
+
+
+
+              //Reporte por vendedor
+       
+     $http.post('/api/reportevendedordia',datafecha).success(
+
+                    function(vendedor) {
+                              $scope.vendedor = vendedor.datos;
+
+                                var ydata = [];
+                    for (var i = 0; i <  $scope.vendedor.length; i++) {
+                        ydata.push( $scope.vendedor[i].y);   
+                    }
+
+                               var categoria = [];
+
+                        for (var e = 0; e <  $scope.vendedor.length; e++) {
+                        categoria.push( $scope.vendedor[e].name);   
+                    }
+
+                     
+                  $scope.renderVende = {
+                      chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'column'
+                        },
+                          title: {
+                          text: ''
+                      },
+                       xAxis: {
+                          categories:categoria,
+                          title: {
+                              text: null
+                          }
+                      },
+                      yAxis: {
+                          min: 0,
+                          title: {
+                              text: null,
+                              align: 'high'
+                          },
+                          labels: {
+                              overflow: 'justify'
+                          }
+                      },
+                       tooltip: {
+                              pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
+                          },
+                          plotOptions: {
+                                  bar: {
+                                      dataLabels: {
+                                          enabled: true
+                                      }
+                                  }
+                              },
+                      series: [{
+                        name: 'Total en Ventas',
+                          data:  ydata
+                      }]
+                  };
+                           
+                  
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+    
 
        };
 
@@ -552,6 +769,76 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                      $scope.error = error;
                 });  
 
+
+            //Reporte por vendedor
+       
+     $http.post('/api/reportevendedormes',datames).success(
+
+                    function(vendedor) {
+                              $scope.vendedor = vendedor.datos;
+
+                                var ydata = [];
+                    for (var i = 0; i <  $scope.vendedor.length; i++) {
+                        ydata.push( $scope.vendedor[i].y);   
+                    }
+
+                               var categoria = [];
+
+                        for (var e = 0; e <  $scope.vendedor.length; e++) {
+                        categoria.push( $scope.vendedor[e].name);   
+                    }
+
+                     
+                  $scope.renderVende = {
+                      chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'column'
+                        },
+                          title: {
+                          text: ''
+                      },
+                       xAxis: {
+                          categories:categoria,
+                          title: {
+                              text: null
+                          }
+                      },
+                      yAxis: {
+                          min: 0,
+                          title: {
+                              text: null,
+                              align: 'high'
+                          },
+                          labels: {
+                              overflow: 'justify'
+                          }
+                      },
+                       tooltip: {
+                              pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
+                          },
+                          plotOptions: {
+                                  bar: {
+                                      dataLabels: {
+                                          enabled: true
+                                      }
+                                  }
+                              },
+                      series: [{
+                        name: 'Total en Ventas',
+                          data:  ydata
+                      }]
+                  };
+                           
+                  
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });        
+
+
+
+
             $scope.filtrarMes=function(){
 
                   var datames={
@@ -606,7 +893,77 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                                     $scope.ventadiafac = ventadiafac.datos;
                         }).error(function(error) {
                              $scope.error = error;
-                        });  
+                        });
+
+
+
+
+            //Reporte por vendedor
+       
+     $http.post('/api/reportevendedormes',datames).success(
+
+                    function(vendedor) {
+                              $scope.vendedor = vendedor.datos;
+
+                                var ydata = [];
+                    for (var i = 0; i <  $scope.vendedor.length; i++) {
+                        ydata.push( $scope.vendedor[i].y);   
+                    }
+
+                               var categoria = [];
+
+                        for (var e = 0; e <  $scope.vendedor.length; e++) {
+                        categoria.push( $scope.vendedor[e].name);   
+                    }
+
+                     
+                  $scope.renderVende = {
+                      chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'column'
+                        },
+                          title: {
+                          text: ''
+                      },
+                       xAxis: {
+                          categories:categoria,
+                          title: {
+                              text: null
+                          }
+                      },
+                      yAxis: {
+                          min: 0,
+                          title: {
+                              text: null,
+                              align: 'high'
+                          },
+                          labels: {
+                              overflow: 'justify'
+                          }
+                      },
+                       tooltip: {
+                              pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
+                          },
+                          plotOptions: {
+                                  bar: {
+                                      dataLabels: {
+                                          enabled: true
+                                      }
+                                  }
+                              },
+                      series: [{
+                        name: 'Total en Ventas',
+                          data:  ydata
+                      }]
+                  };
+                           
+                  
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });        
+       
  
 
             };            
@@ -681,7 +1038,78 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                             $scope.ventadiafac = ventadiafac.datos;
                 }).error(function(error) {
                      $scope.error = error;
-                });  
+                }); 
+
+
+           
+            //Reporte por vendedor
+       
+     $http.post('/api/reportevendedoranio',dataanio).success(
+
+                    function(vendedor) {
+                              $scope.vendedor = vendedor.datos;
+
+                                var ydata = [];
+                    for (var i = 0; i <  $scope.vendedor.length; i++) {
+                        ydata.push( $scope.vendedor[i].y);   
+                    }
+
+                               var categoria = [];
+
+                        for (var e = 0; e <  $scope.vendedor.length; e++) {
+                        categoria.push( $scope.vendedor[e].name);   
+                    }
+
+                     
+                  $scope.renderVende = {
+                      chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'column'
+                        },
+                          title: {
+                          text: ''
+                      },
+                       xAxis: {
+                          categories:categoria,
+                          title: {
+                              text: null
+                          }
+                      },
+                      yAxis: {
+                          min: 0,
+                          title: {
+                              text: null,
+                              align: 'high'
+                          },
+                          labels: {
+                              overflow: 'justify'
+                          }
+                      },
+                       tooltip: {
+                              pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
+                          },
+                          plotOptions: {
+                                  bar: {
+                                      dataLabels: {
+                                          enabled: true
+                                      }
+                                  }
+                              },
+                      series: [{
+                        name: 'Total en Ventas',
+                          data:  ydata
+                      }]
+                  };
+                           
+                  
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });        
+
+ 
+
 
             $scope.filtrarAnio=function(){
 
@@ -741,12 +1169,81 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                           }).error(function(error) {
                                $scope.error = error;
                           }); 
+
+
+
+
+            //Reporte por vendedor
+       
+     $http.post('/api/reportevendedoranio',dataanio).success(
+
+                    function(vendedor) {
+                              $scope.vendedor = vendedor.datos;
+
+                                var ydata = [];
+                    for (var i = 0; i <  $scope.vendedor.length; i++) {
+                        ydata.push( $scope.vendedor[i].y);   
+                    }
+
+                               var categoria = [];
+
+                        for (var e = 0; e <  $scope.vendedor.length; e++) {
+                        categoria.push( $scope.vendedor[e].name);   
+                    }
+
+                     
+                  $scope.renderVende = {
+                      chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'column'
+                        },
+                          title: {
+                          text: ''
+                      },
+                       xAxis: {
+                          categories:categoria,
+                          title: {
+                              text: null
+                          }
+                      },
+                      yAxis: {
+                          min: 0,
+                          title: {
+                              text: null,
+                              align: 'high'
+                          },
+                          labels: {
+                              overflow: 'justify'
+                          }
+                      },
+                       tooltip: {
+                              pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
+                          },
+                          plotOptions: {
+                                  bar: {
+                                      dataLabels: {
+                                          enabled: true
+                                      }
+                                  }
+                              },
+                      series: [{
+                        name: 'Total en Ventas',
+                          data:  ydata
+                      }]
+                  };
+                           
+                  
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });        
+
+     
             };        
        };
 
-
-
-
+      
      
 
         $scope.tpagos=[

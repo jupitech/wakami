@@ -6169,6 +6169,15 @@ body {
   padding: 0;
   min-height: 200px; }
 
+  .caja_fil{
+    margin-top: 15px;
+        float: left;
+        width: 100%;
+        background: #fff;
+        border-radius: 2px;
+        padding: 0;
+  }
+
 @keyframes conte_ocu {
   from {
     opacity: 1; }
@@ -7804,6 +7813,15 @@ tspan, textPath {
   font-size: 13px;
   margin-top: 10px;
   cursor: pointer; }
+
+  .graf_vendedor{
+    float: left;
+    width: 100%;
+    margin:10px 0;
+  }
+  .altu_graf{
+    height: 200px !important;
+  }
 
 @media print {
   /*#areaimpresion{

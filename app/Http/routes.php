@@ -200,6 +200,11 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 			Route::post('/ventamesfac', 'VentasCentralController@ventamesfac');
 			Route::post('/ventaaniofac', 'VentasCentralController@ventaaniofac');
 
+			Route::get('/reportevendedor', 'VentasCentralController@reportevendedor');
+			Route::post('/reportevendedordia', 'VentasCentralController@reportevendedordia');
+			Route::post('/reportevendedormes', 'VentasCentralController@reportevendedormes');
+			Route::post('/reportevendedoranio', 'VentasCentralController@reportevendedoranio');
+
 			Route::get('/pdfventa/{id}', 'VentasCentralController@pdfventa');
 
 

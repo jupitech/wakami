@@ -681,6 +681,113 @@ class VentasCentralController extends Controller
     }
 
 
+
+
+
+      public function reportevendedor()
+    {
+
+           //Trayendo Producto
+         $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
+          ->where('ventas.estado_ventas',2)
+         ->where('ventas.fecha_factura','>=',Carbon::today())
+         ->select(\DB::raw('concat(user_profile.nombre," ",user_profile.apellido) as name'),\DB::raw('sum(ventas.total) as y'))
+          ->groupBy('user_profile.user_id')
+         ->get();
+         if(!$reporte){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $reporte],200);
+    }
+
+     public function reportevendedordia(Request $request)
+    {
+
+        $fechainicio= $request['fecha'];
+           $fi =new \DateTime($fechainicio);
+           $carbon = Carbon::instance($fi); 
+           $a_fi=$carbon->year;
+           $m_fi=$carbon->month;
+           $d_fi=$carbon->day;
+
+           $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59);
+
+             //Trayendo Producto
+         $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
+          ->where('ventas.estado_ventas',2)
+          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+         ->select(\DB::raw('concat(user_profile.nombre," ",user_profile.apellido) as name'),\DB::raw('sum(ventas.total) as y'))
+          ->groupBy('user_profile.user_id')
+         ->get();
+         if(!$reporte){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $reporte],200);
+    }
+
+
+
+      public function reportevendedormes(Request $request)
+    {
+
+         $mes= $request['mes'];
+            $hoy=Carbon::today();
+         
+           $a_fi=$hoy->year;
+           $m_fi=$hoy->month;
+           $d_fi=$hoy->day;
+
+           $fini=Carbon::create($a_fi, $mes, $d_fi, 0,0,0)->startOfMonth();
+           $ffin=Carbon::create($a_fi, $mes, $d_fi, 23,59,59)->endOfMonth();
+
+             //Trayendo Producto
+         $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
+          ->where('ventas.estado_ventas',2)
+          ->where('ventas.fecha_factura','>=',$fini)
+          ->where('ventas.fecha_factura','<=',$ffin)
+         ->select(\DB::raw('concat(user_profile.nombre," ",user_profile.apellido) as name'),\DB::raw('sum(ventas.total) as y'))
+          ->groupBy('user_profile.user_id')
+         ->get();
+         if(!$reporte){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $reporte],200);
+    }
+
+
+      public function reportevendedoranio(Request $request)
+    {
+
+         $anio= $request['anio'];
+           $hoy=Carbon::today();
+         
+           $a_fi=$hoy->year;
+           $m_fi=$hoy->month;
+           $d_fi=$hoy->day;
+
+           $fini=Carbon::create($anio, $m_fi, $d_fi)->startOfYear();
+           $ffin=Carbon::create($anio, $m_fi, $d_fi)->endOfYear();
+
+             //Trayendo Producto
+         $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
+          ->where('ventas.estado_ventas',2)
+           ->where('ventas.fecha_factura','>=',$fini)
+          ->where('ventas.fecha_factura','<=',$ffin)
+         ->select(\DB::raw('concat(user_profile.nombre," ",user_profile.apellido) as name'),\DB::raw('sum(ventas.total) as y'))
+          ->groupBy('user_profile.user_id')
+         ->get();
+         if(!$reporte){
+             return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $reporte],200);
+    }
+
+
+
+
+
+
     
     /**
      * Store a newly created resource in storage.
