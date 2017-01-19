@@ -104,15 +104,15 @@
 									<tr>
 										<td>{{$producto->NombreProducto->codigo}}-{{$producto->NombreProducto->nombre}}</td>
 										<td>{{$producto->cantidad}}</td>
-										<td>Q{{number_format( ($producto->NombreProducto->preciop-(($producto->Venta->DescuentosVentas->porcentaje*$producto->NombreProducto->preciop)/100)), 2, '.', ',')}}</td>
-										<td>Q{{number_format((($producto->NombreProducto->preciop-(($producto->Venta->DescuentosVentas->porcentaje*$producto->NombreProducto->preciop)/100))*$producto->cantidad), 2, '.', ',')}}</td>
+										<td>Q{{number_format( ($producto->precio_producto-(($producto->Venta->DescuentosVentas->porcentaje*$producto->precio_producto)/100)), 2, '.', ',')}}</td>
+										<td>Q{{number_format((($producto->precio_producto-(($producto->Venta->DescuentosVentas->porcentaje*$producto->precio_producto)/100))*$producto->cantidad), 2, '.', ',')}}</td>
 									</tr>
 			  	@else 
 			  	<tr>
 					<td>{{$producto->NombreProducto->codigo}}-{{$producto->NombreProducto->nombre}}</td>
 					<td>{{$producto->cantidad}}</td>
-					<td>Q{{number_format($producto->NombreProducto->preciop, 2, '.', ',')}}</td>
-					<td>Q{{number_format(($producto->NombreProducto->preciop*$producto->cantidad), 2, '.', ',')}}</td>
+					<td>Q{{number_format($producto->precio_producto, 2, '.', ',')}}</td>
+					<td>Q{{number_format(($producto->precio_producto*$producto->cantidad), 2, '.', ',')}}</td>
 				</tr>
 				@endif
       	 	@endforeach

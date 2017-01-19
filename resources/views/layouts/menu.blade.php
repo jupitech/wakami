@@ -106,7 +106,7 @@
                               <li><a href="{{ URL::to('/misproductos') }}">Listado de productos</a></li>
                               <li><a href="{{ URL::to('/misucursal') }}">Mi Sucursal</a></li>
                                <li><a href="{{ URL::to('/traslados') }}">Traslados</a></li>
-                              <li><a href="">Devoluciones</a></li>
+                              <li><a href="{{ URL::to('/misdevoluciones') }}">Devoluciones</a></li>
                             </ul>
                           </li>
                            <li class="dropdown">

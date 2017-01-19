@@ -62,9 +62,9 @@
                             <tr  ng-repeat="miproducto in misproductos">
                                 <td>@{{miproducto.nombre_producto.codigo}}</td>
                                 <td>@{{miproducto.nombre_producto.nombre}}</td>
-                                <td>@{{miproducto.nombre_producto.preciop | currency: 'Q'}}</td>
+                                <td>@{{miproducto.precio_producto | currency: 'Q'}}</td>
                                 <td>X @{{miproducto.cantidad}}</td>
-                                 <td>@{{miproducto.nombre_producto.preciop*miproducto.cantidad | currency: 'Q' }}</td>
+                                 <td>@{{miproducto.precio_producto*miproducto.cantidad | currency: 'Q' }}</td>
                             </tr>
                             <tr>
                               <td colspan="3"></td>

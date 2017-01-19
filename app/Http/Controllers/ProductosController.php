@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use App\Http\Requests;
 use App\Models\Producto;
+use App\Models\MovimientoPrecio;
 use App\Models\Proveedores;
 use App\Models\LineaProducto;
 use App\Models\GaleriaImagen;
 use App\Models\StockProducto;
+use Auth;
 use Excel;
 use Carbon\Carbon;
 
@@ -141,7 +143,11 @@ class ProductosController extends Controller
     public function store(Request $request)
 
     {
+ 
 
+ 
+         $user = Auth::User();     
+          $userId = $user->id; 
       
     $codigobarra= $request['codigo_barra'];
     $idproveedor= $request['id_proveedor'];
@@ -168,6 +174,14 @@ class ProductosController extends Controller
                   'id_proveedor' => $miprove,
                         ]);
           $productos->save();
+
+               $movprecio=MovimientoPrecio::create([
+                  'id_producto' => $productos->id,
+                  'precio_anterior' =>   $request['preciop'],
+                  'precio_actual' =>    $request['preciop'],
+                  'id_user' =>  $userId,
+                        ]);   
+           $movprecio->save();   
     }
 
      public function storeimagen(Request $request)
@@ -233,7 +247,22 @@ class ProductosController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+         $user = Auth::User();     
+          $userId = $user->id; 
+
            $productos=Producto::find($id);
+           $precioante=$productos->preciop;
+
+         
+            $movprecio=MovimientoPrecio::create([
+                  'id_producto' => $id,
+                  'precio_anterior' =>  $precioante,
+                  'precio_actual' =>    $request['preciop'],
+                  'id_user' =>  $userId,
+                        ]);   
+           $movprecio->save();             
+
         $productos->fill([
                   'codigo' => $request['codigo'],
                   'codigo_barra' => $request['codigo_barra'],

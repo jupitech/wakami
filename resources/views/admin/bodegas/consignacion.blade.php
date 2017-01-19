@@ -517,9 +517,9 @@
                                                         </div>
                                                         <div class="col-sm-12 spd spi">
                                                                  <div class="col-sm-12 spd spi" ng-repeat="mipro in misproductos">
-                                                                      <p ng-if="miventa.descuentos_ventas==null"><strong>@{{mipro.nombre_producto.codigo}}</strong> @{{mipro.nombre_producto.nombre}}-Q@{{mipro.nombre_producto.preciop | number:2}} X  @{{mipro.cantidad}}- <strong>Q@{{(mipro.nombre_producto.preciop*mipro.cantidad) | number:2}}</strong></p>
+                                                                      <p ng-if="miventa.descuentos_ventas==null"><strong>@{{mipro.nombre_producto.codigo}}</strong> @{{mipro.nombre_producto.nombre}}-Q@{{mipro.precio_producto | number:2}} X  @{{mipro.cantidad}}- <strong>Q@{{(mipro.precio_producto*mipro.cantidad) | number:2}}</strong></p>
 
-                                                                      <p ng-if="miventa.descuentos_ventas!=null"><strong>@{{mipro.nombre_producto.codigo}}</strong> @{{mipro.nombre_producto.nombre}}-Q@{{(mipro.nombre_producto.preciop-((mipro.nombre_producto.preciop*miventa.descuentos_ventas.porcentaje)/100)) | number:2}} X  @{{mipro.cantidad}}- <strong>Q@{{((mipro.nombre_producto.preciop-((mipro.nombre_producto.preciop*miventa.descuentos_ventas.porcentaje)/100)) *mipro.cantidad) | number:2}}</strong></p>
+                                                                      <p ng-if="miventa.descuentos_ventas!=null"><strong>@{{mipro.nombre_producto.codigo}}</strong> @{{mipro.nombre_producto.nombre}}-Q@{{(mipro.precio_producto-((mipro.precio_producto*miventa.descuentos_ventas.porcentaje)/100)) | number:2}} X  @{{mipro.cantidad}}- <strong>Q@{{((mipro.precio_producto-((mipro.precio_producto*miventa.descuentos_ventas.porcentaje)/100)) *mipro.cantidad) | number:2}}</strong></p>
                                                                   </div>  
                                                         </div>
                                                              

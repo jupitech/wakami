@@ -64,11 +64,11 @@
                             <tr  ng-repeat="miproducto in misproductos">
                                 <td>@{{miproducto.nombre_producto.codigo}}</td>
                                 <td>@{{miproducto.nombre_producto.nombre}}</td>
-                                <td ng-if="miproducto.venta.descuentos_ventas==null">@{{miproducto.nombre_producto.preciop | currency: 'Q'}}</td>
-                                <td ng-if="miproducto.venta.descuentos_ventas!=null">@{{(miproducto.nombre_producto.preciop-((miproducto.nombre_producto.preciop*miproducto.venta.descuentos_ventas.porcentaje)/100)) | currency: 'Q'}}</td>
+                                <td ng-if="miproducto.venta.descuentos_ventas==null">@{{miproducto.precio_producto | currency: 'Q'}}</td>
+                                <td ng-if="miproducto.venta.descuentos_ventas!=null">@{{(miproducto.precio_producto-((miproducto.precio_producto*miproducto.venta.descuentos_ventas.porcentaje)/100)) | currency: 'Q'}}</td>
                                 <td>X @{{miproducto.cantidad}}</td>
-                                 <td ng-if="miproducto.venta.descuentos_ventas==null">@{{miproducto.nombre_producto.preciop*miproducto.cantidad | currency: 'Q' }}</td>
-                                 <td ng-if="miproducto.venta.descuentos_ventas!=null">@{{(miproducto.nombre_producto.preciop-((miproducto.nombre_producto.preciop*miproducto.venta.descuentos_ventas.porcentaje)/100))*miproducto.cantidad | currency: 'Q' }}</td>
+                                 <td ng-if="miproducto.venta.descuentos_ventas==null">@{{miproducto.precio_producto*miproducto.cantidad | currency: 'Q' }}</td>
+                                 <td ng-if="miproducto.venta.descuentos_ventas!=null">@{{(miproducto.precio_producto-((miproducto.precio_producto*miproducto.venta.descuentos_ventas.porcentaje)/100))*miproducto.cantidad | currency: 'Q' }}</td>
                             </tr>
                           </tbody>
                         </table>

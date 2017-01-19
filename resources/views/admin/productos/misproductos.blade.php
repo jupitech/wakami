@@ -61,7 +61,7 @@
                                    <h3>@{{producto.nombre_producto.codigo_barra}}</h3>
                                 </div>
                                 <div class="box_footer">
-                                   <p class="p_costo">Q@{{producto.nombre_producto.costo | number:2}}</p>
+                                  
                                    <p class="p_preciop">Q@{{producto.nombre_producto.preciop | number:2}}</p>
                                 </div>
                                 <div class="box_opciones">

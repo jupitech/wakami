@@ -29,8 +29,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|vendedor']], functio
 	     //Productos
 	   Route::get('/productos', 'ProductosController@index');
 
-	     //Devoluciones
-	   Route::get('/devoluciones', 'DevolucionesController@index');
+	   
 
 	Route::group(['middleware' => 'cors','prefix' => 'api'], function()
 	{ 
@@ -87,6 +86,9 @@ Route::group(['middleware' => ['auth','role:admin|operativo']], function()
 
 	    //Promociones
 	   Route::get('/promociones', 'PromocionesController@index');
+
+	     //Devoluciones
+	   Route::get('/devoluciones', 'DevolucionesController@index');
 
 
 		Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
@@ -295,6 +297,9 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 	    //Traslados
 	      Route::get('/traslados', 'TrasladosController@index');
 
+	      	     //Devoluciones
+	   Route::get('/misdevoluciones', 'DevolucionesController@indexsucu');
+
 
 
 	 Route::group(['middleware' => 'cors','prefix' => 'api/mi'], function()
@@ -359,6 +364,18 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 	    Route::get('/trasladosre/{id}', 'TrasladosController@indextrasladosre');
 	    Route::delete('/traslados/destroy/{id}','TrasladosController@destroy');
 	    Route::put('/traslados/ok/{id}', 'TrasladosController@update');
+
+    	//Devoluciones
+		Route::get('/devoluciones/{id}', 'DevolucionesController@indexdevolucionessucu');
+		Route::post('/devolucion/create', 'DevolucionesController@storesucu');
+		Route::post('/prodevolucion/create', 'DevolucionesController@storeprodevolucionsucu');
+		Route::get('/prodevolucion/{id}', 'DevolucionesController@indexprodevolucionessucu');
+		Route::put('/prodevolucion/{id}', 'DevolucionesController@updateprosucu');
+		Route::put('/devolucion/p1/{id}', 'DevolucionesController@updatep1sucu');
+		Route::delete('/devolucion/destroy/{id}','DevolucionesController@destroysucu');
+		Route::delete('/prodevolucion/destroy/{id}','DevolucionesController@destroyprosucu');
+		Route::get('/devoluciones/sucursales/{id}', 'DevolucionesController@indexprosucursales');
+		Route::get('/devolucion/pdfenvio/{id}', 'DevolucionesController@pdfenvio');
 
 	});	
 
