@@ -810,6 +810,7 @@ class VentasController extends Controller
 
        $idventas=$request['id_ventas'];
        $idproducto=$request['id_producto'];
+        $producto=Producto::where('id',$idproducto)->first();
 
         $productoventa=ProductoVenta::where('id_ventas',$idventas)->where('id_producto',$idproducto)->first();
          if(!$productoventa){
@@ -817,6 +818,7 @@ class VentasController extends Controller
                   'id_ventas' => $request['id_ventas'],
                   'id_producto' =>$request['id_producto'],
                   'cantidad' =>$request['cantidad'],
+                   'precio_producto' =>$producto->preciop,
                         ]);
               $miproducto->save();
               //Agregar total de ventas
