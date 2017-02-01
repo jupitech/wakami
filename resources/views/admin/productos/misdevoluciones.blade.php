@@ -104,7 +104,7 @@
                                                 <div class="col-sm-8 col-md-8 col-lg-9">
                                                     <label for="name">Producto</label>
                                                      <ol class="nya-bs-select" ng-model="prodevolucion.id_producto" data-live-search="true"  title="Selecciona un producto..." required  data-size="10" ng-if="exisDevolucion.desde_sucursal!=104">
-                                                          <li nya-bs-option="producto in productos" data-value="producto.id">
+                                                          <li nya-bs-option="producto in productos" data-value="producto.id_producto">
                                                             <a>
                                                              <span>
                                                               <small class="label label-success">@{{ producto.nombre_producto.codigo }}</small>
