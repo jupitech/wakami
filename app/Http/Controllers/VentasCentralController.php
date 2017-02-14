@@ -20,6 +20,7 @@ use App\Models\NotaCredito;
 use App\Models\NotaDebito;
 use App\Models\Promociones;
 use App\Models\PromocionesVentas;
+use App\Models\EstadoPagina;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -1118,16 +1119,18 @@ class VentasCentralController extends Controller
                           'personalizado_17'=>'N/A',
                           'personalizado_18'=>'N/A',
                           'personalizado_19'=>'N/A',
-                          'personalizado_20'=>'N/A',
-                                    
+                          'personalizado_20'=>'N/A',                                    
                          'detalleDte'=>$detalle
                   )
              );
 
+//Llamada para el estado de página 
+$pagina = EstadoPagina::where('nombre', 'developer')->first();
+$estado = $pagina->estado;
 
-
+if($estado == 1){
+  /*
   try{
-
              $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
 
              $resultado=$client->registrarDte(array("dte"=>$dte));
@@ -1183,6 +1186,52 @@ class VentasCentralController extends Controller
           $objResponse->addAlert($E->faultstring);
       }
 
+*/
+return response()->json(['venta: venta real.'],200);
+}elseif ($estado == 2) {
+      
+
+                          //guardando tipo de pago
+                          $pagoventa=TpagoVenta::create([
+                              'id_ventas' => $idventas,
+                              'tipo_pago' => $tipopago,
+                              'referencia' => $mirefe,
+                               'monto' => $ventas->total,
+                                    ]);
+                         $pagoventa->save();
+
+
+
+                              foreach ($productoventas as $productoventa) {
+                                //Reduciendo stock desde los productos vendidos
+                                   $stockproducto=StockProducto::where('id_producto',$productoventa->id_producto)->first();
+
+                                      if(!is_null($stockproducto) ){
+                                        $stockactual=$stockproducto->stock;
+                                        $restastock=$stockactual-$productoventa->cantidad;
+                                          $stockproducto->fill([
+                                                            'stock' =>  $restastock,
+                                                        ]);
+                                          $stockproducto->save();
+
+                                      }
+
+                              }
+
+                              //Recibiendo DTE y CAE para factura
+                              // $midte=$resultado->return->numeroDte;
+                              // $micae=$resultado->return->cae;
+                              
+                              $ventas->fill([
+                                              'estado_ventas' => 2,
+                                          //    'dte' => $midte,
+                                          //    'cae' => $micae,
+                                          ]);
+                              $ventas->save();
+
+                             //return response()->json(['DTE' => $midte,'CAE'=> $micae],200);
+                              return response()->json(['Venta: venta developer.'],200);
+}
 
       //Sin factura electronica
         //guardando tipo de pago
@@ -1428,8 +1477,13 @@ class VentasCentralController extends Controller
                   )
              );
 
+//Llamada para el estado de página 
+$pagina = EstadoPagina::where('nombre', 'developer')->first();
+$estado = $pagina->estado;
 
-
+if ($estado == 1) {
+  
+/*
   try{
 
              $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
@@ -1470,6 +1524,30 @@ class VentasCentralController extends Controller
           $objResponse->addAlert($E->faultstring);
       }
 
+      */
+
+      return response()->json(['Venta: venta real.'],200);
+}elseif ($estado == 2) {
+
+
+  $ventas->fill([
+    'estado_ventas' => 4,
+    ]);
+  $ventas->save();
+                              //Recibiendo DTE y CAE para factura
+                            //  $midte=$resultado->return->numeroDte;
+                            //  $micae=$resultado->return->cae;
+                              
+                                $notacredito=NotaCredito::create([
+                                    'id_ventas' =>$ventas->id,
+                                    // 'dte' => $midte,
+                                    //  'cae' => $micae,
+                                          ]);
+                                $notacredito->save(); 
+
+                             // return response()->json(['DTE' => $midte,'CAE'=> $micae],200);    
+                                return response()->json(['Venta: venta developer.'],200);
+}
  }
 
 
@@ -1673,8 +1751,11 @@ class VentasCentralController extends Controller
                   )
              );
 
+$pagina = EstadoPagina::where('nombre', 'developer')->first();
+$estado = $pagina->estado;
 
-
+if ($estado == 1) {
+/*
   try{
 
              $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
@@ -1715,7 +1796,36 @@ class VentasCentralController extends Controller
           $objResponse->addAlert($E->faultstring);
       }
 
- }
+
+*/
+
+
+      return response()->json(['Venta: venta real.'],200);
+      } elseif($estado == 2){
+           
+
+                               $ventas->fill([
+                                          'estado_ventas' => 2,
+                                      ]);
+                                $ventas->save();
+                              //Recibiendo DTE y CAE para factura
+                              //  $midte=$resultado->return->numeroDte;
+                              //  $micae=$resultado->return->cae;
+                              
+                        
+
+                                $notacredito=NotaDebito::create([
+                                    'id_ventas' =>$ventas->id,
+                                  //   'dte' => $midte,
+                                  //    'cae' => $micae,
+                                          ]);
+                                $notacredito->save(); 
+
+                            // return response()->json(['DTE' => $midte,'CAE'=> $micae],200);     
+                                return response()->json(['Venta: venta developer.'],200);
+        };
+    }  
+
 
 
      public function storepro(Request $request)

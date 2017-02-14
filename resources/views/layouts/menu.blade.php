@@ -20,6 +20,7 @@
               <li><a href="#">Mi perfil</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="{{ URL::to('/logout') }}">Cerrar Sesión</a></li>
+              <li><a href=""></a></li>
             </ul>
           </li>
         </ul>
@@ -29,7 +30,7 @@
   <div class="menu_dos" ng-hide="menudos">
   <div class="col-sm-12">
        <ul class="nav navbar-nav">
-        @role('admin|operativo') 
+        @role('admin|operativo|developer') 
             <li class="dropdown">
               <a href="#" class="dropdown-toggle ico_ventas" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ventas</a>
               <ul class="dropdown-menu">
@@ -87,6 +88,7 @@
               <ul class="dropdown-menu">
                 <li><a href="{{ URL::to('/usuarios') }}">Usuarios</a></li>
                 <li><a href="#">Parametros Generales</a></li>
+                <li><a href="{{ URL::to('/developer') }}">Developer</a></li>
                  <li><a href="#">Accesos</a></li>
               </ul>
             </li>

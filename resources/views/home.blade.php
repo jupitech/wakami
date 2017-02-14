@@ -11,7 +11,7 @@
            				<div class="ima_mescri ico_ventas"></div>
            				<h1>Ventas</h1>
            				<ul>
-                  @role('admin|operativo') 
+                  @role('admin|operativo|developer') 
            					<li><a href="{{ URL::to('/nuevaventa') }}">Nueva Venta</a></li>
            					<li><a href="{{ URL::to('/clientes') }}">Clientes</a></li>
            					<li><a href="{{ URL::to('/ventas') }}">Listado de ventas</a></li>
@@ -31,7 +31,7 @@
            				<div class="ima_mescri ico_productos"></div>
            				<h1>Productos</h1>
            				<ul>
-                  @role('admin|operativo') 
+                  @role('admin|operativo|developer') 
            					<li><a href="{{ URL::to('/productos') }}">Listado de productos</a></li>
            					<li><a href="">Top Productos</a></li>
                     <li><a href="{{ URL::to('/devoluciones') }}">Devoluciones</a></li>
@@ -45,7 +45,7 @@
            				</ul>
            			</div>
            		</div>
-                @role('admin|operativo') 
+                @role('admin|operativo|developer') 
            		<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
            			<div class="caja_mescri">
            				<div class="ima_mescri ico_sucursales"></div>
@@ -56,7 +56,7 @@
            			</div>
            		</div>
                @endrole
-                 @role('admin|operativo') 
+                 @role('admin|operativo|developer') 
            		<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
            			<div class="caja_mescri">
            				<div class="ima_mescri ico_bodegas"></div>
@@ -73,7 +73,7 @@
 	           			<div class="ima_mescri ico_reportes"></div>
 	           				<h1>Reportes</h1>
 	           				<ul>
-                     @role('admin|operativo') 
+                     @role('admin|operativo|developer') 
 	           					<li><a href="{{ URL::to('/reporteventas') }}">Reporte de ventas</a></li>
 	           					<li><a href="">Reporte de compras</a></li>
                        <li><a href="{{ URL::to('/libroventas') }}">Libro de Ventas</a></li>
@@ -87,7 +87,7 @@
 	           				</ul>
 	           			</div>
            		</div>
-               @role('admin|operativo') 
+               @role('admin|operativo|developer') 
            		<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
 	           		<div class="caja_mescri">
 	           			<div class="ima_mescri ico_gastos"></div>
@@ -101,7 +101,7 @@
            			</div>
            		</div>
                @endrole
-                 @role('admin|operativo') 
+                 @role('admin|operativo|developer') 
                  		<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
       		           		<div class="caja_mescri">
       		           			<div class="ima_mescri ico_configuraciones"></div>
@@ -109,6 +109,9 @@
       		           				<ul>
       		           					<li><a href="{{ URL::to('/usuarios') }}">Usuarios</a></li>
       		           					<li><a href="">Parametros Generales</a></li>
+                              @role('developer')
+                                <li><a href="{{ URL::to('/developer') }}">Developer</a></li>
+                              @endrole
       		           					<li><a href="">Accesos</a></li>
       		           				</ul>
       		           			</div>

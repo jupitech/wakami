@@ -20,8 +20,20 @@ Route::auth();
 
 Route::get('/', 'HomeController@index');
 
+Route::group(['middleware' => ['auth','role:developer']], function()
+{
+	Route::get('/developer','UsuariosController@indexdeveloper');
 
-Route::group(['middleware' => ['auth','role:admin|operativo|vendedor']], function()
+
+	//APIS!!!	
+	Route::group(['middleware' => 'cors','prefix' => 'api'], function(){
+		Route::get('/estado_pagina','DeveloperController@estado_pagina');
+		Route::put('/estado_pagina/actualizar','DeveloperController@modo_developer');		
+	});
+});
+
+
+Route::group(['middleware' => ['auth','role:admin|operativo|vendedor|developer']], function()
 {
 	   //Clientes
 	   Route::get('/clientes', 'ClientesController@index');
@@ -55,7 +67,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|vendedor']], functio
 
 });	
 
-Route::group(['middleware' => ['auth','role:admin|operativo']], function()
+Route::group(['middleware' => ['auth','role:admin|operativo|developer']], function()
 {
 	   //Usuarios
 	   Route::get('/usuarios', 'UsuariosController@index');

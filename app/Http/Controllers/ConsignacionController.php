@@ -22,6 +22,7 @@ use App\Models\PorcentajeCliente;
 use App\Models\CreditosVentas;
 use App\Models\DescuentosVentas;
 
+use App\Models\EstadoPagina;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -619,9 +620,16 @@ class ConsignacionController extends Controller
              );
 
 
+//Llamada para el estado de página 
+$pagina = EstadoPagina::where('nombre', 'developer')->first();
+$estado = $pagina->estado;
 
-  try{
+//Condición IF
+  if($estado == 1){
 
+
+    //Generar factura en Sat
+     /*try{
              $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
 
              $resultado=$client->registrarDte(array("dte"=>$dte));
@@ -700,7 +708,74 @@ class ConsignacionController extends Controller
      } catch (SoapFault $E) { 
           $objResponse->addAlert($E->faultstring);
       }
+    */
+      return response()->json(['Consignacion: consignacion real.'],200);
+}elseif($estado == 2){
 
+
+
+
+      //Estado de Pagina Developer
+    $pagoventa=TpagoVenta::create([
+                              'id_ventas' => $idventas,
+                              'tipo_pago' => $tipopago,
+                              'referencia' => $mirefe,
+                                    ]);
+                         $pagoventa->save();
+
+                         $consignacion=Consignacion::where('id_cliente',$ventas->id_cliente)->first();
+
+                            $facconsig=FacConsignacion::create([
+                              'id_ventas' => $idventas,
+                              'id_consignacion' => $consignacion->id,
+                              'estado_factura' => 1,
+                                    ]);
+                            $facconsig->save();
+
+                              foreach ($productoventas as $productoventa) {
+                                //Reduciendo stock desde los productos vendidos
+                                   $stockproducto=StockConsignacion::where('id_producto',$productoventa->id_producto)->where('id_consignacion',$consignacion->id)->first();
+
+                                      if(!is_null($stockproducto) ){
+                                        $stockactual=$stockproducto->stock;
+                                        $restastock=$stockactual-$productoventa->cantidad;
+                                          $stockproducto->fill([
+                                                            'stock' =>  $restastock,
+                                                        ]);
+                                          $stockproducto->save();
+                                      }
+                              }
+
+                              //Recibiendo DTE y CAE para factura
+                              // $midte=$resultado->return->numeroDte;
+                              // $micae=$resultado->return->cae;
+
+                                 if($tipopago==4){
+
+                                  $ventas->fill([
+                                          'estado_ventas' => 3,
+                                         //  'dte' => $midte,
+                                         // 'cae' => $micae,
+                                      ]);
+                                  $ventas->save();
+
+                                   }else{
+
+                                    $ventas->fill([
+                                              'estado_ventas' => 2,
+                                          //   'dte' => $midte,
+                                          //    'cae' => $micae,
+                                          ]);
+                                   $ventas->save();
+
+                               }
+
+    return response()->json(['Consignacion: consignacion developer.'],200);
+  };
+
+   
+
+  
 
       //Pruebas de ventas
 /*
@@ -767,7 +842,7 @@ class ConsignacionController extends Controller
      */
   public function updatepro(Request $request, $id)
     {
-         $productoventa=ProductoVenta::find($id);
+        $productoventa=ProductoVenta::find($id);
 
 
         $cantiactual= $productoventa->cantidad;

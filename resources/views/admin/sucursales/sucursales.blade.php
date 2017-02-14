@@ -4,7 +4,7 @@
 <div class="col-sm-12">
     @yield('menu')
 </div>
-  <div class="col-md-12 top_conte" ng-controller="SucursalesCtrl">
+  <div class="col-md-12 top_conte" ng-controller="SucursalesCtrl" ng-cloak>
 {{-- Nueva Sucursal --}}
                <div id="area_nuevo" ng-if="nuevo_obj">
                     <div class="header_nuevo">

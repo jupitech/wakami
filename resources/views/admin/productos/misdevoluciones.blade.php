@@ -5,7 +5,7 @@
     @yield('menu')
 </div>
 
-   <div class="col-md-12 top_conte" ng-controller="MisDevolucionesCtrl">
+   <div class="col-md-12 top_conte" ng-controller="MisDevolucionesCtrl" ng-cloak>
  {{-- Nueva devolucion --}}
       <div id="area_nuevo" ng-if="nuevo_obj">
                     <div class="header_nuevo">
@@ -96,10 +96,11 @@
                                           <div class="form-group">
                                                 <div class="col-sm-2 col-md-2 col-lg-2">
                                                      <label for="cantidad">Cant.</label>
-                                                     <input id="cantidad" type="number" class="form-control" name="cantidad" ng-model="prodevolucion.cantidad" required>
+                                                     <input id="cantidad" type="number" min="1" class="form-control" name="cantidad" ng-model="prodevolucion.cantidad" required>
                                                         <div class="col-sm-12 spd spi">
-                                            <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Req.</div>
-                                           </div>
+                                                          <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Requerido.</div>
+                                                            <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.min">Mínimo 1</div>
+                                                        </div>
                                                 </div>
                                                 <div class="col-sm-8 col-md-8 col-lg-9">
                                                     <label for="name">Producto</label>
@@ -161,11 +162,12 @@
                                                                                 <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
                                                                                 <form class="form-horizontal" name="frmed" role="form" ng-submit="btn_proeditar()" >
                                                                                        <div class="col-sm-9 ">
-                                                                                           <input id="name" type="number" class="form-control" name="nombre" ng-model="existePro.cantidad" min="1" required>
+                                                                                           <input id="name" type="number" min="1" class="form-control" name="nombre" ng-model="existePro.cantidad" min="1" required>
                                                                                        </div>
-                                                                                       <div class="col-sm-3 spd spi">
-                                                                                        <button type="submit" class="btn_g btn_editarg" ng-disabled="frmed.$invalid"></button>
-                                                                                       </div>
+                                                                                       <div class="col-sm-12 spd spi">
+                                                                                          <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.required">Requerido.</div>
+                                                                                            <div class="alert alert-danger" ng-show="frm.cantidad.$dirty && frm.cantidad.$error.min">Mínimo 1</div>
+                                                                                        </div>
                                                                                 </form>
                                                                                 </div>
                                                                          </li>

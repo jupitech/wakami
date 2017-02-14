@@ -5,9 +5,9 @@
     @yield('menu')
 </div>
 
-        <div class="col-md-12 top_conte" ng-controller="UsuariosCtrl">
+        <div class="col-md-12 top_conte" ng-controller="UsuariosCtrl" ng-cloak>
         {{-- Nuevo usuario --}}
-          @role('admin') 
+          @role('admin|developer') 
                <div id="area_nuevo" ng-if="nuevo_obj">
                     <div class="header_nuevo">
 
@@ -105,7 +105,7 @@
               </div>
                @endrole
               {{-- Editar Usuario --}}
-           @role('admin') 
+           @role('admin|developer') 
                 <div id="area_nuevo" ng-if="editar_obj">
                     <div class="header_nuevo">
 
@@ -235,7 +235,7 @@
              @endrole
             <div class="header_conte">
               <h1>Usuarios</h1>
-               @role('admin')   
+               @role('admin|developer')   
                   <div class="btn_nuevo">
                       <a href="" ng-click="btn_nuevo()">Nuevo Usuario</a>
                   </div>
@@ -251,7 +251,7 @@
                 <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Usuario borrado</strong> Revisa en area de usuarios borrados si desean restaurar.</div>
                <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Usuario editado</strong> Puedes ver en el listado de usuarios las modificaciones realizadas.</div>
             {{-- Usuarios borrados --}}
-              @role('admin') 
+              @role('admin|developer') 
                 <div class="caja_contenidob" ng-if="ver_eli">
                        <table class="table">
                            <thead>
@@ -293,7 +293,7 @@
                                <th>E-mail</th>
                                <th>Role</th>
                                <th>Modificado</th>
-                                @role('admin') 
+                                @role('admin|developer') 
                                <th>Opciones</th>
                                 @endrole
                            </thead>
@@ -304,7 +304,7 @@
                                    <td>@{{usuario.email}}</td>
                                    <td>@{{usuario.rol_usuario.el_rol.name}}</td>
                                    <td>@{{usuario.updated_at | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a'}}</td>
-                                    @role('admin') 
+                                    @role('admin|developer') 
                                    <td>
                                        <div class="area_opciones">
                                            <ul>

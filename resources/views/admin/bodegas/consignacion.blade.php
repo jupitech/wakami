@@ -4,7 +4,7 @@
 <div class="col-sm-12">
     @yield('menu')
 </div>
-  <div class="col-md-12 top_conte" ng-controller="ConsignacionCtrl">
+  <div class="col-md-12 top_conte" ng-controller="ConsignacionCtrl" ng-cloak>
 {{-- Nueva Consignacion --}}
                <div id="area_nuevo" ng-if="nuevo_obj">
                     <div class="header_nuevo">
@@ -22,7 +22,7 @@
                                   <div class="col-md-12">
                                        <label for="rol">Cliente</label>
                                        <ol class="nya-bs-select" ng-model="consignacion.id_cliente" data-live-search="true" title="Selecciona un cliente..." required>
-                                            <li nya-bs-option="cliente in clientes | orderBy:'-id'" data-value="cliente.id">
+                                            <li nya-bs-option="cliente in clientes | orderBy:'-id' " data-value="cliente.id">
                                               <a>
                                                <span> @{{ cliente.nombre }}-@{{ cliente.empresa }}
                                                </span>

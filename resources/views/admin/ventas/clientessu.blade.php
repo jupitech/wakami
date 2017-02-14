@@ -5,7 +5,7 @@
     @yield('menu')
 </div>
 
-   <div class="col-md-12 top_conte" ng-controller="ClientesCtrl">
+   <div class="col-md-12 top_conte" ng-controller="ClientesCtrl" ng-cloak>
 	 {{-- Nuevo cliente --}}
                <div id="area_nuevo" ng-if="nuevo_obj">
                     <div class="header_nuevo">
@@ -263,7 +263,7 @@
                          <td class="td_opciones">
                              <div class="area_opciones">
                                  <ul>
-                                     @role('admin|operativo') 
+                                     @role('admin|operativo|developer') 
                                      <li class="op_drop"  uib-dropdown >
                                            <a href="" class="ico_porcentaje" id="simple-dropdown" uib-dropdown-toggle ng-click="btn_porcen(cliente)"></a>
                                            <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown" ng-if="!cliente.porcentaje_cliente.porcentaje"  > 
@@ -294,7 +294,7 @@
                                      </li>
                                       @endrole
                                      <li><a href="" class="ico_editar" ng-click="btn_editar(cliente)"></a></li>
-                                      @role('admin|operativo') 
+                                      @role('admin|operativo|developer') 
                                      <li class="op_drop"  uib-dropdown >
                                            <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle ></a>
                                            <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">

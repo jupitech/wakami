@@ -17,6 +17,8 @@ use App\Models\Producto;
 use App\Models\DescuentosVentas;
 use App\Models\Promociones;
 use App\Models\PromocionesVentas;
+use App\Models\EstadoPagina;
+
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -704,8 +706,13 @@ class VentasController extends Controller
                   )
              );
 
+$pagina = EstadoPagina::where('nombre', 'developer')->first();
+$estado = $pagina->estado;
+
+if($estado === 1){
 
 
+/*
  try{
 
              $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
@@ -763,7 +770,51 @@ class VentasController extends Controller
           $objResponse->addAlert($E->faultstring);
       }
       
+*/
+return response()->json(['Venta: venta real.'],200);
+    }elseif ($estado === 2) {
+      //guardando tipo de pago
+                          $pagoventa=TpagoVenta::create([
+                              'id_ventas' => $idventas,
+                              'tipo_pago' => $tipopago,
+                              'referencia' => $mirefe,
+                               'monto' => $ventas->total,
+                                    ]);
+                         $pagoventa->save();
 
+
+
+                                 foreach ($productoventas as $productoventa) {
+                                      //Reduciendo stock desde los productos vendidos
+                                         $stocksucursal=StockSucursal::where('id_sucursal',$idsucursal)->where('id_producto',$productoventa->id_producto)->first();
+
+                                            if(!is_null($stocksucursal) ){
+                                              $stockactual=$stocksucursal->stock;
+                                              $restastock=$stockactual-$productoventa->cantidad;
+                                                $stocksucursal->fill([
+                                                                  'stock' =>  $restastock,
+                                                              ]);
+                                                $stocksucursal->save();
+
+                                            }
+
+                                    }
+
+                              //Recibiendo DTE y CAE para factura
+                            //  $midte=$resultado->return->numeroDte;
+                            //  $micae=$resultado->return->cae;
+                              
+                              $ventas->fill([
+                                              'estado_ventas' => 2,
+                                          //    'dte' => $midte,
+                                          //    'cae' => $micae,
+                                          ]);
+                              $ventas->save();
+
+                             // return response()->json(['DTE' => $midte,'CAE'=> $micae],200);    
+                              return response()->json(['Venta: venta developer.'],200);
+
+      }
       //Sin factura electronica
             //guardando tipo de pago
                   /*        $pagoventa=TpagoVenta::create([

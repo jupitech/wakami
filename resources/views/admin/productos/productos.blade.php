@@ -4,7 +4,7 @@
 <div class="col-sm-12">
     @yield('menu')
 </div>
-   <div class="col-md-12 top_conte" ng-controller="ProductosCtrl">
+   <div class="col-md-12 top_conte" ng-controller="ProductosCtrl" ng-cloak>
 	  {{-- Linea Producto --}}
                <div id="area_nuevo" ng-if="linea_obj">
                       <div class="header_nuevo">

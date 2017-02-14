@@ -5,7 +5,7 @@
     @yield('menu')
 </div>
 
-   <div class="col-md-12 top_conte" ng-controller="VentasCtrl">
+   <div class="col-md-12 top_conte" ng-controller="VentasCtrl" ng-cloak>
 
    {{-- Area de venta seleccionada --}}
       <div id="area_mas" ng-if="mas_obj">

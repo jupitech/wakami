@@ -5,7 +5,7 @@
     @yield('menu')
 </div>
 
-   <div class="col-md-12 top_conte" ng-controller="MiSucursalCtrl">
+   <div class="col-md-12 top_conte" ng-controller="MiSucursalCtrl" ng-cloak>
     
   {{-- Area de ordenes --}}
 

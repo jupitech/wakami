@@ -49,6 +49,9 @@ wApp.factory('ApiPromocionNuevo', function($resource){
   return $resource("/api/promocion/create");
 });
 
+wApp.factory('ApiDeveloperNuevo',function($resource){
+  return $resource('/api/developer/create');
+});
 
  wApp.filter('SumaItem', function () {
     return function (data, key) {

@@ -66,6 +66,11 @@ class UsuariosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function indexdeveloper()
+    {
+        return view('admin.configuracion.developer');
+    }
+
     public function store(Request $request)
     {
         $user=User::create([

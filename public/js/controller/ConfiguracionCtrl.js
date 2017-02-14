@@ -14,36 +14,31 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
 
   $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 
-
    $scope.nuevo_obj = false; //Nuevo usuario
    $scope.editar_obj = false; // Editar Usuario
    $scope.ver_eli = false; // Ver usuarios eliminados
    $scope.acti_rol = false; //Activar para cambiar roles
-     $scope.acti_cla = false; //Activar para cambiar contraseña
+   $scope.acti_cla = false; //Activar para cambiar contraseña
    $scope.alertaNuevo = false; // Alerta de nuevo usuario registrado
    $scope.alertaExiste = false; // Alerta si el usuario ya esta en existencia
    $scope.alertaEliminado = false; // Alerta de usuario eliminado
-    $scope.alertaEditado = false; // Alerta de usuario editado
+   $scope.alertaEditado = false; // Alerta de usuario editado
 
    $scope.btn_nuevo = function() {
         $scope.nuevo_obj = !$scope.nuevo_obj;
          $scope.usuario={};
      };
 
-
-      $http.get('/api/usuarios').success(
-
-              function(usuarios) {
-                        $scope.usuarios = usuarios.datos;
-            }).error(function(error) {
-                 $scope.error = error;
-            });
+    $http.get('/api/usuarios').success(
+      function(usuarios) {
+        $scope.usuarios = usuarios.datos;
+    }).error(function(error) {
+        $scope.error = error;
+    });
 
 
       //Roles
-
-            $http.get('/api/roles').success(
-
+        $http.get('/api/roles').success(
               function(roles) {
                         $scope.roles = roles.datos;
             }).error(function(error) {
@@ -51,7 +46,6 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
             });
 
       //Restaurar usuarios
-
       $scope.btn_eliminados= function(){
          $scope.ver_eli = !$scope.ver_eli;
              $http.get('/api/usuarioseli').success(
@@ -64,9 +58,7 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
 
       };
 
-
       //Nuevo Usuario
-
       $scope.usuario={};
       $scope.guardarUsuario = function(){
          console.log($scope.usuario);
@@ -154,7 +146,6 @@ wApp.controller('UsuariosCtrl',function($scope, $http,ApiUsuarioNuevo, $timeout,
                 .success(function (data, status, headers) {
                    console.log('Usuario '+$scope.existeUser.name+' modificado correctamente.');
                        $http.get('/api/usuarios').success(
-
                           function(usuarios) {
                                     $scope.usuarios = usuarios.datos;
                         }).error(function(error) {

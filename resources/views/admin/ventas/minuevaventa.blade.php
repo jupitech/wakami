@@ -5,7 +5,7 @@
     @yield('menu')
 </div>
 
-   <div class="col-md-12 top_conte" ng-controller="MiVentaNCtrl">
+   <div class="col-md-12 top_conte" ng-controller="MiVentaNCtrl" ng-cloak>
 
 	{{-- Nueva Venta --}}
 	
