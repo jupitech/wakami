@@ -22,7 +22,6 @@ wApp.controller('DeveloperCtrl',function($scope, $http,ApiDeveloperNuevo, $timeo
   $scope.alertaEliminado = false; // Alerta de usuario eliminado
   $scope.alertaEditado = false; // Alerta de usuario editado
 
-
   $scope.dev;
 
   $scope.btn_nuevo = function() {

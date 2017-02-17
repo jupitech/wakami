@@ -20,8 +20,10 @@ Route::auth();
 
 Route::get('/', 'HomeController@index');
 
+//Area de Developers
 Route::group(['middleware' => ['auth','role:developer']], function()
 {
+	//Developers
 	Route::get('/developer','UsuariosController@indexdeveloper');
 
 

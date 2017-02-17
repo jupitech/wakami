@@ -14,7 +14,7 @@ class EstadoPaginaInicialSeeder extends Seeder
     {
         DB::table('estado_pagina')->insert([
             'nombre' => 'developer',
-            'estado'  => 1
+            'estado'  => 2
         ]);
 
     }

@@ -88,7 +88,7 @@
               <ul class="dropdown-menu">
                 <li><a href="{{ URL::to('/usuarios') }}">Usuarios</a></li>
                 <li><a href="#">Parametros Generales</a></li>
-                <li><a href="{{ URL::to('/developer') }}">Developer</a></li>
+                @role('developer')<li><a href="{{ URL::to('/developer') }}">Developer</a></li>@endrole
                  <li><a href="#">Accesos</a></li>
               </ul>
             </li>
