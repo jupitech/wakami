@@ -70,6 +70,7 @@
                                                                                    </div>
                                                                                 </div>
                                                                          </li>
+                                                                        
                                                                      </ul>
                                                                  </div>
                                                              </td>
@@ -275,6 +276,46 @@
                     </div>
               </div>
 
+ {{-- Movimiento de precios del servicio --}}
+
+          @role('admin') 
+               <div id="area_nuevo" ng-if="movimiento_obj">
+                    <div class="header_nuevo">
+                      <div class="col-sm-12">
+                            <h1>Movimiento de <strong>precios</strong> para @{{existeProducto}}</h1>
+                            <a class="btn_cerrar" ng-click="btn_cerrarM()"></a>
+                      </div>
+                    </div>
+
+                    <div class="conte_nuevo">
+                      <div class="col-sm-12">
+                          <table class="table ">
+                                                     <thead>                                                         
+                                                         <th>Costo Anterior</th>
+                                                         <th>Costo Actual</th>
+                                                         <th>Precio Anterior</th>
+                                                         <th>Precio Actual</th>
+                                                         <th>Editor</th>
+                                                         <th>Fecha / Hora</th>
+                                                     </thead>
+                                                     <tbody>
+                                                         <tr ng-repeat="movimiento in movimientoprecio | reverse">                 
+                                                             <td>@{{movimiento.costo_anterior | currency:'Q'}}</td>
+                                                             <td>@{{movimiento.costo_actual | currency:'Q'}}</td>
+                                                             <td>@{{movimiento.precio_anterior | currency:'Q'}}</td>
+                                                             <td>@{{movimiento.precio_actual | currency:'Q'}}</td>
+                                                             <td>@{{movimiento.nombre_usuario.nombre}} @{{movimiento.nombre_usuario.apellido}}</td>
+                                                             <td>@{{movimiento.created_at | amDateFormat: 'DD/MM/YYYY, h:mm:ss a'}}</td>                                 
+                                                         </tr>
+                                                        
+                                                     </tbody>
+                                      </table>
+                                      
+        
+                                </div>
+                    </div>
+              </div>
+               @endrole
   
 
 
@@ -361,29 +402,35 @@
                                    <p class="p_preciop">Q@{{producto.preciop | number:2}}</p>
                                 </div>
                                 <div class="box_opciones">
-                                <div class="col-sm-6 spd spi">
-                                  <p class="p_stock"><strong>@{{producto.stock_producto.stock}}</strong> uni</p>
-                                </div>
-                                <div class="col-sm-6 spd spi">
-                                      <div class="area_opciones">
-                                            <ul>
-                                            <li><a href="" class="ico_editar" ng-click="btn_editar(producto)"></a></li>
-                                            <li class="op_drop"  uib-dropdown>
-                                               <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
-                                               <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-                                                   <div class="col-sm-8 spd">
-                                                     <p>Eliminar <strong>@{{producto.codigo}}</strong></p>
-                                                   </div>
-                                                   <div class="col-sm-4 spd spi">
-                                                     <a href="" ng-click="btn_eliminarpro(producto.id)" class=" btn_g ico_eliminarg"></a>
-                                                   </div>
-                                                </div>
-                                         </li>
-                                          </ul>
-                                      </div>
-                                </div>
-                              
+                                    <div class="col-sm-4 spd spi">
+                                      <p class="p_stock"><strong>@{{producto.stock_producto.stock}}</strong> uni</p>
+                                    </div>
+                                    <div class="col-sm-8 spd spi">
+                                          <div class="area_opciones">
+                                                <ul>
+                                                <li>
+                                                  <a href="" class="ico_editar" ng-click="btn_editar(producto)"></a>
+                                                </li>
+                                                <li class="op_drop"  uib-dropdown>
+                                                   <a href="" class="ico_eliminar" id="simple-dropdown" uib-dropdown-toggle></a>
+                                                   <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                                       <div class="col-sm-6 spd">
+                                                         <p>Eliminar <strong>@{{producto.codigo}}</strong></p>
+                                                       </div>
+
+                                                       <div class="col-sm-6 spd spi">
+                                                         <a href="" ng-click="btn_eliminarpro(producto.id)" class=" btn_g ico_eliminarg"></a>
+                                                       </div>                                                       
+                                                    </div>
+                                                 </li>
+                                                 <li>
+                                                    <a href="" class="ico_repeat" ng-click="btn_movimiento(producto.id)"></a>
+                                                 </li>
+                                              </ul>
+                                          </div>
+                                    </div>
                                   
+                                      
                                   
                                 </div>
                              

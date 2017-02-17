@@ -79,7 +79,7 @@
                                   <div class="col-md-6">
                                        <label for="rol">Rol de Usuario</label>
                                        <ol class="nya-bs-select" ng-model="usuario.role_id" title="Selecciona un rol..."  required>
-                                            <li nya-bs-option="rol in roles | orderBy:'-id'" data-value="rol.id">
+                                            <li nya-bs-option="rol in roles | orderBy:'-id' | filter:{ id: '!4'} " data-value="rol.id">
                                               <a>
                                                 @{{ rol.name }}
                                                 <span class="glyphicon glyphicon-ok check-mark"></span>
@@ -172,7 +172,7 @@
                                        </div>
                                        <div class="col-sm-6 spd">
                                          <ol class="nya-bs-select"  ng-if="acti_rol" ng-model="existeUser.role_id" title="Cambiar a..">
-                                            <li nya-bs-option="rol in roles | orderBy:'-id'" data-value="rol.id">
+                                            <li nya-bs-option="rol in roles | orderBy:'-id' | filter:{ id: '!4'}" data-value="rol.id">
                                               <a>
                                                 @{{ rol.name }}
                                                 <span class="glyphicon glyphicon-ok check-mark"></span>

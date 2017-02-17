@@ -1,5 +1,4 @@
 
-
 //************************************Productos**********************************************//
 wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProductoNuevo, $timeout, $log,$uibModal,$interval){
 
@@ -24,7 +23,8 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
    $scope.alertaEliminado = false; // Alerta de proveedor eliminado
    $scope.alertaEditado = false; // Alerta de proveedor editado
    $scope.alertaEditadol = false; // Alerta de proveedor editado
-     $scope.alertaEliminadol = false; // Alerta de proveedor editado
+   $scope.alertaEliminadol = false; // Alerta de proveedor editado
+   $scope.movimiento_obj = false; //Ver Movimientos De Precio del Producto
 
 
    $scope.btn_nuevo = function() {
@@ -41,6 +41,32 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
           $scope.buslinea='';
           $scope.busprove='';
        }
+
+      //Cargar Movimiento de Precios de Servicios
+      $scope.btn_movimiento = function(producto){
+        $scope.movimiento_obj = !$scope.movimiento_obj;
+        $scope.existeProducto = producto;
+
+          console.log("btn_movimiento clickeado");
+        $http.get('api/movpreciopro/' +  $scope.existeProducto)
+            .success(
+            function(movimientoprecio){
+              $scope.movimientoprecio = movimientoprecio.datos;
+            }).error(function(error){
+              $scope.error = error;
+            });
+      }
+
+      //Boton Cerrar
+        $scope.btn_cerrar = function() {
+          $scope.editar_obj = !$scope.editar_obj;          
+       };
+
+       
+        $scope.btn_cerrarM = function() {
+          $scope.movimiento_obj = !$scope.movimiento_obj;          
+       };
+
 
        //Lineas de productos
        $http.get('/api/lineaproductos').success(
@@ -59,9 +85,6 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
             }).error(function(error) {
                  $scope.error = error;
             });     
-
-
-
 
            //Productos
        $http.get('/api/productos').success(

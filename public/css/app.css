@@ -6082,6 +6082,10 @@ body {
   background: url("img/ico-reportes2.svg") no-repeat 8px center;
   background-size: 20px; }
 
+.ico_repeat {
+  background: url("img/repeat.svg") no-repeat center;
+  background-size: 18px; }
+
 .ico_gastos {
   background: url("img/ico-gastos2.svg") no-repeat 8px center;
   background-size: 20px; }

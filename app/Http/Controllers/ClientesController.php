@@ -39,6 +39,15 @@ class ClientesController extends Controller
          return response()->json(['datos' =>  $clientes],200);
     }
 
+    public function clientesconsignacion()
+    {
+      $clientes=Clientes::where("tipo_cliente",2)->get();
+         if(!$clientes){
+             return response()->json(['mensaje' =>  'No se encuentran clientes consignados actualmente','codigo'=>404],404);
+        }
+         return response()->json(['datos' =>  $clientes],200);
+    }
+
 
         public function indexclientenit(Request $request)
     {

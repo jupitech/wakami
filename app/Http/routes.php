@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|vendedor|developer']
 
 		 //Clientes
         Route::get('/clientes', 'ClientesController@indexclientes');
+        Route::get('/clientesconsignacion','ClientesController@clientesconsignacion');
 		Route::post('/cliente/create', 'ClientesController@store');
 		Route::post('/cliente/porcentaje', 'ClientesController@storepor');
 		Route::put('/cliente/{id}', 'ClientesController@update');
@@ -58,7 +59,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|vendedor|developer']
 		Route::delete('/cliente/destroy/{id}','ClientesController@destroy');
 
 		//Productos
-
+		Route::get('/movpreciopro/{id}','ProductosController@movpreciopro');
 		Route::get('/productos', 'ProductosController@indexproductos');
 		Route::get('/productosas', 'ProductosController@productosconstock');
 

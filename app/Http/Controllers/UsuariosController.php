@@ -32,7 +32,11 @@ class UsuariosController extends Controller
        public function indexusuarios()
     {
            //Trayendo Usuarios
-         $usuarios=User::with("PerfilUsuario","RolUsuario")->get();
+         $usuarios=User::with("PerfilUsuario","RolUsuario")->whereHas('RolUsuario',function($query){
+
+            //WhereHas diferente a 4 para que no muestre Develope
+            $query->where('role_id', '!=', '4');
+         })->get();
          if(!$usuarios){
              return response()->json(['mensaje' =>  'No se encuentran usuarios actualmente','codigo'=>404],404);
         }

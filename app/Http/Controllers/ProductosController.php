@@ -42,6 +42,14 @@ class ProductosController extends Controller
          return response()->json(['datos' =>  $productos],200);
     }
 
+    public function movpreciopro($id)
+    {
+      $movimientoprecio=MovimientoPrecio::with('Producto','NombreUsuario','NombreProducto')->where('id_producto',$id)->get();
+        if(!$movimientoprecio){
+            return response()->json(['mensaje' => 'No se encuentran movimientos de precios actualmente.','codigo'=>404],404);
+        }            
+            return response()->json(['datos' => $movimientoprecio],200);
+    }
    
 
     public function productosconstock()

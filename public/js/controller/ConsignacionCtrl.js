@@ -51,7 +51,7 @@ wApp.controller('ConsignacionCtrl',function($scope, $http,ApiConsignacionNuevo, 
     
 
      //Todos los clientes
-      $http.get('/api/clientes').success(
+      $http.get('/api/clientesconsignacion').success(
 
               function(clientes) {
                         $scope.clientes = clientes.datos;
