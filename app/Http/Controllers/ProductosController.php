@@ -44,7 +44,7 @@ class ProductosController extends Controller
 
     public function movpreciopro($id)
     {
-      $movimientoprecio=MovimientoPrecio::with('Producto','NombreUsuario','NombreProducto')->where('id_producto',$id)->get();
+      $movimientoprecio=MovimientoPrecio::with('NombreUsuario','NombreProducto')->where('id_producto',$id)->get();
         if(!$movimientoprecio){
             return response()->json(['mensaje' => 'No se encuentran movimientos de precios actualmente.','codigo'=>404],404);
         }            
@@ -149,18 +149,15 @@ class ProductosController extends Controller
 
 
     public function store(Request $request)
-
     {
- 
 
- 
          $user = Auth::User();     
-          $userId = $user->id; 
+         $userId = $user->id; 
       
-    $codigobarra= $request['codigo_barra'];
-    $idproveedor= $request['id_proveedor'];
+       $codigobarra= $request['codigo_barra'];
+       $idproveedor= $request['id_proveedor'];
 
-     if($codigobarra==''){
+       if($codigobarra==''){
           $mibarra='';
       }else{
           $mibarra= $codigobarra;
@@ -183,13 +180,13 @@ class ProductosController extends Controller
                         ]);
           $productos->save();
 
-               $movprecio=MovimientoPrecio::create([
+          $movprecio=MovimientoPrecio::create([
                   'id_producto' => $productos->id,
                   'precio_anterior' =>   $request['preciop'],
                   'precio_actual' =>    $request['preciop'],
                   'id_user' =>  $userId,
                         ]);   
-           $movprecio->save();   
+          $movprecio->save();   
     }
 
      public function storeimagen(Request $request)

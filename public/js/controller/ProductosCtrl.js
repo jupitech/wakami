@@ -47,9 +47,9 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
         $scope.movimiento_obj = !$scope.movimiento_obj;
         $scope.existeProducto = producto;
 
-          console.log("btn_movimiento clickeado");
         $http.get('api/movpreciopro/' +  $scope.existeProducto)
             .success(
+                  
             function(movimientoprecio){
               $scope.movimientoprecio = movimientoprecio.datos;
             }).error(function(error){

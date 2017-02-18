@@ -31,7 +31,7 @@ class MovimientoPrecio extends Model
      public function NombreProducto(){
         return $this->hasOne('\App\Models\Producto','id','id_producto');
     }
-     public function Usuario(){
+     public function NombreUsuario(){
         return $this->hasOne('\App\Models\UserProfile','user_id','id_user');
     }
      
