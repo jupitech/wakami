@@ -19,7 +19,7 @@ class MovimientoPrecio extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_user','id_producto','precio_anterior','precio_actual','created_at'];
+    protected $fillable = ['id_user','id_producto','precio_anterior','precio_actual','costo_anterior','costo_actual','created_at'];
 
     /**
      * The attributes excluded from the model's JSON form.

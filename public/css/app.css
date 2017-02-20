@@ -6600,7 +6600,23 @@ body {
   animation: 0.2s baparecer;
   overflow: auto; }
 
+#area_nuevoM {
+  position: fixed;
+  background: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  height: 100%;
+  width: 60%;
+  right: 0;
+  top: 0;
+  z-index: 200;
+  padding-top: 70px;
+  animation: 0.2s baparecer;
+  overflow: auto; }
+
 #area_nuevo.ng-leave {
+  animation: 0.2s bocultar; }
+
+#area_nuevoM.ng-leave {
   animation: 0.2s bocultar; }
 
 #area_mas {
@@ -6978,7 +6994,9 @@ body {
   #area_mas {
     width: 90%; }
   #area_nuevo {
-    width: 45%; } }
+    width: 45%; }
+  #area_nuevoM {
+    width: 60%; } }
 
 @media (min-width: 992px) {
   .caja_productos li {
@@ -6992,7 +7010,9 @@ body {
   #area_mas {
     width: 65%; }
   #area_nuevo {
-    width: 35%; } }
+    width: 35%; }
+  #area_nuevoM {
+    width: 60%; } }
 
 @media (min-width: 1400px) {
   .caja_productos li {

@@ -180,10 +180,13 @@ class ProductosController extends Controller
                         ]);
           $productos->save();
 
+          //Crear primer Movimiento de Precio del Producto
           $movprecio=MovimientoPrecio::create([
                   'id_producto' => $productos->id,
                   'precio_anterior' =>   $request['preciop'],
                   'precio_actual' =>    $request['preciop'],
+                  'costo_anterior' => $request['costo'],
+                  'costo_actual' => $request['costo'],
                   'id_user' =>  $userId,
                         ]);   
           $movprecio->save();   
@@ -258,10 +261,12 @@ class ProductosController extends Controller
 
            $productos=Producto::find($id);
            $precioante=$productos->preciop;
-
+           $costoante=$productos->costo;
          
             $movprecio=MovimientoPrecio::create([
                   'id_producto' => $id,
+                  'costo_anterior' => $costoante,
+                  'costo_actual' => $request['costo'],
                   'precio_anterior' =>  $precioante,
                   'precio_actual' =>    $request['preciop'],
                   'id_user' =>  $userId,

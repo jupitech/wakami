@@ -279,7 +279,7 @@
  {{-- Movimiento de precios del servicio --}}
 
           @role('admin|developer') 
-               <div id="area_nuevo" ng-if="movimiento_obj">
+               <div id="area_nuevoM" ng-if="movimiento_obj">
                     <div class="header_nuevo">
                       <div class="col-sm-12">
                             <h1>Movimiento de <strong>precios</strong> para @{{existeProducto}}</h1>
@@ -290,7 +290,9 @@
                     <div class="conte_nuevo">
                       <div class="col-sm-12">
                           <table class="table ">
-                                                     <thead>                                                         
+                                                     <thead>
+                                                         <th>Costo Anterior</th>
+                                                         <th>Costo Actual</th>
                                                          <th>Precio Anterior</th>
                                                          <th>Precio Actual</th>
                                                          <th>Editor</th>
@@ -298,6 +300,8 @@
                                                      </thead>
                                                      <tbody>
                                                          <tr ng-repeat="movimiento in movimientoprecio | reverse">                 
+                                                             <td>@{{movimiento.costo_anterior | currency:'Q'}}</td>
+                                                             <td>@{{movimiento.costo_actual | currency:'Q'}}</td>
                                                              <td>@{{movimiento.precio_anterior | currency:'Q'}}</td>
                                                              <td>@{{movimiento.precio_actual | currency:'Q'}}</td>
                                                              <td>@{{movimiento.nombre_usuario.nombre}} @{{movimiento.nombre_usuario.apellido}}</td>

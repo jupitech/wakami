@@ -29,7 +29,7 @@ class UsuariosController extends Controller
          return view('admin.configuracion.usuarios');
     }
     
-       public function indexusuarios()
+    public function indexusuarios()
     {
            //Trayendo Usuarios
          $usuarios=User::with("PerfilUsuario","RolUsuario")->whereHas('RolUsuario',function($query){
@@ -43,7 +43,7 @@ class UsuariosController extends Controller
          return response()->json(['datos' =>  $usuarios],200);
     }
 
-          public function usuarioseli()
+    public function usuarioseli()
     {
            //Trayendo Usuarios
          $usuarios=User::with("PerfilUsuario","RolUsuario")->onlyTrashed()->get();
@@ -53,7 +53,7 @@ class UsuariosController extends Controller
          return response()->json(['datos' =>  $usuarios],200);
     }
 
-        public function indexroles()
+    public function indexroles()
     {
            //Traendo roles de usuarios
          $roles=Roles::all();
