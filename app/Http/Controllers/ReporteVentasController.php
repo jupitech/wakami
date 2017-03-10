@@ -82,7 +82,7 @@ class ReporteVentasController extends Controller
          ->where('ventas.estado_ventas',2)
          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
-             \DB::raw('sum(producto.preciop * producto_venta.cantidad) as totalp'),
+             \DB::raw('sum(producto_venta.precio_producto * producto_venta.cantidad) as totalp'),
                  \DB::raw('sum(producto.costo * producto_venta.cantidad) as costo')
                )
          ->first();  
@@ -213,11 +213,11 @@ class ReporteVentasController extends Controller
               'producto.preciop as preciop', 
               'producto.costo as precioi', 
             \DB::raw('sum(producto_venta.cantidad) as cantidad'),
-            \DB::raw('sum(producto_venta.cantidad*producto.preciop) as total'),
+            \DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto) as total'),
              \DB::raw('sum(producto_venta.cantidad*producto.costo) as costo')
                )
           ->groupBy('producto.id')
-          ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto.preciop)'), 'desc')
+          ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto)'), 'desc')
           ->get();        
 
          if(!$ventas){
@@ -256,10 +256,10 @@ class ReporteVentasController extends Controller
           ->select(
               'linea_producto.nombre as nombre', 
             \DB::raw('sum(producto_venta.cantidad) as cantidad'),
-            \DB::raw('sum(producto_venta.cantidad*producto.preciop) as total')
+            \DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto) as total')
                )
           ->groupBy('linea_producto.id')
-          ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto.preciop)'), 'desc')
+          ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto)'), 'desc')
           ->get();        
 
          if(!$ventas){

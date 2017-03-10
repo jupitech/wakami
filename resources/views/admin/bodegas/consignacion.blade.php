@@ -309,11 +309,13 @@
                      <div class="btn_nuevo">
                         <a href="" ng-click="crearventa(miconsigna.id_cliente)">Crear venta</a>
                     </div>
+                  
               </div>
               {{-- Agregar productos de consignación --}}
 
                <div class="col-sm-12">
-                  <div class="alert alert-warning" role="alert" ng-if="alertaExistePro"> <strong>Producto Existente</strong> El producto ya esta agregado a la venta</div>  
+                  <div class="alert alert-warning" role="alert" ng-if="alertaExistePro"> <strong>Producto Existente</strong> El producto ya esta agregado a la venta</div> 
+                 
               </div>
               <div class="col-sm-12 top_conte" ng-if="active_venta">
                        <div class="agregar_pro conte_nuevo">
@@ -659,6 +661,13 @@
                   <div class="btn_nuevo">
                         <a href="" ng-click="nuevafactura(exisConsignacion)">Nueva Factura</a>
                     </div>
+                       <div class="btn_nuevo">
+                        <a href="" ng-if="creandoexcel" ng-click="crearexcel(exisConsignacion.id)">Crear excel</a>
+                        <a href="/exports/consignaciones/Consignacion-No@{{exisConsignacion.id}}.xlsx"  ng-if="descargarexcel" >Descargar Excel</a> 
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="alert alert-warning" role="alert" ng-if="alertaCreaExcel"> <strong>Excel creado para</strong> @{{exisConsignacion.info_cliente.nombre}}</div>   
                 </div>
                 {{-- Productos de stock en bodgea --}}
 

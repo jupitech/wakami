@@ -252,6 +252,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 			Route::get('/enviosconsignaciones', 'ConsignacionController@indexenvios');
 			Route::post('/envioconsignacion/create', 'ConsignacionController@storeenvio');
 			Route::post('/proenvioconsignacion/create', 'ConsignacionController@storeproenvio');
+			Route::post('/consignacion/excel/{id}', 'ConsignacionController@crearexcel');
 			Route::get('/proenviosconsignacion/{id}', 'ConsignacionController@indexproenvios');
 			Route::put('/proenvioconsignacion/{id}', 'ConsignacionController@updateproenvio');
 			Route::delete('/proenvioconsignacion/destroy/{id}','ConsignacionController@destroypro');

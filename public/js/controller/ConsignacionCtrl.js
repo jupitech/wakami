@@ -144,6 +144,8 @@ wApp.controller('ConsignacionCtrl',function($scope, $http,ApiConsignacionNuevo, 
 
              $scope.btn_cerrarc=function(){
              $scope.mas_obj = false;
+                $scope.creandoexcel= true;
+              $scope.descargarexcel=false;
            };
 
            $scope.proconsignacion={};
@@ -154,6 +156,22 @@ wApp.controller('ConsignacionCtrl',function($scope, $http,ApiConsignacionNuevo, 
               }).error(function(error) {
                    $scope.error = error;
               });
+              $scope.creandoexcel= true;
+              $scope.descargarexcel=false;
+              $scope.crearexcel= function(){
+                 $http.post('/api/consignacion/excel/'+$scope.miid) 
+                 .success(function (data, status, headers) {
+                   console.log('Excel creado correctamente.');
+                     $timeout(function () { $scope.alertaCreaExcel = true; }, 100);
+                    $timeout(function () { $scope.alertaCreaExcel = false; }, 5000);
+                     $scope.creandoexcel= false;
+                      $scope.descargarexcel=true;
+                })
+                .error(function (data, status, header, config) {
+                    console.log('Parece que existe un error al guardar el excel.');
+                });
+
+              }
  
             
    };

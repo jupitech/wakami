@@ -268,6 +268,67 @@ class ConsignacionController extends Controller
            
     }
 
+     public function crearexcel(Request $request, $id)
+    {
+     
+        $consignacion= Consignacion::with("InfoCliente")->where('id',$id)->first();
+        //Query de los productos comprados del numero de orden
+        $procon = StockConsignacion::join('producto', 'producto.id', '=', 'stock_consignacion.id_producto')
+                  ->select(
+                    'producto.codigo', 
+                    'producto.nombre', 
+                    'producto.preciop', 
+                    'stock_consignacion.stock'
+                       )
+                  ->where('stock_consignacion.id_consignacion',$id)
+                  ->get();
+
+        $nombrearchivo='Consignacion-No'.$id;
+
+        $proArray = []; 
+        $proArray[] = ['Codigo','Producto','Precio','Stock'];
+
+         foreach ($procon as $pro) {
+            $proArray[] = $pro->toArray();
+           }
+         $hoy=Carbon::now();
+
+
+        //Creando Excel para orden
+        Excel::create($nombrearchivo, function($excel) use($proArray,$id, $hoy,$consignacion){
+                  $excel->sheet('Orden-'.$id, function($sheet) use($proArray,$id, $hoy,$consignacion) {
+                      $sheet->row(1, function ($row) {
+                              $row->setFontSize(25);
+                          });
+                       $sheet->cells('A5:E5', function ($cells) {
+                             $cells->setFontWeight('bold');
+                            $cells->setBorder('solid', 'none', 'none', 'solid');
+                          });
+                      $sheet->row(1, array('Consignacion-'.$consignacion->InfoCliente->nombre));
+                       
+                     $sheet->row(2, array('Wakami Guatemala'));
+                     $sheet->row(3, array('Fecha:'.$hoy));
+                     $sheet->fromArray($proArray, null, 'A5', false, false);
+                    });
+            })->store('xlsx', public_path('exports/consignaciones'));
+
+          //Enviando correo a proveedor
+
+        $exceladj=public_path().'/exports/consignaciones/'.$nombrearchivo.'.xlsx';
+
+        /*Mail::send('emails.ordenes', ['orden' => $id,'encargado' => $encargado], function ($message) use ($id, $exceladj, $emailprove) {
+              $message->from('carlos.ruano@creationgt.com', 'Wakami Guatemala');
+
+              $message->to($emailprove);
+              $message->subject(' Nueva Orden de Compra-No '.$id);
+              $message->attach($exceladj);
+          });*/
+
+
+
+    }
+
+
 
       public function nuevaventa(Request $request,$idcliente)
     {

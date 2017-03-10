@@ -282,7 +282,7 @@
                <div id="area_nuevoM" ng-if="movimiento_obj">
                     <div class="header_nuevo">
                       <div class="col-sm-12">
-                            <h1>Movimiento de <strong>precios</strong> para @{{existeProducto}}</h1>
+                            <h1>Movimiento deprecios para <strong> @{{existeProducto.codigo}}</strong> </h1>
                             <a class="btn_cerrar" ng-click="btn_cerrarM()"></a>
                       </div>
                     </div>
@@ -424,7 +424,7 @@
                                                     </div>
                                                  </li>
                                                  <li>
-                                                    <a href="" class="ico_repeat" ng-click="btn_movimiento(producto.id)"></a>
+                                                    <a href="" class="ico_repeat" ng-click="btn_movimiento(producto)"></a>
                                                  </li>
                                               </ul>
                                           </div>
