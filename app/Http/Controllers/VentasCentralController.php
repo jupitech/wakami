@@ -351,14 +351,15 @@ class VentasCentralController extends Controller
     {
 
         $mes= $request['mes'];
+        $anio= $request['anio'];
         $hoy=Carbon::today();
          
            $a_fi=$hoy->year;
            $m_fi=$hoy->month;
            $d_fi=$hoy->day;
 
-           $fini=Carbon::create($a_fi, $mes, $d_fi, 0,0,0)->startOfMonth();
-           $ffin=Carbon::create($a_fi, $mes, $d_fi, 23,59,59)->endOfMonth();
+           $fini=Carbon::create($anio, $mes, $d_fi, 0,0,0)->startOfMonth();
+           $ffin=Carbon::create($anio, $mes, $d_fi, 23,59,59)->endOfMonth();
            //Trayendo Producto
          $ventas=Ventas::with("NombreSucursal")
                   ->where('estado_ventas',2)
@@ -431,11 +432,13 @@ class VentasCentralController extends Controller
            ->groupBy('sucursales.codigo_esta')
             ->get(); 
 
+            $tsucu=Sucursales::select('id','nombre','codigo_esta')->get();
+
 
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
-         return response()->json(['datos' =>  $ventas,'sucursales' =>  $sucursales],200);
+         return response()->json(['datos' =>  $ventas,'sucursales' =>  $sucursales,'tsucu' =>  $tsucu],200);
     }
 
 
@@ -481,11 +484,13 @@ class VentasCentralController extends Controller
            ->groupBy('sucursales.codigo_esta')
             ->get(); 
 
+                 $tsucu=Sucursales::select('id','nombre','codigo_esta')->get();
+
 
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
-         return response()->json(['datos' =>  $ventas,'sucursales' =>  $sucursales],200);
+         return response()->json(['datos' =>  $ventas,'sucursales' =>  $sucursales,'tsucu' =>  $tsucu],200);
     }
 
        public function ventamespago(Request $request)
@@ -493,14 +498,15 @@ class VentasCentralController extends Controller
 
 
             $mes= $request['mes'];
+            $anio= $request['anio'];
             $hoy=Carbon::today();
          
            $a_fi=$hoy->year;
            $m_fi=$hoy->month;
            $d_fi=$hoy->day;
 
-           $fini=Carbon::create($a_fi, $mes, $d_fi, 0,0,0)->startOfMonth();
-           $ffin=Carbon::create($a_fi, $mes, $d_fi, 23,59,59)->endOfMonth();
+           $fini=Carbon::create($anio, $mes, $d_fi, 0,0,0)->startOfMonth();
+           $ffin=Carbon::create($anio, $mes, $d_fi, 23,59,59)->endOfMonth();
 
           $ventas = Ventas::join('tpago_venta', 'ventas.id', '=', 'tpago_venta.id_ventas')
           ->leftJoin('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
@@ -529,12 +535,14 @@ class VentasCentralController extends Controller
             \DB::raw('sum(ventas.total) as total')
             )
            ->groupBy('sucursales.codigo_esta')
-            ->get();         
+            ->get();     
+
+                $tsucu=Sucursales::select('id','nombre','codigo_esta')->get();    
 
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
-         return response()->json(['datos' =>  $ventas,'sucursales' =>  $sucursales],200);
+         return response()->json(['datos' =>  $ventas,'sucursales' =>  $sucursales,'tsucu' =>  $tsucu],200);
     }
 
    public function ventaaniopago(Request $request)
@@ -580,11 +588,11 @@ class VentasCentralController extends Controller
            ->groupBy('sucursales.codigo_esta')
             ->get();         
      
-
+                $tsucu=Sucursales::select('id','nombre','codigo_esta')->get();
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
-         return response()->json(['datos' =>  $ventas,'sucursales' =>  $sucursales],200);
+         return response()->json(['datos' =>  $ventas,'sucursales' =>  $sucursales,'tsucu' =>  $tsucu],200);
     }
 
 
@@ -635,14 +643,15 @@ class VentasCentralController extends Controller
     {
 
           $mes= $request['mes'];
+           $anio= $request['anio'];
             $hoy=Carbon::today();
          
            $a_fi=$hoy->year;
            $m_fi=$hoy->month;
            $d_fi=$hoy->day;
 
-           $fini=Carbon::create($a_fi, $mes, $d_fi, 0,0,0)->startOfMonth();
-           $ffin=Carbon::create($a_fi, $mes, $d_fi, 23,59,59)->endOfMonth();
+           $fini=Carbon::create($anio, $mes, $d_fi, 0,0,0)->startOfMonth();
+           $ffin=Carbon::create( $anio, $mes, $d_fi, 23,59,59)->endOfMonth();
            
            //Trayendo Producto
          $ventas=Ventas::where('fecha_factura','>=',$fini)
@@ -733,14 +742,15 @@ class VentasCentralController extends Controller
     {
 
          $mes= $request['mes'];
+          $anio= $request['anio'];
             $hoy=Carbon::today();
          
            $a_fi=$hoy->year;
            $m_fi=$hoy->month;
            $d_fi=$hoy->day;
 
-           $fini=Carbon::create($a_fi, $mes, $d_fi, 0,0,0)->startOfMonth();
-           $ffin=Carbon::create($a_fi, $mes, $d_fi, 23,59,59)->endOfMonth();
+           $fini=Carbon::create($anio, $mes, $d_fi, 0,0,0)->startOfMonth();
+           $ffin=Carbon::create($anio, $mes, $d_fi, 23,59,59)->endOfMonth();
 
              //Trayendo Producto
          $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
@@ -1129,7 +1139,7 @@ $pagina = EstadoPagina::where('nombre', 'developer')->first();
 $estado = $pagina->estado;
 
 if($estado == 1){
-  /*
+  
   try{
              $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
 
@@ -1186,7 +1196,7 @@ if($estado == 1){
           $objResponse->addAlert($E->faultstring);
       }
 
-*/
+
 return response()->json(['venta: venta real.'],200);
 }elseif ($estado == 2) {
       
@@ -1483,7 +1493,7 @@ $estado = $pagina->estado;
 
 if ($estado == 1) {
   
-/*
+
   try{
 
              $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
@@ -1524,7 +1534,7 @@ if ($estado == 1) {
           $objResponse->addAlert($E->faultstring);
       }
 
-      */
+      
 
       return response()->json(['Venta: venta real.'],200);
 }elseif ($estado == 2) {
@@ -1755,7 +1765,7 @@ $pagina = EstadoPagina::where('nombre', 'developer')->first();
 $estado = $pagina->estado;
 
 if ($estado == 1) {
-/*
+
   try{
 
              $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
@@ -1797,7 +1807,7 @@ if ($estado == 1) {
       }
 
 
-*/
+
 
 
       return response()->json(['Venta: venta real.'],200);

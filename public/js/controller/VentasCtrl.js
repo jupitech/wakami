@@ -307,6 +307,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
                                 $scope.ventadiasucu = ventadiapago.sucursales;
+                                 $scope.ventadiatsucu = ventadiapago.tsucu;
                                 console.log('Sucursales: ',$scope.ventadiasucu);
                     }).error(function(error) {
                          $scope.error = error;
@@ -436,6 +437,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
                                     $scope.ventadiasucu = ventadiapago.sucursales;
+                                    $scope.ventadiatsucu = ventadiapago.tsucu;
                                 console.log('Sucursales: ',$scope.ventadiasucu);
                     }).error(function(error) {
                          $scope.error = error;
@@ -613,6 +615,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
                                   $scope.ventadiasucu = ventadiapago.sucursales;
+                                  $scope.ventadiatsucu = ventadiapago.tsucu;
                     }).error(function(error) {
                          $scope.error = error;
                     }); 
@@ -708,7 +711,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
          $scope.ca_anios=false;
 
          $scope.mifecha.mes=moment().format("MM"); //Mes Actual
-         
+          $scope.mifecha.anio=moment().format("YYYY"); //Mes Actual
 
           $scope.btn_emes=function(e){
            $scope.act_mbtn=e;
@@ -716,7 +719,8 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
           }   
 
           var datames={
-              mes:$scope.mifecha.mes
+              mes:$scope.mifecha.mes,
+              anio:$scope.mifecha.anio
           }; 
 
          $scope.urlac= $scope.urlmes;
@@ -756,6 +760,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
                                   $scope.ventadiasucu = ventadiapago.sucursales;
+                                  $scope.ventadiatsucu = ventadiapago.tsucu;
                     }).error(function(error) {
                          $scope.error = error;
                     }); 
@@ -842,7 +847,8 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
             $scope.filtrarMes=function(){
 
                   var datames={
-                      mes:$scope.mifecha.mes
+                      mes:$scope.mifecha.mes,
+                      anio:$scope.mifecha.anio
                   }; 
 
 
@@ -882,6 +888,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                               function(ventadiapago) {
                                         $scope.ventadiapago = ventadiapago.datos;
                                            $scope.ventadiasucu = ventadiapago.sucursales;
+                                           $scope.ventadiatsucu = ventadiapago.tsucu;
                             }).error(function(error) {
                                  $scope.error = error;
                             }); 
@@ -1027,6 +1034,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                       function(ventadiapago) {
                                 $scope.ventadiapago = ventadiapago.datos;
                                   $scope.ventadiasucu = ventadiapago.sucursales;
+                                  $scope.ventadiatsucu = ventadiapago.tsucu;
                     }).error(function(error) {
                          $scope.error = error;
                     }); 
@@ -1157,6 +1165,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                                 function(ventadiapago) {
                                           $scope.ventadiapago = ventadiapago.datos;
                                             $scope.ventadiasucu = ventadiapago.sucursales;
+                                            $scope.ventadiatsucu = ventadiapago.tsucu;
                               }).error(function(error) {
                                    $scope.error = error;
                               }); 

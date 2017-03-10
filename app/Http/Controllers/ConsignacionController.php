@@ -629,7 +629,7 @@ $estado = $pagina->estado;
 
 
     //Generar factura en Sat
-     /*try{
+     try{
              $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
 
              $resultado=$client->registrarDte(array("dte"=>$dte));
@@ -708,7 +708,7 @@ $estado = $pagina->estado;
      } catch (SoapFault $E) { 
           $objResponse->addAlert($E->faultstring);
       }
-    */
+    
       return response()->json(['Consignacion: consignacion real.'],200);
 }elseif($estado == 2){
 

@@ -122,7 +122,17 @@
             <div class="col-sm-4">
                 <form class="form-horizontal" name="frm" role="form" ng-submit="filtrarMes()" >
                        <div class="form-group">
-                               <div class="col-sm-8 spi">
+                            <div class="col-sm-4 spi">
+                                            <ol class="nya-bs-select ol_peq" ng-model="mifecha.anio" title="Selecciona un año..." required>
+                                                <li nya-bs-option="anio in anios" data-value="anio.id">
+                                                  <a>
+                                                    @{{ anio.id  }}
+                                                    <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                  </a>
+                                                </li>
+                                              </ol>
+                                   </div>
+                               <div class="col-sm-4 spi">
                                         <ol class="nya-bs-select ol_peq" ng-model="mifecha.mes" title="Selecciona un mes..." required>
                                             <li nya-bs-option="mes in meses" data-value="mes.id">
                                               <a>
@@ -169,7 +179,7 @@
                 <thead>
                   <tr>
                     <th>Pago</th>
-                    <th ng-repeat="sucursal in ventadiasucu  | orderBy:'codigo_esta'">@{{sucursal.nombre}}</th>
+                    <th ng-repeat="sucursal in ventadiatsucu  | orderBy:'codigo_esta'">@{{sucursal.nombre}}</th>
                     <th> Subtotal</th>
                   </tr>
                 </thead>
@@ -182,7 +192,7 @@
                      <span ng-switch-when="4">Al Crédito</span>
                      <span ng-switch-when="5">Depósito</span>
                     </td>
-                    <td ng-repeat="sucursal in ventadiasucu | orderBy:'codigo_esta'" class="td_2col" ng-click="selecventa(key,sucursal.id)">
+                    <td ng-repeat="sucursal in ventadiatsucu | orderBy:'codigo_esta'" class="td_2col" ng-click="selecventa(key,sucursal.id)">
                          <div ng-repeat="diapago in value | orderBy:'codigo_esta'" ng-if=" sucursal.codigo_esta==diapago.codigo_esta">
                            <div class="col-sm-4 spd spi"><span>@{{diapago.cantidad}}</span> </div>
                             <div class="col-sm-8  spd spi"> <p>@{{diapago.total| currency: 'Q'}}</p></div>
@@ -203,9 +213,13 @@
                   <tfoot>
                     <tr>
                         <td>Totales</td>
-                          <td ng-repeat="sucursal in ventadiasucu | orderBy:'codigo_esta'"  class="td_2col" >
-                            <div class="col-sm-4 spd spi"><span>@{{sucursal.cantidad}}</span> </div>
-                                <div class="col-sm-8  spd spi"> <p>@{{sucursal.total| currency: 'Q'}}</p></div>
+                         <td ng-repeat="sucursal in ventadiatsucu | orderBy:'codigo_esta'" class="td_2col" >
+                              <div ng-repeat="sucu in ventadiasucu | orderBy:'codigo_esta'"   ng-if=" sucursal.codigo_esta==sucu.codigo_esta" >
+                                <div class="col-sm-4 spd spi"><span>@{{sucu.cantidad}}</span> </div>
+                                    <div class="col-sm-8  spd spi"> <p>@{{sucu.total| currency: 'Q'}}</p></div>
+                              </div>
+                                
+
                           </td>
                           <td class="td_2col" >
                             <div class="col-sm-4 spd spi"><span>@{{ventadiasucu | SumaCanti:'cantidad'}}</span> </div>
@@ -217,7 +231,7 @@
             </div>
           </div>
           <div class="col-sm-12 col-md-12 col-lg-4 spd">
-           <div class="mtop9 col-sm-6  col-md-6 col-lg-12 spi">
+           <!-- <div class="mtop9 col-sm-6  col-md-6 col-lg-12 spi">
                   <div class="caja_contenido">
                     <h1>Ventas por sucursal</h1>
                     <ul class="lisdia">
@@ -228,9 +242,9 @@
                         </li>
                     </ul>
                   </div>
-          </div>
-          <div class="mtop9 col-sm-6  col-md-6 col-lg-12 spi">
-            <div class="caja_fil">
+                     </div> -->
+          <div class=" col-sm-6  col-md-6 col-lg-12 spi">
+            <div class="caja_contenido">
               <h1>Facturas</h1>
                 <table class="table">
                   <tbody>

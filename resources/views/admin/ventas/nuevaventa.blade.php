@@ -38,10 +38,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="header_nofactura">
-                        <p>Posible No.Factura</p>
-                        <h3></h3>
-                    </div>
+                   
 
                 </div>
 

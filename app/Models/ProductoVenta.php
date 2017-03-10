@@ -29,7 +29,7 @@ class ProductoVenta extends Model
     protected $hidden = ['created_at','updated_at'];
 
     public function NombreProducto(){
-        return $this->hasOne('\App\Models\Producto','id','id_producto');
+        return $this->hasOne('\App\Models\Producto','id','id_producto')->with("StockProducto");
     }
     public function Venta(){
         return $this->hasOne('\App\Models\Ventas','id','id_ventas')->with("DescuentosVentas","PromocionesVentas");

@@ -712,7 +712,7 @@ $estado = $pagina->estado;
 if($estado === 1){
 
 
-/*
+
  try{
 
              $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
@@ -770,7 +770,7 @@ if($estado === 1){
           $objResponse->addAlert($E->faultstring);
       }
       
-*/
+
 return response()->json(['Venta: venta real.'],200);
     }elseif ($estado === 2) {
       //guardando tipo de pago
