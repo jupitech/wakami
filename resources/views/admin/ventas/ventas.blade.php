@@ -250,13 +250,13 @@
                   <tbody>
                     <tr ng-repeat="estado in ventadiafac">
                       <td ng-switch="estado.estado_ventas">
-                        <span ng-switch-when="1" class="ico_esta ico_borrador">Borrador</span>
-                        <span ng-switch-when="2" class="ico_esta ico_completada">Completadas</span>
-                        <span ng-switch-when="3" class="ico_esta ico_pcredito">Al Crédito</span>
-                        <span ng-switch-when="4" class="ico_esta ico_cancelada">Canceladas</span>
+                        <span ng-switch-when="1" class="ico_esta ico_borrador" ng-click="selecventaes(estado.estado_ventas)">Borrador</span>
+                        <span ng-switch-when="2" class="ico_esta ico_completada" ng-click="selecventaes(estado.estado_ventas)">Completadas</span>
+                        <span ng-switch-when="3" class="ico_esta ico_pcredito" ng-click="selecventaes(estado.estado_ventas)">Al Crédito</span>
+                        <span ng-switch-when="4" class="ico_esta ico_cancelada" ng-click="selecventaes(estado.estado_ventas)">Canceladas</span>
                       </td>
-                      <td>@{{estado.cantidad}}</td>
-                      <td>@{{estado.total| currency: 'Q'}}</td>
+                      <td ng-click="selecventaes(estado.estado_ventas)">@{{estado.cantidad}}</td>
+                      <td ng-click="selecventaes(estado.estado_ventas)">@{{estado.total| currency: 'Q'}}</td>
                     </tr>
                   </tbody>
                 </table>

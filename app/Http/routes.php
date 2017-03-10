@@ -180,10 +180,16 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 
 
 			//Ventas Central
+			Route::get('/ventasdiaes/{estado}', 'VentasCentralController@indexventasdiaes');
 			Route::get('/ventasdia/{pago}/{sucursal}', 'VentasCentralController@indexventasdia');
+
 			Route::post('/ventasdiaf/{pago}/{sucursal}', 'VentasCentralController@indexventasdiaf');
+
+			Route::get('/ventasmeses/{estado}', 'VentasCentralController@indexventasmeses');
 			Route::get('/ventasmes/{pago}/{sucursal}', 'VentasCentralController@indexventasmes');
 			Route::post('/ventasmesf/{pago}/{sucursal}', 'VentasCentralController@indexventasmesf');
+
+			Route::get('/ventasanioes/{estado}', 'VentasCentralController@indexventasanioes');
 			Route::get('/ventasanio/{pago}/{sucursal}', 'VentasCentralController@indexventasanio');
 			Route::post('/ventasaniof/{pago}/{sucursal}', 'VentasCentralController@indexventasaniof');
 			Route::post('/ventacentral/create', 'VentasCentralController@store');
