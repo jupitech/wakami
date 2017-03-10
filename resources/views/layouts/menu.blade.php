@@ -80,7 +80,7 @@
                 <li><a href="{{ URL::to('/gastos') }}">Gastos</a></li>
                 <li><a href="{{ URL::to('/compras') }}">Compras</a></li>
                  <li><a href="{{ URL::to('/proveedores') }}">Proveedores</a></li>
-                 <li><a href="#">Donaciones</a></li>
+                 <li><a href="{{ URL::to('/donaciones') }}">Donaciones</a></li>
               </ul>
             </li>
             <li class="dropdown">

@@ -106,6 +106,10 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 	   Route::get('/devoluciones', 'DevolucionesController@index');
 
 
+	    //Donaciones
+	   Route::get('/donaciones', 'DonacionesController@index');
+
+
 		Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
 		Route::post('/producto/imagen/create',['as' => 'producto.imagen.create', 'uses' =>  'ProductosController@storeimagen']);
 
@@ -276,6 +280,18 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 			Route::delete('/prodevolucion/destroy/{id}','DevolucionesController@destroypro');
 			Route::get('/devoluciones/consignacion/{id}', 'DevolucionesController@indexproconsignacionas');
 			Route::get('/devolucion/pdfenvio/{id}', 'DevolucionesController@pdfenvio');
+
+
+			//Donaciones
+			Route::get('/donaciones', 'DonacionesController@indexdonaciones');
+			Route::post('/donacion/create', 'DonacionesController@store');
+			Route::post('/prodonacion/create', 'DonacionesController@storeprodonacion');
+			Route::get('/prodonacion/{id}', 'DonacionesController@indexprodonaciones');
+			Route::put('/prodonacion/{id}', 'DonacionesController@updatepro');
+			Route::put('/donacion/p1/{id}', 'DonacionesController@updatep1');
+			Route::delete('/donacion/destroy/{id}','DonacionesController@destroy');
+			Route::delete('/prodonacion/destroy/{id}','DonacionesController@destroypro');
+			Route::get('/donacion/pdfenvio/{id}', 'DonacionesController@pdfenvio');
 
 
             //Promociones
