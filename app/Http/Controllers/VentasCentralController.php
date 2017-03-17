@@ -10,6 +10,9 @@ use App\Models\ProductoVenta;
 use App\Models\TpagoVenta;
 use App\Models\TfacVenta;
 use App\Models\StockProducto;
+use App\Models\StockConsignacion;
+use App\Models\StockSucursal;
+use App\Models\Consignacion;
 use App\Models\Clientes;
 use App\Models\Sucursales;
 use App\Models\PorcentajeCliente;
@@ -1521,7 +1524,77 @@ if ($estado == 1) {
                                       ]);
                                 $ventas->save();
 
-                                 
+                                        //Regresar stock a producto
+
+                                             $idsucu=$ventas->id_sucursal;
+                                             $lasucursal=Sucursales::where('id',$idsucu)->first();
+
+
+                                             if($lasucursal->codigo_esta==1){
+
+                                                      $elcliente=$ventas->id_cliente;
+                                                      $consignacion=Consignacion::where('id_cliente',$elcliente)->first();
+
+
+                                                     if($consignacion){
+
+                                                         foreach ($productoventas as $productoventa) {
+                                                                            //Reduciendo stock desde los productos vendidos
+                                                                               $stockproducto=StockConsignacion::where('id_consignacion',$consignacion->id)->where('id_producto',$productoventa->id_producto)->first();
+
+                                                                                  if(!is_null($stockproducto) ){
+                                                                                    $stockactual=$stockproducto->stock;
+                                                                                    $sumastock=$stockactual+$productoventa->cantidad;
+                                                                                      $stockproducto->fill([
+                                                                                                        'stock' =>  $sumastock,
+                                                                                                    ]);
+                                                                                      $stockproducto->save();
+
+                                                                                  }
+
+                                                                        }
+
+                                                      } else{
+
+
+                                                             foreach ($productoventas as $productoventa) {
+                                                                            //Reduciendo stock desde los productos vendidos
+                                                                               $stockproducto=StockProducto::where('id_producto',$productoventa->id_producto)->first();
+
+                                                                                  if(!is_null($stockproducto) ){
+                                                                                    $stockactual=$stockproducto->stock;
+                                                                                    $sumastock=$stockactual+$productoventa->cantidad;
+                                                                                      $stockproducto->fill([
+                                                                                                        'stock' =>  $sumastock,
+                                                                                                    ]);
+                                                                                      $stockproducto->save();
+
+                                                                                  }
+
+                                                                        }
+                                                      }   
+                                                                       
+
+                                             } else{
+
+                                                foreach ($productoventas as $productoventa) {
+                                                    //Reduciendo stock desde los productos vendidos
+                                                       $stockproducto=StockSucursal::where('id_sucursal',$idsucu)->where('id_producto',$productoventa->id_producto)->first();
+
+                                                          if(!is_null($stockproducto) ){
+                                                            $stockactual=$stockproducto->stock;
+                                                            $sumastock=$stockactual+$productoventa->cantidad;
+                                                              $stockproducto->fill([
+                                                                                'stock' =>  $sumastock,
+                                                                            ]);
+                                                              $stockproducto->save();
+
+                                                          }
+
+                                                }
+
+                                             }   
+                                
                              
 
                               //Recibiendo DTE y CAE para factura
@@ -1550,27 +1623,105 @@ if ($estado == 1) {
       
 
       return response()->json(['Venta: venta real.'],200);
-}elseif ($estado == 2) {
 
 
-  $ventas->fill([
-    'estado_ventas' => 4,
-    ]);
-  $ventas->save();
-                              //Recibiendo DTE y CAE para factura
-                            //  $midte=$resultado->return->numeroDte;
-                            //  $micae=$resultado->return->cae;
-                              
-                                $notacredito=NotaCredito::create([
-                                    'id_ventas' =>$ventas->id,
-                                    // 'dte' => $midte,
-                                    //  'cae' => $micae,
-                                          ]);
-                                $notacredito->save(); 
+        }elseif ($estado == 2) {
 
-                             // return response()->json(['DTE' => $midte,'CAE'=> $micae],200);    
-                                return response()->json(['Venta: venta developer.'],200);
-}
+
+                                $ventas->fill([
+                                  'estado_ventas' => 4,
+                                  ]);
+                                $ventas->save();
+
+                      //Regresar stock a producto
+
+                             $idsucu=$ventas->id_sucursal;
+                             $lasucursal=Sucursales::where('id',$idsucu)->first();
+
+
+                             if($lasucursal->codigo_esta==1){
+
+                                      $elcliente=$ventas->id_cliente;
+                                      $consignacion=Consignacion::where('id_cliente',$elcliente)->first();
+
+
+                                     if($consignacion){
+
+                                         foreach ($productoventas as $productoventa) {
+                                                            //Reduciendo stock desde los productos vendidos
+                                                               $stockproducto=StockConsignacion::where('id_consignacion',$consignacion->id)->where('id_producto',$productoventa->id_producto)->first();
+
+                                                                  if(!is_null($stockproducto) ){
+                                                                    $stockactual=$stockproducto->stock;
+                                                                    $sumastock=$stockactual+$productoventa->cantidad;
+                                                                      $stockproducto->fill([
+                                                                                        'stock' =>  $sumastock,
+                                                                                    ]);
+                                                                      $stockproducto->save();
+
+                                                                  }
+
+                                                        }
+
+                                      } else{
+
+
+                                             foreach ($productoventas as $productoventa) {
+                                                            //Reduciendo stock desde los productos vendidos
+                                                               $stockproducto=StockProducto::where('id_producto',$productoventa->id_producto)->first();
+
+                                                                  if(!is_null($stockproducto) ){
+                                                                    $stockactual=$stockproducto->stock;
+                                                                    $sumastock=$stockactual+$productoventa->cantidad;
+                                                                      $stockproducto->fill([
+                                                                                        'stock' =>  $sumastock,
+                                                                                    ]);
+                                                                      $stockproducto->save();
+
+                                                                  }
+
+                                                        }
+                                      }   
+                                                       
+
+                             } else{
+
+                                foreach ($productoventas as $productoventa) {
+                                    //Reduciendo stock desde los productos vendidos
+                                       $stockproducto=StockSucursal::where('id_sucursal',$idsucu)->where('id_producto',$productoventa->id_producto)->first();
+
+                                          if(!is_null($stockproducto) ){
+                                            $stockactual=$stockproducto->stock;
+                                            $sumastock=$stockactual+$productoventa->cantidad;
+                                              $stockproducto->fill([
+                                                                'stock' =>  $sumastock,
+                                                            ]);
+                                              $stockproducto->save();
+
+                                          }
+
+                                }
+
+                             }   
+                                
+                                   
+
+
+
+                                      
+                                        $notacredito=NotaCredito::create([
+                                            'id_ventas' =>$ventas->id,
+                                            // 'dte' => $midte,
+                                            //  'cae' => $micae,
+                                                  ]);
+                                        $notacredito->save(); 
+
+                                     // return response()->json(['DTE' => $midte,'CAE'=> $micae],200);    
+                                        return response()->json(['Venta: venta developer.'],200);
+        }
+
+
+
  }
 
 
