@@ -1251,8 +1251,10 @@ if($estado == 1){
       }
 
 
-return response()->json(['venta: venta real.'],200);
-}elseif ($estado == 2) {
+        return response()->json(['venta: venta real.'],200);
+
+
+        }elseif ($estado == 2) {
       
 
                           //guardando tipo de pago
@@ -1295,50 +1297,7 @@ return response()->json(['venta: venta real.'],200);
 
                              //return response()->json(['DTE' => $midte,'CAE'=> $micae],200);
                               return response()->json(['Venta: venta developer.'],200);
-}
-
-      //Sin factura electronica
-        //guardando tipo de pago
-               /*           $pagoventa=TpagoVenta::create([
-                              'id_ventas' => $idventas,
-                              'tipo_pago' => $tipopago,
-                              'referencia' => $mirefe,
-                                    ]);
-                         $pagoventa->save();
-
-
-
-                              foreach ($productoventas as $productoventa) {
-                                //Reduciendo stock desde los productos vendidos
-                                   $stockproducto=StockProducto::where('id_producto',$productoventa->id_producto)->first();
-
-                                      if(!is_null($stockproducto) ){
-                                        $stockactual=$stockproducto->stock;
-                                        $restastock=$stockactual-$productoventa->cantidad;
-                                          $stockproducto->fill([
-                                                            'stock' =>  $restastock,
-                                                        ]);
-                                          $stockproducto->save();
-
-                                      }
-
-                              }
-
-                              //Recibiendo DTE y CAE para factura
-                              $midte=$resultado->return->numeroDte;
-                              $micae=$resultado->return->cae;
-                              
-                              $ventas->fill([
-                                              'estado_ventas' => 2,
-                                              'dte' => $midte,
-                                              'cae' => $micae,
-                                          ]);
-                              $ventas->save();*/
-
-
-
-
-
+          }
 
  }
 

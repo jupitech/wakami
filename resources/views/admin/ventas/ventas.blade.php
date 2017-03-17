@@ -331,7 +331,7 @@
                                            <a ng-click="editarventa(venta.id)" class="ico_editar" ></a>
                                            
                                      </li>
-                                 <li class="ed_drop"  uib-dropdown  ng-if="venta.estado_ventas==2">
+                                 <li class="ed_drop"  uib-dropdown  ng-if="venta.estado_ventas==2 || venta.estado_ventas==3">
                                            <a href="" class="ico_ncredito" id="simple-dropdown" uib-dropdown-toggle></a>
                                            <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
                                                <div class="col-sm-8 spd">
@@ -342,7 +342,7 @@
                                                </div>
                                             </div>
                                      </li>
-                                      <li class="ed_drop"  uib-dropdown  ng-if="venta.estado_ventas==4">
+                                      <li class="ed_drop"  uib-dropdown  ng-if="venta.estado_ventas==4 ">
                                            <a href="" class="ico_ndebito" id="simple-dropdown" uib-dropdown-toggle></a>
                                            <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
                                                <div class="col-sm-8 spd">
