@@ -107,13 +107,13 @@
                       <tr>
                        <th colspan="5"></th>
                        <th><strong>Total S/IVA</strong></th>
-                       <th><strong>Q@{{(ventasl | SumaItem:'total')-((ventasl | SumaItem:'total')*0.12) | number:2}}</strong></th>
+                       <th><strong>Q@{{(ventasl | SumaItem:'total')/1.12 | number:2}}</strong></th>
                        <th></th>
                      </tr>
                        <tr>
                        <th colspan="5"></th>
                        <th><strong>IVA</strong></th>
-                       <th><strong>Q@{{(ventasl | SumaItem:'total')*0.12 | number:2}}</strong></th>
+                       <th><strong>Q@{{(ventasl | SumaItem:'total')-((ventasl | SumaItem:'total')/1.12) | number:2}}</strong></th>
                        <th></th>
                      </tr>
                     

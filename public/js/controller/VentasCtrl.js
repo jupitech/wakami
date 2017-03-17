@@ -1650,6 +1650,13 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
         {id:'5',pago:'Depósito'},
   ];
 
+     $scope.tpagado=[
+        {id:'1',pago:'Efectivo'},
+        {id:'2',pago:'POS/Tarjeta'},
+        {id:'3',pago:'Cheque'},
+        {id:'5',pago:'Depósito'},
+  ];
+
      $scope.diascre=[
         {dias:'15',nombre:'15 dias'},
         {dias:'30',nombre:'30 dias'},
@@ -2192,15 +2199,29 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
           $timeout(function() { 
             $scope.loading = false;
           }, 60000);
+
+/*          if($scope.factura.id_tpago2==){
             var datafact={
                 id_tpago: $scope.factura.tipo_pago,
                 referencia: $scope.factura.referencia,
                 id_ventas: $scope.idventa,
                 dias_credito: $scope.factura.dias_credito,
             };
-            //console.log(datafact);
+          }else{*/
+            var datafact={
+                id_tpago: $scope.factura.tipo_pago,
+                elmonto: $scope.factura.elmonto,
+                referencia: $scope.factura.referencia,
+                id_tpago2: $scope.factura.tipo_pago2,
+                referencia2: $scope.factura.referencia2,
+                id_ventas: $scope.idventa,
+                dias_credito: $scope.factura.dias_credito,
+            };
+          /*}*/
+            
+            console.log(datafact);
 
-              $http.post('/api/factura/create', datafact)
+            $http.post('/api/factura/create', datafact)
                         .success(function (data, status, headers) {
                               console.log("Factura creada correctamente");
                                $scope.acti_venta=false;
@@ -2762,18 +2783,28 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
               $scope.loading = false;
             }, 60000);
 
-            var datafact={
+         /*   var datafact={
                 id_tpago: $scope.factura.tipo_pago,
                 referencia: $scope.factura.referencia,
                 id_ventas: $scope.idventa,
             };
-            console.log(datafact);
+            console.log(datafact);*/
 
              /*  console.log("Factura creada correctamente");
                                  $scope.acti_venta=false;
                                  $scope.termi_venta=true;*/
 
 
+
+         var datafact={
+                id_tpago: $scope.factura.tipo_pago,
+                elmonto: $scope.factura.elmonto,
+                referencia: $scope.factura.referencia,
+                id_tpago2: $scope.factura.tipo_pago2,
+                referencia2: $scope.factura.referencia2,
+                id_ventas: $scope.idventa,
+                dias_credito: $scope.factura.dias_credito,
+            };
                                                 
 
              $http.post('/api/mi/factura/create', datafact)

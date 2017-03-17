@@ -26,10 +26,29 @@ class GastosController extends Controller
          return view('admin.gastos.gastos');
     }
 
-      public function indexgastos()
+      public function indexgastos(Request $request)
     {
+
+           $fechainicio= $request['fecha_inicio'];
+         $fechafin= $request['fecha_fin'];
+
+          $fi =new \DateTime($fechainicio);
+          $carbon = Carbon::instance($fi); 
+          $a_fi=$carbon->year;
+          $m_fi=$carbon->month;
+          $d_fi=$carbon->day;
+
+          $ff =new \DateTime($fechafin);
+          $carbon2 = Carbon::instance($ff); 
+          $a_ff=$carbon2->year;
+          $m_ff=$carbon2->month;
+          $d_ff=$carbon2->day;
+
+
+          $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+          $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
            //Trayendo Producto
-         $gastos=Gastos::with("Categoria")->get();
+         $gastos=Gastos::with("Categoria")->whereBetween('fecha_gasto', [$fini, $ffin])->get();
          if(!$gastos){
              return response()->json(['mensaje' =>  'No se encuentran gastos actualmente','codigo'=>404],404);
         }
@@ -44,6 +63,76 @@ class GastosController extends Controller
              return response()->json(['mensaje' =>  'No se encuentran categorias actualmente','codigo'=>404],404);
         }
          return response()->json(['datos' =>  $categoria],200);
+    }
+
+
+      public function indexreportes(Request $request)
+    {
+
+         $fechainicio= $request['fecha_inicio'];
+         $fechafin= $request['fecha_fin'];
+
+          $fi =new \DateTime($fechainicio);
+          $carbon = Carbon::instance($fi); 
+          $a_fi=$carbon->year;
+          $m_fi=$carbon->month;
+          $d_fi=$carbon->day;
+
+          $ff =new \DateTime($fechafin);
+          $carbon2 = Carbon::instance($ff); 
+          $a_ff=$carbon2->year;
+          $m_ff=$carbon2->month;
+          $d_ff=$carbon2->day;
+
+
+          $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+          $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
+
+          //Total por sucursal
+          $gastos = Gastos::leftjoin('categoria_gasto', 'gastos.id_categoria', '=', 'categoria_gasto.id')
+          ->where('gastos.estado_gasto',1)
+          ->whereBetween('gastos.fecha_gasto', [$fini, $ffin])
+          ->select(
+            'categoria_gasto.nombre as name',
+            \DB::raw('sum(gastos.costo) as y')
+               )
+          ->groupBy('categoria_gasto.id')
+          ->get();   
+
+
+
+
+         //Total Real
+           $totalreal = Gastos::where('estado_gasto',1)
+          ->whereBetween('fecha_gasto', [$fini, $ffin])
+         ->select(
+            \DB::raw('sum(costo) as mitotal')
+               )
+         ->first(); 
+
+      
+
+
+            //Ordenes por dia
+           $ordendia = Gastos::whereBetween('fecha_gasto', [$fini, $ffin])
+         ->select(
+            \DB::raw('DATE_FORMAT(fecha_gasto, "%d/%m") as name'),
+            \DB::raw('count(id) as y')
+               )
+         ->groupBy(\DB::raw('DATE(fecha_gasto)'))
+         ->get(); 
+
+
+
+             if(!$gastos){
+                 return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+            }
+
+           return response()->json(['data' =>  $gastos,'treal' =>  $totalreal,'odia' =>  $ordendia],200);
+
+     
+
+
     }
 
     /**

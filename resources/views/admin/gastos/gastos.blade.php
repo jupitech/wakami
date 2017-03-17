@@ -150,7 +150,7 @@
         <div class="alert alert-danger" role="alert" ng-if="alertaEliminado"> <strong>Gasto borrado</strong> No se podrá recuperar los datos.</div> 
    <div class="alert alert-info" role="alert" ng-if="alertaEditado"> <strong>Gasto editado</strong> Puedes ver en el listado de gastos las modificaciones realizadas.</div>
 
-    <div class="caja_contenido">
+    <div class="caja_contenido sinh">
 
      <div class="col-sm-12 conte_nuevo">
             <form class="form-horizontal" name="frm" role="form" ng-submit="guardarGasto()" >
@@ -185,6 +185,77 @@
                       </div> 
             </form>
       </div>
+
+   </div>
+     
+     <div class="col-sm-12 spd spi">
+       
+              {{-- Busqueda por fecha especifica --}}
+      <div class="col-sm-8 col-md-7 col-lg-6 spi">
+                <div class="area_fecha">
+                          <form class="form_fecha" name="forma" ng-submit="buscarreporte()">
+                            <div class="form-group">
+                                  <div class="col-sm-5 spi spd">
+                                        <label for="nombreU" class="col-sm-12 spi">Fecha Inicio</label>
+                                        <div class="col-sm-12 spi spd">
+                                              <input type="date" class="form-control" name="inicio" ng-model="mifecha.inicio" max="mifecha.fin" ng-max="mifecha.fin" required>
+                                        </div>
+                                        <div class="col-sm-12 spi spd">
+                                            <span class="label label-danger" ng-show="forma.inicio.$error.max">Fecha máxima: @{{mifecha.fin | amDateFormat:'DD/MM/YYYY'}}</span>
+                                        </div>
+                                  </div>
+                                  <div class="col-sm-5 spd">
+                                        <label for="nombreU" class="col-sm-12 spi">Fecha Fin</label>
+                                        <div class="col-sm-12 spi spd">
+                                              <input type="date" class="form-control" name="fin" ng-model="mifecha.fin" required>
+                                        </div>
+                                  </div>
+                                  <div class="col-sm-2 spd top_btn">
+                                      <button type="submit" class="btn btn-primary">Buscar</button>
+                                  </div>
+                            </div>
+
+                          </form>
+
+                      </div>
+      </div>
+      <div class="col-sm-6">
+        
+      </div>
+     </div>
+
+       {{-- Analisis de total de ventas --}}
+      <div class="ventasdia col-sm-12 spd spi">
+               {{-- Por categoria --}}
+            <div class="col-sm-6  col-md-6 col-lg-6 spi">
+                  <div class="caja_contenido">
+                    <div class="col-sm-12 spd spi">
+                       <h1>Total de gastos</h1>
+                    </div>
+                     <div class="col-sm-12 spd spi">
+                     <div class="col-sm-12 col-md-12 col-lg-6 spd">
+                     
+                      <highcharts chart='@{{renderChart}}'></highcharts>
+                     </div>
+                     <div class=" col-sm-12 col-md-12 col-lg-6 spd">
+                       <div class="total_datos">
+                         <table class="table">
+                           <tbody>
+                              <tr class="t_real">
+                               <th>Total real</th>
+                               <td>@{{totalgastos.mitotal | currency: 'Q'}}</td>
+                             </tr>
+                           </tbody>
+                         </table>
+                       </div>
+                     </div>
+                     </div>
+                   
+                    
+                  </div>
+              </div>
+      </div>
+     <div class="mtop caja_contenido ">   
              <table class="table">
                  <thead>
                      <th>Categoria</th>

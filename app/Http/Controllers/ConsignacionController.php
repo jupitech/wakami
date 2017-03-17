@@ -448,18 +448,42 @@ class ConsignacionController extends Controller
     {
         $idventas =$request['id_ventas'];
         $idconsignacion =$request['id_consignacion'];
-        $tipopago =$request['id_tpago'];      
+        $idventas =$request['id_ventas'];
+        $tipopago =$request['id_tpago'];   
+        $tipopago2 =$request['id_tpago2'];      
         $tipofac =$request['id_tfac'];  
-        $referencia =$request['referencia'];    
+        $referencia =$request['referencia'];  
+        $referencia2 =$request['referencia2'];  
+        $elmonto =$request['elmonto'];  
         $diascredito =$request['dias_credito'];    
 
         $ahora=Carbon::now();
    
-        if($referencia=''){
+        if($referencia==''){
             $mirefe='';
         } else{
              $mirefe=$referencia;
         } 
+
+        if($referencia2==''){
+            $mirefe2='';
+        } else{
+             $mirefe2=$referencia2;
+        } 
+
+        if($tipopago2==''){
+            $mitpago2='';
+        } else{
+             $mitpago2=$tipopago2;
+        } 
+
+
+        if($elmonto==''){
+            $mimonto='';
+        } else{
+             $mimonto=$elmonto;
+        } 
+
 
         $ventas=Ventas::find( $idventas );
 
@@ -699,12 +723,37 @@ $estado = $pagina->estado;
                       {    
 
 
-                              $pagoventa=TpagoVenta::create([
-                              'id_ventas' => $idventas,
-                              'tipo_pago' => $tipopago,
-                              'referencia' => $mirefe,
-                                    ]);
-                         $pagoventa->save();
+                               if($elmonto==''){
+                                    //guardando tipo de pago
+                                    $pagoventa=TpagoVenta::create([
+                                        'id_ventas' => $idventas,
+                                        'tipo_pago' => $tipopago,
+                                        'referencia' => $mirefe,
+                                        'monto' => $ventas->total,
+                                              ]);
+                                    $pagoventa->save();
+
+                          }else{
+                                  $totalmonto= $ventas->total-$mimonto;
+                                       //guardando tipo de pago
+                                  $pagoventa=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $tipopago,
+                                      'referencia' => $mirefe,
+                                        'monto' => $mimonto,
+                                            ]);
+                                  $pagoventa->save();
+
+                                 //guardando tipo de pago
+                                  $pagoventa2=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $mitpago2,
+                                      'referencia' => $mirefe2,
+                                       'monto' => $totalmonto,
+                                            ]);
+                                  $pagoventa2->save();
+
+                          }
 
                          $consignacion=Consignacion::where('id_cliente',$ventas->id_cliente)->first();
 
@@ -776,13 +825,37 @@ $estado = $pagina->estado;
 
 
 
-      //Estado de Pagina Developer
-    $pagoventa=TpagoVenta::create([
-                              'id_ventas' => $idventas,
-                              'tipo_pago' => $tipopago,
-                              'referencia' => $mirefe,
-                                    ]);
-                         $pagoventa->save();
+                         if($elmonto==''){
+                                    //guardando tipo de pago
+                                    $pagoventa=TpagoVenta::create([
+                                        'id_ventas' => $idventas,
+                                        'tipo_pago' => $tipopago,
+                                        'referencia' => $mirefe,
+                                        'monto' => $ventas->total,
+                                              ]);
+                                    $pagoventa->save();
+
+                          }else{
+                                  $totalmonto= $ventas->total-$mimonto;
+                                       //guardando tipo de pago
+                                  $pagoventa=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $tipopago,
+                                      'referencia' => $mirefe,
+                                        'monto' => $mimonto,
+                                            ]);
+                                  $pagoventa->save();
+
+                                 //guardando tipo de pago
+                                  $pagoventa2=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $mitpago2,
+                                      'referencia' => $mirefe2,
+                                       'monto' => $totalmonto,
+                                            ]);
+                                  $pagoventa2->save();
+
+                          }
 
                          $consignacion=Consignacion::where('id_cliente',$ventas->id_cliente)->first();
 

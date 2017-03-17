@@ -756,6 +756,8 @@ class VentasCentralController extends Controller
 
            //Trayendo Producto
          $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
+         ->leftjoin('role_user','role_user.user_id','=','user_profile.user_id')
+         ->where('role_user.role_id',3)
           ->where('ventas.estado_ventas',2)
          ->where('ventas.fecha_factura','>=',Carbon::today())
          ->select(\DB::raw('concat(user_profile.nombre," ",user_profile.apellido) as name'),\DB::raw('sum(ventas.total) as y'))
@@ -782,6 +784,8 @@ class VentasCentralController extends Controller
 
              //Trayendo Producto
          $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
+              ->leftjoin('role_user','role_user.user_id','=','user_profile.user_id')
+         ->where('role_user.role_id',3)
           ->where('ventas.estado_ventas',2)
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(\DB::raw('concat(user_profile.nombre," ",user_profile.apellido) as name'),\DB::raw('sum(ventas.total) as y'))
@@ -811,6 +815,8 @@ class VentasCentralController extends Controller
 
              //Trayendo Producto
          $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
+              ->leftjoin('role_user','role_user.user_id','=','user_profile.user_id')
+         ->where('role_user.role_id',3)
           ->where('ventas.estado_ventas',2)
           ->where('ventas.fecha_factura','>=',$fini)
           ->where('ventas.fecha_factura','<=',$ffin)
@@ -839,6 +845,8 @@ class VentasCentralController extends Controller
 
              //Trayendo Producto
          $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
+              ->leftjoin('role_user','role_user.user_id','=','user_profile.user_id')
+         ->where('role_user.role_id',3)
           ->where('ventas.estado_ventas',2)
            ->where('ventas.fecha_factura','>=',$fini)
           ->where('ventas.fecha_factura','<=',$ffin)
@@ -965,9 +973,12 @@ class VentasCentralController extends Controller
      public function storefac(Request $request)
     {
         $idventas =$request['id_ventas'];
-        $tipopago =$request['id_tpago'];      
+        $tipopago =$request['id_tpago'];   
+        $tipopago2 =$request['id_tpago2'];      
         $tipofac =$request['id_tfac'];  
-        $referencia =$request['referencia'];    
+        $referencia =$request['referencia'];  
+        $referencia2 =$request['referencia2'];  
+        $elmonto =$request['elmonto'];  
         $diascredito =$request['dias_credito'];    
 
         $ahora=Carbon::now();
@@ -976,6 +987,25 @@ class VentasCentralController extends Controller
             $mirefe='';
         } else{
              $mirefe=$referencia;
+        } 
+
+        if($referencia2==''){
+            $mirefe2='';
+        } else{
+             $mirefe2=$referencia2;
+        } 
+
+        if($tipopago2==''){
+            $mitpago2='';
+        } else{
+             $mitpago2=$tipopago2;
+        } 
+
+
+        if($elmonto==''){
+            $mimonto='';
+        } else{
+             $mimonto=$elmonto;
         } 
 
         $ventas=Ventas::find( $idventas );
@@ -1205,14 +1235,37 @@ if($estado == 1){
                 if($resultado->return->valido)
                       {    
 
-                          //guardando tipo de pago
-                          $pagoventa=TpagoVenta::create([
-                              'id_ventas' => $idventas,
-                              'tipo_pago' => $tipopago,
-                              'referencia' => $mirefe,
-                               'monto' => $ventas->total,
-                                    ]);
-                         $pagoventa->save();
+                           if($elmonto==''){
+                                    //guardando tipo de pago
+                                    $pagoventa=TpagoVenta::create([
+                                        'id_ventas' => $idventas,
+                                        'tipo_pago' => $tipopago,
+                                        'referencia' => $mirefe,
+                                        'monto' => $ventas->total,
+                                              ]);
+                                    $pagoventa->save();
+
+                          }else{
+                                  $totalmonto= $ventas->total-$mimonto;
+                                       //guardando tipo de pago
+                                  $pagoventa=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $tipopago,
+                                      'referencia' => $mirefe,
+                                        'monto' => $mimonto,
+                                            ]);
+                                  $pagoventa->save();
+
+                                 //guardando tipo de pago
+                                  $pagoventa2=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $mitpago2,
+                                      'referencia' => $mirefe2,
+                                       'monto' => $totalmonto,
+                                            ]);
+                                  $pagoventa2->save();
+
+                          }
 
 
 
@@ -1259,15 +1312,37 @@ if($estado == 1){
 
         }elseif ($estado == 2) {
       
+                          if($elmonto==''){
+                                    //guardando tipo de pago
+                                    $pagoventa=TpagoVenta::create([
+                                        'id_ventas' => $idventas,
+                                        'tipo_pago' => $tipopago,
+                                        'referencia' => $mirefe,
+                                        'monto' => $ventas->total,
+                                              ]);
+                                    $pagoventa->save();
 
-                          //guardando tipo de pago
-                          $pagoventa=TpagoVenta::create([
-                              'id_ventas' => $idventas,
-                              'tipo_pago' => $tipopago,
-                              'referencia' => $mirefe,
-                               'monto' => $ventas->total,
-                                    ]);
-                         $pagoventa->save();
+                          }else{
+                                  $totalmonto= $ventas->total-$mimonto;
+                                       //guardando tipo de pago
+                                  $pagoventa=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $tipopago,
+                                      'referencia' => $mirefe,
+                                        'monto' => $mimonto,
+                                            ]);
+                                  $pagoventa->save();
+
+                                 //guardando tipo de pago
+                                  $pagoventa2=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $mitpago2,
+                                      'referencia' => $mirefe2,
+                                       'monto' => $totalmonto,
+                                            ]);
+                                  $pagoventa2->save();
+
+                          }
 
 
 

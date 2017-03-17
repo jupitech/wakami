@@ -3,6 +3,8 @@
 //************************************Gastos**********************************************//
 wApp.controller('GastosCtrl',function($scope, $http,ApiLineaNuevo,ApiProductoNuevo, moment, $timeout, $log,$uibModal,$interval){
 
+
+  $scope.mifecha={};
    $scope.status = {
     isopen: false
   };
@@ -14,6 +16,15 @@ wApp.controller('GastosCtrl',function($scope, $http,ApiLineaNuevo,ApiProductoNue
   };
 
   $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
+
+
+    $scope.hoy = moment();
+    $scope.mes = moment();
+    $scope.hmes = $scope.mes.subtract(30, 'days');
+     //Fecha Hoy
+     $scope.mifecha.fin=$scope.hoy._d;
+     $scope.mifecha.inicio=$scope.hmes._d;
+       $scope.mifecha.sucursal=3;
 
 
    $scope.nuevo_obj = false; //Nuevo proveedor
@@ -55,7 +66,12 @@ wApp.controller('GastosCtrl',function($scope, $http,ApiLineaNuevo,ApiProductoNue
 
 
            //Gastos
-       $http.get('/api/gastos').success(
+       $http.get('/api/gastos',{
+              params: {
+                  fecha_inicio:$scope.mifecha.inicio,
+                  fecha_fin: $scope.mifecha.fin
+              }
+           }).success(
 
               function(gastos) {
                         $scope.gastos = gastos.datos;
@@ -63,7 +79,131 @@ wApp.controller('GastosCtrl',function($scope, $http,ApiLineaNuevo,ApiProductoNue
                  $scope.error = error;
             });
 
-           
+        
+
+             //Total de ventas
+     $http.get('/api/gastos/reportes', {
+              params: {
+                  fecha_inicio:$scope.mifecha.inicio,
+                  fecha_fin: $scope.mifecha.fin
+              }
+           }).success(
+
+           //Pie de Ventas por sucursal
+                    function(gastoss) {
+                              $scope.gastoss = gastoss.data;
+                              $scope.totalgastos = gastoss.treal;
+                              $scope.ordenesdia = gastoss.odia;
+                  $scope.renderChart = {
+                      chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'pie'
+                        },
+                          title: {
+                          text: ''
+                      },
+                       tooltip: {
+                              pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
+                          },
+                         plotOptions: {
+                                pie: {
+                                    allowPointSelect: true,
+                                    cursor: 'pointer',
+                                    dataLabels: {
+                                        enabled: false
+                                    },
+                                    showInLegend: true
+                                }
+                            },
+                      series: [{
+                        name: 'Total',
+                          data:  $scope.gastoss
+                      }]
+                  }; 
+
+
+                  }).error(function(error) {
+                       $scope.error = error;
+                  });
+
+
+
+               $scope.buscarreporte= function(){
+           var datafecha={
+                        fecha_inicio: $scope.mifecha.inicio,
+                        fecha_fin: $scope.mifecha.fin
+                   };
+                 console.log(datafecha);
+
+
+
+           //Gastos
+       $http.get('/api/gastos',{
+              params: {
+                  fecha_inicio:$scope.mifecha.inicio,
+                  fecha_fin: $scope.mifecha.fin
+              }
+           }).success(
+
+              function(gastos) {
+                        $scope.gastos = gastos.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+
+
+                               //Total de ventas
+     $http.get('/api/gastos/reportes', {
+              params: {
+                  fecha_inicio:$scope.mifecha.inicio,
+                  fecha_fin: $scope.mifecha.fin
+              }
+           }).success(
+
+           //Pie de Ventas por sucursal
+                    function(gastoss) {
+                              $scope.gastoss = gastoss.data;
+                              $scope.totalgastos = gastoss.treal;
+                              $scope.ordenesdia = gastoss.odia;
+                  $scope.renderChart = {
+                      chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'pie'
+                        },
+                          title: {
+                          text: ''
+                      },
+                       tooltip: {
+                              pointFormat: '{series.name}: <b>Q{point.y:,.2f}</b>'
+                          },
+                         plotOptions: {
+                                pie: {
+                                    allowPointSelect: true,
+                                    cursor: 'pointer',
+                                    dataLabels: {
+                                        enabled: false
+                                    },
+                                    showInLegend: true
+                                }
+                            },
+                      series: [{
+                        name: 'Total',
+                          data:  $scope.gastoss
+                      }]
+                  }; 
+
+
+  }).error(function(error) {
+                       $scope.error = error;
+                  });  
+
+
+
+          };          
 
      //Nueva categoria
 

@@ -316,20 +316,63 @@
            <div class="col-sm-12 tfactura ">
               <form class="form-horizontal" name="frm" role="form" ng-submit="btn_facturar()" >
                   <div class="form-group">
-                          <div class="col-sm-4">
-                                                   <ol class="nya-bs-select" ng-model="factura.tipo_pago" title="Tipo de pago..." required>
-                                                      <li nya-bs-option="tpago in tpagos" data-value="tpago.id">
-                                                        <a>
-                                                          @{{ tpago.pago }}
-                                                          <span class="glyphicon glyphicon-ok check-mark"></span>
-                                                        </a>
-                                                      </li>
-                                                    </ol>
-                                                  
-                          </div>
+     <div class="col-sm-3">
+                              <div class="col-sm-12 spd spi">
+                                   <ol class="nya-bs-select" ng-model="factura.tipo_pago" title="Tipo de pago..." required>
+                                    <li nya-bs-option="tpago in tpagos" data-value="tpago.id">
+                                        <a>
+                                            @{{ tpago.pago }}
+                                            <span class="glyphicon glyphicon-ok check-mark"></span>
+                                        </a>
+                                    </li>
+                                </ol>
+                              </div>
+
+                              <div class="col-sm-12 spd spi" ng-if="factura.elmonto>0 && factura.elmonto<miventa.total">
+                                   <ol class="nya-bs-select" ng-model="factura.tipo_pago2" title="Tipo de pago..." required>
+                                    <li nya-bs-option="tpago in tpagos" data-value="tpago.id">
+                                        <a>
+                                            @{{ tpago.pago }}
+                                            <span class="glyphicon glyphicon-ok check-mark"></span>
+                                        </a>
+                                    </li>
+                                </ol>
+                              </div>
+                               
+
+                            </div>
+                            <div class="col-sm-3">
+                             <div class="col-sm-12 spd spi">
+                             <div class="col-sm-12 spd spi">
+                                  <label for="name">Total</label>
+                             </div>
+                                <div class="col-sm-6 spi">
+                                     <input id="total" type="text" class="form-control" name="total" ng-model="miventa.total" ng-pattern="/^[0-9]*$/" readonly>
+                                </div>
+                                <div class="col-sm-6 spd">
+                                     <input id="elmonto" type="text" class="form-control" name="elmonto" ng-model="factura.elmonto"  min="1" ng-min="1" ng-pattern="/^[0-9]*$/">
+                                </div>
+                                 
+                               
+                             </div>
+                            <div class="col-sm-12 spd spi" ng-if="factura.elmonto>0 && factura.elmonto<miventa.total">
+                                  <label for="name">Ajuste total</label>
+                                <input id="elmonto2" type="text" class="form-control" name="elmonto2" ng-model="factura.elmonto2" ng-value="miventa.total-factura.elmonto" ng-pattern="/^[0-9]*$/" readonly>
+                                <p>@{{factura.elmonto2}}</p>
+                             </div>
+                               
+                            </div>
+
+                            
                           <div class="col-sm-5">
-                              <label for="name">Referencia</label>
-                               <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS">
+                              <div class="col-sm-12 spd spi">
+                                 <label for="name">Referencia</label>
+                                <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS ó No.Cheque">
+                            </div>
+                            <div class="col-sm-12 spd spi" ng-if="factura.elmonto>0 && factura.elmonto<miventa.total">
+                                  <label for="name">Referencia #2</label>
+                                <input id="referencia" type="text" class="form-control" name="referencia2" ng-model="factura.referencia2" placeholder="# Ref POS ó No.Cheque">
+                            </div>
                           </div>
                       
                         <div class="col-sm-3">

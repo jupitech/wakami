@@ -308,6 +308,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 
 			//Gastos
 		        Route::get('/gastos', 'GastosController@indexgastos');
+		        Route::get('/gastos/reportes', 'GastosController@indexreportes');
 		        Route::post('/gasto/create', 'GastosController@store');
 		        Route::put('/gasto/{id}', 'GastosController@update');
 		        Route::delete('/gasto/destroy/{id}','GastosController@destroy');

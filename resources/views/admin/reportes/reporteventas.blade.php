@@ -59,19 +59,20 @@
                        <div class="total_datos">
                          <table class="table">
                            <tbody>
-                            
-                              <tr>
-                               <td> Descuentos</td>
-                               <td>@{{descuentosventas.descuentos | currency: 'Q'}}</td>
+                               <tr class="t_real">
+                               <th>Total real</th>
+                               <td>@{{totalventas.mitotal | currency: 'Q'}}</td>
                              </tr>
                               <tr>
                                <td> Costos</td>
                                <td>@{{totalneto.costo | currency: 'Q'}}</td>
                              </tr>
-                              <tr class="t_real">
-                               <th>Total real</th>
-                               <td>@{{totalventas.mitotal | currency: 'Q'}}</td>
+                              <tr>
+                               <td> Descuentos</td>
+                               <td>@{{descuentosventas.descuentos | currency: 'Q'}}</td>
                              </tr>
+                             
+                             
                              
                              
                            </tbody>

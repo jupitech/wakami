@@ -172,7 +172,7 @@
       </div>
 
       <div class="ventasdia col-sm-12 spd spi">
-        <div class="col-sm-12  col-md-12 col-lg-8 spi">
+        <div class="col-sm-12  col-md-12 col-lg-12 spi">
             <div class="caja_contenido">
               <h1>Tipo de pago</h1>
               <table class="table tablepago">
@@ -230,8 +230,8 @@
               </table>
             </div>
           </div>
-          <div class="col-sm-12 col-md-12 col-lg-4 spd">
-           <!-- <div class="mtop9 col-sm-6  col-md-6 col-lg-12 spi">
+          <div class="col-sm-12 col-md-12 col-lg-12 spd spi">
+         <div class="mtop col-sm-6  col-md-6 col-lg-6 spi">
                   <div class="caja_contenido">
                     <h1>Ventas por sucursal</h1>
                     <ul class="lisdia">
@@ -242,8 +242,8 @@
                         </li>
                     </ul>
                   </div>
-                     </div> -->
-          <div class=" col-sm-6  col-md-6 col-lg-12 spi">
+                     </div>
+          <div class="mtop col-sm-6  col-md-6 col-lg-6 spi">
             <div class="caja_contenido">
               <h1>Facturas</h1>
                 <table class="table">

@@ -7358,6 +7358,9 @@ body {
 .sinheight {
   min-height: auto !important; }
 
+.sinh{
+    min-height: auto !important;
+}
 .ico_agregar {
   float: left;
   width: 100%;
@@ -7677,7 +7680,9 @@ body {
   .td_2col p {
     float: right;
     margin: 0;
-    color: #006DF0 !important; }
+    color: #006DF0 !important;
+      font-size: 12px !important;
+     }
 
 .lisdia {
   float: left;

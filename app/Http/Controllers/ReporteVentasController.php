@@ -66,7 +66,7 @@ class ReporteVentasController extends Controller
 
           //Total por sucursal
           $ventas = Ventas::join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,4])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
           ->select(
             'sucursales.nombre as name',
@@ -79,7 +79,7 @@ class ReporteVentasController extends Controller
           //Total neto
            $totalneto = Ventas::leftjoin('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
          ->leftjoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
-         ->where('ventas.estado_ventas',2)
+           ->whereIn('ventas.estado_ventas',[2,4])
          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
              \DB::raw('sum(producto_venta.precio_producto * producto_venta.cantidad) as totalp'),
@@ -89,7 +89,7 @@ class ReporteVentasController extends Controller
 
 
          //Total Real
-           $totalreal = Ventas::where('estado_ventas',2)
+           $totalreal = Ventas::whereIn('ventas.estado_ventas',[2,4])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
             \DB::raw('sum(total) as mitotal')
@@ -98,7 +98,7 @@ class ReporteVentasController extends Controller
 
          //Descuentos
            $descuentos = Ventas::leftjoin('descuentos_ventas', 'descuentos_ventas.id_ventas', '=', 'ventas.id')
-         ->where('ventas.estado_ventas',2)
+         ->whereIn('ventas.estado_ventas',[2,4])
          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
                \DB::raw('sum(descuentos_ventas.descuento) as descuentos')
@@ -107,7 +107,7 @@ class ReporteVentasController extends Controller
 
 
             //Ordenes por dia
-           $ordendia = Ventas::where('estado_ventas',2)
+           $ordendia = Ventas::whereIn('ventas.estado_ventas',[2,4])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
             \DB::raw('DATE_FORMAT(fecha_factura, "%d/%m") as name'),
@@ -118,7 +118,7 @@ class ReporteVentasController extends Controller
 
 
             //Ordenes por hora
-           $ordenhora = Ventas::where('estado_ventas',2)
+           $ordenhora = Ventas::whereIn('ventas.estado_ventas',[2,4])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
             \DB::raw('DATE_FORMAT(fecha_factura, "%H") as name'),
