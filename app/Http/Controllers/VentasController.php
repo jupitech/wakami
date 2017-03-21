@@ -737,7 +737,7 @@ if($estado === 1){
 
  try{
 
-             $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
+             $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1,'keep_alive' => false)); 
 
              $resultado=$client->registrarDte(array("dte"=>$dte));
 
