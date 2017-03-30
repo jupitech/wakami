@@ -396,10 +396,10 @@
                                   <label for="name">Total</label>
                              </div>
                                 <div class="col-sm-6 spi">
-                                     <input id="total" type="text" class="form-control" name="total" ng-model="miventa.total" ng-pattern="/^[0-9]*$/" readonly>
+                                     <input id="total" type="text" class="form-control" name="total" ng-model="miventa.total"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" readonly>
                                 </div>
                                 <div class="col-sm-6 spd">
-                                     <input id="elmonto" type="text" class="form-control" name="elmonto" ng-model="factura.elmonto"  min="1" ng-min="1" ng-pattern="/^[0-9]*$/">
+                                     <input id="elmonto" type="text" class="form-control" name="elmonto" ng-model="factura.elmonto"  min="1" ng-min="1"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
                                 </div>
                                  
                                
