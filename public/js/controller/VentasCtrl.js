@@ -322,7 +322,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                      $scope.error = error;
                 }); 
 
-                        //Reporte por vendedor
+                  //Reporte por vendedor
        
      $http.get('/api/reportevendedor').success(
 
