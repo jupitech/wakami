@@ -89,7 +89,7 @@ class ReporteVentasController extends Controller
 
 
          //Total Real
-           $totalreal = Ventas::whereIn('ventas.estado_ventas',[2,4])
+           $totalreal = Ventas::whereIn('ventas.estado_ventas',[2,3])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
             \DB::raw('sum(total) as mitotal')
@@ -107,7 +107,7 @@ class ReporteVentasController extends Controller
 
 
             //Ordenes por dia
-           $ordendia = Ventas::whereIn('ventas.estado_ventas',[2,4])
+           $ordendia = Ventas::whereIn('ventas.estado_ventas',[2,3])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
             \DB::raw('DATE_FORMAT(fecha_factura, "%d/%m") as name'),
@@ -118,7 +118,7 @@ class ReporteVentasController extends Controller
 
 
             //Ordenes por hora
-           $ordenhora = Ventas::whereIn('ventas.estado_ventas',[2,4])
+           $ordenhora = Ventas::whereIn('ventas.estado_ventas',[2,3])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
             \DB::raw('DATE_FORMAT(fecha_factura, "%H") as name'),
@@ -165,7 +165,7 @@ class ReporteVentasController extends Controller
 
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
           ->leftJoin('sucursales', 'ventas.id_sucursal', '=', 'sucursales.id')
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,3])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
           ->select(
             'tpago_venta.tipo_pago as name', 
@@ -205,7 +205,7 @@ class ReporteVentasController extends Controller
 
           $ventas = Ventas::join('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
           ->leftJoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,3])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
           ->select(
             'producto.codigo as codigo', 
@@ -251,7 +251,7 @@ class ReporteVentasController extends Controller
           $ventas = Ventas::join('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
           ->leftJoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
           ->leftJoin('linea_producto', 'linea_producto.id', '=', 'producto.linea')
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,3])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
           ->select(
               'linea_producto.nombre as nombre', 
@@ -292,7 +292,7 @@ class ReporteVentasController extends Controller
           $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
            //Trayendo Producto
          $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
-         ->where('ventas.estado_ventas',2)
+         ->whereIn('ventas.estado_ventas',[2,3])
          ->where('ventas.id_sucursal',$sucursal)
          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->orderBy('id', 'desc')

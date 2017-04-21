@@ -364,7 +364,7 @@ class VentasCentralController extends Controller
 
            //Trayendo Producto
          $ventas=Ventas::with("NombreSucursal")
-                  ->where('estado_ventas',2)
+                  ->whereIn('estado_ventas',[2,3])
                     ->where('fecha_factura','>=',Carbon::today())
                   ->groupBy('id_sucursal')
                   ->select('id_sucursal', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
@@ -393,7 +393,7 @@ class VentasCentralController extends Controller
 
            //Trayendo Producto
          $ventas=Ventas::with("NombreSucursal")
-                  ->where('estado_ventas',2)
+                  ->whereIn('estado_ventas',[2,3])
                   ->whereBetween('fecha_factura', [$fini, $ffin])
                   ->groupBy('id_sucursal')
                   ->select('id_sucursal', \DB::raw('count(id) as cantidad'),\DB::raw('sum(total) as total'))
