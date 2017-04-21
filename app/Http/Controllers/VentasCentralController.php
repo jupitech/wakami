@@ -1289,12 +1289,25 @@ if($estado == 1){
                               $midte=$resultado->return->numeroDte;
                               $micae=$resultado->return->cae;
                               
-                              $ventas->fill([
+                              if($tipopago==4){
+
+                                  $ventas->fill([
+                                          'estado_ventas' => 3,
+                                           'dte' => $midte,
+                                          'cae' => $micae,
+                                      ]);
+                                  $ventas->save();
+
+                                   }else{
+
+                                    $ventas->fill([
                                               'estado_ventas' => 2,
-                                              'dte' => $midte,
+                                             'dte' => $midte,
                                               'cae' => $micae,
                                           ]);
-                              $ventas->save();
+                                   $ventas->save();
+
+                               }
 
                              return response()->json(['DTE' => $midte,'CAE'=> $micae],200);                 
  
@@ -1366,12 +1379,25 @@ if($estado == 1){
                               // $midte=$resultado->return->numeroDte;
                               // $micae=$resultado->return->cae;
                               
-                              $ventas->fill([
+                               if($tipopago==4){
+
+                                  $ventas->fill([
+                                          'estado_ventas' => 3,
+                                         //  'dte' => $midte,
+                                         // 'cae' => $micae,
+                                      ]);
+                                  $ventas->save();
+
+                                   }else{
+
+                                    $ventas->fill([
                                               'estado_ventas' => 2,
-                                          //    'dte' => $midte,
+                                          //   'dte' => $midte,
                                           //    'cae' => $micae,
                                           ]);
-                              $ventas->save();
+                                   $ventas->save();
+
+                               }
 
                              //return response()->json(['DTE' => $midte,'CAE'=> $micae],200);
                               return response()->json(['Venta: venta developer.'],200);
