@@ -44,8 +44,23 @@
      	</div>
       {{-- Analisis de total de ventas --}}
       <div class="ventasdia col-sm-12 spd spi">
+          
+             {{--    Barra Comparacion ventas y gastos --}}
+             <div class="col-sm-2 spi">
+               <div class="caja_contenido">
+                 <div class="col-sm-12 spd spi">
+                       <h1>Ventas/Gastos</h1>
+                    </div>
+                     <div class="col-sm-12 spd spi">
+                           <div class="col-sm-12 col-md-12 col-lg-12 spd">
+                             
+                              <highcharts chart='@{{renderVentaGasto}}'></highcharts>
+                             </div>
+                     </div>
+               </div>
+             </div>
             {{-- Por sucursal --}}
-            <div class="col-sm-6  col-md-6 col-lg-6 spi">
+            <div class="col-sm-6  col-md-6 col-lg-6 ">
                   <div class="caja_contenido">
                     <div class="col-sm-12 spd spi">
                        <h1>Total de ventas</h1>
@@ -85,7 +100,7 @@
                   </div>
               </div>
               {{-- Por tipo de pago --}}
-              <div class="col-sm-6  col-md-6 col-lg-6 spi spd">
+              <div class="col-sm-4  col-md-4 col-lg-4 spi spd">
                    <div class="caja_contenido">
                       <div class="col-sm-12 spd spi">
                        <h1>Tipo de pago</h1>

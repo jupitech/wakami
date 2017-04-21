@@ -33,6 +33,7 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                               $scope.ventas = ventas.data;
                           	  $scope.totalneto = ventas.tneto;
                           	  $scope.totalventas = ventas.treal;
+                          	    $scope.totalgastos = ventas.tgasto;
                           	  $scope.descuentosventas = ventas.des;
                           	  $scope.ordenesdia = ventas.odia;
                           	   $scope.ordeneshora = ventas.ohora;
@@ -120,6 +121,52 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 							            data:  yorden
 							        }]
 							    };    
+
+
+							    		    //Ventas y Gastos
+							       $scope.renderVentaGasto = {
+							        chart: {
+						                type: 'column'
+						            },
+					                title: {
+							            text: ''
+							        },
+							         xAxis: {
+							             categories: ['Ventas/Gastos'],
+							            title: {
+							                text: null
+							            }
+							        },
+							        yAxis: {
+							            min: 0,
+							            title: {
+							                text: null,
+							                align: 'high'
+							            },
+							            labels: {
+							                overflow: 'justify'
+							            }
+							        },
+								    tooltip: {
+								        headerFormat: '<b>Q{point.y:,.2f}</b><br/>',
+								        pointFormat: '{series.name}: Q{point.y:,.2f}<br/>Total: {point.stackTotal}'
+								    },
+								      plotOptions: {
+											        column: {
+											            stacking: 'normal',
+											            dataLabels: {
+											                enabled: true
+											            }
+											        }
+											    },
+							        series: [{
+										        name: 'Ventas',
+										        data: [$scope.totalventas.mitotal]
+										    }, {
+										        name: 'Gastos',
+										        data: [$scope.totalgastos.mitotal]
+										    }]
+							    };
 
 							    //Linear por ordenes por hora
 
@@ -284,6 +331,9 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 							            data:  ydata
 							        }]
 							    };
+
+
+							  
                            
 							    
                   }).error(function(error) {
@@ -311,6 +361,7 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                               $scope.ventas = ventas.data;
                           	  $scope.totalneto = ventas.tneto;
                           	  $scope.totalventas = ventas.treal;
+                          	    $scope.totalgastos = ventas.tgasto;
                           	  $scope.descuentosventas = ventas.des;
                           	  $scope.ordenesdia = ventas.odia;
                           	  $scope.ordeneshora = ventas.ohora;	
@@ -343,6 +394,51 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 							        	name: 'Total',
 							            data:  $scope.ventas
 							        }]
+							    };
+
+							    		    //Ventas y Gastos
+							       $scope.renderVentaGasto = {
+							        chart: {
+						                type: 'column'
+						            },
+					                title: {
+							            text: ''
+							        },
+							         xAxis: {
+							             categories: ['Ventas/Gastos'],
+							            title: {
+							                text: null
+							            }
+							        },
+							        yAxis: {
+							            min: 0,
+							            title: {
+							                text: null,
+							                align: 'high'
+							            },
+							            labels: {
+							                overflow: 'justify'
+							            }
+							        },
+								    tooltip: {
+								        headerFormat: '<b>Q{point.y:,.2f}</b><br/>',
+								        pointFormat: '{series.name}: Q{point.y:,.2f}<br/>Total: {point.stackTotal}'
+								    },
+								      plotOptions: {
+											        column: {
+											            stacking: 'normal',
+											            dataLabels: {
+											                enabled: true
+											            }
+											        }
+											    },
+							        series: [{
+										        name: 'Ventas',
+										        data: [$scope.totalventas.mitotal]
+										    }, {
+										        name: 'Gastos',
+										        data: [$scope.totalgastos.mitotal]
+										    }]
 							    };
                            
                            		//Linear por ordenes del dia

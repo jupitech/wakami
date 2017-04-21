@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Models\Ventas;
+use App\Models\Gastos;
 use App\Models\ProductoVenta;
 use App\Models\TpagoVenta;
 use App\Models\TfacVenta;
@@ -96,6 +97,14 @@ class ReporteVentasController extends Controller
                )
          ->first(); 
 
+          //Total Real
+           $totalgasto = Gastos::where('gastos.estado_gasto',1)
+          ->whereBetween('gastos.fecha_gasto', [$fini, $ffin])
+         ->select(
+            \DB::raw('sum(costo) as mitotal')
+               )
+         ->first(); 
+
          //Descuentos
            $descuentos = Ventas::leftjoin('descuentos_ventas', 'descuentos_ventas.id_ventas', '=', 'ventas.id')
          ->whereIn('ventas.estado_ventas',[2,4])
@@ -133,7 +142,7 @@ class ReporteVentasController extends Controller
                  return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
             }
 
-           return response()->json(['data' =>  $ventas,'tneto' =>  $totalneto,'treal' =>  $totalreal,'des' =>  $descuentos,'odia' =>  $ordendia,'ohora' =>  $ordenhora],200);
+           return response()->json(['data' =>  $ventas,'tneto' =>  $totalneto,'tgasto' =>  $totalgasto,'treal' =>  $totalreal,'des' =>  $descuentos,'odia' =>  $ordendia,'ohora' =>  $ordenhora],200);
 
      
 
