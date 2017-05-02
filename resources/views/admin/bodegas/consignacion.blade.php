@@ -667,7 +667,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12">
-                    <div class="alert alert-warning" role="alert" ng-if="alertaCreaExcel"> <strong>Excel creado para</strong> @{{exisConsignacion.info_cliente.nombre}}</div>   
+                    <div class="alert alert-warning" role="alert" ng-if="alertaCreaExcel"> <strong>Excel creado para</strong> @{{exisConsignacion.info_cliente.nombre}}</div>          <div class="alert alert-info" role="alert" ng-if="alertaEditadoProA"> <strong>Producto Ajustado</strong> Puedes ver en el listado de productos las modificaciones realizadas.</div>  
                 </div>
                 {{-- Productos de stock en bodgea --}}
 
@@ -703,7 +703,7 @@
                                                                                 <form class="form-horizontal" name="frmed" role="form" ng-submit="ajustarStock()" >
                                                                                        <div class="col-sm-9 ">
                                                                                        <label>@{{ proconsignacion.nombre_producto.codigo }} - Stock @{{proconsignacion.stock}} </label>
-                                                                                           <input id="name" type="number" class="form-control" name="nombre" ng-model="existeProA.stock" min="1" required>
+                                                                                           <input id="name" type="number" class="form-control" name="nombre" ng-model="existeProA.stock" required>
                                                                                        </div>
                                                                                        <div class="col-sm-9 ">
                                                                                            <input id="name" type="text" class="form-control" name="nombre" ng-model="existeProA.justificacion"  required>

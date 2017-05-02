@@ -29,6 +29,7 @@ wApp.controller('ConsignacionCtrl',function($scope, $http,ApiConsignacionNuevo, 
    $scope.alertaEliminado = false;
    $scope.alertaEliminadopro = false;
    $scope.alertaEditado = false;
+     $scope.alertaEditadoProA=false;
    $scope.loading = false;
     $scope.termi_venta=false;
 

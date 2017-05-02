@@ -461,7 +461,7 @@
                                                                                 <form class="form-horizontal" name="frmed" role="form" ng-submit="ajustarStock()" >
                                                                                        <div class="col-sm-9 ">
                                                                                        <label>@{{ prosucursal.nombre_producto.codigo }} - Stock @{{prosucursal.stock}} </label>
-                                                                                           <input id="name" type="number" class="form-control" name="nombre" ng-model="existeProA.stock" min="1" required>
+                                                                                           <input id="name" type="number" class="form-control" name="nombre" ng-model="existeProA.stock"  required>
                                                                                        </div>
                                                                                        <div class="col-sm-9 ">
                                                                                            <input id="name" type="text" class="form-control" name="nombre" ng-model="existeProA.justificacion"  required>
