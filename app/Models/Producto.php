@@ -42,4 +42,12 @@ class Producto extends Model
     public function StockProducto(){
         return $this->hasOne('\App\Models\StockProducto','id_producto','id');
     }
+
+    public function StockSucursal(){
+        return $this->hasMany('\App\Models\StockSucursal','id_producto','id');
+    }
+
+    public function StockConsignacion(){
+        return $this->hasMany('\App\Models\StockConsignacion','id_producto','id');
+    }
 }

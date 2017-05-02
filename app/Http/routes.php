@@ -109,6 +109,9 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 	    //Donaciones
 	   Route::get('/donaciones', 'DonacionesController@index');
 
+	     //Inventario Consolidado
+	   Route::get('/inventariocon', 'InventarioConsoController@index');
+
 
 		Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
 		Route::post('/producto/imagen/create',['as' => 'producto.imagen.create', 'uses' =>  'ProductosController@storeimagen']);
@@ -144,6 +147,13 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 			Route::delete('/producto/destroy/{id}','ProductosController@destroy');
 			Route::get('/stockproducto/{id}', 'ProductosController@stockproducto');
 
+			//Inventario Consolidado
+			//
+			Route::get('/inventario/productos', 'InventarioConsoController@indexproductos');
+			Route::get('/inventario/sucursales', 'InventarioConsoController@sucursales');
+			Route::get('/inventario/consignacion', 'InventarioConsoController@consignacion');
+			Route::get('/inventario/sumsucursal', 'InventarioConsoController@sumsucursal');
+			Route::get('/inventario/sumconsignacion', 'InventarioConsoController@sumconsignacion');
 			  //Compras
             Route::get('/compras', 'OrdenCompraController@indexcompras');
             Route::get('/procompras/{id}', 'OrdenCompraController@indexprocompras');

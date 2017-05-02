@@ -33,7 +33,7 @@
            				<ul>
                   @role('admin|operativo|developer') 
            					<li><a href="{{ URL::to('/productos') }}">Listado de productos</a></li>
-           					<li><a href="">Top Productos</a></li>
+           					 <li><a href="{{ URL::to('/inventariocon') }}">Inventario Consolidado</a></li>
                     <li><a href="{{ URL::to('/devoluciones') }}">Devoluciones</a></li>
                   @endrole
                     @role('vendedor')
@@ -63,7 +63,6 @@
            				<h1>Consignación</h1>
            				<ul>
            					<li><a href="{{ URL::to('/consignacion') }}">Consignación</a></li>
-           					<li><a href="">Movimiento entre bodegas</a></li>
            				</ul>
            			</div>
            		</div>
@@ -75,9 +74,7 @@
 	           				<ul>
                      @role('admin|operativo|developer') 
 	           					<li><a href="{{ URL::to('/reporteventas') }}">Reporte de ventas</a></li>
-	           					<li><a href="">Reporte de compras</a></li>
                        <li><a href="{{ URL::to('/libroventas') }}">Libro de Ventas</a></li>
-	           					<li><a href="">Movimientos</a></li>
                        @endrole
                        @role('vendedor')
                        <li><a href="">Ventas del día</a></li>
@@ -108,11 +105,9 @@
       		           				<h1>Configuraciones</h1>
       		           				<ul>
       		           					<li><a href="{{ URL::to('/usuarios') }}">Usuarios</a></li>
-      		           					<li><a href="">Parametros Generales</a></li>
                               @role('developer')
                                 <li><a href="{{ URL::to('/developer') }}">Developer</a></li>
                               @endrole
-      		           					<li><a href="">Accesos</a></li>
       		           				</ul>
       		           			</div>
                  		</div>

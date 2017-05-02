@@ -7857,6 +7857,20 @@ tspan, textPath {
     height: 200px !important;
   }
 
+  .table150 .table > thead > tr > th{
+    font-size: 11px !important;
+  }
+
+    .table150 .table > tbody > tr > td{
+    font-size: 11px !important;
+  }
+  .coama{
+    background: #fcfc9c;
+    font-size: 15px !important;
+    font-weight: bold !important;
+  }
+
+
 @media print {
   /*#areaimpresion{
    	width: 400px;
