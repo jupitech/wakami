@@ -680,6 +680,7 @@
                                                <th>Precio Publico</th>
                                                <th>Stock</th>
                                                <th>Subtotal</th>
+                                               <th>Opciones</th>
                                            </thead>
                                              <tbody>
                                                <tr ng-repeat="proconsignacion in proconsignaciones | filter: query">
@@ -692,6 +693,30 @@
                                                    <td ng-init="$parent.totalcosto = $parent.totalcosto + (proconsignacion.nombre_producto.costo * proconsignacion.stock); $parent.totalprecio = $parent.totalprecio + (proconsignacion.nombre_producto.preciop * proconsignacion.stock) ">
                                                    <small class="label label-info">Q@{{(proconsignacion.nombre_producto.costo*proconsignacion.stock) | number:2}}</small>
                                                      Q@{{(proconsignacion.nombre_producto.preciop*proconsignacion.stock) | number:2}}
+                                                   </td>
+                                                   <td>
+                                                     <div class="area_opciones">
+                                                               <ul>
+                                                                  <li class="ed_drop"  uib-dropdown>
+                                                                         <a href="" class="ico_ajustar" id="simple-dropdown" uib-dropdown-toggle ng-click="btn_editaraj(proconsignacion)"></a>
+                                                                                <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                                                                <form class="form-horizontal" name="frmed" role="form" ng-submit="ajustarStock()" >
+                                                                                       <div class="col-sm-9 ">
+                                                                                       <label>@{{ proconsignacion.nombre_producto.codigo }} - Stock @{{proconsignacion.stock}} </label>
+                                                                                           <input id="name" type="number" class="form-control" name="nombre" ng-model="existeProA.stock" min="1" required>
+                                                                                       </div>
+                                                                                       <div class="col-sm-9 ">
+                                                                                           <input id="name" type="text" class="form-control" name="nombre" ng-model="existeProA.justificacion"  required>
+                                                                                       </div>
+                                                                                       <div class="col-sm-3 spd spi">
+                                                                                        <button type="submit" class="btn_g btn_ajustarg" ng-disabled="frmed.$invalid"></button>
+                                                                                       </div>
+                                                                                </form>
+                                                                                </div>
+                                                                         </li>
+                                                              
+                                                           </ul>
+                                                         </div> 
                                                    </td>
                                                </tr>
                                               

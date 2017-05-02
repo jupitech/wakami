@@ -16,7 +16,7 @@
 
     <div class="col-sm-12">
            <div class="col-sm-12">
-                     <div class="busqueda_linea col-sm-3 spi">
+                     <div class="busqueda_linea col-sm-4 spi">
                                 
                                     <ol class="nya-bs-select" ng-model="buslinea" title="Buscar por linea" name="id_linea" data-size="10" onfocus="pxtrack.emit('counter', '1')" >
                                     <li ng-click="deselecli()"><a>
@@ -32,11 +32,17 @@
                                   </ol>
                      </div> 
                     
-                     <div class="busqueda_texto col-sm-4">
+                     <div class="busqueda_texto col-sm-5">
                     <input type="text" id="query" ng-model="query" onfocus="pxtrack.emit('counter', '1')" placeholder="Busqueda de productos.." />
                      </div>
+                     <div class="col-sm-3 spd">
+                      <div class=" btn_seg">
+                          <a ng-click="exportData()"><span class="glyphicon glyphicon-save"></span> A Excel</a>
+                      </div>
+                            
+                      </div>
                 </div>
-    <div class="caja_contenido table150">
+    <div id="exportable" class="caja_contenido table150">
              <table class="table">
                  <thead>
                      <th>Codigo</th>

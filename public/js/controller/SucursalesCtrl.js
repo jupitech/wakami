@@ -27,6 +27,7 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
    $scope.alertaEliminado = false;
    $scope.alertaEliminadopro = false;
    $scope.alertaEditado = false;
+   $scope.alertaEditadoProA=false;
    $scope.Total = 0;
    $scope.btn_nuevo = function() {
         $scope.nuevo_obj = !$scope.nuevo_obj;
@@ -202,6 +203,32 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
               }).error(function(error) {
                    $scope.error = error;
               });
+
+
+             $scope.btn_editaraj = function(prosucursal) {
+                $scope.existeProA= prosucursal;
+                console.log($scope.existeProA);
+
+                             $scope.ajustarStock = function(){
+                var data = {
+                  id_sucursal: $scope.existeProA.id_sucursal,
+                  stock_actual: $scope.existeProA.stock,
+                  justificacion: $scope.existeProA.justificacion
+                };
+                 console.log(data);
+                $http.post('api/sucursal/ajuste/' +  $scope.existeProA.id_producto, data)
+                .success(function (data, status, headers) {
+                   console.log('Ajuste de producto '+$scope.existeProA.id_producto+' modificado correctamente.');
+                        $timeout(function () { $scope.alertaEditadoProA = true; }, 1000);
+                        $timeout(function () { $scope.alertaEditadoProA = false; }, 5000);
+                })
+                .error(function (data, status, header, config) {
+                    console.log('Parece que existe un error al modificar el producto.');
+                });
+
+                 };
+             };
+         
    };
 
     //Nuevo Envio
@@ -212,6 +239,8 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
              $scope.btn_cerraro=function(){
              $scope.opcion_obj = false;
            };
+
+
 
 
    };
@@ -297,6 +326,11 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                             $timeout(function () { $scope.alertaExiste = false; }, 5000);
                         });
              };
+
+
+                //Agregar producto
+             //Editar Productos Envio
+            
 
              //Editar Productos Envio
              $scope.btn_editarl = function(proenvio) {

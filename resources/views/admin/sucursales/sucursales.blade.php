@@ -429,6 +429,8 @@
                       <div class="col-sm-12 conte table_height">
                             <div class="col-sm-12">
                                 <div class="alert alert-danger" role="alert" ng-if="alertaEliminadoPro"> <strong>Producto borrado</strong> No se podrá recuperar los datos.</div>  
+
+                                  <div class="alert alert-info" role="alert" ng-if="alertaEditadoProA"> <strong>Producto Ajustado</strong> Puedes ver en el listado de productos las modificaciones realizadas.</div>
                             </div>
                                   <table class="table">
                                            <thead>
@@ -452,7 +454,26 @@
                                                    </td>
                                                    <td>
                                                           <div class="area_opciones">
-                                                            
+                                                               <ul>
+                                                                  <li class="ed_drop"  uib-dropdown>
+                                                                         <a href="" class="ico_ajustar" id="simple-dropdown" uib-dropdown-toggle ng-click="btn_editaraj(prosucursal)"></a>
+                                                                                <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                                                                <form class="form-horizontal" name="frmed" role="form" ng-submit="ajustarStock()" >
+                                                                                       <div class="col-sm-9 ">
+                                                                                       <label>@{{ prosucursal.nombre_producto.codigo }} - Stock @{{prosucursal.stock}} </label>
+                                                                                           <input id="name" type="number" class="form-control" name="nombre" ng-model="existeProA.stock" min="1" required>
+                                                                                       </div>
+                                                                                       <div class="col-sm-9 ">
+                                                                                           <input id="name" type="text" class="form-control" name="nombre" ng-model="existeProA.justificacion"  required>
+                                                                                       </div>
+                                                                                       <div class="col-sm-3 spd spi">
+                                                                                        <button type="submit" class="btn_g btn_ajustarg" ng-disabled="frmed.$invalid"></button>
+                                                                                       </div>
+                                                                                </form>
+                                                                                </div>
+                                                                         </li>
+                                                              
+                                                           </ul>
                                                          </div> 
                                                    </td>
                                                </tr>

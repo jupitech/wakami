@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Models\Sucursales;
 use App\Models\StockSucursal;
 use App\Models\StockProducto;
+use App\Models\AjusteInventario;
 use App\Models\OrdenEnvio;
 use App\Models\ProductoEnvio;
 use App\Models\Producto;
@@ -188,6 +189,33 @@ class SucursalController extends Controller
                     return response()->json(['mensaje' =>  'Producto ya ingresado al envio','codigo'=>404],404);
             }
            
+    }
+
+     public function storestock(Request $request,$id)
+    {
+
+       $user = Auth::User();     
+         $userId = $user->id; 
+
+         $stockac=StockSucursal::where('id_sucursal',$request['id_sucursal'])->where('id_producto',$id)->first();
+         $restante= $request['stock_actual']-($stockac->stock);
+
+         $ajuste=AjusteInventario::create([
+                  'id_user' => $userId,
+                  'id_producto' => $id,
+                  'stock_anterior' => $stockac->stock,
+                  'stock_actual' => $request['stock_actual'],
+                  'stock_restante' => $restante,
+                  'tipo_stock' => 'S',
+                  'justificacion' => $request['justificacion'],
+                  'id_sucursal' => $request['id_sucursal'],
+                        ]);
+          $ajuste->save();
+
+           $stockac->fill([
+                  'stock' =>  $request['stock_actual'],
+            ]);
+           $stockac->save();
     }
     
     /**

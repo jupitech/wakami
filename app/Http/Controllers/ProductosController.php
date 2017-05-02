@@ -11,6 +11,7 @@ use App\Models\Proveedores;
 use App\Models\LineaProducto;
 use App\Models\GaleriaImagen;
 use App\Models\StockProducto;
+use App\Models\AjusteInventario;
 use Auth;
 use Excel;
 use Carbon\Carbon;
@@ -49,6 +50,15 @@ class ProductosController extends Controller
             return response()->json(['mensaje' => 'No se encuentran movimientos de precios actualmente.','codigo'=>404],404);
         }            
             return response()->json(['datos' => $movimientoprecio],200);
+    }
+
+     public function ajustepro($id)
+    {
+      $ajuste=AjusteInventario::with('NombreUsuario','NombreProducto','Sucursal','Consignacion')->where('id_producto',$id)->get();
+        if(!$ajuste){
+            return response()->json(['mensaje' => 'No se encuentran movimientos de precios actualmente.','codigo'=>404],404);
+        }            
+            return response()->json(['datos' => $ajuste],200);
     }
    
 
@@ -145,6 +155,32 @@ class ProductosController extends Controller
                   'nombre' => $request['nombre']
                         ]);
           $lineas->save();
+    }
+
+     public function storestock(Request $request,$id)
+    {
+
+       $user = Auth::User();     
+         $userId = $user->id; 
+
+         $stockac=StockProducto::where('id_producto',$id)->first();
+         $restante= $request['stock_actual']-($stockac->stock);
+
+         $ajuste=AjusteInventario::create([
+                  'id_user' => $userId,
+                  'id_producto' => $id,
+                  'stock_anterior' => $stockac->stock,
+                  'stock_actual' => $request['stock_actual'],
+                  'stock_restante' => $restante,
+                  'tipo_stock' => 'C',
+                  'justificacion' => $request['justificacion'],
+                        ]);
+          $ajuste->save();
+
+           $stockac->fill([
+                  'stock' =>  $request['stock_actual'],
+            ]);
+           $stockac->save();
     }
 
 
@@ -293,6 +329,8 @@ class ProductosController extends Controller
             ]);
         $lineas->save();
     }
+
+      
     /**
      * Remove the specified resource from storage.
      *

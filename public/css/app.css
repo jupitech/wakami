@@ -6086,6 +6086,10 @@ body {
   background: url("img/repeat.svg") no-repeat center;
   background-size: 18px; }
 
+.ico_ajuste {
+  background: url("img/ajuste.svg") no-repeat center;
+  background-size: 18px; }
+
 .ico_gastos {
   background: url("img/ico-gastos2.svg") no-repeat 8px center;
   background-size: 20px; }
@@ -6281,6 +6285,18 @@ body {
   background: #006DF0 url("img/ico_editar_b.svg") no-repeat center;
   background-size: 15px; }
 
+
+  .ico_ajustar {
+  background: url("img/ajuste.svg") no-repeat center;
+  background-size: 18px; }
+
+.ico_ajustar:hover {
+  border-radius: 50%;
+  background: #933EC5 url("img/ajuste_bl.svg") no-repeat center;
+  background-size: 15px; }
+
+
+
 .ico_eliminar {
   background: url("img/ico_eliminar.svg") no-repeat center;
   background-size: 18px; }
@@ -6396,6 +6412,16 @@ body {
   background-size: 20px; }
 
 .btn_editarg:hover {
+  background-size: 20px;
+  opacity: 1; }
+
+  .btn_ajustarg {
+  border: none !important;
+  border-radius: 3px !important;
+  background: #933EC5 url("img/ajuste_bl.svg") no-repeat center;
+  background-size: 20px; }
+
+.btn_ajustarg:hover {
   background-size: 20px;
   opacity: 1; }
 

@@ -136,6 +136,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 
 			//Productos
 			Route::get('/lineaproductos', 'ProductosController@indexlineas');
+			Route::get('/productos/ajuste/{id}', 'ProductosController@ajustepro');
 			Route::post('/lineaproducto/create', 'ProductosController@storelinea');
 			Route::put('/lineaproducto/{id}', 'ProductosController@updatelinea');
 			Route::delete('/lineaproducto/destroy/{id}','ProductosController@destroylinea');
@@ -146,6 +147,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 			Route::put('/producto/{id}', 'ProductosController@update');
 			Route::delete('/producto/destroy/{id}','ProductosController@destroy');
 			Route::get('/stockproducto/{id}', 'ProductosController@stockproducto');
+			Route::post('/stockproducto/ajuste/{id}', 'ProductosController@storestock');
 
 			//Inventario Consolidado
 			//
@@ -187,6 +189,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 			Route::delete('/proenvio/destroy/{id}','SucursalController@destroypro');
 			Route::post('/envio/p1/{id}', 'SucursalController@updatep1');
 			Route::put('/envio/p2/{id}', 'SucursalController@updatep2');
+
+			Route::post('/sucursal/ajuste/{id}', 'SucursalController@storestock');
 
 
 			//Ventas Central
@@ -277,6 +281,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 			Route::put('/proenvioconsignacion/{id}', 'ConsignacionController@updateproenvio');
 			Route::delete('/proenvioconsignacion/destroy/{id}','ConsignacionController@destroypro');
 			Route::post('/envioconsignacion/p1/{id}', 'ConsignacionController@updatep1');
+
+			Route::post('/consignacion/ajuste/{id}', 'ConsignacionController@storestock');
 
 			//Reportes
 			Route::get('/reportes/ventasmes', 'ReporteVentasController@indexventas');	

@@ -83,6 +83,8 @@
                       </div>
                </div>
 
+
+
    {{-- Nuevo Producto --}}
                <div id="area_nuevo" ng-if="nuevo_obj">
                     <div class="header_nuevo">
@@ -319,6 +321,72 @@
   
 
 
+ {{-- Ajuste de stock --}}
+
+          @role('admin|developer') 
+               <div id="area_mas" ng-if="ajuste_obj">
+                    <div class="header_nuevo">
+                      <div class="col-sm-12">
+                            <h1>Ajuste de Inventario para <strong> @{{existeProducto.codigo}}</strong> </h1>
+                            <a class="btn_cerrar" ng-click="btn_cerrarA()"></a>
+                      </div>
+                    </div>
+
+                    <div class="conte_nuevo">
+                    <div class="col-sm-12">
+                                     <form class="form-horizontal" name="frm" role="form" ng-submit="ajustarStock()" >
+                                          <div class="form-group">
+                                                <div class="col-md-3">
+                                                    <label for="name">Stock Actual <strong>@{{existeProducto.stock_producto.stock}} Uni</strong> </label>
+                                                     <input id="name" type="text" class="form-control" name="nombre" ng-model="ajuste.stock" placeholder="Stock Actual" required>
+                                                </div>
+                                                 <div class="col-md-6">
+                                                    <label for="name">Justificación </label>
+                                                     <input id="name" type="text" class="form-control" name="justificacion" ng-model="ajuste.justificacion" placeholder="Razón de cambio" required>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">AJUSTAR</button>
+                                                </div>
+                                           </div>
+                                     </form>
+                                </div>
+                      <div class="col-sm-12">
+                          <table class="table ">
+                                                     <thead>
+                                                         <th>Realizado en</th>
+                                                         <th>Stock Anterior</th>
+                                                         <th>Stock Actual</th>
+                                                         <th>Stock Restante</th>
+                                                         <th>Editor</th>
+                                                         <th>Fecha / Hora</th>
+                                                         <th>Justificación</th>
+                                                     </thead>
+                                                     <tbody>
+                                                         <tr ng-repeat="ajuste in ajustepro | reverse"> 
+                                                         <td ng-switch="ajuste.tipo_stock">
+                                                           <span ng-switch-when="C">Central</span>
+                                                           <span ng-switch-when="S">S:@{{ajuste.sucursal.nombre}}</span>
+                                                           <span ng-switch-when="CO">CO:@{{ajuste.consignacion.info_cliente.nombre}}</span>
+                                                         </td>                
+                                                             <td>@{{ajuste.stock_anterior}}</td>
+                                                             <td>@{{ajuste.stock_actual}}</td>
+                                                             <td>@{{ajuste.stock_restante}}</td>
+                                                             <td>@{{ajuste.nombre_usuario.nombre}} @{{movimiento.nombre_usuario.apellido}}</td>
+                                                             <td>@{{ajuste.created_at | amDateFormat: 'DD/MM/YYYY, h:mm:ss a'}}</td>  
+                                                             <td>@{{ajuste.justificacion}}</td>                               
+                                                         </tr>
+                                                        
+                                                     </tbody>
+                                      </table>
+                                      
+        
+                                </div>
+                    </div>
+              </div>
+               @endrole
+  
+
+
 	{{-- Productos --}}
 	
 	 <div class="header_conte">
@@ -425,6 +493,9 @@
                                                  </li>
                                                  <li>
                                                     <a href="" class="ico_repeat" ng-click="btn_movimiento(producto)"></a>
+                                                 </li>
+                                                  <li>
+                                                    <a href="" class="ico_ajuste" ng-click="btn_ajuste(producto)"></a>
                                                  </li>
                                               </ul>
                                           </div>

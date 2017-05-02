@@ -172,6 +172,30 @@ wApp.controller('ConsignacionCtrl',function($scope, $http,ApiConsignacionNuevo, 
                 });
 
               }
+
+                $scope.btn_editaraj = function(prosucursal) {
+                $scope.existeProA= prosucursal;
+                console.log($scope.existeProA);
+
+               $scope.ajustarStock = function(){
+                var data = {
+                  id_consignacion: $scope.existeProA.id_consignacion,
+                  stock_actual: $scope.existeProA.stock,
+                  justificacion: $scope.existeProA.justificacion
+                };
+                 console.log(data);
+                $http.post('api/consignacion/ajuste/' +  $scope.existeProA.id_producto, data)
+                .success(function (data, status, headers) {
+                   console.log('Ajuste de producto '+$scope.existeProA.id_producto+' modificado correctamente.');
+                        $timeout(function () { $scope.alertaEditadoProA = true; }, 1000);
+                        $timeout(function () { $scope.alertaEditadoProA = false; }, 5000);
+                })
+                .error(function (data, status, header, config) {
+                    console.log('Parece que existe un error al modificar el producto.');
+                });
+
+                 };
+             };
  
             
    };

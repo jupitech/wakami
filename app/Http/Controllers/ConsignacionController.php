@@ -14,7 +14,7 @@ use App\Models\Sucursales;
 use App\Models\OrdenConsignacion;
 use App\Models\ProductoEnvioco;
 use App\Models\FacConsignacion;
-
+use App\Models\AjusteInventario;
 use App\Models\Ventas;
 use App\Models\ProductoVenta;
 use App\Models\TpagoVenta;
@@ -267,6 +267,35 @@ class ConsignacionController extends Controller
             }
            
     }
+
+     public function storestock(Request $request,$id)
+    {
+
+       $user = Auth::User();     
+         $userId = $user->id; 
+
+         $stockac=StockConsignacion::where('id_consignacion',$request['id_consignacion'])->where('id_producto',$id)->first();
+         $restante= $request['stock_actual']-($stockac->stock);
+
+         $ajuste=AjusteInventario::create([
+                  'id_user' => $userId,
+                  'id_producto' => $id,
+                  'stock_anterior' => $stockac->stock,
+                  'stock_actual' => $request['stock_actual'],
+                  'stock_restante' => $restante,
+                  'tipo_stock' => 'CO',
+                  'justificacion' => $request['justificacion'],
+                  'id_consignacion' => $request['id_consignacion'],
+                        ]);
+          $ajuste->save();
+
+           $stockac->fill([
+                  'stock' =>  $request['stock_actual'],
+            ]);
+           $stockac->save();
+    }
+
+
 
      public function crearexcel(Request $request, $id)
     {

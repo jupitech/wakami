@@ -25,6 +25,7 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
    $scope.alertaEditadol = false; // Alerta de proveedor editado
    $scope.alertaEliminadol = false; // Alerta de proveedor editado
    $scope.movimiento_obj = false; //Ver Movimientos De Precio del Producto
+   $scope.ajuste_obj = false; //Ver Movimientos De Precio del Producto
 
 
    $scope.btn_nuevo = function() {
@@ -57,6 +58,22 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
             });
       }
 
+
+       //Cargar Movimiento de Precios de Servicios
+      $scope.btn_ajuste = function(producto){
+        $scope.ajuste_obj = !$scope.ajuste_obj;
+        $scope.existeProducto = producto;
+
+        $http.get('api/productos/ajuste/' +  $scope.existeProducto.id)
+            .success(
+                  
+            function(ajustepro){
+              $scope.ajustepro = ajustepro.datos;
+            }).error(function(error){
+              $scope.error = error;
+            });
+      }
+
       //Boton Cerrar
         $scope.btn_cerrar = function() {
           $scope.editar_obj = !$scope.editar_obj;          
@@ -65,6 +82,11 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
        
         $scope.btn_cerrarM = function() {
           $scope.movimiento_obj = !$scope.movimiento_obj;          
+       };
+
+
+        $scope.btn_cerrarA = function() {
+          $scope.ajuste_obj = !$scope.ajuste_obj;          
        };
 
 
@@ -272,6 +294,35 @@ wApp.controller('ProductosCtrl',function($scope, $http,ApiLineaNuevo,ApiProducto
                 console.log('Parece que existe un error al borrar el producto.');
             });
       };
+
+      $scope.ajuste={};
+      $scope.ajustarStock = function(){
+                var data = {
+                  stock_actual: $scope.ajuste.stock,
+                  justificacion: $scope.ajuste.justificacion
+                };
+                 //console.log(data);
+                $http.post('api/stockproducto/ajuste/' +  $scope.existeProducto.id, data)
+                .success(function (data, status, headers) {
+                   console.log('Ajuste de producto '+$scope.existeProducto.nombre+' modificado correctamente.');
+                    $scope.ajuste={};
+                      $http.get('api/productos/ajuste/' +  $scope.existeProducto.id)
+                                        .success(
+                                              
+                                        function(ajustepro){
+                                          $scope.ajustepro = ajustepro.datos;
+                                        }).error(function(error){
+                                          $scope.error = error;
+                                        });
+                                                     
+                           $timeout(function () { $scope.alertaEditado = true; }, 1000);
+                           $timeout(function () { $scope.alertaEditado = false; }, 5000);
+                })
+                .error(function (data, status, header, config) {
+                    console.log('Parece que existe un error al modificar el producto.');
+                });
+
+        };
 
 
 });
