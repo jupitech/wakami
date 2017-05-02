@@ -67,7 +67,7 @@ class ReporteVentasController extends Controller
 
           //Total por sucursal
           $ventas = Ventas::join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
-          ->whereIn('ventas.estado_ventas',[2,4])
+          ->whereIn('ventas.estado_ventas',[2,3])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
           ->select(
             'sucursales.nombre as name',
@@ -80,7 +80,7 @@ class ReporteVentasController extends Controller
           //Total neto
            $totalneto = Ventas::leftjoin('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
          ->leftjoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
-           ->whereIn('ventas.estado_ventas',[2,4])
+           ->whereIn('ventas.estado_ventas',[2,3])
          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
              \DB::raw('sum(producto_venta.precio_producto * producto_venta.cantidad) as totalp'),
@@ -107,7 +107,7 @@ class ReporteVentasController extends Controller
 
          //Descuentos
            $descuentos = Ventas::leftjoin('descuentos_ventas', 'descuentos_ventas.id_ventas', '=', 'ventas.id')
-         ->whereIn('ventas.estado_ventas',[2,4])
+         ->whereIn('ventas.estado_ventas',[2,3])
          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(
                \DB::raw('sum(descuentos_ventas.descuento) as descuentos')

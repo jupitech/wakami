@@ -93,7 +93,7 @@
                          </td>
                          <td ng-click="abrirventa(venta)">@{{venta.info_clientes.nombre}} <small>@{{venta.info_clientes.empresa}}</small></td>
                          <td ng-click="abrirventa(venta)">@{{venta.info_clientes.nit}} </td>
-                         <td class="tot_venta" ng-click="abrirventa(venta)">@{{venta.total | currency: 'Q'}}</td>
+                         <td class="tot_venta" ng-click="abrirventa(venta)"><span ng-if="venta.estado_factura!=4">@{{venta.total | currency: 'Q'}}</span></td>
 
                           
                       
