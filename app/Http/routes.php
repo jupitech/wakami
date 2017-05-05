@@ -355,6 +355,9 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 	      	     //Devoluciones
 	   Route::get('/misdevoluciones', 'DevolucionesController@indexsucu');
 
+	      //Cierre Caja
+	      Route::get('/cierrecaja', 'CierreCajaController@index');
+
 
 
 	 Route::group(['middleware' => 'cors','prefix' => 'api/mi'], function()
@@ -432,6 +435,24 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
 		Route::get('/devoluciones/sucursales/{id}', 'DevolucionesController@indexprosucursales');
 		Route::get('/devolucion/pdfenvio/{id}', 'DevolucionesController@pdfenvio');
 
+
+		// Cierre de caja
+	    Route::get('sucursalcierre/{id}','CierreCajaController@indexsucur');
+        Route::get('/estadocierre/{id}','CierreCajaController@estadocierre');
+              //Cierres Sucursales
+        Route::get('cierreshoy/{sucursal}', 'CierreCajaController@cierrehoy');
+        Route::get('cierres/{sucursal}', 'CierreCajaController@indexcierres');
+        Route::get('bsaldo/{id}', 'CierreCajaController@indexsaldo');
+        Route::post('cierre/create/{id}', 'CierreCajaController@store');
+
+
+          //Ir a traer los TOTALES DE VENTAS POR TIPOS DE PAGO, EFECTIVO TARJETA, CHEQUE, DEPOSITO
+        Route::get('/totventaefec/{id}', 'CierreCajaController@totalventasefectivo');
+        Route::get('/totventatarj/{id}', 'CierreCajaController@totalventastarjeta');
+        Route::get('/totventachec/{id}', 'CierreCajaController@totalventascheque');
+        Route::get('/totventadep/{id}', 'CierreCajaController@totalventasdeposito');
+
+        
 	});	
 
 		

@@ -2989,6 +2989,19 @@ wApp.controller('MisVentasCtrl',function($scope, $http, $timeout, $log,$uibModal
                      $scope.error = error;
                 }); 
 
+                 //Buscando saldo actual
+        $http.get('/api/mi/bsaldo/'+$scope.misucu).success(
+
+            function(bsaldo) {
+                $scope.bsaldo = bsaldo.datos;
+                console.log(bsaldo);
+                console.log('Saldo actual: ',$scope.bsaldo.efectivo);
+            }).error(function(error) {
+
+            $scope.bsaldo = 0;
+            $scope.error = error;
+        });
+
 
         $scope.btn_dia=function(){
           $scope.act_btn=1;

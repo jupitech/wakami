@@ -18,6 +18,7 @@ use App\Models\DescuentosVentas;
 use App\Models\Promociones;
 use App\Models\PromocionesVentas;
 use App\Models\EstadoPagina;
+use App\Models\SaldoActual;
 
 use App\User;
 use Auth;
@@ -59,6 +60,8 @@ class VentasController extends Controller
         }
          return response()->json(['datos' =>  $ventas],200);
     }
+
+  
 
 
       public function indexventas($id)

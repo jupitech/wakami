@@ -90,12 +90,24 @@
      </div>
 	<div class="col-sm-12">
 
-      <div class="filtros col-sm-6 spi">
+      <div class="filtros col-sm-3 spi">
             <a class="btn_filtro" ng-click="btn_dia()" ng-class="{'btn_active': act_btn==1}">Día</a>
             <a class="btn_filtro" ng-click="btn_mes()" ng-class="{'btn_active': act_btn==2}">Mes</a>
             <a class="btn_filtro" ng-click="btn_anio()"  ng-class="{'btn_active': act_btn==3}">Año</a>
             
       </div>
+       <div class="col-sm-3 ">
+                    <div class="porusuario">
+                    <div class="col-sm-8">
+                       <h3>Saldo Actual</h3>
+                    </div>
+                    <div class="col-sm-4">
+                       <span> Q@{{bsaldo.efectivo | number:2}}</span>
+                    </div>
+                         
+                         
+                    </div>
+                </div>
       <div class="col-sm-6 spd">  
             <div class="porusuario">
                <div class="col-sm-6" ng-repeat="elusuario in ventadiauser">

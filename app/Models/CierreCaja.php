@@ -19,7 +19,7 @@ class CierreCaja extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_sucursal','id_user','saldo_efectivo','estado_caja','created_at'];
+    protected $fillable = ['id_sucursal','id_user','saldo_efectivo','estado_caja','total_saldo','justficacion','created_at'];
 
     /**
      * The attributes excluded from the model's JSON form.

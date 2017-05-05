@@ -93,6 +93,7 @@
                           <li><a href="{{ URL::to('/minuevaventa') }}">Nueva Venta</a></li>
                           <li><a href="{{ URL::to('/clientessu') }}">Clientes</a></li>
                           <li><a href="{{ URL::to('/misventas') }}">Listado de ventas</a></li>
+                           <li><a href="{{ URL::to('/cierrecaja') }}">Cierre de Caja</a></li>
                         </ul>
                       </li>
                          <li class="dropdown">

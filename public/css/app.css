@@ -7897,6 +7897,143 @@ tspan, textPath {
   }
 
 
+  /*******Cierre de Caja**********/
+.area_enhead{
+  margin:15px 0;
+}
+.caja_dash{
+  float: left;
+  width: 100%;
+  margin:5px;
+  border:3px dashed #eee;
+  padding: 25px 30%;
+}
+.caja_dash a{
+    float: left;
+    width: 100%;
+    padding: 15px 15px;
+    padding-right: 35px;
+    margin-left: 5px;
+    border-radius: 5px;
+    background: #3fb1b5;
+    background-size: 15px;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    -webkit-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+
+.sinh {
+    min-height: auto !important;
+}
+
+
+
+.monto_cierre {
+    background: rgba(51, 216, 179, 0.28);
+    border-radius: 10px;
+}
+
+.gasto_cierre {
+    background: rgba(255, 249, 0, 0.28);
+    border-radius: 10px;
+}
+
+.pupop_nuevo {
+    margin-top: 20px;
+    height: 500px;
+    width: 640px;
+    background: #eee;
+    position: fixed;
+    z-index: 500;
+    border-radius: 25px;
+}
+
+.ef{
+  height: 60px !important;
+  padding-top: 21px !important;
+  border-radius: 20px;
+}
+
+.borr{
+  background: rgba(255, 249, 0, 0.28) !important;
+}
+
+.top_efec_cont{
+  margin-top: 30px;
+}
+
+.total_apagar{
+  font-size: 20px !important;
+  background: #59fc9f !important;
+  border-radius: 20px !important;
+  padding: 10px 0px 0px 20px;
+}
+
+.dolares{
+    background: #ddd;
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    padding: 13px 0px 0px 0px;
+    text-align: center;
+}
+
+.dolares2{
+  background: #59FC9F;
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    padding: 13px 0px 0px 0px;
+    text-align: center;
+}
+
+.btn_sincr {
+  float: right;
+}
+
+.btn_sincr a {
+  float: left;
+  padding: 9px 15px;
+  padding-right: 35px;
+  margin-left: 5px;
+  border-radius: 5px;
+  background: #59FC9F;
+  background-size: 15px;
+  color: #555;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+  -webkit-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+
+.botones_cierre li {
+    background: #fff;
+    border: 1px solid #59FC9F;
+    padding: 15px;
+    border-radius: 5px;
+    list-style: none;
+    width: 100px;
+    text-align: center;
+    /* align-items: center; */
+    /* min-height: 70px; */
+    /* vertical-align: middle; */
+    font-weight: normal;
+    font-size: 14px;
+    margin-bottom: 10px;
+    float: left;
+    min-height: 70px;
+    margin-right: 15px;    
+}
+
+
+
+
 @media print {
   /*#areaimpresion{
    	width: 400px;
