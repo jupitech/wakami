@@ -16,8 +16,8 @@
 	<div class="col-sm-12">
 	 <div class="col-sm-12 spd spi">
     
-    <div class="col-sm-6">
-        <div class="porusuario" ng-repeat="saldo in saldos">
+    <div class="col-sm-6" ng-repeat="saldo in saldos">
+        <div class="porusuario" >
               <div class="col-sm-6">Saldo @{{saldo.sucursal.nombre}}</div>
               <div class="col-sm-6">Q@{{saldo.efectivo | number:2}}</div>
         </div>
