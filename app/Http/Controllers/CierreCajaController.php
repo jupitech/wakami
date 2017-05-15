@@ -47,7 +47,7 @@ class CierreCajaController extends Controller
     }
 
     public function indexsaldocentral(){
-        $saldoactual = SaldoActual::with("Sucursal")->orderBy('id','desc')->groupBy('id_sucursal')->limit(3)->get();
+        $saldoactual = SaldoActual::with("Sucursal")->orderBy('id','asc')->groupBy('id_sucursal')->limit(3)->get();
         if(!$saldoactual){
             return response()->json(['datos' =>  array("efectivo"=>0)],200);
         }
