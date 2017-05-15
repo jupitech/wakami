@@ -28,4 +28,8 @@ class SaldoActual extends Model
      */
     
         protected $hidden = ['created_at','updated_at'];
+
+            public function Sucursal(){
+        return $this->hasOne('\App\Models\Sucursales','id','id_sucursal');
+    }
 }

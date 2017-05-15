@@ -28,4 +28,13 @@ class CierreCaja extends Model
      */
     
       protected $hidden = ['updated_at'];
+
+    public function Sucursal(){
+        return $this->hasOne('\App\Models\Sucursales','id','id_sucursal');
+    }
+
+   public function PerfilUsuario(){
+        return $this->hasOne('App\Models\UserProfile','user_id','id_user');
+    }
+
 }

@@ -29,6 +29,32 @@ class CierreCajaController extends Controller
         return view('admin.ventas.cierrecaja');
     }
 
+      public function indexcentral()
+    {
+        //cargar listado de cierres de la sucursal
+        return view('admin.reportes.cierres');
+    }
+
+      public function indexcierrescentral(){
+
+        $cierres =CierreCaja::with("Sucursal","PerfilUsuario")
+            ->orderBy('id','DESC')
+            ->get();
+        if(!$cierres){
+            return response()->json(['mensaje' =>  'No se encontraron cierres de esta sucursal en la base de datos','codigo'=>404],404);
+        }
+        return response()->json(['datos' =>  $cierres],200);
+    }
+
+    public function indexsaldocentral(){
+        $saldoactual = SaldoActual::with("Sucursal")->orderBy('id','desc')->groupBy('id_sucursal')->limit(2)->get();
+        if(!$saldoactual){
+            return response()->json(['datos' =>  array("efectivo"=>0)],200);
+        }
+        return response()->json(['datos' =>  $saldoactual],200);
+    }
+
+
  public function estadocierre($id){
    $id_user = Auth::id();
       $cierre=CierreCaja::where('created_at','>=',Carbon::today())->where('id_user',$id_user)->where('id_sucursal',$id)->first();
@@ -78,7 +104,7 @@ class CierreCajaController extends Controller
         return response()->json(['datos' =>  $cierres],200);
     }
 
-     public function indexsaldo($id){
+    public function indexsaldo($id){
         $saldoactual = SaldoActual::orderBy('id','desc')->where('id_sucursal',$id)->first();
         if(!$saldoactual){
             return response()->json(['datos' =>  array("efectivo"=>0)],200);
@@ -149,6 +175,7 @@ class CierreCajaController extends Controller
             ->get();
         return response()->json(['datos' => $ventas_cheque], 200 );
     }
+
     public function totalventasdeposito($id){
         $id_user = Auth::id();
         $ventas_deposito = \App\Models\Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')

@@ -109,8 +109,11 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 	    //Donaciones
 	   Route::get('/donaciones', 'DonacionesController@index');
 
-	     //Inventario Consolidado
+	    //Inventario Consolidado
 	   Route::get('/inventariocon', 'InventarioConsoController@index');
+
+	    //Cierres
+	   Route::get('/cierres', 'CierreCajaController@indexcentral');
 
 
 		Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
@@ -333,6 +336,10 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 		        Route::post('/categoriagastos/create', 'GastosController@storecategoria');
 		        Route::put('/categoriagastos/{id}', 'GastosController@updatecategoria');
 		        Route::delete('/categoriagastos/destroy/{id}','GastosController@destroycategoria');
+
+		    //Cierres   
+		  Route::get('/cierres', 'CierreCajaController@indexcierrescentral');
+		   Route::get('/saldoactual', 'CierreCajaController@indexsaldocentral');
 
 		});
 });

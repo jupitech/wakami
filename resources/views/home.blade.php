@@ -53,6 +53,7 @@
            				<h1>Sucursales</h1>
            				<ul>
            					<li><a href="{{ URL::to('/sucursales') }}">Bodega de Sucursales</a></li>
+                       <li><a href="{{ URL::to('/cierres') }}">Cierres Sucursales</a></li>
            				</ul>
            			</div>
            		</div>
@@ -76,6 +77,7 @@
                      @role('admin|operativo|developer') 
 	           					<li><a href="{{ URL::to('/reporteventas') }}">Reporte de ventas</a></li>
                        <li><a href="{{ URL::to('/libroventas') }}">Libro de Ventas</a></li>
+
                        @endrole
                        @role('vendedor')
                        <li><a href="">Ventas del día</a></li>
