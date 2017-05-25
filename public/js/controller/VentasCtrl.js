@@ -1642,6 +1642,20 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
         {id:'2',cliente:'Empresa'},
    ];
 
+  $scope.ttarjetas=[
+        {id:'1',nombre:'Visa'},
+        {id:'2',nombre:'MasterCard'},
+        {id:'3',nombre:'American Express'},
+         {id:'4',nombre:'Otras'},
+   ];
+
+     $scope.ttarjetas2=[
+        {id:'1',nombre:'Visa'},
+        {id:'2',nombre:'MasterCard'},
+        {id:'3',nombre:'American Express'},
+         {id:'4',nombre:'Otras'},
+   ];
+
    $scope.tpagos=[
         {id:'1',pago:'Efectivo'},
         {id:'2',pago:'POS/Tarjeta'},
@@ -2216,6 +2230,8 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                 referencia2: $scope.factura.referencia2,
                 id_ventas: $scope.idventa,
                 dias_credito: $scope.factura.dias_credito,
+                tarjeta: $scope.factura.tarjeta,
+                tarjeta2: $scope.factura.tarjeta2,
             };
           /*}*/
             

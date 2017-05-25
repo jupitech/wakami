@@ -18,7 +18,7 @@ class TpagoVenta extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_ventas','tipo_pago','referencia','monto'];
+    protected $fillable = ['id_ventas','tipo_pago','referencia','monto','tarjeta'];
 
     /**
      * The attributes excluded from the model's JSON form.

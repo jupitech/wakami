@@ -471,7 +471,7 @@ class VentasCentralController extends Controller
             'ventas.id_sucursal', 
             'tpago_venta.tipo_pago', 
             \DB::raw('count(ventas.id) as cantidad'),
-            \DB::raw('sum(ventas.total) as total')
+            \DB::raw('sum(tpago_venta.monto) as total')
                )
           ->groupBy('tpago_venta.tipo_pago','ventas.id_sucursal')
           ->get();        
@@ -523,7 +523,7 @@ class VentasCentralController extends Controller
             'ventas.id_sucursal', 
             'tpago_venta.tipo_pago', 
             \DB::raw('count(ventas.id) as cantidad'),
-            \DB::raw('sum(ventas.total) as total')
+            \DB::raw('sum(tpago_venta.monto) as total')
                )
           ->groupBy('tpago_venta.tipo_pago','ventas.id_sucursal')
           ->get();        
@@ -575,7 +575,7 @@ class VentasCentralController extends Controller
             'ventas.id_sucursal', 
             'tpago_venta.tipo_pago', 
             \DB::raw('count(ventas.id) as cantidad'),
-            \DB::raw('sum(ventas.total) as total')
+            \DB::raw('sum(tpago_venta.monto) as total')
                )
           ->groupBy('tpago_venta.tipo_pago','sucursales.id')
           ->get();
@@ -626,7 +626,7 @@ class VentasCentralController extends Controller
             'ventas.id_sucursal', 
             'tpago_venta.tipo_pago', 
             \DB::raw('count(ventas.id) as cantidad'),
-            \DB::raw('sum(ventas.total) as total')
+            \DB::raw('sum(tpago_venta.monto) as total')
                )
           ->groupBy('tpago_venta.tipo_pago','ventas.id_sucursal')
           ->get();   
@@ -978,6 +978,8 @@ class VentasCentralController extends Controller
         $tipofac =$request['id_tfac'];  
         $referencia =$request['referencia'];  
         $referencia2 =$request['referencia2'];  
+        $tarjeta =$request['tarjeta'];  
+        $tarjeta2 =$request['tarjeta2'];  
         $elmonto =$request['elmonto'];  
         $diascredito =$request['dias_credito'];    
 
@@ -993,6 +995,18 @@ class VentasCentralController extends Controller
             $mirefe2='';
         } else{
              $mirefe2=$referencia2;
+        } 
+
+        if($tarjeta==''){
+            $mitarjeta='';
+        } else{
+             $mitarjeta=$tarjeta;
+        } 
+
+        if($tarjeta2==''){
+            $mitarjeta2='';
+        } else{
+             $mitarjeta2=$tarjeta2;
         } 
 
         if($tipopago2==''){
@@ -1242,6 +1256,7 @@ if($estado == 1){
                                         'tipo_pago' => $tipopago,
                                         'referencia' => $mirefe,
                                         'monto' => $ventas->total,
+                                         'tarjeta' => $mitarjeta,
                                               ]);
                                     $pagoventa->save();
 
@@ -1253,6 +1268,7 @@ if($estado == 1){
                                       'tipo_pago' => $tipopago,
                                       'referencia' => $mirefe,
                                         'monto' => $mimonto,
+                                         'tarjeta' => $mitarjeta,
                                             ]);
                                   $pagoventa->save();
 
@@ -1262,6 +1278,7 @@ if($estado == 1){
                                       'tipo_pago' => $mitpago2,
                                       'referencia' => $mirefe2,
                                        'monto' => $totalmonto,
+                                        'tarjeta' => $mitarjeta2,
                                             ]);
                                   $pagoventa2->save();
 
@@ -1332,6 +1349,7 @@ if($estado == 1){
                                         'tipo_pago' => $tipopago,
                                         'referencia' => $mirefe,
                                         'monto' => $ventas->total,
+                                         'tarjeta' => $mitarjeta,
                                               ]);
                                     $pagoventa->save();
 
@@ -1343,6 +1361,7 @@ if($estado == 1){
                                       'tipo_pago' => $tipopago,
                                       'referencia' => $mirefe,
                                         'monto' => $mimonto,
+                                         'tarjeta' => $mitarjeta,
                                             ]);
                                   $pagoventa->save();
 
@@ -1352,6 +1371,7 @@ if($estado == 1){
                                       'tipo_pago' => $mitpago2,
                                       'referencia' => $mirefe2,
                                        'monto' => $totalmonto,
+                                        'tarjeta' => $mitarjeta2,
                                             ]);
                                   $pagoventa2->save();
 
@@ -1375,16 +1395,12 @@ if($estado == 1){
 
                               }
 
-                              //Recibiendo DTE y CAE para factura
-                              // $midte=$resultado->return->numeroDte;
-                              // $micae=$resultado->return->cae;
+                            
                               
                                if($tipopago==4){
 
                                   $ventas->fill([
                                           'estado_ventas' => 3,
-                                         //  'dte' => $midte,
-                                         // 'cae' => $micae,
                                       ]);
                                   $ventas->save();
 
@@ -1392,8 +1408,6 @@ if($estado == 1){
 
                                     $ventas->fill([
                                               'estado_ventas' => 2,
-                                          //   'dte' => $midte,
-                                          //    'cae' => $micae,
                                           ]);
                                    $ventas->save();
 
