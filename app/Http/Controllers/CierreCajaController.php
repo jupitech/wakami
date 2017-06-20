@@ -37,8 +37,9 @@ class CierreCajaController extends Controller
 
       public function indexcierrescentral(){
 
-        $cierres =CierreCaja::with("Sucursal","PerfilUsuario")
-            ->orderBy('id','DESC')
+        $cierres =CierreCaja::with("Sucursal","PerfilUsuario","CierrePago")
+            ->orderBy( \DB::raw('DAY(created_at)'),'DESC')
+             ->orderBy('id_sucursal','DESC')
             ->get();
         if(!$cierres){
             return response()->json(['mensaje' =>  'No se encontraron cierres de esta sucursal en la base de datos','codigo'=>404],404);

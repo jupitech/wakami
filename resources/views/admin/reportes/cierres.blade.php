@@ -27,27 +27,26 @@
 	           <table class="table">
 	               <thead>
 	                   <th>Sucursal</th>
-	                   <th>ID</th>
 	                   <th>Usuario</th>
-	                   <th>Monto Cierre</th>
-	                   <th>Saldo Efectivo</th>    
-                     <th>Crédito/Deposito</th>
+                     <th class="t_100">Efectivo</th>
+                     <th class="t_100">Crédito</th>
+                     <th>Monto Cierre</th> 
                      <th>Fecha</th>
-                     <th>Tipo de Cierre</th>
+                     <th>Opciones</th>
 	               </thead>
 	               <tbody>
 	                   <tr ng-repeat="cierre in cierres">
                         <td ng-click="vercierre(cierre)">@{{ cierre.sucursal.nombre }}</td>
-                        <td ng-click="vercierre(cierre)">@{{ cierre.id }}</td>
                         <td ng-click="vercierre(cierre)">@{{cierre.perfil_usuario.nombre}} @{{cierre.perfil_usuario.apellido}}</td>
-                        <td ng-click="vercierre(cierre)">Q@{{cierre.total_saldo | number:2}} </td>
-                        <td ng-click="vercierre(cierre)">Q@{{cierre.saldo_efectivo | number:2}} </td>
-                          <td ng-click="vercierre(cierre)">Q@{{cierre.total_saldo-cierre.saldo_efectivo | number:2}} </td>
+                      
+                       <!--  <td ng-click="vercierre(cierre)">Q@{{cierre.saldo_efectivo | number:2}} </td> -->
+                          <td class="t_100" colspan="2" ng-click="vercierre(cierre)">
+                            <span class="s_100" ng-repeat="pago in cierre.cierre_pago">Q@{{pago.monto_fisico  | number:2}}</span>
+                          </td>
+                            <td ng-click="vercierre(cierre)">Q@{{cierre.total_saldo | number:2}} </td>
+                           
                         <td>@{{cierre.created_at}}</td>
-                        <td>
-                          <p ng-if="cierre.estado_caja == 1">Mandado a Saldo</p>
-                          <p ng-if="cierre.estado_caja == 2">Depositado</p>
-                        </td>
+                         <td></td>
                         
                     </tr>
 	               </tbody>

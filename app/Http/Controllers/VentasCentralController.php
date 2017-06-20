@@ -70,12 +70,22 @@ class VentasCentralController extends Controller
          return response()->json(['datos' =>  $ventas],200);
     }
 
-        public function indexventasdiaes($estado)
+        public function indexventasdiaes($estado, Request $request)
     {
+
+           $fechainicio= $request['fecha'];
+           $fi =new \DateTime($fechainicio);
+           $carbon = Carbon::instance($fi); 
+           $a_fi=$carbon->year;
+           $m_fi=$carbon->month;
+           $d_fi=$carbon->day;
+
+           $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59);
 
            //Trayendo Producto
          $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
-         ->where('fecha_factura','>=',Carbon::today())
+         ->whereBetween('fecha_factura', [$fini, $ffin])
          ->orderBy('id', 'desc')
          ->where('estado_ventas',$estado)
          ->get();
@@ -155,12 +165,23 @@ class VentasCentralController extends Controller
 
 
 
-       public function indexventasmeses($estado)
+       public function indexventasmeses($estado, Request $request)
     {
 
+        $mes= $request['mes'];
+        $anio= $request['anio'];
+        $hoy=Carbon::today();
+         
+           $a_fi=$hoy->year;
+           $m_fi=$hoy->month;
+           $d_fi=$hoy->day;
+
+           $fini=Carbon::create($anio, $mes, $d_fi, 0,0,0)->startOfMonth();
+           $ffin=Carbon::create($anio, $mes, $d_fi, 23,59,59)->endOfMonth();
            //Trayendo Producto
          $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
-          ->where('fecha_factura','>=',Carbon::today()->startOfMonth())
+          ->where('fecha_factura','>=',$fini)
+         ->where('fecha_factura','<=',$ffin)
          ->orderBy('id', 'desc')
          ->where('estado_ventas',$estado)
          ->get();
@@ -222,12 +243,23 @@ class VentasCentralController extends Controller
 
 
 
-       public function indexventasanioes($estado)
+       public function indexventasanioes($estado, Request $request)
     {
+
+           $anio= $request['anio'];
+           $fi =new \DateTime($anio);
+           $carbon =Carbon::today();
+           $a_fi=$carbon->year;
+           $m_fi=$carbon->month;
+           $d_fi=$carbon->day;
+
+           $fini=Carbon::create($anio, $m_fi, $d_fi, 0,0,0)->startOfYear();
+           $ffin=Carbon::create($anio, $m_fi, $d_fi, 23,59,59)->endOfYear();
 
            //Trayendo Producto
          $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
-         ->where('fecha_factura','>=',Carbon::today()->startOfYear())
+         ->where('fecha_factura','>=',$fini)
+         ->where('fecha_factura','<=',$ffin)
          ->orderBy('id', 'desc')
          ->where('estado_ventas',$estado)
          ->get();
@@ -419,7 +451,7 @@ class VentasCentralController extends Controller
            $ffin=Carbon::create($anio, $mes, $d_fi, 23,59,59)->endOfMonth();
            //Trayendo Producto
          $ventas=Ventas::with("NombreSucursal")
-                  ->where('estado_ventas',2)
+                  ->whereIn('estado_ventas',[2,3])
                   ->where('fecha_factura','>=',$fini)
                   ->where('fecha_factura','<=',$ffin)
                   ->groupBy('id_sucursal')
@@ -445,7 +477,7 @@ class VentasCentralController extends Controller
            $ffin=Carbon::create($anio, $m_fi, $d_fi, 23,59,59)->endOfYear();
            //Trayendo Producto
          $ventas=Ventas::with("NombreSucursal")
-                  ->where('estado_ventas',2)
+                  ->whereIn('estado_ventas',[2,3])
                   ->where('fecha_factura','>=',$fini)
                   ->where('fecha_factura','<=',$ffin)
                   ->groupBy('id_sucursal')
@@ -464,7 +496,7 @@ class VentasCentralController extends Controller
 
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
           ->leftjoin('sucursales', 'ventas.id_sucursal', '=', 'sucursales.id')
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,3])
           ->where('ventas.fecha_factura','>=',Carbon::today())
           ->select(
              \DB::raw('ifnull(sucursales.codigo_esta,0) as codigo_esta'),
@@ -477,7 +509,7 @@ class VentasCentralController extends Controller
           ->get();        
            
            $sucursales=Sucursales::join('ventas', 'ventas.id_sucursal', '=', 'sucursales.id')
-           ->where('ventas.estado_ventas',2)
+           ->whereIn('ventas.estado_ventas',[2,3])
           ->where('ventas.fecha_factura','>=',Carbon::today())
            ->select(
             'sucursales.id as id',
@@ -516,7 +548,7 @@ class VentasCentralController extends Controller
 
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
           ->leftjoin('sucursales', 'ventas.id_sucursal', '=', 'sucursales.id')
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,3])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
           ->select(
              \DB::raw('ifnull(sucursales.codigo_esta,0) as codigo_esta'),
@@ -529,7 +561,7 @@ class VentasCentralController extends Controller
           ->get();        
            
            $sucursales=Sucursales::join('ventas', 'ventas.id_sucursal', '=', 'sucursales.id')
-           ->where('ventas.estado_ventas',2)
+           ->whereIn('ventas.estado_ventas',[2,3])
             ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
            ->select(
             'sucursales.id as id',
@@ -567,7 +599,7 @@ class VentasCentralController extends Controller
 
           $ventas = Ventas::join('tpago_venta', 'ventas.id', '=', 'tpago_venta.id_ventas')
           ->leftJoin('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,3])
           ->where('ventas.fecha_factura','>=',$fini)
           ->where('ventas.fecha_factura','<=',$ffin)
           ->select(
@@ -581,7 +613,7 @@ class VentasCentralController extends Controller
           ->get();
 
            $sucursales=Sucursales::join('ventas', 'ventas.id_sucursal', '=', 'sucursales.id')
-           ->where('ventas.estado_ventas',2)
+           ->whereIn('ventas.estado_ventas',[2,3])
             ->where('ventas.fecha_factura','>=',$fini)
           ->where('ventas.fecha_factura','<=',$ffin)
            ->select(
@@ -618,7 +650,7 @@ class VentasCentralController extends Controller
 
           $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
           ->join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,3])
           ->where('ventas.fecha_factura','>=',$fini)
           ->where('ventas.fecha_factura','<=',$ffin)
           ->select(
@@ -632,7 +664,7 @@ class VentasCentralController extends Controller
           ->get();   
 
              $sucursales=Sucursales::join('ventas', 'ventas.id_sucursal', '=', 'sucursales.id')
-           ->where('ventas.estado_ventas',2)
+           ->whereIn('ventas.estado_ventas',[2,3])
             ->where('ventas.fecha_factura','>=',$fini)
           ->where('ventas.fecha_factura','<=',$ffin)
            ->select(
@@ -758,7 +790,7 @@ class VentasCentralController extends Controller
          $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
          ->leftjoin('role_user','role_user.user_id','=','user_profile.user_id')
          ->where('role_user.role_id',3)
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,3])
          ->where('ventas.fecha_factura','>=',Carbon::today())
          ->select(\DB::raw('concat(user_profile.nombre," ",user_profile.apellido) as name'),\DB::raw('sum(ventas.total) as y'))
           ->groupBy('user_profile.user_id')
@@ -786,7 +818,7 @@ class VentasCentralController extends Controller
          $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
               ->leftjoin('role_user','role_user.user_id','=','user_profile.user_id')
          ->where('role_user.role_id',3)
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,3])
           ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->select(\DB::raw('concat(user_profile.nombre," ",user_profile.apellido) as name'),\DB::raw('sum(ventas.total) as y'))
           ->groupBy('user_profile.user_id')
@@ -817,7 +849,7 @@ class VentasCentralController extends Controller
          $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
               ->leftjoin('role_user','role_user.user_id','=','user_profile.user_id')
          ->where('role_user.role_id',3)
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,3])
           ->where('ventas.fecha_factura','>=',$fini)
           ->where('ventas.fecha_factura','<=',$ffin)
          ->select(\DB::raw('concat(user_profile.nombre," ",user_profile.apellido) as name'),\DB::raw('sum(ventas.total) as y'))
@@ -847,7 +879,7 @@ class VentasCentralController extends Controller
          $reporte=Ventas::join('user_profile', 'user_profile.user_id', '=', 'ventas.id_user')
               ->leftjoin('role_user','role_user.user_id','=','user_profile.user_id')
          ->where('role_user.role_id',3)
-          ->where('ventas.estado_ventas',2)
+          ->whereIn('ventas.estado_ventas',[2,3])
            ->where('ventas.fecha_factura','>=',$fini)
           ->where('ventas.fecha_factura','<=',$ffin)
          ->select(\DB::raw('concat(user_profile.nombre," ",user_profile.apellido) as name'),\DB::raw('sum(ventas.total) as y'))

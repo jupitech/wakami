@@ -7707,7 +7707,7 @@ body {
     float: right;
     margin: 0;
     color: #006DF0 !important;
-      font-size: 12px !important;
+      font-size: 11px !important;
      }
 
 .lisdia {
@@ -8031,6 +8031,15 @@ tspan, textPath {
     margin-right: 15px;    
 }
 
+.t_100{
+  width: 100px;
+}
+
+.s_100{
+  float: left;
+  width: 50%;
+  padding: 0 10px;
+}
 
 
 

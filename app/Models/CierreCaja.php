@@ -37,4 +37,8 @@ class CierreCaja extends Model
         return $this->hasOne('App\Models\UserProfile','user_id','id_user');
     }
 
+    public function CierrePago(){
+        return $this->hasMany('App\Models\CierrePago','id_cierre','id');
+    }
+
 }

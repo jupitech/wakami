@@ -564,7 +564,7 @@
           <div class="header_nuevo">
 
                         <div class="col-sm-12">
-                              <h1>Cosignación para @{{exisConsignacion.info_cliente.nombre}} - @{{exisConsignacion.info_cliente.empresa}}</h1>
+                              <h1>Consignación para @{{exisConsignacion.info_cliente.nombre}} - @{{exisConsignacion.info_cliente.empresa}}</h1>
                               <a class="btn_cerrar" ng-click="btn_cerrarv()"></a>
                         </div>
           </div>

@@ -450,7 +450,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                $scope.urlac= $scope.urldia;
            
             //Todos las ventas
-            $http.get('/api/ventasdiaes/'+estado).success(
+            $http.post('/api/ventasdiaes/'+estado,datafecha).success(
 
                     function(ventas) {
                               $scope.ventas = ventas.datos.slice(0, 15);
@@ -637,23 +637,26 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
           }
 
+
             $scope.selecventaes= function(estado){
 
-         
-           
-            //Todos las ventas
-            $http.get('/api/ventasdiaes/'+estado).success(
+                      $scope.actlis=true;
+                         $scope.urlac= $scope.urldia;
+                     
+                      //Todos las ventas
+                      $http.post('/api/ventasdiaes/'+estado,datafecha).success(
 
-                    function(ventas) {
-                              $scope.ventas = ventas.datos.slice(0, 15);
-                              $scope.masventas = function () {
-                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
-                              }
-                  }).error(function(error) {
-                       $scope.error = error;
-                  });
+                              function(ventas) {
+                                        $scope.ventas = ventas.datos.slice(0, 15);
+                                        $scope.masventas = function () {
+                                            $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                                        }
+                            }).error(function(error) {
+                                 $scope.error = error;
+                            });
 
           }
+
            
 
 
@@ -810,7 +813,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                $scope.urlac= $scope.urldia;
            
             //Todos las ventas
-            $http.get('/api/ventasmeses/'+estado).success(
+            $http.post('/api/ventasmeses/'+estado,datames).success(
 
                     function(ventas) {
                               $scope.ventas = ventas.datos.slice(0, 15);
@@ -951,23 +954,24 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
                           }
 
-                            $scope.selecventaes= function(estado){
+                              $scope.selecventaes= function(estado){
 
-      
-                         
-                          //Todos las ventas
-                          $http.get('/api/ventasmeses/'+estado).success(
+                                    $scope.actlis=true;
+                                       $scope.urlac= $scope.urldia;
+                                   
+                                    //Todos las ventas
+                                    $http.post('/api/ventasmeses/'+estado,datames).success(
 
-                                  function(ventas) {
-                                            $scope.ventas = ventas.datos.slice(0, 15);
-                                            $scope.masventas = function () {
-                                                $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
-                                            }
-                                }).error(function(error) {
-                                     $scope.error = error;
-                                });
+                                            function(ventas) {
+                                                      $scope.ventas = ventas.datos.slice(0, 15);
+                                                      $scope.masventas = function () {
+                                                          $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                                                      }
+                                          }).error(function(error) {
+                                               $scope.error = error;
+                                          });
 
-                        }
+                                  }
 
                           //Ventas por sucursal del dia
                     $http.post('/api/ventamessucursal',datames).success(
@@ -1117,22 +1121,24 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
 
 
                   $scope.selecventaes= function(estado){
+                        $scope.actlis=true;
+
+                      console.log('Estado seleccionado: '+estado);
+                      //Todos las ventas
+                      $http.post('/api/ventasanioes/'+estado,dataanio).success(
+
+                              function(ventas) {
+                                console.log(ventas.datos);
+                                                      $scope.ventas = ventas.datos.slice(0, 15);
+                                                      $scope.masventas = function () {
+                                                          $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
+                                                      }
+                                          }).error(function(error) {
+                                               $scope.error = error;
+                                          });
 
 
-           
-            //Todos las ventas
-            $http.get('/api/ventasanioes/'+estado).success(
-
-                    function(ventas) {
-                              $scope.ventas = ventas.datos.slice(0, 15);
-                              $scope.masventas = function () {
-                                  $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
-                              }
-                  }).error(function(error) {
-                       $scope.error = error;
-                  });
-
-          }
+                    }
 
              //Ventas por sucursal del dia
             $http.post('/api/ventaaniosucursal',dataanio).success(
@@ -1264,13 +1270,13 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                           }
 
                                             $scope.selecventaes= function(estado){
+                                                  $scope.actlis=true;
 
+                                       
+                                                  //Todos las ventas
+                                                  $http.post('/api/ventasanioes/'+estado,dataanio).success(
 
-                                                   
-                                                    //Todos las ventas
-                                                    $http.get('/api/ventasanioes/'+estado).success(
-
-                                                            function(ventas) {
+                                                          function(ventas) {
                                                                       $scope.ventas = ventas.datos.slice(0, 15);
                                                                       $scope.masventas = function () {
                                                                           $scope.ventas = ventas.datos.slice(0, $scope.ventas.length + 15);
@@ -1279,7 +1285,8 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                                                                $scope.error = error;
                                                           });
 
-                                                  }
+
+                                                }
 
 
 
