@@ -301,15 +301,22 @@ class ReporteVentasController extends Controller
           $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
            //Trayendo Producto
          $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
-         ->whereIn('ventas.estado_ventas',[2,3])
+         ->whereIn('ventas.estado_ventas',[2,3,4])
          ->where('ventas.id_sucursal',$sucursal)
          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
          ->orderBy('id', 'desc')
          ->get();
+
+         $suma=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
+         ->whereIn('ventas.estado_ventas',[2,3])
+         ->where('ventas.id_sucursal',$sucursal)
+         ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+         ->sum('total');
+
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
         }
-         return response()->json(['datos' =>  $ventas],200);
+         return response()->json(['datos' =>  $ventas,'total' =>$suma],200);
     }
 
 

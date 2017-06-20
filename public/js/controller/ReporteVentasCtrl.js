@@ -18,7 +18,15 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 		 $scope.mifecha.inicio=$scope.hmes._d;
 		   $scope.mifecha.sucursal=3;
         
-     
+               //Todos las sucursales
+      $http.get('/api/sucursales').success(
+
+              function(sucursales) {
+                        $scope.sucursales = sucursales.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });
+
 
 		 //Total de ventas
 		 $http.get('/api/reportes/ventasmes', {
@@ -707,10 +715,42 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
                     function(ventasl) {
 
                     	   $scope.ventasl = ventasl.datos;
+                    	   $scope.sumatotal = ventasl.total;
 
                     	 }).error(function(error) {
                        $scope.error = error;
-                  });   
+                  });  
+
+         $scope.buscarreportel= function(){
+
+			         	    //Todos las sucursales
+			      $http.get('/api/sucursales').success(
+
+			              function(sucursales) {
+			                        $scope.sucursales = sucursales.datos;
+			            }).error(function(error) {
+			                 $scope.error = error;
+			            });
+
+			            
+			 	    //Libro de ventas
+					 $http.get('/api/reportes/ventasl', {
+							      params: {
+							          fecha_inicio:$scope.mifecha.inicio,
+							          fecha_fin: $scope.mifecha.fin,
+							          sucursal: $scope.mifecha.sucursal
+							      }
+							   }).success(
+			                    function(ventasl) {
+
+			                    	   $scope.ventasl = ventasl.datos;
+                    	    	   	   $scope.sumatotal = ventasl.total;
+
+			                    	 }).error(function(error) {
+			                       $scope.error = error;
+			                  });  
+
+         };         
 
           //Exportar Excel
 		$scope.exportData = function () {
