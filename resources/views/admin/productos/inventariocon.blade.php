@@ -57,7 +57,7 @@
 
                  </thead>
                  <tbody>
-                     <tr ng-repeat="producto in productos  | filter: query | filter: buslinea" ng-init="total = 0 ; totalf=0" ng-if="(producto.stock_producto.stock+(producto.stock_sucursal | SumaCanti:'stock')+(producto.stock_consignacion | SumaCanti:'stock'))> 0">
+                     <tr ng-repeat="producto in productos  | filter: query | filter: buslinea" ng-init="total = 0 ; totalf=0" >
                         <td><strong>@{{producto.codigo}}</strong></td>
                         <td>@{{producto.nombre_linea.nombre}}</td>
                          <td>@{{producto.nombre}} </td>
@@ -71,7 +71,7 @@
                          </td>
                          <td><strong>@{{producto.stock_producto.stock+(producto.stock_sucursal | SumaCanti:'stock')+(producto.stock_consignacion | SumaCanti:'stock')}}</strong></td>
 
-                         <td ng-init="$parent.totalf = $parent.totalf + ((producto.stock_producto.stock+(producto.stock_sucursal | SumaCanti:'stock')+(producto.stock_consignacion | SumaCanti:'stock'))*producto.costo)">
+                         <td  ng-init="$parent.totalf = $parent.totalf + ((producto.stock_producto.stock+(producto.stock_sucursal | SumaCanti:'stock')+(producto.stock_consignacion | SumaCanti:'stock'))*producto.costo)">
                          <strong>@{{((producto.stock_producto.stock+(producto.stock_sucursal | SumaCanti:'stock')+(producto.stock_consignacion | SumaCanti:'stock'))*producto.costo) | number:2}}</strong></td>
                        
                      </tr>
