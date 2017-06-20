@@ -2282,6 +2282,42 @@ if ($estado == 1) {
     }
 
 
+
+        public function updatetpago(Request $request, $id)
+    {
+        $tipopago=TpagoVenta::where('id',$id)->first();
+
+        $tipo_pago=$tipopago->tipo_pago;
+        $idventa=$tipopago->id_ventas;
+
+        if($tipo_pago==4){
+            $credito=CreditosVentas::where('id_ventas',$idventa)->first();
+             $credito->fill([
+                'estado_credito' => 3,
+            ]);
+           $credito->save();
+        }
+
+       $tipopago->fill([
+                'tipo_pago' => $request['tipo_pago'],
+                'referencia' => $request['referencia'],
+            ]);
+      $tipopago->save();
+
+      $ventas=Ventas::where('id', $idventa)->first();
+
+      $fechafactura=$ventas->created_at;
+             $ventas->fill([
+                'estado_ventas' => 2,
+                'fecha_factura'=> $fechafactura,
+            ]);
+      $ventas->save();
+
+
+    
+    }
+
+
     /**
      * Update the specified resource in storage.
      *

@@ -250,7 +250,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 			Route::post('/reportevendedoranio', 'VentasCentralController@reportevendedoranio');
 
 			Route::get('/pdfventa/{id}', 'VentasCentralController@pdfventa');
-
+		    Route::put('/cambiarpago/{id}','VentasCentralController@updatetpago');
 
 			//Consignaciones
             Route::get('/consignaciones', 'ConsignacionController@indexconsignacion');

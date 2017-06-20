@@ -88,6 +88,105 @@
 
       </div>
 
+
+  {{-- Cambiar tipo de pago --}}
+      <div id="area_nuevo" ng-if="cambiar_obj">
+           <div class="header_nuevo">
+
+                        <div class="col-sm-12">
+                              <h1>Venta No.@{{exiscVenta.id}}-@{{exiscVenta.dte}}</h1>
+                              <a class="btn_cerrar" ng-click="btn_cerrarca()"></a>
+                        </div>
+            </div>
+            <div class="conte_nuevo">
+                <div class="col-sm-12">
+                       <form class="form-horizontal" ng-repeat="tipo in exiscVenta.pago_venta" ng-if="$index==0" name="frm" role="form" ng-submit="btn_cambiar1(tipo.id)" >   
+                        <div class="form-group">
+                            <div class="col-sm-12" >
+                                    <div class="col-sm-6 spd">
+                                           <p  ng-switch="tipo.tipo_pago" class="pago_p">
+                                             <span ng-switch-when ="1"><strong>Efectivo</strong> Q@{{tipo.monto | number:2}}</span>
+                                             <span ng-switch-when="2"><strong>Tarjeta/POS</strong> Q@{{tipo.monto | number:2}}</span>
+                                             <span ng-switch-when="3"><strong>Cheque</strong> Q@{{tipo.monto | number:2}}</span>
+                                             <span ng-switch-when="4"><strong>Al Crédito</strong> Q@{{tipo.monto | number:2}}</span>
+                                             <span ng-switch-when="5"></strong>Depósito</strong> Q@{{tipo.monto | number:2}}</span>
+                                             <span ng-switch-when="6"></strong>Gift Card</strong> Q@{{tipo.monto | number:2}}</span>
+                                            </p>
+                                      </div>
+                                      <div class="col-sm-6  spi" >
+                                           <label>Cambiar por:</label>
+                                           <ol class="nya-bs-select" ng-model="pago.tipo_pago" title="Tipo de pago..." required>
+                                              <li nya-bs-option="tpago in tpagos" data-value="tpago.id">
+                                                  <a>
+                                                      @{{ tpago.pago }}
+                                                      <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                  </a>
+                                              </li>
+                                          </ol>
+                                      </div>
+                                       <div class="col-sm-12" ng-if="pago.tipo_pago!=4">
+                                          <div class="col-sm-12 spd spi">
+                                               <label for="name">Referencia</label>
+                                              <input id="referencia" type="text" class="form-control" name="referencia" ng-model="pago.referencia" ng-init="pago.referencia=tipo.referencia" placeholder="# Ref POS ó No.Cheque">
+                                          </div>
+                                      </div>
+
+                                       <div class="col-sm-12">
+                                          <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid || loading" button-spinner="loading" >CAMBIAR PAGO</button>
+                                      </div>
+
+                            </div>
+
+                           
+                        </div>
+                      </form>
+
+                      {{-- Tipo de pago 2 --}}
+                       <form class="form-horizontal" ng-repeat="tipo in exiscVenta.pago_venta" ng-if="$index==1" name="frm" role="form" ng-submit="btn_cambiar2(tipo.id)" >   
+                        <div class="form-group">
+                            <div class="col-sm-12" >
+                                    <div class="col-sm-6 spd">
+                                           <p  ng-switch="tipo.tipo_pago" class="pago_p">
+                                             <span ng-switch-when ="1"><strong>Efectivo</strong> Q@{{tipo.monto | number:2}}</span>
+                                             <span ng-switch-when="2"><strong>Tarjeta/POS</strong> Q@{{tipo.monto | number:2}}</span>
+                                             <span ng-switch-when="3"><strong>Cheque</strong> Q@{{tipo.monto | number:2}}</span>
+                                             <span ng-switch-when="4"><strong>Al Crédito</strong> Q@{{tipo.monto | number:2}}</span>
+                                             <span ng-switch-when="5"></strong>Depósito</strong> Q@{{tipo.monto | number:2}}</span>
+                                               <span ng-switch-when="6"></strong>Gift Card</strong> Q@{{tipo.monto | number:2}}</span>
+                                            </p>
+                                      </div>
+                                      <div class="col-sm-6  spi" >
+                                           <label>Cambiar por:</label>
+                                           <ol class="nya-bs-select" ng-model="pago.tipo_pago" title="Tipo de pago..." required>
+                                              <li nya-bs-option="tpago in tpagos" data-value="tpago.id">
+                                                  <a>
+                                                      @{{ tpago.pago }}
+                                                      <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                  </a>
+                                              </li>
+                                          </ol>
+                                      </div>
+                                       <div class="col-sm-12" ng-if="pago.tipo_pago!=4">
+                                          <div class="col-sm-12 spd spi">
+                                               <label for="name">Referencia</label>
+                                              <input id="referencia" type="text" class="form-control" name="referencia" ng-model="pago.referencia" ng-init="pago.referencia=tipo.referencia" placeholder="# Ref POS ó No.Cheque">
+                                          </div>
+                                      </div>
+
+                                       <div class="col-sm-12">
+                                          <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid || loading" button-spinner="loading" >CAMBIAR PAGO</button>
+                                      </div>
+
+                            </div>
+
+                           
+                        </div>
+                      </form>
+
+                </div>
+            </div>
+      </div>   
+
 	{{-- Ventas --}}
 	
 	 <div class="header_conte">
@@ -309,12 +408,15 @@
                          <td ng-click="abrirventa(venta)"><small>@{{venta.dte}}</small></td>
 
                          <td class="tot_venta" ng-click="abrirventa(venta)">@{{venta.total | currency: 'Q'}}</td>
-                          <td ng-click="abrirventa(venta)" ng-switch="venta.pago_venta.tipo_pago">
-                               <span ng-switch-when="1" class="ico_td ico_pefectivo">Efectivo</span>
-                               <span ng-switch-when="2" class="ico_td ico_ppos">POS</span>
-                               <span ng-switch-when="3" class="ico_td ico_pcheque">Cheque</span>
-                               <span ng-switch-when="4" class="ico_td ico_pcredito">Crédito</span>
-                               <span ng-switch-when="5" class="ico_td ico_pdeposito">Deposito</span>
+                          <td ng-click="abrirventa(venta)">
+                             <div ng-repeat="tipo in venta.pago_venta" ng-switch="tipo.tipo_pago">
+                               <span ng-switch-when="1" class="ico_td ico_pefectivo" title="Efectivo" data-toggle="tooltip">Efectivo</span>
+                               <span ng-switch-when="2" class="ico_td ico_ppos" title="POS" data-toggle="tooltip">POS</span>
+                               <span ng-switch-when="3" class="ico_td ico_pcheque" title="Cheque" data-toggle="tooltip">Cheque</span>
+                               <span ng-switch-when="4" class="ico_td ico_pcredito" title="Crédito" data-toggle="tooltip">Crédito</span>
+                               <span ng-switch-when="5" class="ico_td ico_pdeposito" title="Deposito" data-toggle="tooltip">Deposito</span>
+                                <span ng-switch-when="6" class="ico_td ico_pgiftcard" title="Gift Card" data-toggle="tooltip">Gift Card</span>
+                          </div>
                          </td>
                          <td ng-click="abrirventa(venta)">@{{venta.nombre_sucursal.nombre}}</td>
 	                       <td ng-click="abrirventa(venta)">@{{venta.info_clientes.nombre}} <small>@{{venta.info_clientes.empresa}}</small></td>
@@ -329,6 +431,11 @@
                                  <ul>
                                     <li class="ed_drop" ng-if="venta.estado_ventas==1">
                                            <a ng-click="editarventa(venta.id)" class="ico_editar" ></a>
+                                           
+                                     </li>
+
+                                      <li class="ed_drop">
+                                           <a ng-click="cambiarpago(venta)" class="ico_cpago" ></a>
                                            
                                      </li>
                                  <li class="ed_drop"  uib-dropdown  ng-if="venta.estado_ventas==2 || venta.estado_ventas==3">

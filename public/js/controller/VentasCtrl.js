@@ -1441,6 +1441,24 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
             });
       };   
 
+
+
+        //Cambiar tipo de pago
+      $scope.cambiar_obj = false;
+      $scope.cambiarpago = function(venta){
+
+                $scope.cambiar_obj = !$scope.cambiar_obj;   
+
+                $scope.exiscVenta=venta;
+                $scope.miventa=venta.id;
+
+                  $scope.btn_cerrarca=function(){
+                     $scope.cambiar_obj = false;
+                   };
+
+                   
+      };    
+
        $scope.abrirventa= function(venta){
           $scope.mas_obj = !$scope.mas_obj;   
 
@@ -1571,6 +1589,54 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
         $scope.editarventa=function(id){
           $scope.idmiv=id;
             $window.location.href = '/editarventa/'+ $scope.idmiv;
+      }
+
+
+      
+      $scope.pago={};
+       $scope.tipo={};
+      $scope.btn_cambiar1= function(idtpago){
+
+        console.log('ID Pago #1:',idtpago);
+
+           var data = {
+            tipo_pago: $scope.pago.tipo_pago,
+            referencia: $scope.pago.referencia
+        };
+         console.log('Datos para cambiar pago:',data);
+
+        $http.put('/api/cambiarpago/'+idtpago, data)
+            .success(function (data, status, headers) {             
+                
+              console.log('Tipo de pago cambiado correctamente');
+                $scope.cambiar_obj = false;
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar el producto.');
+            });
+
+
+      }
+
+       $scope.btn_cambiar2= function(idtpago){
+        console.log('ID Pago #2:',idtpago);
+
+            var data = {
+            tipo_pago: $scope.pago.tipo_pago,
+            referencia: $scope.pago.referencia
+        };
+         console.log('Datos para cambiar pago:',data);
+
+        $http.put('/api/cambiarpago/'+idtpago, data)
+            .success(function (data, status, headers) {             
+                
+              console.log('Tipo de pago cambiado correctamente');
+                $scope.cambiar_obj = false;
+            })
+            .error(function (data, status, header, config) {
+                console.log('Parece que existe un error al borrar el producto.');
+            });
+
       }
 
 

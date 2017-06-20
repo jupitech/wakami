@@ -29,7 +29,7 @@ class Ventas extends Model
     protected $hidden = ['created_at','updated_at'];
 
     public function PagoVenta(){
-        return $this->hasOne('App\Models\TpagoVenta','id_ventas','id');
+        return $this->hasMany('App\Models\TpagoVenta','id_ventas','id');
     }
 
       public function InfoClientes(){
