@@ -11,11 +11,40 @@
      </div>
      <div class="col-sm-12">
        {{-- Busqueda por fecha especifica --}}
-     	<div class="col-sm-8 col-md-7 col-lg-6 spi">
+     	<div class="col-sm-8 col-md-8 col-lg-8 spi">
      		        <div class="area_fecha">
                           <form class="form_fecha" name="forma" ng-submit="buscarreporte()">
                             <div class="form-group">
-                                  <div class="col-sm-5 spi spd">
+                                <div class="col-sm-4 spi">
+                                     <label for="nombreU" class="col-sm-12 spi">Sucursal</label>
+                                     <div class="col-sm-5 spi">
+                                         <ol class="ol_peq nya-bs-select" ng-model="mifecha.por" >
+
+                                                          <li nya-bs-option="por in filsucu" data-value="por.id">
+                                                            <a>
+                                                             <span>
+                                                                  @{{ por.nombre}}
+                                                                </span>
+                                                              <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                            </a>
+                                                          </li>
+                                        </ol>
+                                     </div>
+                                     <div class="col-sm-7 spd spi" ng-if="mifecha.por==2">
+                                           <ol class="ol_peq nya-bs-select" ng-model="mifecha.sucursal" title="Selecciona una sucursal...">
+
+                                                          <li nya-bs-option="sucursal in sucursales" data-value="sucursal.id">
+                                                            <a>
+                                                             <span>
+                                                                  @{{ sucursal.nombre}}
+                                                                </span>
+                                                              <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                            </a>
+                                                          </li>
+                                        </ol>
+                                     </div>
+                                  </div>
+                                  <div class="col-sm-3 spi spd">
                                         <label for="nombreU" class="col-sm-12 spi">Fecha Inicio</label>
                                         <div class="col-sm-12 spi spd">
                                               <input type="date" class="form-control" name="inicio" ng-model="mifecha.inicio" max="mifecha.fin" ng-max="mifecha.fin" required>
@@ -24,7 +53,7 @@
                                             <span class="label label-danger" ng-show="forma.inicio.$error.max">Fecha máxima: @{{mifecha.fin | amDateFormat:'DD/MM/YYYY'}}</span>
                                         </div>
                                   </div>
-                                  <div class="col-sm-5 spd">
+                                  <div class="col-sm-3 spd">
                                         <label for="nombreU" class="col-sm-12 spi">Fecha Fin</label>
                                         <div class="col-sm-12 spi spd">
                                               <input type="date" class="form-control" name="fin" ng-model="mifecha.fin" required>

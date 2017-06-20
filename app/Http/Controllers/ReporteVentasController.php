@@ -65,77 +65,167 @@ class ReporteVentasController extends Controller
           $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
           $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
 
-          //Total por sucursal
-          $ventas = Ventas::join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
-          ->whereIn('ventas.estado_ventas',[2,3])
-          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
-          ->select(
-            'sucursales.nombre as name',
-            \DB::raw('sum(ventas.total) as y')
-               )
-          ->groupBy('sucursales.id')
-          ->get();   
+
+          if( $request['por']==1){
 
 
-          //Total neto
-           $totalneto = Ventas::leftjoin('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
-         ->leftjoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
-           ->whereIn('ventas.estado_ventas',[2,3])
-         ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
-         ->select(
-             \DB::raw('sum(producto_venta.precio_producto * producto_venta.cantidad) as totalp'),
-                 \DB::raw('sum(producto.costo * producto_venta.cantidad) as costo')
-               )
-         ->first();  
+                      //Total por sucursal
+                      $ventas = Ventas::join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
+                      ->whereIn('ventas.estado_ventas',[2,3])
+                      ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                      ->select(
+                        'sucursales.nombre as name',
+                        \DB::raw('sum(ventas.total) as y')
+                           )
+                      ->groupBy('sucursales.id')
+                      ->get();   
 
 
-         //Total Real
-           $totalreal = Ventas::whereIn('ventas.estado_ventas',[2,3])
-          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
-         ->select(
-            \DB::raw('sum(total) as mitotal')
-               )
-         ->first(); 
-
-          //Total Real
-           $totalgasto = Gastos::where('gastos.estado_gasto',1)
-          ->whereBetween('gastos.fecha_gasto', [$fini, $ffin])
-         ->select(
-            \DB::raw('sum(costo) as mitotal')
-               )
-         ->first(); 
-
-         //Descuentos
-           $descuentos = Ventas::leftjoin('descuentos_ventas', 'descuentos_ventas.id_ventas', '=', 'ventas.id')
-         ->whereIn('ventas.estado_ventas',[2,3])
-         ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
-         ->select(
-               \DB::raw('sum(descuentos_ventas.descuento) as descuentos')
-               )
-         ->first();  
+                      //Total neto
+                       $totalneto = Ventas::leftjoin('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
+                     ->leftjoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
+                       ->whereIn('ventas.estado_ventas',[2,3])
+                     ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                     ->select(
+                         \DB::raw('sum(producto_venta.precio_producto * producto_venta.cantidad) as totalp'),
+                             \DB::raw('sum(producto.costo * producto_venta.cantidad) as costo')
+                           )
+                     ->first();  
 
 
-            //Ordenes por dia
-           $ordendia = Ventas::whereIn('ventas.estado_ventas',[2,3])
-          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
-         ->select(
-            \DB::raw('DATE_FORMAT(fecha_factura, "%d/%m") as name'),
-            \DB::raw('count(id) as y')
-               )
-         ->groupBy(\DB::raw('DATE(fecha_factura)'))
-         ->get(); 
+                     //Total Real
+                       $totalreal = Ventas::whereIn('ventas.estado_ventas',[2,3])
+                      ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                     ->select(
+                        \DB::raw('sum(total) as mitotal')
+                           )
+                     ->first(); 
+
+                      //Total Real
+                       $totalgasto = Gastos::where('gastos.estado_gasto',1)
+                      ->whereBetween('gastos.fecha_gasto', [$fini, $ffin])
+                     ->select(
+                        \DB::raw('sum(costo) as mitotal')
+                           )
+                     ->first(); 
+
+                     //Descuentos
+                       $descuentos = Ventas::leftjoin('descuentos_ventas', 'descuentos_ventas.id_ventas', '=', 'ventas.id')
+                     ->whereIn('ventas.estado_ventas',[2,3])
+                     ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                     ->select(
+                           \DB::raw('sum(descuentos_ventas.descuento) as descuentos')
+                           )
+                     ->first();  
 
 
-            //Ordenes por hora
-           $ordenhora = Ventas::whereIn('ventas.estado_ventas',[2,3])
-          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
-         ->select(
-            \DB::raw('DATE_FORMAT(fecha_factura, "%H") as name'),
-            \DB::raw('count(id) as y')
-               )
-         ->groupBy(\DB::raw('DATE_FORMAT(fecha_factura, "%H")'))
-         ->orderBy(\DB::raw('DATE_FORMAT(fecha_factura, "%H")'), 'asc')
-         ->get(); 
+                        //Ordenes por dia
+                       $ordendia = Ventas::whereIn('ventas.estado_ventas',[2,3])
+                      ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                     ->select(
+                        \DB::raw('DATE_FORMAT(fecha_factura, "%d/%m") as name'),
+                        \DB::raw('count(id) as y')
+                           )
+                     ->groupBy(\DB::raw('DATE(fecha_factura)'))
+                     ->get(); 
+
+
+                        //Ordenes por hora
+                       $ordenhora = Ventas::whereIn('ventas.estado_ventas',[2,3])
+                      ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                     ->select(
+                        \DB::raw('DATE_FORMAT(fecha_factura, "%H") as name'),
+                        \DB::raw('count(id) as y')
+                           )
+                     ->groupBy(\DB::raw('DATE_FORMAT(fecha_factura, "%H")'))
+                     ->orderBy(\DB::raw('DATE_FORMAT(fecha_factura, "%H")'), 'asc')
+                     ->get(); 
+
+
+
+          }elseif( $request['por']==2){
+
+                  $idsucursal=$request['sucursal'];
+
+                              //Total por sucursal
+                      $ventas = Ventas::join('sucursales', 'sucursales.id', '=', 'ventas.id_sucursal')
+                      ->where('ventas.id_sucursal',$idsucursal)
+                      ->whereIn('ventas.estado_ventas',[2,3])
+                      ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                      ->select(
+                        'sucursales.nombre as name',
+                        \DB::raw('sum(ventas.total) as y')
+                           )
+                      ->groupBy('sucursales.id')
+                      ->get();   
+
+
+                      //Total neto
+                       $totalneto = Ventas::leftjoin('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
+                     ->leftjoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
+                     ->where('ventas.id_sucursal',$idsucursal)
+                       ->whereIn('ventas.estado_ventas',[2,3])
+                     ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                     ->select(
+                         \DB::raw('sum(producto_venta.precio_producto * producto_venta.cantidad) as totalp'),
+                             \DB::raw('sum(producto.costo * producto_venta.cantidad) as costo')
+                           )
+                     ->first();  
+
+
+                     //Total Real
+                       $totalreal = Ventas::whereIn('ventas.estado_ventas',[2,3])
+                       ->where('ventas.id_sucursal',$idsucursal)
+                      ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                     ->select(
+                        \DB::raw('sum(total) as mitotal')
+                           )
+                     ->first(); 
+
+                      //Total Real
+                       $totalgasto = Gastos::where('gastos.estado_gasto',1)
+                      ->whereBetween('gastos.fecha_gasto', [$fini, $ffin])
+                     ->select(
+                        \DB::raw('sum(costo) as mitotal')
+                           )
+                     ->first(); 
+
+                     //Descuentos
+                       $descuentos = Ventas::leftjoin('descuentos_ventas', 'descuentos_ventas.id_ventas', '=', 'ventas.id')
+                       ->where('ventas.id_sucursal',$idsucursal)
+                     ->whereIn('ventas.estado_ventas',[2,3])
+                     ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                     ->select(
+                           \DB::raw('sum(descuentos_ventas.descuento) as descuentos')
+                           )
+                     ->first();  
+
+
+                        //Ordenes por dia
+                       $ordendia = Ventas::whereIn('ventas.estado_ventas',[2,3])
+                       ->where('ventas.id_sucursal',$idsucursal)
+                      ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                     ->select(
+                        \DB::raw('DATE_FORMAT(fecha_factura, "%d/%m") as name'),
+                        \DB::raw('count(id) as y')
+                           )
+                     ->groupBy(\DB::raw('DATE(fecha_factura)'))
+                     ->get(); 
+
+
+                        //Ordenes por hora
+                       $ordenhora = Ventas::whereIn('ventas.estado_ventas',[2,3])
+                       ->where('ventas.id_sucursal',$idsucursal)
+                      ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                     ->select(
+                        \DB::raw('DATE_FORMAT(fecha_factura, "%H") as name'),
+                        \DB::raw('count(id) as y')
+                           )
+                     ->groupBy(\DB::raw('DATE_FORMAT(fecha_factura, "%H")'))
+                     ->orderBy(\DB::raw('DATE_FORMAT(fecha_factura, "%H")'), 'asc')
+                     ->get(); 
+
+          }
 
 
              if(!$ventas){
@@ -172,16 +262,39 @@ class ReporteVentasController extends Controller
           $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
           $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
 
-          $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
-          ->leftJoin('sucursales', 'ventas.id_sucursal', '=', 'sucursales.id')
-          ->whereIn('ventas.estado_ventas',[2,3])
-          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
-          ->select(
-            'tpago_venta.tipo_pago as name', 
-            \DB::raw('sum(ventas.total) as y')
-               )
-          ->groupBy('tpago_venta.tipo_pago')
-          ->get();        
+
+          if($request['por']==1){
+
+                $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
+                  ->leftJoin('sucursales', 'ventas.id_sucursal', '=', 'sucursales.id')
+                  ->whereIn('ventas.estado_ventas',[2,3])
+                  ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                  ->select(
+                    'tpago_venta.tipo_pago as name', 
+                    \DB::raw('sum(ventas.total) as y')
+                       )
+                  ->groupBy('tpago_venta.tipo_pago')
+                  ->get();    
+
+          }elseif($request['por']==2){
+
+               $idsucursal=$request['sucursal'];
+
+              $ventas = Ventas::join('tpago_venta', 'tpago_venta.id_ventas', '=', 'ventas.id')
+                  ->leftJoin('sucursales', 'ventas.id_sucursal', '=', 'sucursales.id')
+                  ->where('ventas.id_sucursal',$idsucursal)
+                  ->whereIn('ventas.estado_ventas',[2,3])
+                  ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                  ->select(
+                    'tpago_venta.tipo_pago as name', 
+                    \DB::raw('sum(ventas.total) as y')
+                       )
+                  ->groupBy('tpago_venta.tipo_pago')
+                  ->get();    
+
+          }
+
+                    
 
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
@@ -212,22 +325,49 @@ class ReporteVentasController extends Controller
           $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
           $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
 
-          $ventas = Ventas::join('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
-          ->leftJoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
-          ->whereIn('ventas.estado_ventas',[2,3])
-          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
-          ->select(
-            'producto.codigo as codigo', 
-             'producto.nombre as nombre', 
-              'producto.preciop as preciop', 
-              'producto.costo as precioi', 
-            \DB::raw('sum(producto_venta.cantidad) as cantidad'),
-            \DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto) as total'),
-             \DB::raw('sum(producto_venta.cantidad*producto.costo) as costo')
-               )
-          ->groupBy('producto.id')
-          ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto)'), 'desc')
-          ->get();        
+
+          if($request['por']==1){
+
+                    $ventas = Ventas::join('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
+                    ->leftJoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
+                    ->whereIn('ventas.estado_ventas',[2,3])
+                    ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                    ->select(
+                      'producto.codigo as codigo', 
+                       'producto.nombre as nombre', 
+                        'producto.preciop as preciop', 
+                        'producto.costo as precioi', 
+                      \DB::raw('sum(producto_venta.cantidad) as cantidad'),
+                      \DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto) as total'),
+                       \DB::raw('sum(producto_venta.cantidad*producto.costo) as costo')
+                         )
+                    ->groupBy('producto.id')
+                    ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto)'), 'desc')
+                    ->get(); 
+            }elseif($request['por']==2){
+
+               $idsucursal=$request['sucursal']; 
+
+                 $ventas = Ventas::join('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
+                    ->leftJoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
+                    ->where('ventas.id_sucursal',$idsucursal)
+                    ->whereIn('ventas.estado_ventas',[2,3])
+                    ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                    ->select(
+                      'producto.codigo as codigo', 
+                       'producto.nombre as nombre', 
+                        'producto.preciop as preciop', 
+                        'producto.costo as precioi', 
+                      \DB::raw('sum(producto_venta.cantidad) as cantidad'),
+                      \DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto) as total'),
+                       \DB::raw('sum(producto_venta.cantidad*producto.costo) as costo')
+                         )
+                    ->groupBy('producto.id')
+                    ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto)'), 'desc')
+                    ->get();  
+
+
+            }        
 
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
@@ -257,19 +397,44 @@ class ReporteVentasController extends Controller
           $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
           $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
 
-          $ventas = Ventas::join('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
-          ->leftJoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
-          ->leftJoin('linea_producto', 'linea_producto.id', '=', 'producto.linea')
-          ->whereIn('ventas.estado_ventas',[2,3])
-          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
-          ->select(
-              'linea_producto.nombre as nombre', 
-            \DB::raw('sum(producto_venta.cantidad) as cantidad'),
-            \DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto) as total')
-               )
-          ->groupBy('linea_producto.id')
-          ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto)'), 'desc')
-          ->get();        
+
+          if($request['por']==1){
+
+
+                          $ventas = Ventas::join('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
+                          ->leftJoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
+                          ->leftJoin('linea_producto', 'linea_producto.id', '=', 'producto.linea')
+                          ->whereIn('ventas.estado_ventas',[2,3])
+                          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                          ->select(
+                              'linea_producto.nombre as nombre', 
+                            \DB::raw('sum(producto_venta.cantidad) as cantidad'),
+                            \DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto) as total')
+                               )
+                          ->groupBy('linea_producto.id')
+                          ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto)'), 'desc')
+                          ->get();   
+              }elseif($request['por']==2){
+
+               $idsucursal=$request['sucursal']; 
+
+                          $ventas = Ventas::join('producto_venta', 'producto_venta.id_ventas', '=', 'ventas.id')
+                          ->leftJoin('producto', 'producto_venta.id_producto', '=', 'producto.id')
+                          ->leftJoin('linea_producto', 'linea_producto.id', '=', 'producto.linea')
+                          ->where('ventas.id_sucursal',$idsucursal)
+                          ->whereIn('ventas.estado_ventas',[2,3])
+                          ->whereBetween('ventas.fecha_factura', [$fini, $ffin])
+                          ->select(
+                              'linea_producto.nombre as nombre', 
+                            \DB::raw('sum(producto_venta.cantidad) as cantidad'),
+                            \DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto) as total')
+                               )
+                          ->groupBy('linea_producto.id')
+                          ->orderBy(\DB::raw('sum(producto_venta.cantidad*producto_venta.precio_producto)'), 'desc')
+                          ->get();  
+
+
+             }     
 
          if(!$ventas){
              return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);

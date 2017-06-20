@@ -2,7 +2,9 @@
 wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibModal,moment){
 
 		$scope.mifecha={};
+		$scope.mifecha.por={'id': '1','nombre': 'Todas'};
 
+		$scope.habilitar = false;
 
 		$scope.toggleDropdown = function($event) {
 		  $event.preventDefault();
@@ -17,6 +19,11 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 		 $scope.mifecha.fin=$scope.hoy._d;
 		 $scope.mifecha.inicio=$scope.hmes._d;
 		   $scope.mifecha.sucursal=3;
+
+    $scope.filsucu=[
+         {'id': '1','nombre': 'Todas'},
+         {'id': '2','nombre': 'Por Sucursal'}
+      ];
         
                //Todos las sucursales
       $http.get('/api/sucursales').success(
@@ -32,7 +39,9 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 		 $http.get('/api/reportes/ventasmes', {
 				      params: {
 				          fecha_inicio:$scope.mifecha.inicio,
-				          fecha_fin: $scope.mifecha.fin
+				          fecha_fin: $scope.mifecha.fin,
+				          por:1,
+				          sucursal:$scope.mifecha.sucursal
 				      }
 				   }).success(
 
@@ -240,7 +249,9 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 		 $http.get('/api/reportes/ventasproducto', {
 				      params: {
 				          fecha_inicio:$scope.mifecha.inicio,
-				          fecha_fin: $scope.mifecha.fin
+				          fecha_fin: $scope.mifecha.fin,
+				          por:1,
+				          sucursal:$scope.mifecha.sucursal
 				      }
 				   }).success(
                     function(vproducto) {
@@ -256,7 +267,9 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 		 $http.get('/api/reportes/ventaslinea', {
 				      params: {
 				          fecha_inicio:$scope.mifecha.inicio,
-				          fecha_fin: $scope.mifecha.fin
+				          fecha_fin: $scope.mifecha.fin,
+				          por:1,
+				          sucursal:$scope.mifecha.sucursal
 				      }
 				   }).success(
                     function(vlinea) {
@@ -272,7 +285,9 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 		 $http.get('/api/reportes/ventaspago', {
 				      params: {
 				          fecha_inicio:$scope.mifecha.inicio,
-				          fecha_fin: $scope.mifecha.fin
+				          fecha_fin: $scope.mifecha.fin,
+				          por:1,
+				          sucursal:$scope.mifecha.sucursal
 				      }
 				   }).success(
 
@@ -353,7 +368,9 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
  	   $scope.buscarreporte= function(){
  	   			 var datafecha={
                         fecha_inicio: $scope.mifecha.inicio,
-                        fecha_fin: $scope.mifecha.fin
+                        fecha_fin: $scope.mifecha.fin,
+				          por:$scope.mifecha.por,
+				          sucursal:$scope.mifecha.sucursal
                    };
                  console.log(datafecha);
 
@@ -361,7 +378,9 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 		 $http.get('/api/reportes/ventasmes', {
 				      params: {
 				          fecha_inicio:$scope.mifecha.inicio,
-				          fecha_fin: $scope.mifecha.fin
+				          fecha_fin: $scope.mifecha.fin,
+				          por:$scope.mifecha.por,
+				          sucursal:$scope.mifecha.sucursal
 				      }
 				   }).success(
 
@@ -568,7 +587,9 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 		 $http.get('/api/reportes/ventaspago', {
 				      params: {
 				          fecha_inicio:$scope.mifecha.inicio,
-				          fecha_fin: $scope.mifecha.fin
+				          fecha_fin: $scope.mifecha.fin,
+				          por:$scope.mifecha.por,
+				          sucursal:$scope.mifecha.sucursal
 				      }
 				   }).success(
 
@@ -646,7 +667,9 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 		 $http.get('/api/reportes/ventasproducto', {
 				      params: {
 				          fecha_inicio:$scope.mifecha.inicio,
-				          fecha_fin: $scope.mifecha.fin
+				          fecha_fin: $scope.mifecha.fin,
+				          por:$scope.mifecha.por,
+				          sucursal:$scope.mifecha.sucursal
 				      }
 				   }).success(
                     function(vproducto) {
@@ -662,7 +685,9 @@ wApp.controller('ReporteVentasCtrl',function($scope, $http, $timeout, $log,$uibM
 		 $http.get('/api/reportes/ventaslinea', {
 				      params: {
 				          fecha_inicio:$scope.mifecha.inicio,
-				          fecha_fin: $scope.mifecha.fin
+				          fecha_fin: $scope.mifecha.fin,
+				          por:$scope.mifecha.por,
+				          sucursal:$scope.mifecha.sucursal
 				      }
 				   }).success(
                     function(vlinea) {
