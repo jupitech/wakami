@@ -55,4 +55,8 @@ class Ventas extends Model
     public function ConsignacionVentas(){
         return $this->hasOne('App\Models\FacConsignacion','id_ventas','id');
     }
+
+           public function CreditoVentas(){
+        return $this->hasOne('App\Models\CreditosVentas','id_ventas','id');
+    }
 }

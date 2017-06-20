@@ -8054,6 +8054,20 @@ tspan, textPath {
 }
 
 
+  .op_descarga{
+    float: right;
+  }
+  .op_descarga a{
+    float: left;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #ccc url('img/ico_excel.svg') no-repeat center;
+    height: 30px;
+    width: 30px;
+    background-size: 20px; 
+      cursor: pointer;
+  }
+
 
 @media print {
   /*#areaimpresion{

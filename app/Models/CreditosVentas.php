@@ -27,4 +27,8 @@ class CreditosVentas extends Model
      * @var array
      */
     protected $hidden = ['created_at','updated_at'];
+
+        public function Ventas(){
+        return $this->hasOne('App\Models\Ventas','id','id_ventas')->with("PagoVenta","InfoClientes","PerfilUsuario","DescuentosVentas","PromocionesVentas","NombreSucursal");
+    }
 }

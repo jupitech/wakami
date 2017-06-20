@@ -67,7 +67,8 @@
               <a href="#" class="dropdown-toggle ico_reportes" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
               <ul class="dropdown-menu">
                 <li><a href="{{ URL::to('/reporteventas') }}">Reporte de ventas</a></li>
-                  <li><a href="{{ URL::to('/libroventas') }}">Libro de Ventas</a></li>
+                <li><a href="{{ URL::to('/libroventas') }}">Libro de Ventas</a></li>
+                <li><a href="{{ URL::to('/cuentascobrar') }}">Cuentas por cobrar</a></li>
               </ul>
             </li>
             <li class="dropdown">

@@ -89,31 +89,35 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 
 	   //Proveedores
 	   Route::get('/proveedores', 'ProveedoresController@index');
-	   	   //Gastos
+	   //Gastos
 	   Route::get('/gastos', 'GastosController@index');
 
-	    //Consignacion
+	   //Consignacion
 	   Route::get('/consignacion', 'ConsignacionController@index');
 
-	    //Reportes ventas
+	   //Reportes ventas
 	   Route::get('/reporteventas', 'ReporteVentasController@index');
 	    Route::get('/libroventas', 'ReporteVentasController@indexlibro');
 
-	    //Promociones
+	   //Promociones
 	   Route::get('/promociones', 'PromocionesController@index');
 
-	     //Devoluciones
+	    //Devoluciones
 	   Route::get('/devoluciones', 'DevolucionesController@index');
 
 
-	    //Donaciones
+	   //Donaciones
 	   Route::get('/donaciones', 'DonacionesController@index');
 
-	    //Inventario Consolidado
+	   //Inventario Consolidado
 	   Route::get('/inventariocon', 'InventarioConsoController@index');
 
-	    //Cierres
+	   //Cierres
 	   Route::get('/cierres', 'CierreCajaController@indexcentral');
+
+	   //Cuentas por Cobrar
+	   Route::get('/cuentascobrar', 'CuentasCobrarController@index');
+
 
 
 		Route::get('/producto/imagen/{id}', 'ProductosController@createimagen');
@@ -326,20 +330,25 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 			Route::put('/promocion/{id}', 'PromocionesController@update');
 
 			//Gastos
-		        Route::get('/gastos', 'GastosController@indexgastos');
-		        Route::get('/gastos/reportes', 'GastosController@indexreportes');
-		        Route::post('/gasto/create', 'GastosController@store');
-		        Route::put('/gasto/{id}', 'GastosController@update');
-		        Route::delete('/gasto/destroy/{id}','GastosController@destroy');
+	        Route::get('/gastos', 'GastosController@indexgastos');
+	        Route::get('/gastos/reportes', 'GastosController@indexreportes');
+	        Route::post('/gasto/create', 'GastosController@store');
+	        Route::put('/gasto/{id}', 'GastosController@update');
+	        Route::delete('/gasto/destroy/{id}','GastosController@destroy');
 
-		        Route::get('/categoriagastos', 'GastosController@indexcategoria');
-		        Route::post('/categoriagastos/create', 'GastosController@storecategoria');
-		        Route::put('/categoriagastos/{id}', 'GastosController@updatecategoria');
-		        Route::delete('/categoriagastos/destroy/{id}','GastosController@destroycategoria');
+	        Route::get('/categoriagastos', 'GastosController@indexcategoria');
+	        Route::post('/categoriagastos/create', 'GastosController@storecategoria');
+	        Route::put('/categoriagastos/{id}', 'GastosController@updatecategoria');
+	        Route::delete('/categoriagastos/destroy/{id}','GastosController@destroycategoria');
 
 		    //Cierres   
-		  Route::get('/cierres', 'CierreCajaController@indexcierrescentral');
-		   Route::get('/saldoactual', 'CierreCajaController@indexsaldocentral');
+		 	 Route::get('/cierres', 'CierreCajaController@indexcierrescentral');
+		     Route::get('/saldoactual', 'CierreCajaController@indexsaldocentral');
+
+            //Cuentas por cobrar
+	         Route::get('/cuentascobrarac', 'CuentasCobrarController@indexcredito');
+	         Route::get('/alertacredito', 'CuentasCobrarController@indexalerta');
+	         Route::get('/cuentascobrar/crearexcel', 'CuentasCobrarController@crearexcel');
 
 		});
 });
