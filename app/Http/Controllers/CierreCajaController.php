@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Models\CierreCaja;
 use App\Models\Sucursales;
 use App\Models\SaldoActual;
+use App\Models\SaldoDeposito;
 use App\Models\Ventas;
 use App\Models\GastosDiarios;
 use App\User;
@@ -50,7 +51,7 @@ class CierreCajaController extends Controller
     public function indexsaldocentral(){
       $ayer=Carbon::yesterday();
       $hoy=Carbon::today();
-        $saldoactual = SaldoActual::with("Sucursal")->where('fecha','>=', $ayer)->where('fecha','<=',$hoy)->orderBy('id','desc')->groupBy('id_sucursal')->get();
+        $saldoactual = SaldoActual::with("Deposito","Sucursal")->where('fecha','>=', $ayer)->where('fecha','<=',$hoy)->orderBy('id','desc')->groupBy('id_sucursal')->get();
         if(!$saldoactual){
             return response()->json(['datos' =>  array("efectivo"=>0)],200);
         }
@@ -108,7 +109,15 @@ class CierreCajaController extends Controller
     }
 
     public function indexsaldo($id){
-        $saldoactual = SaldoActual::orderBy('id','desc')->where('id_sucursal',$id)->first();
+        $saldoactual = SaldoActual::with("Deposito")->orderBy('id','desc')->where('id_sucursal',$id)->first();
+        if(!$saldoactual){
+            return response()->json(['datos' =>  array("efectivo"=>0)],200);
+        }
+        return response()->json(['datos' =>  $saldoactual],200);
+    }
+
+    public function indexsaldoac($id){
+        $saldoactual = SaldoActual::with("Deposito")->orderBy('id','desc')->where('id_sucursal',$id)->get();
         if(!$saldoactual){
             return response()->json(['datos' =>  array("efectivo"=>0)],200);
         }
@@ -349,41 +358,55 @@ class CierreCajaController extends Controller
             $saldo->save();
         }
     }
-    //storetpago
-    //store gastos
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+  
+    public function storedeposito(Request $request)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+          $user = Auth::User();
+        $userId = $user->id;
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+          $fecha= $request['fecha_deposito'];
+          $dt2 =new \DateTime($fecha);
+          $carbon2 = Carbon::instance($dt2); 
+          $a_dt2=$carbon2->year;
+          $m_dt2=$carbon2->month;
+          $d_dt2=$carbon2->day;
+
+          $mifecha=Carbon::create($a_dt2, $m_dt2, $d_dt2, 0);
+
+          $saldoactual=SaldoActual::where('id', $request['id_saldo'])->first();
+
+          if($saldoactual){
+             $saldo = SaldoDeposito::create([
+                 'id_saldo' => $request['id_saldo'], 
+                 'id_sucursal' => $request['id_sucursal'], 
+                 'id_user' => $userId,                     
+                 'banco' => $request['banco'],
+                 'numero' => $request['numero'],
+                 'monto' =>  $request['monto'],
+                 'montosis' =>   $saldoactual->efectivo,
+                 'fecha_deposito' =>  $mifecha,
+                 'descripcion' =>  $request['descripcion'],
+                 'estado_deposito' => 1, 
+              ]);
+            $saldo->save();
+
+            if($request['monto'] > $saldoactual->efectivo){
+                 $saldoactual->fill([
+                    'efectivo' => 0, 
+                ]);
+                $saldoactual->save();
+            }elseif($request['monto'] <= $saldoactual->efectivo){
+                $resta=$saldoactual->efectivo-$request['monto'];
+                $saldoactual->fill([
+                    'efectivo' =>  $resta, 
+                ]);
+                 $saldoactual->save();
+            }
+
+          }
+
+        
     }
     //
     /*****updatep1() pasa de estado 1 a 2

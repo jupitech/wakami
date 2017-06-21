@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SaldoActual extends Model
+class SaldoDeposito extends Model
 {
         //
     /**
@@ -12,14 +12,14 @@ class SaldoActual extends Model
      *
      * @var string
      */
-    protected $table = 'saldo_actual';
+    protected $table = 'saldo_deposito';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id_sucursal','id_user', 'efectivo', 'fecha'];
+    protected $fillable = ['id_sucursal','id_user', 'id_saldo', 'monto','montosis','numero','descripcion','banco','fecha_deposito','estado_deposito'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -29,11 +29,11 @@ class SaldoActual extends Model
     
         protected $hidden = ['created_at','updated_at'];
 
-            public function Sucursal(){
+    public function Sucursal(){
         return $this->hasOne('\App\Models\Sucursales','id','id_sucursal');
     }
-
-    public function Deposito(){
-        return $this->hasMany('\App\Models\SaldoDeposito','id_saldo','id');
+    
+    public function Saldo(){
+        return $this->hasOne('\App\Models\SaldoActual','id','id_saldo');
     }
 }

@@ -18,6 +18,7 @@ wApp.controller('CierreCajaCtrl',function($scope, $http, $timeout, $log,$uibModa
     $scope.nuevo_obj = false; //Nuevo proveedor
     $scope.editar_obj = false; // Editar proveedor
     $scope.ver_eli = false; // Ver proveedores eliminados
+    $scope.deposito_obj = false;
     $scope.alertaNuevo = false; // Alerta de nuevo proveedor registrado
     $scope.alertaExiste = false; // Alerta si el proveedor ya esta en existencia
     $scope.alertaEliminado = false; // Alerta de proveedor eliminado
@@ -34,6 +35,21 @@ wApp.controller('CierreCajaCtrl',function($scope, $http, $timeout, $log,$uibModa
         $scope.cierres = {};
         $scope.proveedor={};
     };
+
+    $scope.btn_deposito = function (){
+       $scope.deposito_obj = !$scope.deposito_obj;
+       $scope.deposito={};
+    }
+
+
+      $scope.bancos=[
+         {'nombre': 'Banco Industrial'},
+         {'nombre': 'Banrural'},
+         {'nombre': 'BAM'},
+         {'nombre': 'GyT Continental'},
+         {'nombre': 'BAC/Credomatic'},
+         {'nombre': 'Promerica'},
+      ];
 
   
 
@@ -117,6 +133,18 @@ wApp.controller('CierreCajaCtrl',function($scope, $http, $timeout, $log,$uibModa
             }).error(function(error) {
 
             $scope.bsaldo = 0;
+            $scope.error = error;
+        });
+
+        //Listado de  saldo actual
+        $http.get($scope.api+'/api/mi/saldoactual/'+$scope.misucu).success(
+
+            function(saldoac) {
+                $scope.saldoac = saldoac.datos;
+                console.log(saldoac);
+               // console.log('Saldo actual: ',$scope.saldoac.efectivo);
+            }).error(function(error) {
+
             $scope.error = error;
         });
 
@@ -270,89 +298,61 @@ wApp.controller('CierreCajaCtrl',function($scope, $http, $timeout, $log,$uibModa
         };
         //Nuevo Proveedor
 
-        $scope.proveedor={};
-        $scope.guardarProveedor = function(){
-            // console.log($scope.usuario);
+        $scope.deposito={};
+        $scope.guardarDeposito = function(){
 
-            /*ApiCierresNuevo.save($scope.proveedor, function(){
-             console.log("Guardado correctamente");
-             $scope.nuevo_obj = false;
-             $http.get('/api/proveedores').success(
-
-             function(proveedores) {
-             $scope.proveedores = proveedores.datos;
-             }).error(function(error) {
-             $scope.error = error;
-             });
-             $timeout(function () { $scope.alertaNuevo = true; }, 1000);
-             $timeout(function () { $scope.alertaNuevo = false; }, 5000);
-             },
-             function(error){
-             console.log("Parece que el proveedor ya existe");
-             $timeout(function () { $scope.alertaExiste = true; }, 100);
-             $timeout(function () { $scope.alertaExiste = false; }, 5000);
-             });*/
-
-        };
-
-        //Eliminar Proveedor
-        $scope.btn_eliminar = function(id){
-            $scope.idproveedor= id;
-            console.log($scope.idproveedor);
-
-            $http.delete($scope.api+'/api/proveedor/destroy/' +  $scope.idproveedor)
-                .success(function (data, status, headers) {
-                    console.log('Proveedor '+$scope.idproveedor+' borrado correctamente.');
-                    $http.get($scope.api+'/api/proveedores').success(
-
-                        function(proveedores) {
-                            $scope.proveedores = proveedores.datos;
-                        }).error(function(error) {
-                        $scope.error = error;
-                    });
-                    $timeout(function () { $scope.alertaEliminado = true; }, 1000);
-                    $timeout(function () { $scope.alertaEliminado = false; }, 5000);
-                })
-                .error(function (data, status, header, config) {
-                    console.log('Parece que existe un error al borrar el proveedor.');
-                });
-        };
-
-        //Editar Proveedor
-        $scope.btn_editar = function(proveedor) {
-            $scope.editar_obj = !$scope.editar_obj;
-            $scope.existeProve= proveedor;
-        };
-
-
-        $scope.editarProveedor = function(){
-            var data = {
-                empresa: $scope.existeProve.empresa,
-                encargado: $scope.existeProve.encargado,
-                nit: $scope.existeProve.nit,
-                direccion: $scope.existeProve.direccion,
-                telefono: $scope.existeProve.telefono,
-                telefono_encargado: $scope.existeProve.telefono_encargado,
-                email_encargado: $scope.existeProve.email_encargado
+              var data = {
+                id_saldo: $scope.bsaldo.id,
+                id_sucursal:$scope.misucu,
+                banco: $scope.deposito.banco,
+                numero: $scope.deposito.numero,
+                descripcion: $scope.deposito.descripcion,
+                monto: $scope.deposito.monto,
+                fecha_deposito: $scope.deposito.fecha_deposito
             };
-            // console.log(data);
-            $http.put($scope.api+'/api/proveedor/' +  $scope.existeProve.id, data)
+             console.log(data);
+
+              // console.log(data);
+            $http.post($scope.api+'/api/mi/deposito/create/', data)
                 .success(function (data, status, headers) {
-                    console.log('Proveedor '+$scope.existeProve.empresa+' modificado correctamente.');
-                    $http.get($scope.api+'/api/proveedores').success(
-                        function(proveedores) {
-                            $scope.proveedores = proveedores.datos;
-                        }).error(function(error) {
-                        $scope.error = error;
-                    });
-                    $scope.editar_obj = false;
-                    $timeout(function () { $scope.alertaEditado = true; }, 1000);
-                    $timeout(function () { $scope.alertaEditado = false; }, 5000);
+                    console.log('Deposito creado correctamente.');
+                    $scope.deposito={};
+                           //Buscando saldo actual
+                                    $http.get($scope.api+'/api/mi/bsaldo/'+$scope.misucu).success(
+
+                                        function(bsaldo) {
+                                            $scope.bsaldo = bsaldo.datos;
+                                            console.log(bsaldo);
+                                            console.log('Saldo actual: ',$scope.bsaldo.efectivo);
+                                        }).error(function(error) {
+
+                                        $scope.bsaldo = 0;
+                                        $scope.error = error;
+                                    });
+
+                                    //Listado de  saldo actual
+                                    $http.get($scope.api+'/api/mi/saldoactual/'+$scope.misucu).success(
+
+                                        function(saldoac) {
+                                            $scope.saldoac = saldoac.datos;
+                                            console.log(saldoac);
+                                           // console.log('Saldo actual: ',$scope.saldoac.efectivo);
+                                        }).error(function(error) {
+
+                                        $scope.error = error;
+                                    });
+
                 })
                 .error(function (data, status, header, config) {
                     console.log('Parece que existe un error al modificar el usuario.');
                 });
+
+
         };
+
+       
+
+
 
 
     };

@@ -6,6 +6,130 @@
         @yield('menu')
     </div>
     <div class="col-md-12 top_conte" ng-controller="CierreCajaCtrl">
+
+        {{-- Depositos --}}
+               <div id="area_mas" ng-if="deposito_obj">
+                      <div class="header_nuevo">
+
+                        <div class="col-sm-12">
+                              <h1>Depositos Bancarios</h1>
+                              <a class="btn_cerrar" ng-click="btn_deposito()"></a>
+                        </div>
+                       </div>
+                       <div class="conte_nuevo">
+                                <div class="col-sm-12">
+                                    
+                                     <form class="form-horizontal" name="frm" role="form" ng-submit="guardarDeposito()" >
+                                          <div class="form-group">
+                                            <div class="col-sm-12 ">
+                                            <div class="col-sm-12 spd spi">
+                                               <div class="alert alert-warning" role="alert" ng-if="bsaldo.deposito.length>0">Depositos Encontrados: <strong>Puedes seguir agregando depositos aunque ya exista alguno para este saldo actual!</strong></div>
+                                            </div>
+                                            
+                                            <div class="col-sm-6 spi">
+                                               <h1 class="h1_sal">Saldo Actual Q@{{bsaldo.efectivo | number:2}}</h1>
+                                            </div>
+                                              
+                                            </div>
+                                          </div>
+                                          <div class="form-group">
+                                                <div class="col-sm-4">
+                                                  <!--  <label for="name">Banco</label> -->
+                                                    <ol class="nya-bs-select" ng-model="deposito.banco" title="Banco..." required>
+                                                        <li nya-bs-option="banco in bancos" data-value="banco.nombre">
+                                                          <a>
+                                                            @{{ banco.nombre }}
+                                                            <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                          </a>
+                                                        </li>
+                                                      </ol>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                   <label for="name">No. Cuenta</label>
+                                                      <input id="name" type="hidden" class="form-control" name="nombre" ng-model="bsaldo.id" required>
+                                                     <input id="name" type="text" class="form-control" name="nombre" ng-model="deposito.numero"  required>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label for="name">Monto</label>
+                                                     <input id="name" type="text" class="form-control" name="nombre" ng-model="deposito.monto" placeholder="Q.0.00" required>
+                                                </div>
+                                                
+                                           </div>
+                                           <div class="form-group">
+                                                 <div class="col-sm-4">
+                                                    <label for="name">Descripción</label>
+                                                    <input id="name" type="text" class="form-control" name="nombre" ng-model="deposito.descripcion" required>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                     <label for="date">Fecha Depósito</label>
+                                                    <input id="date" type="date" class="form-control" name="nombre" ng-model="deposito.fecha_deposito" required>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid">AGREGAR</button>
+                                                </div>
+                                           </div>
+                                     </form>
+                                </div>
+                               
+                                <div class="col-sm-12 table_height">
+
+                                      <table class="table ">
+                                                     <thead>
+                                                         <th>ID</th>
+                                                         <th>Saldo</th>
+                                                         <th>Fecha</th>
+                                                         <th>Deposito</th>
+                                                        <!--  <th>Opciones</th> -->
+                                                     </thead>
+                                                     <tbody>
+                                                         <tr ng-repeat="saldo in saldoac">
+                                                             <td>@{{saldo.id}}</td>
+                                                              <td>Q@{{saldo.efectivo | number:2}}</td>
+                                                                <td>@{{saldo.fecha | amDateFormat: 'DD/MM/YYYY HH:mm'}}</td>
+                                                                <td> <span ng-repeat="deposito in saldo.deposito">| Q@{{deposito.monto | number:2}} </span>
+                                                                 </td>
+                                                            <!--  <td>
+                                                                <div class="area_opciones">
+                                                                    <ul>
+                                                                       <li class="ed_drop"  uib-dropdown ng-if="saldo.deposito.length<1">
+                                                                        <a href="" class="ico_depobanco" id="simple-dropdown" uib-dropdown-toggle ng-click="btn_editarl(categoria)"></a>
+                                                                               <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                                                               <form class="form-horizontal" name="frmed" role="form" ng-submit="editarCategoria()" >
+                                                                                      <div class="col-sm-9 ">
+                                                                                          <input id="name" type="text" class="form-control" name="nombre" ng-model="existeCategoria.nombre" required>
+                                                                                      </div>
+                                                                                      <div class="col-sm-3 spd spi">
+                                                                                       <button type="submit" class="btn_g btn_editarg" ng-disabled="frmed.$invalid"></button>
+                                                                                      </div>
+                                                                               </form>
+                                                                               </div>
+                                                                        </li>
+                                                                        <li class="ed_drop"  uib-dropdown>
+                                                                        <a href="" class="ico_editar" id="simple-dropdown" uib-dropdown-toggle ng-click="btn_editarl(categoria)"></a>
+                                                                               <div class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                                                                               <form class="form-horizontal" name="frmed" role="form" ng-submit="editarCategoria()" >
+                                                                                      <div class="col-sm-9 ">
+                                                                                          <input id="name" type="text" class="form-control" name="nombre" ng-model="existeCategoria.nombre" required>
+                                                                                      </div>
+                                                                                      <div class="col-sm-3 spd spi">
+                                                                                       <button type="submit" class="btn_g btn_editarg" ng-disabled="frmed.$invalid"></button>
+                                                                                      </div>
+                                                                               </form>
+                                                                               </div>
+                                                                        </li>
+                                                                       
+                                                                    </ul>
+                                                                </div>
+                                                            </td> -->
+                                                         </tr>
+                                                        
+                                                     </tbody>
+                                      </table>
+        
+                                </div>
+                      </div>
+               </div>
+  
         {{-- Nuevo cierre --}}
                <div id="area_mas" ng-if="nuevo_obj && !imprimir" style="width: 100% !important;">
                     <div class="header_nuevo">
@@ -94,6 +218,9 @@
         {{-- Cierre Caja --}}
         <div class="header_conte" ng-if="!imprimir">
             <h1>Cierre Caja</h1>
+                    <div class="btn_seg">
+                      <a href="" ng-click="btn_deposito()">Depositos</a>
+                  </div>
         </div>
 
         <div class="col-sm-12 area_enhead" ng-if="!imprimir">

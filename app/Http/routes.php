@@ -345,6 +345,7 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 		 	 Route::get('/cierres', 'CierreCajaController@indexcierrescentral');
 		     Route::get('/saldoactual', 'CierreCajaController@indexsaldocentral');
 
+
             //Cuentas por cobrar
 	         Route::get('/cuentascobrarac', 'CuentasCobrarController@indexcredito');
 	         Route::get('/alertacredito', 'CuentasCobrarController@indexalerta');
@@ -459,7 +460,9 @@ Route::group(['middleware' => ['auth','role:vendedor']], function(){
         Route::get('cierreshoy/{sucursal}', 'CierreCajaController@cierrehoy');
         Route::get('cierres/{sucursal}', 'CierreCajaController@indexcierres');
         Route::get('bsaldo/{id}', 'CierreCajaController@indexsaldo');
+         Route::get('saldoactual/{id}', 'CierreCajaController@indexsaldoac');
         Route::post('cierre/create/{id}', 'CierreCajaController@store');
+         Route::post('/deposito/create', 'CierreCajaController@storedeposito');
 
 
           //Ir a traer los TOTALES DE VENTAS POR TIPOS DE PAGO, EFECTIVO TARJETA, CHEQUE, DEPOSITO
