@@ -209,6 +209,102 @@ class CierreCajaController extends Controller
         return response()->json(['datos' => $ventas_deposito], 200 );
     }
 
+
+    public function indexreporsu(Request $request,$idsucursal)
+    {
+
+         $fechainicio= $request['fecha_inicio'];
+         $fechafin= $request['fecha_fin'];
+
+          $fi =new \DateTime($fechainicio);
+          $carbon = Carbon::instance($fi); 
+          $a_fi=$carbon->year;
+          $m_fi=$carbon->month;
+          $d_fi=$carbon->day;
+
+          $ff =new \DateTime($fechafin);
+          $carbon2 = Carbon::instance($ff); 
+          $a_ff=$carbon2->year;
+          $m_ff=$carbon2->month;
+          $d_ff=$carbon2->day;
+
+
+          $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+          $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
+
+
+                        //Ordenes por dia
+                       $ordendia = SaldoActual::where('id_sucursal',$idsucursal)
+                      ->whereBetween('fecha', [$fini, $ffin])
+                     ->select(
+                        \DB::raw('DATE_FORMAT(fecha, "%d/%m") as name'),
+                        \DB::raw('sum(efectivo) as y')
+                           )
+                     ->groupBy(\DB::raw('DATE(fecha)'))
+                     ->get(); 
+
+
+
+    
+
+
+             if(!$ordendia){
+                 return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+            }
+
+           return response()->json(['datos' =>$ordendia],200);
+
+ 
+    }
+
+
+     public function indexrepordesu(Request $request,$idsucursal)
+    {
+
+         $fechainicio= $request['fecha_inicio'];
+         $fechafin= $request['fecha_fin'];
+
+          $fi =new \DateTime($fechainicio);
+          $carbon = Carbon::instance($fi); 
+          $a_fi=$carbon->year;
+          $m_fi=$carbon->month;
+          $d_fi=$carbon->day;
+
+          $ff =new \DateTime($fechafin);
+          $carbon2 = Carbon::instance($ff); 
+          $a_ff=$carbon2->year;
+          $m_ff=$carbon2->month;
+          $d_ff=$carbon2->day;
+
+
+          $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0);
+          $ffin=Carbon::create($a_ff, $m_ff, $d_ff, 23,59,59);
+
+
+                        //Ordenes por dia
+                       $ordendia = SaldoDeposito::where('id_sucursal',$idsucursal)
+                      ->whereBetween('fecha_deposito', [$fini, $ffin])
+                     ->select(
+                        \DB::raw('DATE_FORMAT(fecha_deposito, "%d/%m") as name'),
+                        \DB::raw('sum(monto) as y')
+                           )
+                     ->groupBy(\DB::raw('DATE(fecha_deposito)'))
+                     ->get(); 
+
+
+
+    
+
+
+             if(!$ordendia){
+                 return response()->json(['mensaje' =>  'No se encuentran ventas actualmente','codigo'=>404],404);
+            }
+
+           return response()->json(['datos' =>$ordendia],200);
+
+ 
+    }
+
     /**
      * Show the form for creating a new resource.
      *

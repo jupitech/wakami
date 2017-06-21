@@ -14,14 +14,63 @@
               <h1>Cierres</h1>
      </div>
 	<div class="col-sm-12">
+   {{-- Busqueda por fecha especifica --}}
+      <div class="col-sm-6 col-md-6 col-lg-6 spi">
+                <div class="area_fecha">
+                          <form class="form_fecha" name="forma" ng-submit="buscarreporte()">
+                            <div class="form-group">
+                              
+                                  <div class="col-sm-4 spi spd">
+                                        <label for="nombreU" class="col-sm-12 spi">Fecha Inicio</label>
+                                        <div class="col-sm-12 spi spd">
+                                              <input type="date" class="form-control" name="inicio" ng-model="mifecha.inicio" max="mifecha.fin" ng-max="mifecha.fin" required>
+                                        </div>
+                                        <div class="col-sm-12 spi spd">
+                                            <span class="label label-danger" ng-show="forma.inicio.$error.max">Fecha máxima: @{{mifecha.fin | amDateFormat:'DD/MM/YYYY'}}</span>
+                                        </div>
+                                  </div>
+                                  <div class="col-sm-4 spd">
+                                        <label for="nombreU" class="col-sm-12 spi">Fecha Fin</label>
+                                        <div class="col-sm-12 spi spd">
+                                              <input type="date" class="form-control" name="fin" ng-model="mifecha.fin" required>
+                                        </div>
+                                  </div>
+                                  <div class="col-sm-4 spd top_btn">
+                                      <button type="submit" class="btn btn-primary">Buscar</button>
+                                  </div>
+                            </div>
+
+                          </form>
+
+                      </div>
+      </div>
 	 <div class="col-sm-12 spd spi">
     
-    <div class="col-sm-6" ng-repeat="saldo in saldos">
-        <div class="porusuario" >
-              <div class="col-sm-6">Saldo @{{saldo.sucursal.nombre}}</div>
-              <div class="col-sm-6">Q@{{saldo.efectivo | number:2}}</div>
-        </div>
-    </div>
+    {{-- Saldos por dia --}}
+            <div class="col-sm-12 col-md-12 col-lg-12 spd spi mtop">
+              <div class="caja_contenido cajasaldos">
+              <div class="col-sm-12 spd spi">
+                       <h1>Saldos por sucursal</h1>
+                    </div>
+                      <div class="col-sm-12 col-md-12 col-lg-12 spd" ng-repeat="sucursal in sucursales | filter:{'codigo_esta':'!1'} " ng-init="reportesucu(sucursal.id)">
+                             <h3>@{{sucursal.nombre}}</h3>
+                              <highcharts id="chart@{{sucursal.id}}"  chart='@{{renderOdia[sucursal.id]}}'></highcharts>
+                             </div>
+              </div>
+            </div>
+
+              {{-- Depositos por dia --}}
+            <div class="col-sm-12 col-md-12 col-lg-12 spd spi mtop">
+              <div class="caja_contenido cajasaldos">
+              <div class="col-sm-12 spd spi">
+                       <h1>Depositos por sucursal</h1>
+                    </div>
+                      <div class="col-sm-12 col-md-12 col-lg-12 spd" ng-repeat="sucursal in sucursales | filter:{'codigo_esta':'!1'} " ng-init="reportedesucu(sucursal.id)">
+                             <h3>@{{sucursal.nombre}}</h3>
+                              <highcharts id="chart@{{sucursal.id}}"  chart='@{{renderOdep[sucursal.id]}}'></highcharts>
+                             </div>
+              </div>
+            </div>
    </div>
 	  <div class="caja_contenido mtop">
 	           <table class="table">

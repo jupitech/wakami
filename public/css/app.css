@@ -8084,6 +8084,26 @@ tspan, textPath {
   }
 
 
+.cajasaldos h1{
+  float: left;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cajasaldos h3{
+  float: left;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 300;
+  margin: 0;
+}
+
+
 @media print {
   /*#areaimpresion{
    	width: 400px;

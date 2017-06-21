@@ -344,7 +344,8 @@ Route::group(['middleware' => ['auth','role:admin|operativo|developer']], functi
 		    //Cierres   
 		 	 Route::get('/cierres', 'CierreCajaController@indexcierrescentral');
 		     Route::get('/saldoactual', 'CierreCajaController@indexsaldocentral');
-
+		      Route::get('/reporsu/{idsucursal}', 'CierreCajaController@indexreporsu');
+		       Route::get('/repordesu/{idsucursal}', 'CierreCajaController@indexrepordesu');
 
             //Cuentas por cobrar
 	         Route::get('/cuentascobrarac', 'CuentasCobrarController@indexcredito');
