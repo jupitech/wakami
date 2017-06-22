@@ -194,7 +194,7 @@ class VentasCentralController extends Controller
      public function indexventasmesf($pago,$sucursal, Request $request)
     {
 
-        $fechainicio= $request['fecha'];
+/*        $fechainicio= $request['fecha'];
            $fi =new \DateTime($fechainicio);
            $carbon = Carbon::instance($fi); 
            $a_fi=$carbon->year;
@@ -202,7 +202,18 @@ class VentasCentralController extends Controller
            $d_fi=$carbon->day;
 
             $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0)->startOfMonth();
-           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59)->endOfMonth();
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59)->endOfMonth();*/
+
+             $mes= $request['mes'];
+        $anio= $request['anio'];
+        $hoy=Carbon::today();
+         
+           $a_fi=$hoy->year;
+           $m_fi=$hoy->month;
+           $d_fi=$hoy->day;
+
+           $fini=Carbon::create($anio, $mes, $d_fi, 0,0,0)->startOfMonth();
+           $ffin=Carbon::create($anio, $mes, $d_fi, 23,59,59)->endOfMonth();
 
            //Trayendo Producto
          $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
