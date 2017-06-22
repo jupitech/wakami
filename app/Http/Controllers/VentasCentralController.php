@@ -201,8 +201,8 @@ class VentasCentralController extends Controller
            $m_fi=$carbon->month;
            $d_fi=$carbon->day;
 
-            $fini=Carbon::create($a_fi, $mes, $d_fi, 0,0,0)->startOfMonth();
-           $ffin=Carbon::create($a_fi, $mes, $d_fi, 23,59,59)->endOfMonth();
+            $fini=Carbon::create($a_fi, $m_fi, $d_fi, 0,0,0)->startOfMonth();
+           $ffin=Carbon::create($a_fi, $m_fi, $d_fi, 23,59,59)->endOfMonth();
 
            //Trayendo Producto
          $ventas=Ventas::with("PagoVenta","InfoClientes","PerfilUsuario","NombreSucursal","DescuentosVentas")
