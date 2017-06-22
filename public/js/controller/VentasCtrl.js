@@ -941,7 +941,7 @@ wApp.controller('VentasCtrl',function($scope, $http, $timeout, $log,$uibModal,$l
                             $scope.actlis=true;
                            
                             //Todos las ventas
-                            $http.post('/api/ventasmesf/'+pago+'/'+sucursal,datafecha).success(
+                            $http.post('/api/ventasmesf/'+pago+'/'+sucursal,datames).success(
 
                                     function(ventas) {
                                               $scope.ventas = ventas.datos.slice(0, 15);
