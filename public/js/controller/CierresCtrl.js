@@ -199,7 +199,7 @@ wApp.controller('CierresCtrl',function($scope, $http,ApiProveedorNuevo, $timeout
                                         },
                                       yAxis: {
                                           title: {
-                                              text: 'Saldo'
+                                              text: 'Deposito'
                                           },
                                           categories:yorden
                                       },
@@ -219,7 +219,7 @@ wApp.controller('CierresCtrl',function($scope, $http,ApiProveedorNuevo, $timeout
                                           }
                                       },
                                       series: [{
-                                        name: 'Saldos Q',
+                                        name: 'Depositos Q',
                                           data:  yorden
                                       }]
                                   };    
