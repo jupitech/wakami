@@ -326,7 +326,6 @@
                         <table width="100%">
                             <tr><td><h3>@{{datasucursal.nombre}}</h3></td></tr>
                             <tr><td><h4>@{{datasucursal.ubicacion}}</h4></td></tr>
-                             <tr><td><h4>GRUPO TOBRA S.A.</h4></td></tr>
                             {{-- <tr><td><h4>NIT: 8451822-7</h4></td></tr>
                             <tr><td><h4>Factura Serie: @{{misucursal.serie}} No. @{{miventa.correlativo}} </h4></td></tr>
                             <tr><td><h4>Del 1 Al 1000000</h4></td></tr>
