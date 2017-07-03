@@ -1588,8 +1588,10 @@ if($estado == 1){
 
             $fechaDocumento=$createfecha->toDateString();
 
-              if($misucursal->codigo_esta==4){
+            if($misucursal->codigo_esta==4){
                  $fechaResolucion='2016-12-08';
+            } elseif($misucursal->codigo_esta==5){
+               $fechaResolucion='2017-06-20';
             } else{
                $fechaResolucion='2016-09-21';
             }
@@ -2012,6 +2014,8 @@ if ($estado == 1) {
 
             if($misucursal->codigo_esta==4){
                  $fechaResolucion='2016-12-08';
+            } elseif($misucursal->codigo_esta==5){
+               $fechaResolucion='2017-06-22';
             } else{
                $fechaResolucion='2016-09-21';
             }
