@@ -31,7 +31,10 @@
                       </div> 
                      </div>
                      <div class="header_nofactura">
-                        <p>Posible No.Factura</p>
+                        <p ng-if="mitipo==1">Cliente Individual</p>
+                        <p ng-if="mitipo==2">Cliente de Consignación</p>
+                        <p ng-if="mitipo==3">Cliente de Contado</p>
+                        <p ng-if="mitipo==4">Cliente al Crédito</p>
                         <h3></h3>
                      </div>
         	      
@@ -71,7 +74,7 @@
                 <div class="agregar_pro conte_nuevo">
                             <form class="form-horizontal" name="frm" role="form" ng-submit="guardarProVenta()" >
                                                   <div class="form-group">
-                                                     <div class="col-sm-10 col-md-10 col-lg-11 topinput">
+                                                     <div class="col-sm-10 col-md-10 col-lg-11 topinput" ng-if="mitipo!=2">
                                                              <ol class="nya-bs-select" ng-model="proventa.id_producto" data-live-search="true"  title="Selecciona un producto..." required data-size="10">
                                                                   <li nya-bs-option="producto in productos" data-value="producto.id">
                                                                     <a>
@@ -80,6 +83,22 @@
                                                                           @{{ producto.nombre }}-<strong> Q@{{ producto.preciop | number:2 }} </strong>
                                                                            <small class="label label-info">Stock @{{ producto.stock_producto.stock }}</small>
                                                                           <small class="label label-gris">@{{ producto.codigo_barra }}</small>
+                                                                        </span>
+                                                                      <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                                    </a>
+                                                                  </li>
+                                                                </ol>
+                                                        </div>
+
+                                                         <div class="col-sm-10 col-md-10 col-lg-11 topinput" ng-if="mitipo==2">
+                                                             <ol class="nya-bs-select" ng-model="proventa.id_producto" data-live-search="true"  title="Selecciona un producto..." required data-size="10">
+                                                                  <li nya-bs-option="producto in productos" data-value="producto.id_producto">
+                                                                    <a>
+                                                                     <span>
+                                                                      <small class="label label-success">@{{ producto.nombre_producto.codigo }}</small>
+                                                                          @{{ producto.nombre_producto.nombre }}-<strong> Q@{{ producto.nombre_producto.preciop | number:2 }} </strong>
+                                                                           <small class="label label-info">Stock @{{ producto.stock }}</small>
+                                                                          <small class="label label-gris">@{{ producto.nombre_producto.codigo_barra }}</small>
                                                                         </span>
                                                                       <span class="glyphicon glyphicon-ok check-mark"></span>
                                                                     </a>
@@ -185,52 +204,132 @@
              </div>
               
               {{-- Tipo de pago --}}
-              <div class="caja_contenido top_conte conte_nuevo sinheight mbotom" ng-if="acti_areapro && misproductos.length > 0">
-                   <div class="col-sm-12 tfactura ">
-                      <form class="form-horizontal" name="frm" role="form" ng-submit="btn_facturar()" >
-                          <div class="form-group">
-                                  <div class="col-sm-4">
-                                                           <ol class="nya-bs-select" ng-model="factura.tipo_pago" title="Tipo de pago..." required>
-                                                              <li nya-bs-option="tpago in tpagos" data-value="tpago.id">
-                                                                <a>
-                                                                  @{{ tpago.pago }}
-                                                                  <span class="glyphicon glyphicon-ok check-mark"></span>
-                                                                </a>
-                                                              </li>
-                                                            </ol>
-                                                          
-                                  </div>
-                                  <div class="col-sm-5" ng-if="factura.tipo_pago!=4">
-                                      <label for="name">Referencia</label>
-                                       <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS ó No.Cheque">
-                                  </div>
-
-                                  <div class="col-sm-5" ng-if="factura.tipo_pago==4">
-                                          <div class="col-sm-6">
-                                                <ol class="nya-bs-select" ng-model="factura.dias_credito" title="Dias de crédito" required>
-                                                              <li nya-bs-option="dia in diascre" data-value="dia.dias">
-                                                                <a>
-                                                                  @{{ dia.nombre }}
-                                                                  <span class="glyphicon glyphicon-ok check-mark"></span>
-                                                                </a>
-                                                              </li>
-                                                            </ol>
+      {{-- Tipo de pago --}}
+            <div class="caja_contenido top_conte conte_nuevo sinheight mbotom" ng-if="acti_areapro && misproductos.length > 0">
+                <div class="col-sm-12 tfactura ">
+                    <form class="form-horizontal" name="frm" role="form" ng-submit="btn_facturar()" >
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                          <div class="col-sm-12 spd spi">
+                                               <ol class="nya-bs-select" ng-model="factura.tipo_pago" title="Tipo de pago..." required>
+                                                <li nya-bs-option="tpago in tpagos" data-value="tpago.id">
+                                                    <a>
+                                                        @{{ tpago.pago }}
+                                                        <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                    </a>
+                                                </li>
+                                            </ol>
                                           </div>
-                                          <div class="col-sm-6">
-                                              <label for="name">Referencia</label>
-                                       <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS ó No.Cheque">
-                                          </div>
-                                    
-                                  </div>
 
-                                <div class="col-sm-3">
-                                   <input type="hidden" ng-model="idventa"/>
-                                  <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid || loading" button-spinner="loading" >FACTURAR</button>
+                                          <div class="col-sm-12 spd spi" ng-if="factura.elmonto>0 && factura.elmonto<miventa.total">
+                                               <ol class="nya-bs-select" ng-model="factura.tipo_pago2" title="Tipo de pago..." required>
+                                                <li nya-bs-option="tpago in tpagado" data-value="tpago.id">
+                                                    <a>
+                                                        @{{ tpago.pago }}
+                                                        <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                    </a>
+                                                </li>
+                                            </ol>
+                                          </div>
+                               
+
+                            </div>
+                            <div class="col-sm-3">
+                                     <div class="col-sm-12 spd spi">
+                                        <div class="col-sm-6 spi">
+                                         <label for="name">Total</label>
+                                             <input id="total" type="text" class="form-control" name="total" ng-model="miventa.total"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" readonly>
+                                        </div>
+                                        <div class="col-sm-6 spd">
+                                         <label for="name">Aporte</label>
+                                             <input id="elmonto" type="text" class="form-control" name="elmonto" ng-model="factura.elmonto"  min="1" ng-min="1"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                                        </div>
+                                         
+                                       
+                                     </div>
+                                    <div class="col-sm-12 spd spi" ng-if="factura.elmonto>0 && factura.elmonto<miventa.total">
+                                          <label for="name">Ajuste total</label>
+                                        <input id="elmonto2" type="text" class="form-control" name="elmonto2" ng-model="factura.elmonto2" ng-value="miventa.total-factura.elmonto" ng-pattern="/^[0-9]*$/" readonly>
+                                        <p>@{{factura.elmonto2}}</p>
+                                     </div>
+                               
+                            </div>
+                            <div class="col-sm-4" ng-if="factura.tipo_pago!=4">
+                                        {{-- Cheque o Deposito --}}
+                                        <div class="col-sm-12 spd spi" ng-if="factura.tipo_pago==3 || factura.tipo_pago==5">
+                                             <label for="name">Referencia</label>
+                                            <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS ó No.Cheque">
+                                        </div>
+                                        {{-- POS/Tarjeta --}}
+                                        <div class="col-sm-12 spd spi" ng-if="factura.tipo_pago==2">
+                                             <label for="name">Referencia</label>
+                                            <div class="col-sm-6 spi">
+                                              <ol class="nya-bs-select" ng-model="factura.tarjeta" title="Tarjeta Crédito..." required>
+                                                    <li nya-bs-option="tarjeta in ttarjetas" data-value="tarjeta.nombre">
+                                                        <a>
+                                                            @{{ tarjeta.nombre }}
+                                                            <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                        </a>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                            <div class="col-sm-6 spd">
+                                                 <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS ó No.Cheque">
+                                            </div>
+                                           
+                                        </div>
+                                        <div class="col-sm-12 spd spi" ng-if="factura.elmonto>0 && factura.elmonto<miventa.total">
+                                             {{-- Cheque o Deposito --}}
+                                                    <div class="col-sm-12 spd spi" ng-if="factura.tipo_pago==3 || factura.tipo_pago==5">
+                                                         <label for="name">Referencia</label>
+                                                        <input id="referencia" type="text" class="form-control" name="referencia2" ng-model="factura.referencia2" placeholder="# Ref POS ó No.Cheque">
+                                                    </div>
+                                                    {{-- POS/Tarjeta --}}
+                                                    <div class="col-sm-12 spd spi" ng-if="factura.tipo_pago2==2">
+                                                         <label for="name">Referencia</label>
+                                                        <div class="col-sm-6 spi">
+                                                          <ol class="nya-bs-select" ng-model="factura.tarjeta2" title="Tarjeta Crédito..." required>
+                                                                <li nya-bs-option="tarjeta in ttarjetas2" data-value="tarjeta.nombre">
+                                                                    <a>
+                                                                        @{{ tarjeta.nombre }}
+                                                                        <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                                    </a>
+                                                                </li>
+                                                            </ol>
+                                                        </div>
+                                                        <div class="col-sm-6 spd">
+                                                             <input id="referencia" type="text" class="form-control" name="referencia2" ng-model="factura.referencia2" placeholder="# Ref POS ó No.Cheque">
+                                                        </div>
+                                                 </div>
+                                           
+                                        </div>
+                             </div>
+                            <div class="col-sm-4" ng-if="factura.tipo_pago==4">
+                                <div class="col-sm-6">
+                                    <ol class="nya-bs-select" ng-model="factura.dias_credito" title="Dias de crédito" required>
+                                        <li nya-bs-option="dia in diascre" data-value="dia.dias">
+                                            <a>
+                                                @{{ dia.nombre }}
+                                                <span class="glyphicon glyphicon-ok check-mark"></span>
+                                            </a>
+                                        </li>
+                                    </ol>
                                 </div>
-                          </div>
-                      </form>
-                   </div>
-              </div>
+                                <div class="col-sm-6">
+                                    <label for="name">Referencia</label>
+                                    <input id="referencia" type="text" class="form-control" name="referencia" ng-model="factura.referencia" placeholder="# Ref POS ó No.Cheque">
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-2">
+                                <input type="hidden" ng-model="idventa"/>
+                                <button type="submit" class="btn btn-primary btn_regis" ng-disabled="frm.$invalid || loading" button-spinner="loading" >FACTURAR</button>
+                            </div>
+                       </div>
+                    </form>
+                </div>
+            </div>
    </div>
 
 

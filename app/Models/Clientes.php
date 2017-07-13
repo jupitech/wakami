@@ -31,4 +31,8 @@ class Clientes extends Model
     public function PorcentajeCliente(){
         return $this->hasOne('\App\Models\PorcentajeCliente','id_cliente','id');
     }
+
+    public function Consignacion(){
+        return $this->hasOne('\App\Models\Consignacion','id_cliente','id');
+    }
 }

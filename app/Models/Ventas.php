@@ -33,7 +33,7 @@ class Ventas extends Model
     }
 
       public function InfoClientes(){
-        return $this->hasOne('App\Models\Clientes','id','id_cliente')->with("PorcentajeCliente");
+        return $this->hasOne('App\Models\Clientes','id','id_cliente')->with("PorcentajeCliente","Consignacion");
     }
 
     public function FacVenta(){

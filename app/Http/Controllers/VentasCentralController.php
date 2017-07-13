@@ -1463,6 +1463,519 @@ if($estado == 1){
  }
 
 
+
+
+     public function storeface(Request $request)
+    {
+        $idventas =$request['id_ventas'];
+        $tipopago =$request['id_tpago'];   
+        $tipopago2 =$request['id_tpago2'];      
+        $tipofac =$request['id_tfac'];  
+        $referencia =$request['referencia'];  
+        $referencia2 =$request['referencia2'];  
+        $tarjeta =$request['tarjeta'];  
+        $tarjeta2 =$request['tarjeta2'];  
+        $elmonto =$request['elmonto'];  
+        $diascredito =$request['dias_credito'];    
+
+        $ahora=Carbon::now();
+   
+        if($referencia==''){
+            $mirefe='';
+        } else{
+             $mirefe=$referencia;
+        } 
+
+        if($referencia2==''){
+            $mirefe2='';
+        } else{
+             $mirefe2=$referencia2;
+        } 
+
+        if($tarjeta==''){
+            $mitarjeta='';
+        } else{
+             $mitarjeta=$tarjeta;
+        } 
+
+        if($tarjeta2==''){
+            $mitarjeta2='';
+        } else{
+             $mitarjeta2=$tarjeta2;
+        } 
+
+        if($tipopago2==''){
+            $mitpago2='';
+        } else{
+             $mitpago2=$tipopago2;
+        } 
+
+
+        if($elmonto==''){
+            $mimonto='';
+        } else{
+             $mimonto=$elmonto;
+        } 
+
+        $ventas=Ventas::find( $idventas );
+
+        //Buscando productos en ventas agregados
+         $productoventas=ProductoVenta::with("NombreProducto","Venta")->where('id_ventas',$idventas)->get();
+
+
+            //Analizando tipo de pago y actualizando factura 
+                            if($tipopago==4){
+
+                                  $ventas->fill([
+                                          'fecha_factura' => $ahora,
+                                          'estado_ventas' => 3,
+                                      ]);
+                                  $ventas->save();
+
+                                  $fechalimite=Carbon::now()->addDays($diascredito);
+
+
+                                   $creditoventa=CreditosVentas::create([
+                                      'id_ventas' => $idventas,
+                                      'dias_credito' => $diascredito,
+                                      'fecha_limite' => $fechalimite,
+                                      'estado_credito' => 1,
+                                            ]);
+                                   $creditoventa->save();
+
+                            }else{
+
+                                  $ventas->fill([
+                                          'fecha_factura' => $ahora,
+                                      ]);
+                                  $ventas->save();
+
+                            }
+
+
+
+        //Enviando factura electronica
+          $detalle=[];
+          $dte=[];
+            //Buscando información de la sucursal
+            $idsucursal=$ventas->id_sucursal;
+            $misucursal=Sucursales::where('id',$idsucursal)->first();
+            
+            //Buscando los productos y agregando a una variable array
+             foreach ($productoventas as $productoventa) {
+
+                  $codigoProducto=$productoventa->NombreProducto->codigo;
+                  $descripcionProducto=$productoventa->NombreProducto->nombre;
+                  $precioUni=$productoventa->NombreProducto->preciop;
+                  $montoBruto=round((($precioUni*$productoventa->cantidad)),2);
+
+                  $exisdescuento=$productoventa->Venta->DescuentosVentas;
+
+                    if($exisdescuento){
+               
+                      $porcentaje=$productoventa->Venta->DescuentosVentas->porcentaje;
+                      $descuentoUnitario=($precioUni*$porcentaje)/100;
+                      $precioUnitario=round(($precioUni-$descuentoUnitario),2);
+                      $montoDescuento=($montoBruto*$porcentaje)/100;
+                      $restamonto=round(($montoBruto-$montoDescuento),2);
+                      $importeNetoGravado=round(($restamonto),2);
+                      $detalleImpuestosIva=round(($restamonto*0.12),2);
+                      $importeTotalOperacion=round(($restamonto),2);
+                      $montoBr=round(($importeTotalOperacion-$detalleImpuestosIva),2);
+
+                    }else{
+                       $precioUnitario=round((($productoventa->NombreProducto->preciop)),2);
+                       $montoDescuento=0;
+                       $importeNetoGravado=round(($montoBruto),2);
+                       $detalleImpuestosIva= round(($montoBruto*0.12),2);
+                       $importeTotalOperacion=round(($montoBruto),2);
+                       $montoBr=round(($importeTotalOperacion-$detalleImpuestosIva),2);
+                    }
+
+                  $detalle[]=array(
+                       'cantidad'=> $productoventa->cantidad,
+                       'unidadMedida'=> 'UND',
+                       'codigoProducto'=>  $codigoProducto,
+                       'descripcionProducto'=> $descripcionProducto,
+                       'precioUnitario'=> "$precioUnitario",
+                       'montoBruto'=> "$montoBr",
+                       'montoDescuento'=> "$montoDescuento",
+                       'importeNetoGravado'=>  "$importeNetoGravado",
+                       'detalleImpuestosIva'=> "$detalleImpuestosIva",
+                       'importeExento'=> "0",
+                       'otrosImpuestos'=> "0",
+                       'importeOtrosImpuestos'=> "0",
+                       'importeTotalOperacion'=>"$importeTotalOperacion",
+                       'tipoProducto'=> 'B',
+                       'personalizado_01'=> 'N/A',
+                       'personalizado_02'=> 'N/A',
+                       'personalizado_03'=> 'N/A',
+                       'personalizado_04'=> 'N/A',
+                       'personalizado_05'=> 'N/A',
+                       'personalizado_06'=> 'N/A'
+                  );
+             }
+
+             $importeBruto= round((($ventas->total)/1.12),2);
+             $detalleImpuestosIvat=round((($ventas->total)*0.12),2);
+
+             $micliente=Clientes::where('id',$ventas->id_cliente)->first();
+             $exisempre=$micliente->empresa;
+             $existelefono=$micliente->telefono;
+             $exiscorreo=$micliente->email;
+
+             //Buscando CF en nit
+             $exisnit=$micliente->nit;
+             $nitcf='C';
+             $encuencf=substr($exisnit,0,1);
+
+             if( $encuencf==$nitcf){
+                $nitComprador='C/F';
+                $nombreComercialComprador='Consumidor Final';
+             }else{
+                $nitComprador=str_replace("-", "", $exisnit);
+
+                $nombreComercialComprador=$micliente->nombre;
+
+             }
+
+
+             if($existelefono!=''){
+                $telefonoComprador=$micliente->telefono;
+             }else{
+                $telefonoComprador='N/A';
+             }
+
+            if($exiscorreo!=''){
+                $correoComprador=$micliente->email;
+             }else{
+                $correoComprador='N/A';
+             }
+
+             //Formato fecha 
+            $fechafactura=Carbon::parse($ventas->fecha_factura);
+            $fanio=$fechafactura->year;
+            $fmes=$fechafactura->month;
+            $fdia=$fechafactura->day;
+
+            $createfecha=Carbon::create($fanio, $fmes, $fdia);
+
+            $fechaDocumento=$createfecha->toDateString();
+
+            $fechaResolucion='2016-09-21';
+
+             //Información de factura 
+             $dte=array(
+                  'usuario'=> 'FILUM',
+                  'clave'=> 'BA67C270504DA22D0BA7E817D8A9A3C9BFB34077A9B899D924170E3F8016B432',
+                  'validador'=> false,
+                  'dte'=> array(
+                          'codigoEstablecimiento'=> "$misucursal->codigo_esta",
+                          'idDispositivo'=>'001',
+                          'serieAutorizada'=>$misucursal->serie,
+                          'numeroResolucion'=>"$misucursal->resolucion",
+                          'fechaResolucion'=>$fechaResolucion,
+                          'tipoDocumento'=>'FACE',
+                          'serieDocumento'=>"$misucursal->codigo_sat",
+                          'estadoDocumento'=>'ACTIVO',
+                          'numeroDocumento'=>"$ventas->id",
+                          'fechaDocumento'=>$fechaDocumento,
+                          'codigoMoneda'=>'GTQ',
+                          'tipoCambio'=>'1',
+                          'nitComprador'=>$nitComprador,
+                          'nombreComercialComprador'=> $nombreComercialComprador, 
+                          'direccionComercialComprador'=>$micliente->direccion, 
+                          'telefonoComprador'=>$telefonoComprador,
+                          'correoComprador'=>$correoComprador,
+                          'regimen2989'=>false, 
+                          'departamentoComprador'=>'N/A', 
+                          'municipioComprador'=>'N/A',               
+                          'importeBruto'=>$importeBruto,
+                          'importeDescuento'=>0, 
+                          'importeTotalExento'=>0,
+                          'importeOtrosImpuestos'=>0,                               
+                          'importeNetoGravado'=>$ventas->total, 
+                          'detalleImpuestosIva'=>$detalleImpuestosIvat,
+                          'montoTotalOperacion'=>$ventas->total, 
+                          'descripcionOtroImpuesto'=>'N/A',
+                          'observaciones'=>'N/A',
+                          'nitVendedor'=>str_replace("-", "","8150406-3"),
+                          'departamentoVendedor'=>'GUATEMALA', 
+                          'municipioVendedor'=>'GUATEMALA',
+                          'direccionComercialVendedor'=>'12 av. 14-68 Zona 10', 
+                          'NombreComercialRazonSocialVendedor'=>'Filum Copropiedad', 
+                          'nombreCompletoVendedor'=>'Wakami',
+                          'regimenISR'=>'1',
+                          'personalizado_01'=>'N/A',
+                          'personalizado_02'=>'N/A',
+                          'personalizado_03'=>'N/A',
+                          'personalizado_04'=>'N/A',
+                          'personalizado_05'=>'N/A',
+                          'personalizado_06'=>'N/A',
+                          'personalizado_07'=>'N/A',
+                          'personalizado_08'=>'N/A',
+                          'personalizado_09'=>'N/A',
+                          'personalizado_10'=>'N/A',
+                          'personalizado_11'=>'N/A',
+                          'personalizado_12'=>'N/A',
+                          'personalizado_13'=>'N/A',
+                          'personalizado_14'=>'N/A',
+                          'personalizado_15'=>'N/A',
+                          'personalizado_16'=>'N/A',
+                          'personalizado_17'=>'N/A',
+                          'personalizado_18'=>'N/A',
+                          'personalizado_19'=>'N/A',
+                          'personalizado_20'=>'N/A',                                    
+                         'detalleDte'=>$detalle
+                  )
+             );
+
+//Llamada para el estado de página 
+$pagina = EstadoPagina::where('nombre', 'developer')->first();
+$estado = $pagina->estado;
+
+if($estado == 1){
+  
+  try{
+             $client = new \SoapClient('https://www.ingface.net/listener/ingface?wsdl',array( 'exceptions' => 1)); 
+
+             $resultado=$client->registrarDte(array("dte"=>$dte));
+
+                if($resultado->return->valido)
+                      {    
+
+                           if($elmonto==''){
+                                    //guardando tipo de pago
+                                    $pagoventa=TpagoVenta::create([
+                                        'id_ventas' => $idventas,
+                                        'tipo_pago' => $tipopago,
+                                        'referencia' => $mirefe,
+                                        'monto' => $ventas->total,
+                                         'tarjeta' => $mitarjeta,
+                                              ]);
+                                    $pagoventa->save();
+
+                          }else{
+                                  $totalmonto= $ventas->total-$mimonto;
+                                       //guardando tipo de pago
+                                  $pagoventa=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $tipopago,
+                                      'referencia' => $mirefe,
+                                        'monto' => $mimonto,
+                                         'tarjeta' => $mitarjeta,
+                                            ]);
+                                  $pagoventa->save();
+
+                                 //guardando tipo de pago
+                                  $pagoventa2=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $mitpago2,
+                                      'referencia' => $mirefe2,
+                                       'monto' => $totalmonto,
+                                        'tarjeta' => $mitarjeta2,
+                                            ]);
+                                  $pagoventa2->save();
+
+                          }
+
+                            $tipocliente=$micliente->tipo_cliente;
+
+                              foreach ($productoventas as $productoventa) {
+                                //Reduciendo stock desde los productos vendidos
+                                
+
+                                if($tipocliente==2){
+
+                                  $idcliente=$micliente->id;
+
+                                  $consignacion=Consignacion::where('id_cliente',$idcliente)->first();
+                                  $miconsi=$consignacion->id;
+
+
+                                  $stockproducto=StockConsignacion::where('id_consignacion',$miconsi)->where('id_producto',$productoventa->id_producto)->first();
+
+                                    if(!is_null($stockproducto) ){
+                                        $stockactual=$stockproducto->stock;
+                                        $restastock=$stockactual-$productoventa->cantidad;
+                                          $stockproducto->fill([
+                                                            'stock' =>  $restastock,
+                                                        ]);
+                                          $stockproducto->save();
+
+                                      }
+
+
+                                }else{
+
+
+                                   $stockproducto=StockProducto::where('id_producto',$productoventa->id_producto)->first();
+
+                                      if(!is_null($stockproducto) ){
+                                        $stockactual=$stockproducto->stock;
+                                        $restastock=$stockactual-$productoventa->cantidad;
+                                          $stockproducto->fill([
+                                                            'stock' =>  $restastock,
+                                                        ]);
+                                          $stockproducto->save();
+
+                                      }
+
+
+                                }
+                    
+                              }
+
+                              //Recibiendo DTE y CAE para factura
+                              $midte=$resultado->return->numeroDte;
+                              $micae=$resultado->return->cae;
+                              
+                              if($tipopago==4){
+
+                                  $ventas->fill([
+                                          'estado_ventas' => 3,
+                                           'dte' => $midte,
+                                          'cae' => $micae,
+                                      ]);
+                                  $ventas->save();
+
+                                   }else{
+
+                                    $ventas->fill([
+                                              'estado_ventas' => 2,
+                                             'dte' => $midte,
+                                              'cae' => $micae,
+                                          ]);
+                                   $ventas->save();
+
+                               }
+
+                             return response()->json(['DTE' => $midte,'CAE'=> $micae],200);                 
+ 
+            } else {
+                  return response()->json(['ERROR' =>  $resultado->return->descripcion],200); 
+            }
+
+     } catch (SoapFault $E) { 
+          $objResponse->addAlert($E->faultstring);
+      }
+
+
+        return response()->json(['venta: venta real.'],200);
+
+
+        }elseif ($estado == 2) {
+      
+                          if($elmonto==''){
+                                    //guardando tipo de pago
+                                    $pagoventa=TpagoVenta::create([
+                                        'id_ventas' => $idventas,
+                                        'tipo_pago' => $tipopago,
+                                        'referencia' => $mirefe,
+                                        'monto' => $ventas->total,
+                                         'tarjeta' => $mitarjeta,
+                                              ]);
+                                    $pagoventa->save();
+
+                          }else{
+                                  $totalmonto= $ventas->total-$mimonto;
+                                       //guardando tipo de pago
+                                  $pagoventa=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $tipopago,
+                                      'referencia' => $mirefe,
+                                        'monto' => $mimonto,
+                                         'tarjeta' => $mitarjeta,
+                                            ]);
+                                  $pagoventa->save();
+
+                                 //guardando tipo de pago
+                                  $pagoventa2=TpagoVenta::create([
+                                      'id_ventas' => $idventas,
+                                      'tipo_pago' => $mitpago2,
+                                      'referencia' => $mirefe2,
+                                       'monto' => $totalmonto,
+                                        'tarjeta' => $mitarjeta2,
+                                            ]);
+                                  $pagoventa2->save();
+
+                          }
+
+
+
+                             $tipocliente=$micliente->tipo_cliente;
+
+                              foreach ($productoventas as $productoventa) {
+                                //Reduciendo stock desde los productos vendidos
+                                
+
+                                if($tipocliente==2){
+
+                                  $idcliente=$micliente->id;
+
+                                  $consignacion=Consignacion::where('id_cliente',$idcliente)->first();
+                                  $miconsi=$consignacion->id;
+
+
+                                  $stockproducto=StockConsignacion::where('id_consignacion',$miconsi)->where('id_producto',$productoventa->id_producto)->first();
+
+                                    if(!is_null($stockproducto) ){
+                                        $stockactual=$stockproducto->stock;
+                                        $restastock=$stockactual-$productoventa->cantidad;
+                                          $stockproducto->fill([
+                                                            'stock' =>  $restastock,
+                                                        ]);
+                                          $stockproducto->save();
+
+                                      }
+
+
+                                }else{
+
+
+                                   $stockproducto=StockProducto::where('id_producto',$productoventa->id_producto)->first();
+
+                                      if(!is_null($stockproducto) ){
+                                        $stockactual=$stockproducto->stock;
+                                        $restastock=$stockactual-$productoventa->cantidad;
+                                          $stockproducto->fill([
+                                                            'stock' =>  $restastock,
+                                                        ]);
+                                          $stockproducto->save();
+
+                                      }
+
+
+                                }
+                    
+                              }
+
+
+                            
+                              
+                               if($tipopago==4){
+
+                                  $ventas->fill([
+                                          'estado_ventas' => 3,
+                                      ]);
+                                  $ventas->save();
+
+                                   }else{
+
+                                    $ventas->fill([
+                                              'estado_ventas' => 2,
+                                          ]);
+                                   $ventas->save();
+
+                               }
+
+                             //return response()->json(['DTE' => $midte,'CAE'=> $micae],200);
+                              return response()->json(['Venta: venta developer.'],200);
+          }
+
+ }
+
+
      public function notacredito(Request $request,$id)
     {
         $idventas =$id;

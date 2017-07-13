@@ -3366,12 +3366,43 @@ wApp.controller('VentaECtrl',function($scope, $http, $timeout, $log,$uibModal, $
 
 
 
+  $scope.apcf=function(){
+      $scope.venta.bnit='C/F';
+       $scope.no_encon =false;
+       $scope.act_cliente( $scope.venta.bnit);
+  }
+
+   $scope.tipos=[
+        {id:'1',cliente:'Individual'},
+        {id:'2',cliente:'Empresa'},
+   ];
+
+  $scope.ttarjetas=[
+        {id:'1',nombre:'Visa'},
+        {id:'2',nombre:'MasterCard'},
+        {id:'3',nombre:'American Express'},
+         {id:'4',nombre:'Otras'},
+   ];
+
+     $scope.ttarjetas2=[
+        {id:'1',nombre:'Visa'},
+        {id:'2',nombre:'MasterCard'},
+        {id:'3',nombre:'American Express'},
+         {id:'4',nombre:'Otras'},
+   ];
 
    $scope.tpagos=[
         {id:'1',pago:'Efectivo'},
         {id:'2',pago:'POS/Tarjeta'},
         {id:'3',pago:'Cheque'},
         {id:'4',pago:'Crédito'},
+        {id:'5',pago:'Depósito'},
+  ];
+
+     $scope.tpagado=[
+        {id:'1',pago:'Efectivo'},
+        {id:'2',pago:'POS/Tarjeta'},
+        {id:'3',pago:'Cheque'},
         {id:'5',pago:'Depósito'},
   ];
 
@@ -3383,51 +3414,47 @@ wApp.controller('VentaECtrl',function($scope, $http, $timeout, $log,$uibModal, $
 
 
    
+      $scope.miurl = $location.absUrl();
 
+      //console.log('URL',$scope.url);
+     
+      $scope.idventa= $scope.miurl.split('/')[4];
+      console.log('ID Venta: ',$scope.idventa);
+     
 
-       //Productos
-          $http.get('/api/productosas').success(
-
-              function(productos) {
-                        $scope.productos = productos.datos;
-            }).error(function(error) {
-                 $scope.error = error;
-            });
-
-      $scope.elstock=function(id){
-            $scope.idpro=id;
-                 $http.get('/api/ventas/stockproducto/'+$scope.idpro).success(
-
-                  function(stock) {
-                            $scope.stock = stock.datos;
-                }).error(function(error) {
-                     $scope.error = error;
-                });
-        };
-
-         //Sucursal
-          $http.get('/api/misucursal/'+ 3).success(
-
-              function(misucursal) {
-                        $scope.misucursal = misucursal.datos;
-            }).error(function(error) {
-                 $scope.error = error;
-            });    
-
-
-
-        $scope.miurl = $location.absUrl();
-
-        //console.log('URL',$scope.url);
-       
-        $scope.idventa= $scope.miurl.split('/')[4];
-        console.log('ID Venta: ',$scope.idventa);
-
-               //Mi Venta
+      //Mi Venta
                 $http.get('/api/miventa/'+$scope.idventa).success(
 
                         function(miventa) {
                                   $scope.miventa = miventa.datos;
+
+                                  console.log( 'Tipo Cliente: ',$scope.miventa.info_clientes.tipo_cliente);
+
+                                  //Tipo Cliente
+                                  $scope.mitipo=$scope.miventa.info_clientes.tipo_cliente;
+
+
+                                  if($scope.mitipo==2){
+
+                                    $scope.consigna=$scope.miventa.info_clientes.consignacion.id;
+                                                  $http.get('/api/proconsignacionas/'+$scope.consigna).success(
+                                                    function(productos) {
+                                                              $scope.productos = productos.datos;
+                                                  }).error(function(error) {
+                                                       $scope.error = error;
+                                                  });
+                                  }else{
+                                                  $http.get('/api/productosas').success(
+
+                                                    function(productos) {
+                                                              $scope.productos = productos.datos;
+                                                  }).error(function(error) {
+                                                       $scope.error = error;
+                                                  });
+                                  }
+                              
+
+
                       }).error(function(error) {
                            $scope.error = error;
                       });
@@ -3451,6 +3478,34 @@ wApp.controller('VentaECtrl',function($scope, $http, $timeout, $log,$uibModal, $
                                      $scope.error = error;
                                 });           
 
+
+
+  
+
+      $scope.elstock=function(id){
+            $scope.idpro=id;
+                 $http.get('/api/ventas/stockproducto/'+$scope.idpro).success(
+
+                  function(stock) {
+                            $scope.stock = stock.datos;
+                }).error(function(error) {
+                     $scope.error = error;
+                });
+        };
+
+         //Sucursal
+          $http.get('/api/misucursal/'+ 3).success(
+
+              function(misucursal) {
+                        $scope.misucursal = misucursal.datos;
+            }).error(function(error) {
+                 $scope.error = error;
+            });    
+
+
+
+
+              
               //Aplicar descuento           
               $scope.aplides= function(id_cliente){
                   var datapor={
@@ -3680,7 +3735,7 @@ wApp.controller('VentaECtrl',function($scope, $http, $timeout, $log,$uibModal, $
             };
             //console.log(datafact);
 
-              $http.post('/api/factura/create', datafact)
+              $http.post('/api/facturae/create', datafact)
                         .success(function (data, status, headers) {
                               console.log("Factura creada correctamente");
                                $scope.acti_venta=false;
