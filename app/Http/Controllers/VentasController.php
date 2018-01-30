@@ -661,6 +661,8 @@ class VentasController extends Controller
                  $fechaResolucion='2016-12-08';
             } elseif($misucursal->codigo_esta==5){
                $fechaResolucion='2017-06-20';
+            }elseif($misucursal->codigo_esta==6){
+               $fechaResolucion='2017-11-28';
             } else{
                $fechaResolucion='2016-09-21';
             }

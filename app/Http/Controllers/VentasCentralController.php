@@ -2105,6 +2105,8 @@ if($estado == 1){
                  $fechaResolucion='2016-12-08';
             } elseif($misucursal->codigo_esta==5){
                $fechaResolucion='2017-06-20';
+            }elseif($misucursal->codigo_esta==6){
+               $fechaResolucion='2017-11-28';
             } else{
                $fechaResolucion='2016-09-21';
             }
@@ -2529,7 +2531,9 @@ if ($estado == 1) {
                  $fechaResolucion='2016-12-08';
             } elseif($misucursal->codigo_esta==5){
                $fechaResolucion='2017-06-22';
-            } else{
+            } elseif($misucursal->codigo_esta==6){
+               $fechaResolucion='2017-11-28';
+            }else{
                $fechaResolucion='2016-09-21';
             }
 

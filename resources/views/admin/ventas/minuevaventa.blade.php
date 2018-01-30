@@ -395,7 +395,7 @@
                                     <tr><td><h3>FILUM COPROPIEDAD</h3></td></tr>
                                     <tr><td><h3>@{{misucursal.nombre}}</h3></td></tr>
                                     <tr><td><h4>@{{misucursal.ubicacion}}</h4></td></tr>
-                                    <tr><td><h4 ng-if="misucursal.id==2">TEL: 2336-7398</h4><h4 ng-if="misucursal.id==4">TEL: 2472-8610</h4></td></tr>
+                                    <tr><td><h4 ng-if="misucursal.id==2">TEL: 2336-7398</h4><h4 ng-if="misucursal.id==4">TEL: 2472-8610</h4><h4 ng-if="misucursal.codigo_esta==6">TEL: 2493-8295</h4></td></tr>
                                     <tr><td><h4>NIT: 8150406-3</h4></td></tr>
                                     <tr><td><h4>Serie: FACE-@{{misucursal.serie}}</h4></td></tr>
                                     <tr><td><h4>Del 1 Al 1000000</h4></td></tr>
@@ -442,6 +442,7 @@
                                       <span>@{{misucursal.resolucion}}</span>
                                       <span ng-if="misucursal.codigo_esta==1 || misucursal.codigo_esta==2 || misucursal.codigo_esta==3 ">De Fecha: 21-SEP-16 Serie: FOAK Del 1 Al 1000000 </span>
                                              <span ng-if="misucursal.codigo_esta==5 ">De Fecha: 20-JUN-17 Serie: FPOAK Del 1 Al 1000000 </span>
+                                               <span ng-if="misucursal.codigo_esta==6 ">De Fecha: 28-NOV-17 Serie: FFC Del 1 Al 1000000 </span>
                                       <span>GFACE: INFILE,S.A. NIT: 1252133-7 </span>
                                       <h4>SUJETO A PAGOS TRIMESTRALES</h4>
                                       <h5>No se aceptan cambios ni devoluciones, exceptuando por defectos de producción 30 dias después de la compra presentando esta factura.</h5>
