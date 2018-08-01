@@ -57,7 +57,8 @@
 			</td>
 			<td>Filum Copropiedad-Wakami</td> -->
 				
-				
+				<td rowspan="4"></td>
+				<td></td>
 				<td class="dere">Fecha: {{$ventas->fecha_factura}}</td>
 			</tr>
 			<tr>
