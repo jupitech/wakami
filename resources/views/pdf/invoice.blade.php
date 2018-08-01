@@ -52,10 +52,10 @@
 	<table>
 		<tbody>
 			<tr>
-				<td rowspan="4">
-					<img width="90px" src="https://sistemafilum.net/css/img/wakami_logo.png" alt="">
-				</td>
-				<td>Filum Copropiedad-Wakami</td>
+			<!-- 	<td rowspan="4">
+				<img width="90px" src="https://sistemafilum.net/css/img/wakami_logo.png" alt="">
+			</td>
+			<td>Filum Copropiedad-Wakami</td> -->
 				
 				
 				<td class="dere">Fecha: {{$ventas->fecha_factura}}</td>
@@ -131,7 +131,7 @@
 	<table class="ttrop">
 		<tbody>
 			<tr>
-				<td>Documento Tributario Electrónico Según Resolución SAT <strong>{{$ventas->NombreSucursal->resolucion}}</strong> De Fecha: 21-SEP-16 Serie: FOAK Del 1 Al 1000000 GFACE: INFILE,S.A. NIT: 1252133-7 </td>
+				<td>Documento Tributario Electrónico Según Resolución SAT <strong>{{$ventas->NombreSucursal->resolucion}}</strong> De Fecha: {{$ventas->NombreSucursal->fresolucion}} Serie: {{$ventas->NombreSucursal->serie}} Del 1 Al 1000000 GFACE: INFILE,S.A. NIT: 1252133-7 </td>
 			</tr>
 			<tr>
 				<td><strong>SUJETO A PAGOS TRIMESTRALES</strong></td>
