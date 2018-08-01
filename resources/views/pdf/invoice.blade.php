@@ -138,7 +138,7 @@
 				<td><strong>SUJETO A PAGOS TRIMESTRALES</strong></td>
 			</tr>
 			<tr>
-				<td>No se aceptan cambios ni devoluciones, exceptuando por defectos de producción 2 meses después de la compra presentando esta factura.</td>
+				<td>Cualquier cambio de mercadería   por defecto de producción debe realizarse en los 30 días posteriores a la compra presentando esta factura.</td>
 			</tr>
 		</tbody>
 	</table>
