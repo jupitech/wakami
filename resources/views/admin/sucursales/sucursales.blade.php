@@ -44,6 +44,16 @@
                                   </div>
                                   
                                </div>
+                               <div class="form-group">
+                                  <div class="col-md-12">
+                                       <label for="telefono">Teléfono</label>
+                                       <input id="telefono" type="text" class="form-control" name="telefono" ng-model="sucursal.telefono" placeholder="Teléfono de la sucursal" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.telefono.$dirty && frm.telefono.$error.required">Campo requerido</div>
+                                         </div>
+                                  </div>
+                                  
+                               </div>
                                 <div class="form-group dcontrol">
                                         <div class="col-sm-12">
                                           <h5>Información de Factura</h5>
@@ -232,6 +242,16 @@
                                        <input id="ubicacion" type="text" class="form-control" name="ubicacion" ng-model="existeSucu.ubicacion" placeholder="Direccion de la ubicacion" required>
                                         <div class="col-sm-12 spd spi">
                                             <div class="alert alert-danger" ng-show="frm.ubicacion.$dirty && frm.ubicacion.$error.required">Campo requerido</div>
+                                         </div>
+                                  </div>
+                                  
+                               </div>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                       <label for="telefono">Teléfono</label>
+                                       <input id="telefono" type="text" class="form-control" name="telefono" ng-model="existeSucu.telefono" placeholder="Teléfono de la sucursal" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.telefono.$dirty && frm.telefono.$error.required">Campo requerido</div>
                                          </div>
                                   </div>
                                   

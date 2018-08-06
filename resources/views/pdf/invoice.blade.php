@@ -55,10 +55,10 @@
 			<!-- 	<td rowspan="4">
 				<img width="90px" src="https://sistemafilum.net/css/img/wakami_logo.png" alt="">
 			</td>
-			<td>Filum Copropiedad-Wakami</td> -->
+			 -->
 				
 				<td rowspan="4"></td>
-				<td></td>
+				<td>Filum Copropiedad</td>
 				<td class="dere">Fecha: {{$ventas->fecha_factura}}</td>
 			</tr>
 			<tr>
@@ -66,7 +66,7 @@
 				<td class="dere">Factura Electrónica</td>
 			</tr>
 			<tr>
-				<td>@if ($ventas->NombreSucursal->id === 2)2336-7398 @elseif ($ventas->NombreSucursal->id === 4)2472-8610 @else 2472-8610  @endif</td>
+				<td>{{$ventas->NombreSucursal->telefono}}</td>
 				<td class="dere mbold">{{$ventas->dte}}</td>
 			</tr>
 			<tr>
@@ -138,7 +138,7 @@
 				<td><strong>SUJETO A PAGOS TRIMESTRALES</strong></td>
 			</tr>
 			<tr>
-				<td>Cualquier cambio de mercadería   por defecto de producción debe realizarse en los 30 días posteriores a la compra presentando esta factura.</td>
+				<td>Cualquier cambio de mercadería  por defecto de producción debe realizarse en los 30 días posteriores a la compra presentando esta factura.</td>
 			</tr>
 		</tbody>
 	</table>

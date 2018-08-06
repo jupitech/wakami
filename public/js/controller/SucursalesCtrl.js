@@ -146,6 +146,7 @@ wApp.controller('SucursalesCtrl',function($scope, $http,ApiSucursalNuevo, $timeo
                   codigo_esta: $scope.existeSucu.codigo_esta,
                   nombre: $scope.existeSucu.nombre,
                   ubicacion: $scope.existeSucu.ubicacion,
+                  telefono: $scope.existeSucu.telefono,
                   codigo_sat: $scope.existeSucu.codigo_sat,
                   serie: $scope.existeSucu.serie,
                   resolucion: $scope.existeSucu.resolucion,

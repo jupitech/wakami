@@ -497,9 +497,8 @@
                     <div id="areaimpresion" class="info_final">
                         <table width="100%" ng-if="acti_areapro">
                             <tr><td><h3>FILUM COPROPIEDAD</h3></td></tr>
-                            <tr><td><h3>Wakami</h3></td></tr>
                             <tr><td><h4>@{{misucursal.ubicacion}}</h4></td></tr>
-                            <tr><td><h4 ng-if="misucursal.id==2">TEL: 2336-7398</h4><h4 ng-if="misucursal.id==4">TEL: 2472-8610</h4></td></tr>
+                            <tr><td><h4>@{{misucursal.telefono}}</h4></td></tr>
                             <tr><td><h4>NIT: 8150406-3</h4></td></tr>
                             <tr><td><h4>Serie: FACE-@{{misucursal.serie}}</h4></td></tr>
                             <tr><td><h4>Del 1 Al 1000000</h4></td></tr>
@@ -537,10 +536,10 @@
                             <div class="footerimp">
                                 <span>Documento Tributario Electrónico Según Resolución SAT</span>
                                 <span>@{{misucursal.resolucion}}</span>
-                                <span>De Fecha: 21-SEP-16 Serie: FOAK Del 1 Al 1000000 </span>
+                                <span>De Fecha: @{{misucursal.fresolucion}} Serie: @{{misucursal.serie}} Del 1 Al 1000000 </span>
                                 <span>GFACE: INFILE,S.A. NIT: 1252133-7 </span>
                                 <h4>SUJETO A PAGOS TRIMESTRALES</h4>
-                                <h5>No se aceptan cambios ni devoluciones, exceptuando por defectos de producción 30 dias después de la compra presentando esta factura.</h5>
+                                <h5>Cualquier cambio de mercadería  por defecto de producción debe realizarse en los 30 días posteriores a la compra presentando esta factura.</h5>
                             </div>
                         </div>
 
