@@ -2107,6 +2107,8 @@ if($estado == 1){
                $fechaResolucion='2017-06-20';
             }elseif($misucursal->codigo_esta==6){
                $fechaResolucion='2017-11-28';
+             }elseif($misucursal->codigo_esta==7){
+               $fechaResolucion='2018-10-10';
             } else{
                $fechaResolucion='2016-09-21';
             }
