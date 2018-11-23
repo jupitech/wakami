@@ -48,13 +48,19 @@ class PromocionesController extends Controller
     public function store(Request $request)
     {
         $porcantidad=$request['por_cantidad'];
+        $porttotal=$request['por_total'];
         $idproducto=$request['id_producto'];
         $idlinea=$request['id_linea'];
         $porcentajeproducto=$request['porcentaje_producto'];
         $porcentajelinea=$request['porcentaje_linea'];
+        $porcentajetotal=$request['porcentaje_total'];
 
          if($porcantidad==''){  $micantidad='0';
         }else{ $micantidad= $porcantidad;
+        }
+
+         if($porttotal==''){  $mitotal='0';
+        }else{ $mitotal= $porttotal;
         }
 
 
@@ -72,6 +78,10 @@ class PromocionesController extends Controller
 
          if($porcentajelinea==''){  $porlinea='';
         }else{ $porlinea= $porcentajelinea;
+        }
+
+         if($porcentajetotal==''){  $portotal='';
+        }else{ $portotal= $porcentajetotal;
         }
 
         //Fechas
@@ -103,8 +113,10 @@ class PromocionesController extends Controller
                   'id_producto' => $miproducto,
                   'id_linea' => $milinea,
                   'por_cantidad' => $micantidad,
+                  'por_total' => $mitotal,
                   'porcentaje_producto' => $porproducto,
                   'porcentaje_linea' => $porlinea,
+                  'porcentaje_total' => $portotal,
                   'tipo_promocion' => $request['tipo_promocion'],
                   'fecha_inicio' => $fini,
                   'fecha_fin' => $ffin,
@@ -126,8 +138,10 @@ class PromocionesController extends Controller
 
         $idproducto=$request['id_producto'];
         $idlinea=$request['id_linea'];
+        $porttotal=$request['por_total'];
         $porcentajeproducto=$request['porcentaje_producto'];
         $porcentajelinea=$request['porcentaje_linea'];
+        $porcentajetotal=$request['porcentaje_total'];
 
         //Fechas
 
@@ -157,8 +171,10 @@ class PromocionesController extends Controller
                   'id_producto' => $idproducto,
                   'id_linea' => $idlinea,
                   'por_cantidad' => $request['por_cantidad'],
+                  'por_total' => $porttotal,
                   'porcentaje_producto' => $porcentajeproducto,
                   'porcentaje_linea' => $porcentajelinea,
+                  'porcentaje_total' => $porcentajetotal,
                   'tipo_promocion' => $request['tipo_promocion'],
                   'fecha_inicio' => $fini,
                   'fecha_fin' => $ffin,

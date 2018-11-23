@@ -324,36 +324,40 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-5 spi">
-                        <div class="descuento_venta" ng-if="mides==''">
-                            <div class="col-sm-10 spi">
-                                <p><strong>Descuento </strong></p>
-                                <p> @{{miventa.info_clientes.nombre }}- @{{miventa.info_clientes.porcentaje_cliente.porcentaje}}%</p>
-                            </div>
-                            <div class="col-sm-2 spd spi">
-                                <a ng-click="aplides(miventa.id_cliente)" class="btn btn-primary btn_porcen"><span class="ico_porcenbtn"></span></a>
-                            </div>
-                        </div>
-                        <div class="descuento_venta" ng-if="mides!=''">
-                            <div class="col-sm-10 spi">
-                                <p><strong>Descuento Aplicado</strong></p>
-                                <p> Deseas quitar el descuento?</p>
-                            </div>
-                            <div class="col-sm-2 spd spi">
-                                <a ng-click="deldes()" class="btn btn-primary btn_porcenx"><span class="ico_porcenbtnx"></span></a>
-                            </div>
-                        </div>
+                       <!--  <div class="descuento_venta" ng-if="mides==''">
+                           <div class="col-sm-10 spi">
+                               <p><strong>Descuento </strong></p>
+                               <p> @{{miventa.info_clientes.nombre }}- @{{miventa.info_clientes.porcentaje_cliente.porcentaje}}%</p>
+                           </div>
+                           <div class="col-sm-2 spd spi">
+                               <a ng-click="aplides(miventa.id_cliente)" class="btn btn-primary btn_porcen"><span class="ico_porcenbtn"></span></a>
+                           </div>
+                       </div> -->
+                       <!--  <div class="descuento_venta" ng-if="mides!=''">
+                           <div class="col-sm-10 spi">
+                               <p><strong>Descuento Aplicado</strong></p>
+                               <p> Deseas quitar el descuento?</p>
+                           </div>
+                           <div class="col-sm-2 spd spi">
+                               <a ng-click="deldes()" class="btn btn-primary btn_porcenx"><span class="ico_porcenbtnx"></span></a>
+                           </div>
+                       </div> -->
                     </div>
-                    <div class="col-sm-6 col-md-7" ng-if="mides!=''">
+                    <div class="col-sm-6 col-md-7" ng-if="existepromo==200 && promocion.tipo_promocion==4 && miventa.total >= promocion.por_total">
                         <div class="col-sm-6">
-                            <h4>Q@{{(miventa.total+miventa.descuentos_ventas.descuento) | number:2 }}</h4>
-                            <span>(@{{miventa.descuentos_ventas.porcentaje}}%-Q@{{miventa.descuentos_ventas.descuento | number:2}})</span>
+                            <h4> <strong>Subtotal</strong> Q@{{miventa.total  | number:2 }}</h4>
+                            <span> @{{promocion.porcentaje_total}} % - @{{(miventa.total*promocion.porcentaje_total)/100 | number:2}}</span>
                         </div>
                         <div class="col-sm-6">
-                            <p>Q@{{miventa.total | number:2}}</p>
+                            <p>Q@{{miventa.total - ((miventa.total*promocion.porcentaje_total)/100) | number:2 }}</p>
                             <h3>Total</h3>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-7" ng-if="mides==''">
+                    <div class="col-sm-6 col-md-7"  ng-if="existepromo==200 && promocion.tipo_promocion==4 && miventa.total<promocion.por_total">
+                        <p>Q@{{miventa.total | number:2}}</p>
+                        <h3>Total</h3>
+                    </div>
+                    <div class="col-sm-6 col-md-7"  ng-if="existepromo!=200">
                         <p>Q@{{miventa.total | number:2}}</p>
                         <h3>Total</h3>
                     </div>
@@ -377,7 +381,29 @@
                                             </ol>
                                           </div>
 
-                                          <div class="col-sm-12 spd spi" ng-if="factura.elmonto>0 && factura.elmonto<miventa.total">
+                                          <div class="col-sm-12 spd spi" ng-if=" existepromo==200 && promocion.tipo_promocion==4 && miventa.total >= promocion.por_total && factura.elmonto>0 && factura.elmonto< (miventa.total-((miventa.total*promocion.porcentaje_total)/100))">
+                                               <ol class="nya-bs-select" ng-model="factura.tipo_pago2" title="Tipo de pago..." required>
+                                                <li nya-bs-option="tpago in tpagado" data-value="tpago.id">
+                                                    <a>
+                                                        @{{ tpago.pago }}
+                                                        <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                    </a>
+                                                </li>
+                                            </ol>
+                                          </div>
+
+                                          <div class="col-sm-12 spd spi" ng-if="existepromo==200 && promocion.tipo_promocion==4 && miventa.total<promocion.por_total && factura.elmonto>0 && factura.elmonto<miventa.total">
+                                               <ol class="nya-bs-select" ng-model="factura.tipo_pago2" title="Tipo de pago..." required>
+                                                <li nya-bs-option="tpago in tpagado" data-value="tpago.id">
+                                                    <a>
+                                                        @{{ tpago.pago }}
+                                                        <span class="glyphicon glyphicon-ok check-mark"></span>
+                                                    </a>
+                                                </li>
+                                            </ol>
+                                          </div>
+
+                                          <div class="col-sm-12 spd spi" ng-if="existepromo!=200 && factura.elmonto<miventa.total">
                                                <ol class="nya-bs-select" ng-model="factura.tipo_pago2" title="Tipo de pago..." required>
                                                 <li nya-bs-option="tpago in tpagado" data-value="tpago.id">
                                                     <a>
@@ -394,18 +420,22 @@
                                      <div class="col-sm-12 spd spi">
                                         <div class="col-sm-6 spi">
                                          <label for="name">Total</label>
-                                             <input id="total" type="text" class="form-control" name="total" ng-model="miventa.total"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" readonly>
+                                             <input ng-if="existepromo==200 && promocion.tipo_promocion==4 && miventa.total >= promocion.por_total" id="total" type="text" class="form-control" name="total" ng-model="miventa.ftotal"  ng-value="miventa.total-((miventa.total*promocion.porcentaje_total)/100)"   ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" readonly>
+
+                                             <input ng-if="existepromo==200 && promocion.tipo_promocion==4 && miventa.total<promocion.por_total" id="total" type="text" class="form-control" name="total" ng-model="miventa.ftotal" ng-value="miventa.total" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" readonly>
+
+                                             <input ng-if="existepromo!=200" id="total" type="text" class="form-control" name="total" ng-model="miventa.ftotal"  ng-value="miventa.total" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" readonly>
                                         </div>
                                         <div class="col-sm-6 spd">
                                          <label for="name">Aporte</label>
-                                             <input id="elmonto" type="text" class="form-control" name="elmonto" ng-model="factura.elmonto"  min="1" ng-min="1"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                                             <input id="elmonto" type="text" class="form-control" name="elmonto" ng-model="factura.elmonto"   min="1" ng-min="1"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
                                         </div>
                                          
                                        
                                      </div>
-                                    <div class="col-sm-12 spd spi" ng-if="factura.elmonto>0 && factura.elmonto<miventa.total">
+                                    <div class="col-sm-12 spd spi" ng-if="factura.elmonto>0 && factura.elmonto<miventa.ftotal">
                                           <label for="name">Ajuste total</label>
-                                        <input id="elmonto2" type="text" class="form-control" name="elmonto2" ng-model="factura.elmonto2" ng-value="miventa.total-factura.elmonto" ng-pattern="/^[0-9]*$/" readonly>
+                                        <input id="elmonto2" type="text" class="form-control" name="elmonto2" ng-model="factura.elmonto2" ng-value="miventa.ftotal-factura.elmonto" ng-pattern="/^[0-9]*$/" readonly>
                                         <p>@{{factura.elmonto2}}</p>
                                      </div>
                                
@@ -434,7 +464,7 @@
                                             </div>
                                            
                                         </div>
-                                        <div class="col-sm-12 spd spi" ng-if="factura.elmonto>0 && factura.elmonto<miventa.total">
+                                        <div class="col-sm-12 spd spi" ng-if="factura.elmonto>0 && factura.elmonto<miventa.ftotal">
                                              {{-- Cheque o Deposito --}}
                                                     <div class="col-sm-12 spd spi" ng-if="factura.tipo_pago==3 || factura.tipo_pago==5">
                                                          <label for="name">Referencia</label>
@@ -530,8 +560,14 @@
 
                         </div>
                         <div class="info_finaltotal">
-                            <div class="eltotal">
-                                <p>Total <strong>Q@{{miventa.total | number:2}}</strong></p>
+                            <div class="eltotal" ng-if="miventa.descuentos_ventas!=null">
+                                <p>Subtotal Q@{{miventa.total + miventa.descuentos_ventas.descuento | number:2}} | </p>
+                                <p>Descuentos @{{miventa.descuentos_ventas.porcentaje | number:2}}%  -Q@{{miventa.descuentos_ventas.descuento | number:2}} | </p>
+                                <p><strong> Total  Q@{{miventa.total | number:2}}</strong></p>
+                            </div>
+
+                            <div class="eltotal" ng-if="miventa.descuentos_ventas==null">
+                                <p><strong> Total  Q@{{miventa.total | number:2}}</strong></p>
                             </div>
                             <div class="footerimp">
                                 <span>Documento Tributario Electrónico Según Resolución SAT</span>

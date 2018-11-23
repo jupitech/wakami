@@ -66,7 +66,8 @@ wApp.controller('PromocionesCtrl',function($scope, $http,ApiPromocionNuevo, $tim
        $scope.tipopromocion=[
          {'id': '1','nombre': 'Por Cantidad'},
          {'id': '2','nombre': 'Por Producto'},
-         {'id': '3','nombre': 'Por Linea'}
+         {'id': '3','nombre': 'Por Linea'},
+         {'id': '4','nombre': 'Por Total'}
       ];         
 
 
@@ -84,6 +85,8 @@ wApp.controller('PromocionesCtrl',function($scope, $http,ApiPromocionNuevo, $tim
               por_cantidad: $scope.promocion.por_cantidad,
               porcentaje_producto: $scope.promocion.porcentaje_producto,
               porcentaje_linea: $scope.promocion.porcentaje_linea,
+              por_total: $scope.promocion.por_total,
+              porcentaje_total: $scope.promocion.porcentaje_total,
               fecha_inicio: $scope.promocion.fecha_inicio,
               fecha_fin: $scope.promocion.fecha_fin
             };
@@ -158,6 +161,8 @@ wApp.controller('PromocionesCtrl',function($scope, $http,ApiPromocionNuevo, $tim
                   por_cantidad: $scope.existePromo.por_cantidad,
                   porcentaje_producto: $scope.existePromo.porcentaje_producto,
                   porcentaje_linea: $scope.existePromo.porcentaje_linea,
+                  por_total: $scope.existePromo.por_total,
+                  porcentaje_total: $scope.existePromo.porcentaje_total,
                   fecha_inicio: $scope.existePromo.fini,
                   fecha_fin: $scope.existePromo.ffin
                 };

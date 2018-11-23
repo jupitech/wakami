@@ -2305,10 +2305,14 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                 dias_credito: $scope.factura.dias_credito,
                 tarjeta: $scope.factura.tarjeta,
                 tarjeta2: $scope.factura.tarjeta2,
+                tipo_promocion: $scope.promocion.tipo_promocion,
+                por_total: $scope.promocion.por_total,
+                porcentaje_total: $scope.promocion.porcentaje_total,
+                subtotal: $scope.miventa.total,
             };
           /*}*/
             
-            console.log(datafact);
+            console.log('Datos de facturacion: ',datafact);
 
             $http.post('/api/factura/create', datafact)
                         .success(function (data, status, headers) {
@@ -2893,6 +2897,10 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                 referencia2: $scope.factura.referencia2,
                 id_ventas: $scope.idventa,
                 dias_credito: $scope.factura.dias_credito,
+                tipo_promocion: $scope.promocion.tipo_promocion,
+                por_total: $scope.promocion.por_total,
+                porcentaje_total: $scope.promocion.porcentaje_total,
+                subtotal: $scope.miventa.total,
             };
                                                 
 

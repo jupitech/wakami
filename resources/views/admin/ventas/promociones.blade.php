@@ -94,6 +94,23 @@
                                   </div>
                    </div>
 
+                   <div class="form-group" ng-if="promocion.tipo_promocion==4">
+                                    <div class="col-md-6">
+                                        <label for="por_cantidad">Monto Mínimo</label>
+                                         <input id="por_cantidad" type="number" step="any" class="form-control" name="por_total" ng-model="promocion.por_total" required>
+                                         <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.por_total.$dirty && frm.por_total.$error.required">Campo requerido</div>
+                                         </div>
+                                    </div>
+                                   <div class="col-md-6">
+                                       <label for="porcentaje_linea">% Descuento</label>
+                                       <input id="porcentaje_linea" type="text" class="form-control" name="promocion.porcentaje_total" ng-model="promocion.porcentaje_total" required>
+                                        <div class="col-sm-12 spd spi">
+                                            <div class="alert alert-danger" ng-show="frm.porcentaje_total.$dirty && frm.porcentaje_total.$error.required">Campo requerido</div>
+                                         </div>
+                                  </div>
+                 </div>
+
 
                                 <div class="form-group">
                                     <div class="col-md-6">
@@ -163,7 +180,7 @@
                                   </div>
                                    
                                </div>
-                 <div class="form-group" ng-if="promocion.tipo_promocion==1">
+                 <div class="form-group" ng-if="existePromo.tipo_promocion==1">
                                     <div class="col-md-12">
                                         <label for="por_cantidad">Por cantidad</label>
                                          <input id="por_cantidad" type="number" class="form-control" name="por_cantidad" ng-model="existePromo.por_cantidad" required>
@@ -172,7 +189,7 @@
                                          </div>
                                     </div>
                  </div>
-                 <div class="form-group" ng-if="promocion.tipo_promocion==2">
+                 <div class="form-group" ng-if="existePromo.tipo_promocion==2">
                                   <div class="col-md-6">
                                        <label for="nombre">Por Producto</label>
                                        <ol class="nya-bs-select" ng-model="existePromo.id_producto" data-live-search="true" title="Selecciona un producto..."  data-size="10" required>
@@ -193,7 +210,7 @@
                                   </div>
                    </div> 
 
-                 <div class="form-group" ng-if="promocion.tipo_promocion==3">
+                 <div class="form-group" ng-if="existePromo.tipo_promocion==3">
                                   <div class="col-md-6">
                                        <label for="nombre">Por Linea</label>
                                        <ol class="nya-bs-select" ng-model="existePromo.id_linea" data-live-search="true" title="Selecciona una linea..." data-size="10"  required>
@@ -265,6 +282,7 @@
 	                   <th>En el producto #</th>
 	                   <th>Producto</th>
 	                   <th>Linea</th>
+                      <th>Total</th>
 	                   <th>Fecha Inicio</th>
 	                   <th>Fecha Fin</th>
 	                   <th>Opciones</th>
@@ -276,10 +294,12 @@
                                <span  ng-switch-when="1">Por Cantidad</span>
                                <span  ng-switch-when="2">Por Producto</span>
                                <span  ng-switch-when="3">Por Linea</span>
+                               <span  ng-switch-when="4">Por Total</span>
                          </td>
                          <td>@{{promocion.por_cantidad}} </td>
 	                       <td><span ng-if="promocion.id_producto>0"><small class="label label-success"> @{{promocion.nombre_producto.codigo}}</small>@{{promocion.nombre_producto.nombre}}-@{{promocion.porcentaje_producto}}%</span></td>
 	                       <td><span ng-if="promocion.id_linea>0">@{{promocion.nombre_linea.nombre}}-@{{promocion.porcentaje_linea}}%</span></td>
+                          <td><span ng-if="promocion.por_total>0">Q@{{promocion.por_total | number:2}}- <strong>@{{promocion.porcentaje_total}}%</strong> </span></td>
 	                       <td>@{{promocion.fecha_inicio}}</td>
 	                       <td>@{{promocion.fecha_fin}}</td>
 	                       <td>

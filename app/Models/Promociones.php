@@ -20,7 +20,7 @@ class Promociones extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre','id_producto','id_linea','por_cantidad','porcentaje_producto','porcentaje_linea','tipo_promocion','fecha_inicio','fecha_fin','estado_promocion'];
+    protected $fillable = ['nombre','id_producto','id_linea','por_cantidad','porcentaje_producto','porcentaje_linea','tipo_promocion','fecha_inicio','fecha_fin','estado_promocion','por_total','porcentaje_total'];
 
     /**
      * The attributes excluded from the model's JSON form.

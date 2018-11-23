@@ -1067,6 +1067,34 @@ class VentasCentralController extends Controller
 
         $ventas=Ventas::find( $idventas );
 
+        //Realizar descuentos por total
+
+        if($request['tipo_promocion']==4){
+          if($ventas->total>=$request['por_total']){
+          $eldescuento= ($request['subtotal']*$request['porcentaje_total'])/100;
+
+            $descuentos=DescuentosVentas::create([
+                  'id_cliente' => $ventas->id_cliente,
+                  'id_ventas' => $ventas->id,
+                  'porcentaje' =>$request['porcentaje_total'],
+                  'descuento' =>  $eldescuento,
+                        ]);
+           $descuentos->save();
+
+            $ventas->fill([
+                    'fecha_factura' => $ahora,
+                  'total' => $request['subtotal'] - (($request['subtotal']*$request['porcentaje_total'])/100),
+              ]);
+            $ventas->save();
+            }
+
+        }
+
+
+         //return response()->json(['Venta de prueba con promocion'],200);
+
+
+
         //Buscando productos en ventas agregados
          $productoventas=ProductoVenta::with("NombreProducto","Venta")->where('id_ventas',$idventas)->get();
 
