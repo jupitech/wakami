@@ -2295,21 +2295,41 @@ wApp.controller('VentaNCtrl',function($scope, $http, $timeout, $log,$uibModal, $
                 dias_credito: $scope.factura.dias_credito,
             };
           }else{*/
-            var datafact={
-                id_tpago: $scope.factura.tipo_pago,
-                elmonto: $scope.factura.elmonto,
-                referencia: $scope.factura.referencia,
-                id_tpago2: $scope.factura.tipo_pago2,
-                referencia2: $scope.factura.referencia2,
-                id_ventas: $scope.idventa,
-                dias_credito: $scope.factura.dias_credito,
-                tarjeta: $scope.factura.tarjeta,
-                tarjeta2: $scope.factura.tarjeta2,
-                tipo_promocion: $scope.promocion.tipo_promocion,
-                por_total: $scope.promocion.por_total,
-                porcentaje_total: $scope.promocion.porcentaje_total,
-                subtotal: $scope.miventa.total,
-            };
+
+            if($scope.existepromo==200){
+                 var datafact={
+                    id_tpago: $scope.factura.tipo_pago,
+                    elmonto: $scope.factura.elmonto,
+                    referencia: $scope.factura.referencia,
+                    id_tpago2: $scope.factura.tipo_pago2,
+                    referencia2: $scope.factura.referencia2,
+                    id_ventas: $scope.idventa,
+                    dias_credito: $scope.factura.dias_credito,
+                    tarjeta: $scope.factura.tarjeta,
+                    tarjeta2: $scope.factura.tarjeta2,
+                    tipo_promocion: $scope.promocion.tipo_promocion,
+                    por_total: $scope.promocion.por_total,
+                    porcentaje_total: $scope.promocion.porcentaje_total,
+                    subtotal: $scope.miventa.total,
+                };
+
+            }else{
+
+               var datafact={
+                    id_tpago: $scope.factura.tipo_pago,
+                    elmonto: $scope.factura.elmonto,
+                    referencia: $scope.factura.referencia,
+                    id_tpago2: $scope.factura.tipo_pago2,
+                    referencia2: $scope.factura.referencia2,
+                    id_ventas: $scope.idventa,
+                    dias_credito: $scope.factura.dias_credito,
+                    tarjeta: $scope.factura.tarjeta,
+                    tarjeta2: $scope.factura.tarjeta2,
+                    subtotal: $scope.miventa.total,
+                };
+
+            }
+           
           /*}*/
             
             console.log('Datos de facturacion: ',datafact);
@@ -2887,21 +2907,37 @@ wApp.controller('MiVentaNCtrl',function($scope, $http, $timeout, $log,$uibModal,
                                  $scope.acti_venta=false;
                                  $scope.termi_venta=true;*/
 
+          if($scope.existepromo==200){                       
+
+                 var datafact={
+                        id_tpago: $scope.factura.tipo_pago,
+                        elmonto: $scope.factura.elmonto,
+                        referencia: $scope.factura.referencia,
+                        id_tpago2: $scope.factura.tipo_pago2,
+                        referencia2: $scope.factura.referencia2,
+                        id_ventas: $scope.idventa,
+                        dias_credito: $scope.factura.dias_credito,
+                        tipo_promocion: $scope.promocion.tipo_promocion,
+                        por_total: $scope.promocion.por_total,
+                        porcentaje_total: $scope.promocion.porcentaje_total,
+                        subtotal: $scope.miventa.total,
+                    };
+
+          }else{
+
+               var datafact={
+                        id_tpago: $scope.factura.tipo_pago,
+                        elmonto: $scope.factura.elmonto,
+                        referencia: $scope.factura.referencia,
+                        id_tpago2: $scope.factura.tipo_pago2,
+                        referencia2: $scope.factura.referencia2,
+                        id_ventas: $scope.idventa,
+                        dias_credito: $scope.factura.dias_credito,
+                        subtotal: $scope.miventa.total,
+                    };
 
 
-         var datafact={
-                id_tpago: $scope.factura.tipo_pago,
-                elmonto: $scope.factura.elmonto,
-                referencia: $scope.factura.referencia,
-                id_tpago2: $scope.factura.tipo_pago2,
-                referencia2: $scope.factura.referencia2,
-                id_ventas: $scope.idventa,
-                dias_credito: $scope.factura.dias_credito,
-                tipo_promocion: $scope.promocion.tipo_promocion,
-                por_total: $scope.promocion.por_total,
-                porcentaje_total: $scope.promocion.porcentaje_total,
-                subtotal: $scope.miventa.total,
-            };
+          }
                                                 
 
              $http.post('/api/mi/factura/create', datafact)
